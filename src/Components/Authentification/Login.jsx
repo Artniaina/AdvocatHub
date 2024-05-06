@@ -9,6 +9,8 @@ import "../style/Authentification/Form.css";
 
 const Login = () => {
   const location = useLocation();
+  const isAlreadyAuthenticated =
+    location.state && location.state.isAlreadyAuthenticated;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,7 +23,6 @@ const Login = () => {
   const [url, setUrl] = useState("");
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     try {
       const userData = {
@@ -50,10 +51,15 @@ const Login = () => {
           );
           setTotpKey(totpKey);
           setUrl(url);
-
-          navigate("/doubleAuth", {
-            state: { url, email, password, isAuthenticated: true },
-          });
+          if (isAlreadyAuthenticated) {
+            navigate("/qrscan", {
+              state: { url, email, password},
+            });
+          } else {
+            navigate("/doubleAuth", {
+              state: { url, email, password, isAuthenticated: true },
+            });
+          }
         } else {
           console.log("Identifiants incorrects.");
           setErrorMessage("Identifiants incorrects");

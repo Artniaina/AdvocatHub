@@ -9,6 +9,7 @@ const DoubleAuth = () => {
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState("");
+  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState("");
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const DoubleAuth = () => {
       if (data && data.svalideOTP === "1") {
         console.log(data.svalideOTP);
         setIsAuthenticated(true);
-        navigate("/home", { state: { isAuthenticated: true } });
+        navigate("/home", { state: { isAlreadyAuthenticated: true } });
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");

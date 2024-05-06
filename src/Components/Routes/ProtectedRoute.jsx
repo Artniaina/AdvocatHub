@@ -4,7 +4,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 const ProtectedRoute = () => {
     const location = useLocation();
     const isAuthenticated = location.state && location.state.isAuthenticated;
-    const isAlreadyAutheticated = location.state && location.state.isAlreadyAutheticated;
+    const isAlreadyAuthenticated = location.state && location.state.isAlreadyAuthenticated;
   
   if (!isAuthenticated) {
     return <Navigate to="/" />;
