@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import QRCode from "qrcode.react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const QrScan = () => {
@@ -10,7 +9,6 @@ const QrScan = () => {
   const [codeOTP, setCodeOTP] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
-  const [isScanned, setIsScanned] = useState(false);
   
   useEffect(() => {
     setLoading(false);
