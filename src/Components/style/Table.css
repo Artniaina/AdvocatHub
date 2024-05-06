@@ -1,0 +1,32 @@
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-bottom: #0b0824;
+  }
+  
+  .user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .user-table th {
+    background-color: #0b0824;
+  }
+  
+  .user-table tr:nth-child(even) {
+    background-color: #16151b;
+  }
+  
+  .user-table tr:hover {
+    background-color: #6b0000;
+    color: #3327a0;
+  }
+  .btn{
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 20px;
+  }
