@@ -8,13 +8,12 @@ const DoubleAuth = () => {
   const { url, email, password } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState("");
-  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
 
   useEffect(() => {
     setLoading(false);
-
     const formatOTPAuthURLForQR = (url) => {
       const originalURL = url;
 
@@ -51,7 +50,7 @@ const DoubleAuth = () => {
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
-        scodeOTP: codeOTP
+        scodeOTP: codeOTP,
       };
       console.log(userData);
 
@@ -71,13 +70,14 @@ const DoubleAuth = () => {
       if (data && data.svalideOTP === "1") {
         console.log(data.svalideOTP);
         setIsAuthenticated(true);
-        navigate("/home", { state: { isAlreadyAuthenticated: true } });
+        setIsAlreadyAuthenticated(true);
+        localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
+        navigate("/home", { state: { isAuthenticated: true } });
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   return (

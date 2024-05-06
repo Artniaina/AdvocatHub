@@ -9,8 +9,6 @@ import "../style/Authentification/Form.css";
 
 const Login = () => {
   const location = useLocation();
-  const isAlreadyAuthenticated =
-    location.state && location.state.isAlreadyAuthenticated;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,7 +20,9 @@ const Login = () => {
   const [totpKey, setTotpKey] = useState("");
   const [url, setUrl] = useState("");
 
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     try {
       const userData = {
@@ -51,12 +51,13 @@ const Login = () => {
           );
           setTotpKey(totpKey);
           setUrl(url);
-          if (isAlreadyAuthenticated) {
-            navigate("/qrscan", {
-              state: { url, email, password},
+          const storedIsAlreadyAuthenticated = localStorage.getItem(`user:${email}:isAlreadyAuthenticated`);
+          if (storedIsAlreadyAuthenticated) {
+            navigate("/qrScan", {
+              state: { url, email, password, isAuthenticated: true },
             });
-          } else {
-            navigate("/doubleAuth", {
+          }else{
+            navigate("/DoubleAuth", {
               state: { url, email, password, isAuthenticated: true },
             });
           }
