@@ -6,7 +6,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { HiArrowSmallLeft } from "react-icons/hi2";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const ModifMdp = ({ email }) => {
+const ModifMdp = ({email}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     password: "",

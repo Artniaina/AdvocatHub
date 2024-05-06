@@ -94,9 +94,6 @@ const QrScan = () => {
               Valider
             </button>
           </div>
-          {isAuthenticated && (
-            <p style={styles.successMessage}>Authentification réussie!</p>
-          )}
         </>
     </div>
   );

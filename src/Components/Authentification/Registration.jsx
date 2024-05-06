@@ -4,7 +4,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { IoWarningOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
-import { RiLockPasswordLine } from "react-icons/ri";
+import { MdMailOutline } from "react-icons/md";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -12,8 +12,10 @@ const Registration = () => {
     username: "",
     email: "",
     password: "",
+    confirmPassword: ""
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [capsLockActive, setCapsLockActive] = useState(false);
 
@@ -28,13 +30,20 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.username || !formData.email || !formData.password) {
+    const { username, email, password, confirmPassword } = formData;
+
+    if (!username || !email || !password || !confirmPassword) {
       setError("Tous les champs doivent être remplis.");
       return;
     }
 
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-    if (!passwordRegex.test(formData.password)) {
+    if (!passwordRegex.test(password)) {
       setError(
         <>
           <IoWarningOutline
@@ -54,9 +63,9 @@ const Registration = () => {
 
     try {
       const formattedData = {
-        sUsername: formData.username,
-        sAdresseEmail: formData.email,
-        sMotdePasse: formData.password,
+        sUsername: username,
+        sAdresseEmail: email,
+        sMotdePasse: password,
       };
 
       const response = await fetch("http://192.168.10.5/Utilisateur/Register", {
@@ -72,13 +81,14 @@ const Registration = () => {
       }
 
       console.log(
-        `Compte créé avec succès, data: nom: ${formData.username}, email: ${formData.email} et mot de passe ${formData.password}`
+        `Compte créé avec succès, data: nom: ${username}, email: ${email} et mot de passe ${password}`
       );
       navigate("/");
       setFormData({
         username: "",
         email: "",
         password: "",
+        confirmPassword: "",
       });
       setError("");
     } catch (error) {
@@ -91,6 +101,10 @@ const Registration = () => {
     setShowPassword(!showPassword);
   };
 
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   const handleKeyDown = (e) => {
     const isCapsLockActive = e.getModifierState("CapsLock");
     setCapsLockActive(isCapsLockActive);
@@ -98,19 +112,17 @@ const Registration = () => {
 
   return (
     <div>
-      <h2 className="App"><FaRegUser />Sign up</h2>
+      <h2 className="App">
+        <FaRegUser />
+        Sign in
+      </h2>
       {error && (
         <p
           style={{
             color: "red",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             fontWeight: "bold",
             textAlign: "center",
             fontSize: 15,
-            width: 500,
-            marginLeft: -25,
           }}
         >
           {error}
@@ -131,6 +143,7 @@ const Registration = () => {
             value={formData.username}
             onChange={handleChange}
           />
+          <FaRegUser/>
         </div>
         <div>
           <label htmlFor="email" className="label">
@@ -145,13 +158,9 @@ const Registration = () => {
             value={formData.email}
             onChange={handleChange}
           />
+          <MdMailOutline />
         </div>
-        <div
-          style={{
-            position: "relative",
-            left: 12,
-          }}
-        >
+        <div>
           <label htmlFor="password" className="label">
             Password:
           </label>
@@ -165,9 +174,8 @@ const Registration = () => {
               value={formData.password}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
-             
             />
-            <span className="tooglePassword" onClick={togglePasswordVisibility}>
+            <span className="togglePassword" onClick={togglePasswordVisibility}>
               {showPassword ? <BsEyeSlash /> : <BsEye />}
             </span>
           </div>
@@ -181,6 +189,26 @@ const Registration = () => {
               }}
             />
           )}
+        </div>
+        <div>
+          <label htmlFor="confirmPassword" className="label">
+            Confirm Password:
+          </label>
+          <br />
+          <div className="passwordInputContainer">
+            <input
+              id="confirmPassword"
+              className="input"
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+            />
+            <span className="togglePassword" onClick={toggleConfirmPasswordVisibility}>
+              {showConfirmPassword ? <BsEyeSlash /> : <BsEye />}
+            </span>
+          </div>
         </div>
         <button className="button" type="submit">
           Créer

@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import "../style/Authentification/Form.css";
 
@@ -112,6 +113,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <MdOutlineEmail style={{position:"absolute", top:65, "right":50, fontSize:30}}/>
         </div>
         <div style={{ position: "relative", left: 12 }}>
           <label className="label">Mot de passe:</label>
@@ -139,7 +141,7 @@ const Login = () => {
               onClick={togglePasswordVisibility}
               className="tooglePassword"
             >
-              {showPassword ? <BsEyeSlash /> : <BsEye />}
+              {showPassword ? <BsEyeSlash style={{fontSize:30}}/> : <BsEye style={{fontSize:30}} />}
             </span>
           </div>
           <Link

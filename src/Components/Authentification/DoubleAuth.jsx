@@ -99,7 +99,7 @@ const DoubleAuth = () => {
           <div style={styles.inputContainer}>
             <input
               type="text"
-              placeholder="Entrez les 6 chiffres de google authenticator"
+              placeholder="Entrez les 6 chiffres dans google authenticator"
               value={codeOTP}
               onChange={(e) => setCodeOTP(e.target.value)}
               style={styles.input}

@@ -5,7 +5,6 @@ import { HiArrowSmallLeft } from "react-icons/hi2";
 
 const Modifie = () => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState("");
   const [formData, setFormData] = useState({
     email: "",
   });
@@ -59,7 +58,7 @@ const Modifie = () => {
     <div>
       {!successMessage && (
         <>
-          <button onClick={handleGoBack}>
+          <button onClick={handleGoBack} style={styles.buttongoback}>
             <HiArrowSmallLeft style={{ fontSize: 20 }} />
           </button>
           <h2 className="App"> Mot de passe oublié?</h2>
@@ -70,11 +69,10 @@ const Modifie = () => {
               {error}
             </p>
           )}
-          <form onSubmit={handleSubmit} className="loginForm">
-            <p style={{ textAlign: "center" }}>Vérification de votre email</p>
+          <form onSubmit={handleSubmit} style={styles.container}>
             <div>
               <label htmlFor="email" className="label">
-                Veuillez entrer votre adresse email:
+                Vérification de votre email
               </label>
               <br />
               <input
@@ -84,9 +82,10 @@ const Modifie = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                style={styles.input}
               />
             </div>
-            <button className="button" type="submit">
+            <button style={styles.button} type="submit">
               Vérifier
             </button>
           </form>
@@ -96,5 +95,53 @@ const Modifie = () => {
     </div>
   );
 };
-
+const styles = {
+  container: {
+    display: "flex",
+    maxWidth: "1000px",
+    margin: "0 auto",
+    textAlign: "center",
+    padding: "40px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+  },
+  input: {
+    width: "450px",
+    padding: "20px",
+    fontSize: "16px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    boxSizing: "border-box",
+    marginBottom: "12px",
+    height: "50px",
+    marginRight: "12px",
+  },
+  button: {
+    backgroundColor: "#73A9AD",
+    color: "#fff",
+    padding: "12px 24px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    border: "none",
+    outline: "none",
+    marginTop: 44,
+    height: 50,
+  },
+  buttongoback: {
+    backgroundColor: "#73A9AD",
+    color: "#fff",
+    padding: "12px 24px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    border: "none",
+    outline: "none",
+    marginTop: -20,
+    position: "absolute",
+    top: 280,
+    height: 50,
+  },
+};
 export default Modifie;
