@@ -2,12 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Login from "../Authentification/Login";
 import Registration from "../Authentification/Registration";
-import Modifie from "../Authentification/Modifie";
+import Modifie from "../Authentification/VerifEmail";
 import ModifMdp from "../Authentification/ModifMdp";
 import DoubleAuth from "../Authentification/DoubleAuth";
 import ProtectedRoute from "./ProtectedRoute";
-import QrScan from "../Authentification/QrScan";
+import ValidationOTP from "../Authentification/ValidationOTP";
 import HomePage from "../Homepage/HomePage";
+import VerifEmail from "../Authentification/VerifEmail";
 
 function MainRoutes() {
   return (
@@ -21,9 +22,9 @@ function MainRoutes() {
           <Route exact path="/doubleAuth" element={<DoubleAuth />} />
         </Route>
         <Route path="/registration" element={<Registration />} />
-        <Route path="/modifie" element={<Modifie />} />
+        <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
-        <Route path="/qrscan" element={<QrScan />} />
+        <Route path="/validationotp" element={<ValidationOTP />} />
       </Routes>
     </Router>
   );

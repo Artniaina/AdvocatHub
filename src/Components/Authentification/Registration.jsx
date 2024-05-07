@@ -111,10 +111,9 @@ const Registration = () => {
   };
 
   return (
-    <div>
-      <h2 className="App">
-        <FaRegUser />
-        Sign in
+    <div className="headerAuthent">
+    <h2 className="AppAuthent">
+        Sign up
       </h2>
       {error && (
         <p
@@ -184,8 +183,8 @@ const Registration = () => {
               style={{
                 color: "orange",
                 position: "absolute",
-                left: "300px",
-                top: "9px",
+                left: "370px",
+                top: "220px",
               }}
             />
           )}

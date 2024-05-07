@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import QRCode from "qrcode.react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import "../Styles/Authentification/DoubleAuthent.css"
 const DoubleAuth = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,98 +81,39 @@ const DoubleAuth = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>Configurer Google Authenticator</h2>
+    <div  className="headerAuthent">
+    <div className="container">
+      <h2 className="heading">Configurer Google Authenticator</h2>
       {loading ? (
-        <p style={styles.text}>Chargement de la clé TOTP...</p>
+        <p className="text">Chargement de la clé TOTP...</p>
       ) : (
         <>
-          <p style={styles.text}>
+          <p className="text">
             Scannez ce QR Code avec Google Authenticator :
           </p>
-          <div style={styles.qrCode}>
+          <div className="qrCode">
             <QRCode
               style={{ width: "100%", height: "100%" }}
               value={formattedOTPURL}
             />
           </div>
-          <div style={styles.inputContainer}>
+          <div className="inputContainer">
             <input
               type="text"
               placeholder="Entrez les 6 chiffres dans google authenticator"
               value={codeOTP}
               onChange={(e) => setCodeOTP(e.target.value)}
-              style={styles.input}
+              className="inputqr"
             />
-            <button onClick={handleSubmit} style={styles.button}>
+            <button onClick={handleSubmit} className="button">
               Valider
             </button>
           </div>
-          {isAuthenticated && (
-            <p style={styles.successMessage}>Authentification réussie!</p>
-          )}
         </>
       )}
     </div>
+    </div>
   );
-};
-
-const styles = {
-  container: {
-    maxWidth: "400px",
-    margin: "0 auto",
-    textAlign: "center",
-    padding: "40px",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  heading: {
-    fontSize: "24px",
-    marginBottom: "16px",
-  },
-  text: {
-    fontSize: "16px",
-    marginBottom: "24px",
-  },
-  qrCode: {
-    backgroundColor: "#fff",
-    padding: "10px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    height: "320px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputContainer: {
-    marginTop: "30px",
-  },
-  input: {
-    width: "100%",
-    padding: "12px",
-    fontSize: "16px",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    boxSizing: "border-box",
-    marginBottom: "12px",
-    height: "50px",
-  },
-  button: {
-    backgroundColor: "#007bff",
-    color: "#fff",
-    padding: "12px 24px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    border: "none",
-    outline: "none",
-  },
-  successMessage: {
-    color: "green",
-    fontSize: "18px",
-    fontWeight: "bold",
-  },
 };
 
 export default DoubleAuth;

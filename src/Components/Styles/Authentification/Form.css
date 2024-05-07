@@ -1,3 +1,16 @@
+.AppAuthent {
+  text-align: center;
+}
+.headerAuthent {
+  background-color: #496989;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 .toggleButton {
   background: none;
   border: none;
@@ -20,22 +33,32 @@
   padding: 0px;
   outline-style: none;
   min-width: 330px;
-
 }
 
 .input:focus {
   border-bottom: 3px solid #ffffff;
   background-color: #496989;
   height: 50px;
-  border-right: 1px solid #fff;
-  box-shadow: 1px 0 0 0 0 #ffffff
+  font-size: 30;
 }
 
 .button {
-  padding: 10px;
+  padding: 12px 24px;
   width: 150px;
   font-size: 16px;
   margin-top: 20px;
+  background-color: #73a9ad;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+.button:hover {
+  background-color: #96b7b9;
+  color: #fff8f8;
 }
 .label {
   margin: 5px;

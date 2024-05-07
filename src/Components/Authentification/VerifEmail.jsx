@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ModifMdp from "./ModifMdp";
 import { HiArrowSmallLeft } from "react-icons/hi2";
 
-const Modifie = () => {
+const VerifEmail = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -55,7 +55,7 @@ const Modifie = () => {
   };
 
   return (
-    <div>
+    <div className="headerAuthent">
       {!successMessage && (
         <>
           <button onClick={handleGoBack} style={styles.buttongoback}>
@@ -140,8 +140,9 @@ const styles = {
     outline: "none",
     marginTop: -20,
     position: "absolute",
-    top: 280,
+    top: 290,
+    left:80,
     height: 50,
   },
 };
-export default Modifie;
+export default VerifEmail;

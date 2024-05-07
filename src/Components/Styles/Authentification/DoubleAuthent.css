@@ -1,0 +1,51 @@
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.text {
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.qrCode {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputContainer {
+  margin-top: 30px;
+}
+
+.inputqr {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  height: 50px;
+}
+
+.successMessage {
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+}

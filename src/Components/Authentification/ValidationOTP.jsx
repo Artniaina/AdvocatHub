@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
-const QrScan = () => {
+import "../Styles/Authentification/Validationotp.css";
+const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { url, email, password } = location.state || {};
@@ -9,7 +9,7 @@ const QrScan = () => {
   const [codeOTP, setCodeOTP] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
-  
+
   useEffect(() => {
     setLoading(false);
 
@@ -49,7 +49,7 @@ const QrScan = () => {
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
-        scodeOTP: codeOTP
+        scodeOTP: codeOTP,
       };
       console.log(userData);
 
@@ -74,74 +74,30 @@ const QrScan = () => {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   return (
-    <div style={styles.container}>
-      
+    <div className="headerAuthent">
+      <h2 className="AppAuthent">Verification OTP</h2>
+      <div className="container">
         <>
-          <div style={styles.inputContainer}>
+          <div className="inputContainer">
             <input
               type="text"
               placeholder="Entrez les 6 chiffres de google authenticator"
               value={codeOTP}
               onChange={(e) => setCodeOTP(e.target.value)}
-              style={styles.input}
+              className="inputtext"
             />
-            <button onClick={handleSubmit} style={styles.button}>
+            <button onClick={handleSubmit} className="button">
               Valider
             </button>
           </div>
         </>
+      </div>
     </div>
   );
 };
 
-const styles = {
-  container: {
-    display:"flex",
-    maxWidth: "1000px",
-    margin: "0 auto",
-    textAlign: "center",
-    padding: "40px",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  heading: {
-    fontSize: "24px",
-    marginBottom: "16px",
-  },
-  text: {
-    fontSize: "16px",
-    marginBottom: "24px",
-  },
-  inputContainer: {
-    marginTop: "30px",
-  },
-  input: {
-    width: "450px",
-    padding: "20px",
-    fontSize: "16px",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    boxSizing: "border-box",
-    marginBottom: "12px",
-    height: "50px",
-    marginRight:"12px"
-  },
-  button: {
-    backgroundColor: "#007bff",
-    color: "#fff",
-    padding: "12px 24px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    border: "none",
-    outline: "none",
-  },
-};
-
-export default QrScan;
+export default ValidationOTP;

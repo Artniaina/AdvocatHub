@@ -36,7 +36,7 @@ const ModifMdp = ({email}) => {
       setError("Veuillez remplir tous les champs.");
       return;
     } else if (!captchaValue) {
-      setError("Veuillez cocher la case 'Je ne suis pas un robot' !");
+      setError("Veuillez cocher la case 'Je ne suis pas un robot'!");
       return;
     } else if (formData.password !== formData.confirmPassword) {
       setError("Les mots de passe ne correspondent pas.");
@@ -115,7 +115,7 @@ const ModifMdp = ({email}) => {
 
   return (
     <div>
-      <button onClick={handleGoBack}>
+      <button onClick={handleGoBack} style={styles.buttongoback}>
         <HiArrowSmallLeft style={{ fontSize: 20 }} />
       </button>
       <h2 className="App">Nouveau mot de passe</h2>
@@ -230,4 +230,20 @@ const ModifMdp = ({email}) => {
   );
 };
 
+const styles={
+  buttongoback: {
+    backgroundColor: "#73A9AD",
+    color: "#fff",
+    padding: "12px 24px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    border: "none",
+    outline: "none",
+    marginTop: -20,
+    position: "absolute",
+    top: 50,
+    height: 50,
+  },
+}
 export default ModifMdp;

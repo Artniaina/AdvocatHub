@@ -3,10 +3,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
-import { FaRegUser } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import "../style/Authentification/Form.css";
+import "../Styles/Authentification/Form.css";
 
 const Login = () => {
   const location = useLocation();
@@ -20,7 +19,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [totpKey, setTotpKey] = useState("");
   const [url, setUrl] = useState("");
-
 
   const handleSubmit = async (e) => {
 
@@ -54,7 +52,7 @@ const Login = () => {
           setUrl(url);
           const storedIsAlreadyAuthenticated = localStorage.getItem(`user:${email}:isAlreadyAuthenticated`);
           if (storedIsAlreadyAuthenticated) {
-            navigate("/qrScan", {
+            navigate("/validationotp", {
               state: { url, email, password, isAuthenticated: true },
             });
           }else{
@@ -93,9 +91,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2 className="App">
-        <FaRegUser />
+    <div className="headerAuthent">
+      <h2 className="AppAuthent">
         Login
       </h2>
       {errorMessage && (
@@ -146,7 +143,7 @@ const Login = () => {
           </div>
           <Link
             className="link"
-            to="/modifie"
+            to="/verifemail"
             style={{ position: "relative", left: 180 }}
           >
             <RiLockPasswordLine />
