@@ -141,7 +141,7 @@ const styles = {
     marginTop: -20,
     position: "absolute",
     top: 290,
-    left:80,
+    left:480,
     height: 50,
   },
 };

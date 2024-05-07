@@ -82,7 +82,7 @@ const DoubleAuth = () => {
 
   return (
     <div  className="headerAuthent">
-    <div className="container">
+    <div className="container1">
       <h2 className="heading">Configurer Google Authenticator</h2>
       {loading ? (
         <p className="text">Chargement de la clé TOTP...</p>
