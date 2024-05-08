@@ -9,6 +9,7 @@ import ValidationOTP from "../Authentification/ValidationOTP";
 import HomePage from "../Homepage/HomePage";
 import VerifEmail from "../Authentification/VerifEmail";
 import UserList from "../AdminDashboard/UserList";
+import AdminLoginForm from "../AdminDashboard/AdminLoginForm";
 
 function MainRoutes() {
   return (
@@ -26,6 +27,7 @@ function MainRoutes() {
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/validationotp" element={<ValidationOTP />} />
         <Route path="/userlist" element={<UserList />} />
+        <Route path="/adminlogin" element={<AdminLoginForm />} />
       </Routes>
     </Router>
   );
