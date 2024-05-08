@@ -15,9 +15,37 @@ const UserTable = () => {
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
-      setUsers(data);
+      const usersWithStatus = data.map(user => ({ ...user, isActive: user.sStatut === "1" }));
+      setUsers(usersWithStatus);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
+    }
+  };
+
+  const handleChangeStatus = async (userID) => {
+    const updatedUsers = users.map(user =>
+      user.IDUtilisateur === userID ? { ...user, isActive: !user.isActive } : user
+    );
+    setUsers(updatedUsers);
+
+    const updateUserUrl = `${apiUrl}/${userID}`;
+    try {
+      const response = await fetch(updateUserUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ sStatut: updatedUsers.find(user => user.IDUtilisateur === userID).isActive ? "1" : "0" })
+      });
+
+      if (!response.ok) {
+        console.error(
+          "La mise à jour du statut a échoué avec un statut :",
+          response.status
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du statut de l'utilisateur :", error);
     }
   };
 
@@ -62,7 +90,15 @@ const UserTable = () => {
               <td>{user.NomUtilisateur}</td>
               <td>{user.EmailUtilisateur}</td>
               <td>{user.Role}</td>
-              <td>{user.Authorization}</td>
+              <td>
+                <button
+                  className="btn"
+                  style={{ backgroundColor: user.isActive ? "green" : "red" }}
+                  onClick={() => handleChangeStatus(user.IDUtilisateur)}
+                >
+                  {user.isActive ? "Actif" : "Inactif"}
+                </button>
+              </td>
               <td>
                 <button
                   className="btn"
@@ -78,4 +114,5 @@ const UserTable = () => {
     </div>
   );
 };
+
 export default UserTable;
