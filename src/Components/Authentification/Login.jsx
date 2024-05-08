@@ -45,19 +45,20 @@ const Login = () => {
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
           const passwordl = userData.sMotdePasse;
+          const role = data.sRole
           console.log(
-            `Clé TOTP récupérée : ${totpKey}, URL récupérée: ${url}, ${userData.sAdresseEmail} , ${userData.sMotdePasse}`
+            `Clé TOTP récupérée : ${totpKey}, URL récupérée: ${url}, ${userData.sAdresseEmail} , ${userData.sMotdePasse}, ${role}`
           );
           setTotpKey(totpKey);
           setUrl(url);
           const storedIsAlreadyAuthenticated = localStorage.getItem(`user:${email}:isAlreadyAuthenticated`);
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
-              state: { url, email, password, isAuthenticated: true },
+              state: { url, email, password, role, isAuthenticated: true },
             });
           }else{
             navigate("/DoubleAuth", {
-              state: { url, email, password, isAuthenticated: true },
+              state: { url, email, password, role, isAuthenticated: true },
             });
           }
         } else {

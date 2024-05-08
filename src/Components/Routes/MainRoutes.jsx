@@ -9,7 +9,7 @@ import ValidationOTP from "../Authentification/ValidationOTP";
 import HomePage from "../Homepage/HomePage";
 import VerifEmail from "../Authentification/VerifEmail";
 import UserList from "../AdminDashboard/UserList";
-import AdminLoginForm from "../AdminDashboard/AdminLoginForm";
+import PrivateRoute from "./PrivateRoute";
 
 function MainRoutes() {
   return (
@@ -19,6 +19,9 @@ function MainRoutes() {
         <Route exact path="/home" element={<ProtectedRoute />}>
           <Route exact path="/home" element={<HomePage />} />
         </Route>
+        <Route exact path="/userlist" element={<PrivateRoute />}>
+          <Route exact path="/userlist" element={<UserList />} />
+        </Route>
         <Route exact path="/" element={<ProtectedRoute />}>
           <Route exact path="/doubleAuth" element={<DoubleAuth />} />
         </Route>
@@ -26,8 +29,6 @@ function MainRoutes() {
         <Route path="/verifemail" element={<VerifEmail/>} />
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/validationotp" element={<ValidationOTP />} />
-        <Route path="/userlist" element={<UserList />} />
-        <Route path="/adminlogin" element={<AdminLoginForm />} />
       </Routes>
     </Router>
   );

@@ -9,6 +9,7 @@ const DoubleAuth = () => {
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
 
@@ -51,6 +52,7 @@ const DoubleAuth = () => {
         sAdresseEmail: email,
         sMotdePasse: password,
         scodeOTP: codeOTP,
+
       };
       console.log(userData);
 
@@ -68,11 +70,17 @@ const DoubleAuth = () => {
       }
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
-        console.log(data.svalideOTP);
+        const role= data.sRole
         setIsAuthenticated(true);
         setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-        navigate("/home", { state: { isAuthenticated: true } });
+        console.log(role);
+        if (role==="Admin") {
+          navigate("/userlist", { state: { isAdminAuthenticated: true } });
+        }else{
+          navigate("/home", { state: { isAuthenticated: true } });
+
+        }
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");

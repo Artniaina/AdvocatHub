@@ -67,9 +67,13 @@ const ValidationOTP = () => {
       }
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
-        console.log(data.svalideOTP);
+        console.log(`${data.svalideOTP}, ${data.sRole}`);
         setIsAuthenticated(true);
-        navigate("/home", { state: { isAuthenticated: true } });
+        if (data.sRole === "Admin") {
+          navigate("/userlist", { state: { isAdminAuthenticated: true } });
+        } else {
+          navigate("/home", { state: { isAuthenticated: true } });
+        }
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");

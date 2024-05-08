@@ -23,7 +23,6 @@ const UserTable = () => {
 
   const handleDelete = async (userID) => {
     const deleteUrl = `${apiUrl}/${userID}`;
-
     try {
       const response = await fetch(deleteUrl, {
         method: "DELETE",
@@ -51,6 +50,7 @@ const UserTable = () => {
             <th>ID</th>
             <th>Nom</th>
             <th>Email</th>
+            <th>Role</th>
             <th>Statut</th>
             <th>Supprimer</th>
           </tr>
@@ -61,6 +61,7 @@ const UserTable = () => {
               <td>{user.IDUtilisateur}</td>
               <td>{user.NomUtilisateur}</td>
               <td>{user.EmailUtilisateur}</td>
+              <td>{user.Role}</td>
               <td>{user.Authorization}</td>
               <td>
                 <button
