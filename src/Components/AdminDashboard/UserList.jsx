@@ -87,6 +87,7 @@ const UserTable = () => {
         const updatedUsers = users.filter((user) => user.IDUtilisateur !== userID);
         setUsers(updatedUsers);
         localStorage.setItem("users", JSON.stringify(updatedUsers)); 
+      } else {
         console.error(
           "La suppression a échoué avec un statut :",
           response.status

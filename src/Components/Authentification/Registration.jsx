@@ -35,9 +35,8 @@ const Registration = () => {
     if (!username || !email || !password || !confirmPassword) {
       alert("Tous les champs doivent être remplis.");
       return;
-    }
-
-    if (password !== confirmPassword) {
+    } 
+     if (password !== confirmPassword) {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }

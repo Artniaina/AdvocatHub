@@ -21,8 +21,15 @@ const Login = () => {
   const [url, setUrl] = useState("");
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
+    if (!email || !password) {
+      alert("Tous les champs doivent être remplis.");
+      return;
+    } else if (!captchaValue) {
+      alert("Veuillez cocher la case 'Je ne suis pas un robot'!");
+      return;
+    }
+
     try {
       const userData = {
         sAdresseEmail: email,
@@ -35,6 +42,7 @@ const Login = () => {
         },
         body: JSON.stringify(userData),
       });
+
       const data = await response.json();
 
       if (response.ok) {
@@ -44,30 +52,36 @@ const Login = () => {
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
           const passwordl = userData.sMotdePasse;
-          const role = data.sRole
+          const role = data.sRole;
           console.log(
             `Clé TOTP récupérée : ${totpKey}, URL récupérée: ${url}, ${userData.sAdresseEmail} , ${userData.sMotdePasse}, ${role}`
           );
           setTotpKey(totpKey);
           setUrl(url);
-          const storedIsAlreadyAuthenticated = localStorage.getItem(`user:${email}:isAlreadyAuthenticated`);
+          const storedIsAlreadyAuthenticated = localStorage.getItem(
+            `user:${email}:isAlreadyAuthenticated`
+          );
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
               state: { url, email, password, role, isAuthenticated: true },
             });
-          }else{
+          }
+         else {
             navigate("/DoubleAuth", {
               state: { url, email, password, role, isAuthenticated: true },
             });
           }
         } else {
-          alert("Identifiants incorrects");
+          console.log("Email ou mot de passe incorrect");
+          setErrorMessage("Email ou mot de passe incorrect");
         }
       } else {
-        alert("Email ou mot de passe incorrect");
+        console.log("Email ou mot de passe incorrect");
+        setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      alert("Pas de droit d'activité");
+      console.error("Email ou mot de passed incorrect");
+      alert("Email ou mot de passe incorrect");
     }
   };
 
@@ -89,9 +103,12 @@ const Login = () => {
 
   return (
     <div className="headerAuthent">
-      <h2 className="AppAuthent">
-        Login
-      </h2>
+      <h2 className="AppAuthent">Login</h2>
+      {errorMessage && (
+        <p style={{ color: "red", fontWeight: "bold", textAlign: "center" }}>
+          {errorMessage}
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="loginForm">
         <div>
           <label className="label"> Email:</label>
@@ -102,7 +119,9 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <MdOutlineEmail style={{position:"absolute", top:65, "right":50, fontSize:30}}/>
+          <MdOutlineEmail
+            style={{ position: "absolute", top: 65, right: 50, fontSize: 30 }}
+          />
         </div>
         <div style={{ position: "relative", left: 12 }}>
           <label className="label">Mot de passe:</label>
@@ -130,7 +149,11 @@ const Login = () => {
               onClick={togglePasswordVisibility}
               className="tooglePassword"
             >
-              {showPassword ? <BsEyeSlash style={{fontSize:30}}/> : <BsEye style={{fontSize:30}} />}
+              {showPassword ? (
+                <BsEyeSlash style={{ fontSize: 30 }} />
+              ) : (
+                <BsEye style={{ fontSize: 30 }} />
+              )}
             </span>
           </div>
           <Link
