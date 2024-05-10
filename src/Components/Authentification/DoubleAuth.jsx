@@ -66,6 +66,7 @@ const DoubleAuth = () => {
       });
 
       if (!response.ok) {
+        alert("Code non valide")
         throw new Error("Échec de la requête API.");
       }
       const data = await response.json();

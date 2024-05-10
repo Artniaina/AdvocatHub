@@ -33,31 +33,18 @@ const Registration = () => {
     const { username, email, password, confirmPassword } = formData;
 
     if (!username || !email || !password || !confirmPassword) {
-      setError("Tous les champs doivent être remplis.");
+      alert("Tous les champs doivent être remplis.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
+      alert("Les mots de passe ne correspondent pas.");
       return;
     }
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      setError(
-        <>
-          <IoWarningOutline
-            style={{
-              fontSize: 40,
-              position: "absolute",
-              top: 145,
-            }}
-          />
-          Le mot de passe doit contenir au moins 8 caractères, une majuscule,
-          une minuscule, un chiffre et peut contenir d'autres caractères
-          spéciaux.
-        </>
-      );
+      alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et peut contenir d'autres caractères spéciaux.")
       return;
     }
 

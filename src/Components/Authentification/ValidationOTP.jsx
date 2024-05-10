@@ -61,8 +61,11 @@ const ValidationOTP = () => {
         },
         body: JSON.stringify(userData),
       });
-
+      if (codeOTP === "") {
+        alert("Veuillez remplir le champ");
+      } 
       if (!response.ok) {
+        alert("Code non valide")
         throw new Error("Échec de la requête API.");
       }
       const data = await response.json();
@@ -76,7 +79,6 @@ const ValidationOTP = () => {
         }
       } else {
         setIsAuthenticated(false);
-        console.error("Échec de l'authentification à deux facteurs.");
       }
     } catch (error) {}
   };

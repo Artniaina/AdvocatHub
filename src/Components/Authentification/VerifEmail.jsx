@@ -49,7 +49,7 @@ const VerifEmail = () => {
       setSuccessMessage("Compte modifié avec succès !");
       console.log(`Succès, données: email: ${formData.email}`);
     } catch (error) {
-      setError("Email non trouvé");
+      alert("Email non trouvé");
       console.log("Email non trouvé :", error);
     }
   };

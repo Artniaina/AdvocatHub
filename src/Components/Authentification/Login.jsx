@@ -35,7 +35,6 @@ const Login = () => {
         },
         body: JSON.stringify(userData),
       });
-
       const data = await response.json();
 
       if (response.ok) {
@@ -62,16 +61,13 @@ const Login = () => {
             });
           }
         } else {
-          console.log("Identifiants incorrects.");
-          setErrorMessage("Identifiants incorrects");
+          alert("Identifiants incorrects");
         }
       } else {
-        console.log("Email ou mot de passe incorrect");
-        setErrorMessage("Email ou mot de passe incorrect");
+        alert("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      console.error("Pas de droit d'activité");
-      setErrorMessage("Pas de droit d'activité");
+      alert("Pas de droit d'activité");
     }
   };
 
@@ -96,11 +92,6 @@ const Login = () => {
       <h2 className="AppAuthent">
         Login
       </h2>
-      {errorMessage && (
-        <p style={{ color: "red", fontWeight: "bold", textAlign: "center" }}>
-          {errorMessage}
-        </p>
-      )}
       <form onSubmit={handleSubmit} className="loginForm">
         <div>
           <label className="label"> Email:</label>

@@ -16,7 +16,6 @@ const ModifMdp = ({email}) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-  const [error, setError] = useState("");
   const [capsLockActive, setCapsLockActive] = useState(false);
 
   const handleChange = (e) => {
@@ -33,16 +32,14 @@ const ModifMdp = ({email}) => {
     e.preventDefault();
 
     if (!formData.password || !formData.confirmPassword) {
-      setError("Veuillez remplir tous les champs.");
+      alert("Veuillez remplir tous les champs.");
       return;
     } else if (!captchaValue) {
-      setError("Veuillez cocher la case 'Je ne suis pas un robot'!");
+      alert("Veuillez cocher la case 'Je ne suis pas un robot'!");
       return;
     } else if (formData.password !== formData.confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
+      alert("Les mots de passe ne correspondent pas.");
       return;
-    } else {
-      setError("");
     }
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
@@ -51,20 +48,7 @@ const ModifMdp = ({email}) => {
       formData.password &&
       formData.confirmPassword
     ) {
-      setError(
-        <>
-          <IoWarningOutline
-            style={{
-              fontSize: 40,
-              position: "absolute",
-              top: "180px",
-            }}
-          />
-          Le mot de passe doit contenir au moins 8 caractères, une majuscule,
-          une minuscule, un chiffre et peut contenir d'autres caractères
-          spéciaux.
-        </>
-      );
+      alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et peut contenir d'autres caractères spéciaux.")
       return;
     }
    
@@ -87,13 +71,9 @@ const ModifMdp = ({email}) => {
         throw new Error("Échec lors du changement du mot de passe");
       }
 
-      setSuccessMessage("Compte modifié avec succès !");
-      console.log(
-        `Succès, données: email: ${email}, mdp: ${formData.password}`
-      );
       navigate("/");
     } catch (error) {
-      setError("Échec lors du changement de mot de passe");
+      alert("Échec lors du changement de mot de passe");
       console.error("Échec lors du changement de mot de passe :", error);
     }
   };
@@ -119,26 +99,6 @@ const ModifMdp = ({email}) => {
         <HiArrowSmallLeft style={{ fontSize: 20 }} />
       </button>
       <h2 className="App">Nouveau mot de passe</h2>
-      {error && (
-        <p
-          style={{
-            color: "red",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontWeight: "bold",
-            textAlign: "center",
-            fontSize: 15,
-            width: 500,
-            marginLeft: -25,
-          }}
-        >
-          {error}
-        </p>
-      )}
-      {successMessage && (
-        <p style={{ color: "green", fontWeight: "bold" }}>{successMessage}</p>
-      )}
       <form onSubmit={handleSubmit} className="loginForm">
         <div>
           <label htmlFor="email" className="label">
