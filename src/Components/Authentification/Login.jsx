@@ -66,12 +66,12 @@ const Login = () => {
           setErrorMessage("Identifiants incorrects");
         }
       } else {
-        console.log("Erreur lors de l'authentification.");
-        setErrorMessage("Erreur lors de l'authentification");
+        console.log("Email ou mot de passe incorrect");
+        setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {
       console.error("Erreur lors de l'appel au webservice :", error);
-      setErrorMessage("Erreur lors de l'authentification");
+      setErrorMessage("Erreur lors de l'appel au webservice");
     }
   };
 

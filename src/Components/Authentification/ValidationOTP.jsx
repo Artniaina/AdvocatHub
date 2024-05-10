@@ -83,13 +83,13 @@ const ValidationOTP = () => {
 
   return (
     <div className="headerAuthent">
-      <h2 className="AppAuthent">Verification OTP</h2>
+      <h2 className="AppAuthent">Saisir le code OTP à 6 chiffres</h2>
       <div className="container">
         <>
           <div className="inputContainer">
             <input
               type="text"
-              placeholder="Entrez les 6 chiffres de google authenticator"
+              placeholder="Saisir le code OTP à 6 chiffres"
               value={codeOTP}
               onChange={(e) => setCodeOTP(e.target.value)}
               className="inputtext"

@@ -6,7 +6,12 @@ const UserTable = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    const storedUsers = JSON.parse(localStorage.getItem("users"));
+    if (storedUsers) {
+      setUsers(storedUsers);
+    } else {
+      fetchData();
+    }
   }, []);
 
   const apiUrl = "http://192.168.10.5/Utilisateur/Utilisateur";
@@ -15,27 +20,30 @@ const UserTable = () => {
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
-      const usersWithStatus = data.map(user => ({ ...user, isActive: user.sStatut === "1" }));
-      setUsers(usersWithStatus);
+      setUsers(data);
+      localStorage.setItem("users", JSON.stringify(data)); // Sauvegarder dans le localStorage
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
     }
   };
 
   const handleChangeStatus = async (userID) => {
-    const updatedUsers = users.map(user =>
-      user.IDUtilisateur === userID ? { ...user, isActive: !user.isActive } : user
+    const updatedUsers = users.map((user) =>
+      user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
     );
     setUsers(updatedUsers);
+    localStorage.setItem("users", JSON.stringify(updatedUsers)); // Mettre à jour le localStorage
 
     const updateUserUrl = `${apiUrl}/${userID}`;
     try {
       const response = await fetch(updateUserUrl, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ sStatut: updatedUsers.find(user => user.IDUtilisateur === userID).isActive ? "1" : "0" })
+        body: JSON.stringify({
+          statut: !updatedUsers.find((user) => user.IDUtilisateur === userID).Statut,
+        }),
       });
 
       if (!response.ok) {
@@ -43,9 +51,31 @@ const UserTable = () => {
           "La mise à jour du statut a échoué avec un statut :",
           response.status
         );
+        // Revert the UI state change on error
+        setUsers(users.map((user) =>
+          user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
+        ));
+        localStorage.setItem("users", JSON.stringify(users)); // Revert le localStorage
+      } else {
+        const updatedUser = updatedUsers.find(
+          (user) => user.IDUtilisateur === userID
+        );
+        console.log(
+          `Nouveau statut pour l'utilisateur ${userID} : ${
+            updatedUser.Statut ? "Actif" : "Inactif"
+          }`
+        );
       }
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du statut de l'utilisateur :", error);
+      console.error(
+        "Erreur lors de la mise à jour du statut de l'utilisateur :",
+        error
+      );
+      // Revert the UI state change on error
+      setUsers(users.map((user) =>
+        user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
+      ));
+      localStorage.setItem("users", JSON.stringify(users)); 
     }
   };
 
@@ -55,10 +85,10 @@ const UserTable = () => {
       const response = await fetch(deleteUrl, {
         method: "DELETE",
       });
-
       if (response.ok) {
-        fetchData();
-      } else {
+        const updatedUsers = users.filter((user) => user.IDUtilisateur !== userID);
+        setUsers(updatedUsers);
+        localStorage.setItem("users", JSON.stringify(updatedUsers)); 
         console.error(
           "La suppression a échoué avec un statut :",
           response.status
@@ -71,7 +101,7 @@ const UserTable = () => {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>Liste des Utilisateurs</h1>
+      <h1 style={{ textAlign: "center" }}>Liste des utilisateurs inscrits</h1>
       <table className="tableUsers">
         <thead>
           <tr>
@@ -93,10 +123,10 @@ const UserTable = () => {
               <td>
                 <button
                   className="btn"
-                  style={{ backgroundColor: user.isActive ? "green" : "red" }}
+                  style={{ backgroundColor: user.Statut ? "green" : "red" }}
                   onClick={() => handleChangeStatus(user.IDUtilisateur)}
                 >
-                  {user.isActive ? "Actif" : "Inactif"}
+                  {user.Statut ? "Actif" : "Inactif"}
                 </button>
               </td>
               <td>
