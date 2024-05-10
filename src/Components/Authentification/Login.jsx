@@ -104,11 +104,6 @@ const Login = () => {
   return (
     <div className="headerAuthent">
       <h2 className="AppAuthent">Login</h2>
-      {errorMessage && (
-        <p style={{ color: "red", fontWeight: "bold", textAlign: "center" }}>
-          {errorMessage}
-        </p>
-      )}
       <form onSubmit={handleSubmit} className="loginForm">
         <div>
           <label className="label"> Email:</label>

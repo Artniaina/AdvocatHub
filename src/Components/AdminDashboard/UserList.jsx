@@ -60,7 +60,7 @@ const UserTable = () => {
           (user) => user.IDUtilisateur === userID
         );
         console.log(
-          `Nouveau statut pour l'utilisateur ${userID} : ${
+          `${
             updatedUser.Statut ? "Actif" : "Inactif"
           }`
         );
