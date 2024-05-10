@@ -21,7 +21,7 @@ const UserTable = () => {
       const response = await fetch(apiUrl);
       const data = await response.json();
       setUsers(data);
-      localStorage.setItem("users", JSON.stringify(data)); // Sauvegarder dans le localStorage
+      localStorage.setItem("users", JSON.stringify(data)); 
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
     }
@@ -32,7 +32,7 @@ const UserTable = () => {
       user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
     );
     setUsers(updatedUsers);
-    localStorage.setItem("users", JSON.stringify(updatedUsers)); // Mettre à jour le localStorage
+    localStorage.setItem("users", JSON.stringify(updatedUsers)); 
 
     const updateUserUrl = `${apiUrl}/${userID}`;
     try {
@@ -51,11 +51,10 @@ const UserTable = () => {
           "La mise à jour du statut a échoué avec un statut :",
           response.status
         );
-        // Revert the UI state change on error
         setUsers(users.map((user) =>
           user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
         ));
-        localStorage.setItem("users", JSON.stringify(users)); // Revert le localStorage
+        localStorage.setItem("users", JSON.stringify(users)); 
       } else {
         const updatedUser = updatedUsers.find(
           (user) => user.IDUtilisateur === userID
@@ -71,7 +70,6 @@ const UserTable = () => {
         "Erreur lors de la mise à jour du statut de l'utilisateur :",
         error
       );
-      // Revert the UI state change on error
       setUsers(users.map((user) =>
         user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
       ));

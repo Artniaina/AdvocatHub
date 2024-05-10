@@ -70,8 +70,8 @@ const Login = () => {
         setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      console.error("Erreur lors de l'appel au webservice :", error);
-      setErrorMessage("Erreur lors de l'appel au webservice");
+      console.error("Pas de droit d'activité");
+      setErrorMessage("Pas de droit d'activité");
     }
   };
 
