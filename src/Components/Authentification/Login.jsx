@@ -79,6 +79,7 @@ const Login = () => {
         console.log("Email ou mot de passe incorrect");
         setErrorMessage("Email ou mot de passe incorrect");
       }
+
     } catch (error) {
       console.error("Email ou mot de passed incorrect");
       alert("Email ou mot de passe incorrect");

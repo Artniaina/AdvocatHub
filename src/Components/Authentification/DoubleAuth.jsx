@@ -77,7 +77,7 @@ const DoubleAuth = () => {
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
         console.log(role);
         if (role==="Admin") {
-          navigate("/userlist", { state: { isAdminAuthenticated: true } });
+          navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
         }else{
           navigate("/home", { state: { isAuthenticated: true } });
 

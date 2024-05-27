@@ -73,7 +73,7 @@ const ValidationOTP = () => {
         console.log(`${data.svalideOTP}, ${data.sRole}`);
         setIsAuthenticated(true);
         if (data.sRole === "Admin") {
-          navigate("/userlist", { state: { isAdminAuthenticated: true } });
+          navigate("/userlist", { state: { isAdminAuthenticated: true, isAuthenticated: true } });
         } else {
           navigate("/home", { state: { isAuthenticated: true } });
         }

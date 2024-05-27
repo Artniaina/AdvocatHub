@@ -4,12 +4,29 @@
     margin: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  .btnDash{
+    padding: 12px 24px;
+    width: 150px;
+    font-size: 16px;
+    margin-top: 20px;
+    background-color: #73a9ad;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 15px;
+  }
   
   .tableUsers th,
   .tableUsers td {
     border: 1px solid #ddd; 
     padding: 15px; 
     text-align: center;
+    
   }
   
   .tableUsers th{

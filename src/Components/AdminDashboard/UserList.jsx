@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import "../Styles/AdminDashboard/Table.css";
+import { useNavigate, useLocation} from "react-router-dom";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAdminAuthenticated, isAuthenticated } = location.state || {};
 
+  const handleNavigate = () => {
+    if (isAdminAuthenticated) {
+      navigate('/home', { state: { isAdminAuthenticated, isAuthenticated } });
+    } else {
+      console.error('User is not authenticated');
+    }
+  };
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users"));
     if (storedUsers) {
@@ -101,6 +112,7 @@ const UserTable = () => {
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Liste des utilisateurs inscrits</h1>
+      <button className="btnDash" onClick={handleNavigate}>Page d'acceuil</button>
       <table className="tableUsers">
         <thead>
           <tr>
