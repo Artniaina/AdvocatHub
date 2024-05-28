@@ -13,6 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 import FAQ from "../Homepage/FAQ/FAQ";
 import LBC from "../Homepage/LBC/LBC";
 import Document from "../Homepage/Document/Document";
+import FormAjoutInfoPerso from "../AjoutInfo/FormAjoutInfoPerso";
 
 function MainRoutes() {
   return (
@@ -24,6 +25,7 @@ function MainRoutes() {
           <Route exact path="/document" element={<Document />} />
           <Route exact path="/faq" element={<FAQ />} />
           <Route exact path="/lbc" element={<LBC />} />
+          <Route exact path="/ajoutInfo" element={<FormAjoutInfoPerso />} />
         {/* </Route> */}
         <Route exact path="/userlist" element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
