@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const ContenuDoc = () => {
   return (
-    <div>ContenuDoc</div>
-  )
-}
+    <div>
+      ContenuDoc
+    </div>
+  );
+};
 
-export default ContenuDoc
+export default ContenuDoc;

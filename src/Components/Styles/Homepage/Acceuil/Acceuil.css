@@ -1,42 +1,56 @@
 .mainContainer {
-    display: flex;
-    margin: 15px;
-    justify-content: space-evenly;
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-arround;
 }
 
 .container {
-    border: 1px solid #7f7f9e;
-    width: 450px;
-    display: flex;
-    height: auto;
-    padding: 20px; 
-    border-radius: 10px; 
-    background-color: #f9f9f9; 
-    box-shadow: 0 4px 8px #00000062; 
-    flex-direction: column;
+  border: 1px solid #7272774f;
+  width: 450px;
+  display: flex;
+  height: auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px #4e48485b;
+  flex-direction: column;
 }
 
 .container h1 {
-    text-align: center;
-    font-size: 25px; 
-    color: #23233a; 
-    margin-bottom: 15px; 
-    text-transform: uppercase;
+  text-align: center;
+  font-size: 25px;
+  color: #23233a;
+  margin-bottom: 15px;
+  text-transform: uppercase;
 }
 
-.container p {
-    font-size: 18px;
-    color: #333; 
-    line-height: 1.6; 
-    margin-bottom: 10px; 
+.containerInfo {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
-.containerInfo{
-    display: flex;
-    align-items: start;
-    flex-direction: column;
+.containerInfo p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
 }
-.logo{
-    width: 90px;
-    height: 90px;
-    margin: auto;
+
+.containerInfo .dataItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.containerInfo .dataItem img {
+  width: 24px;
+  height: 24px;
+}
+
+.logo {
+  width: 90px;
+  height: 90px;
+  margin: auto;
 }
