@@ -48,7 +48,6 @@ const DoubleAuth = () => {
 
   const handleSubmit = async () => {
     try {
-      
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
@@ -65,7 +64,7 @@ const DoubleAuth = () => {
         },
         body: JSON.stringify(userData),
       });
- 
+
       if (!response.ok) {
         alert("Code non valide")
         throw new Error("Échec de la requête API.");
@@ -116,7 +115,7 @@ const DoubleAuth = () => {
               className="inputqr"
             />
             <button onClick={handleSubmit} className="button">
-              Valider 
+              Valider
             </button>
           </div>
         </>
