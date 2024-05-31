@@ -11,7 +11,7 @@ const ContenuAcceuil = () => {
         <img src={PersoIcon} alt="logo" className="logo" />
         <h1>
           Informations personnelles
-          <hr />
+          <hr /> 
         </h1>
         <div className="containerInfo">
           <p>Dénomination:<br />LUTHER S.A</p>

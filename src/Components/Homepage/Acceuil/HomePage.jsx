@@ -8,7 +8,7 @@ const HomePage = () => {
     <div>
       <Navbar />
       <Welcome />
-      <Acceuil/>
+      <Acceuil />
 
     </div>
   );

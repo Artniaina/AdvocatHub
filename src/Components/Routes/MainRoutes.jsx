@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "../Authentification/Login";
 import Registration from "../Authentification/Registration";
 import ModifMdp from "../Authentification/ModifMdp";
@@ -18,26 +18,33 @@ function MainRoutes() {
   return (
     <Router>
       <Routes>
-        {/* <Route exact path="/" element={<ProtectedRoute />}> */}
-          <Route exact path="/home" element={<HomePage />} />
-          <Route exact path="/document" element={<Document />} />
-          <Route exact path="/faq" element={<FAQ />} />
-          <Route exact path="/lbc" element={<LBC />} />
-        {/* </Route> */}
         <Route path="/" element={<Login />} />
+
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/home" element={<HomePage />} />
+        </Route>
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/faq" element={<FAQ />} />{" "}
+        </Route>
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/document" element={<Document />} />{" "}
+        </Route>
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/lbc" element={<LBC />} />
+        </Route>
+
         <Route exact path="/userlist" element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
         <Route exact path="/" element={<ProtectedRoute />}>
           <Route exact path="/doubleAuth" element={<DoubleAuth />} />
         </Route>
-        <Route path="/registration" element={<Registration/>} />
-        <Route path="/verifemail" element={<VerifEmail/>} />
+        <Route path="/registration" element={<Registration />} />
+        <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/validationotp" element={<ValidationOTP />} />
       </Routes>
     </Router>
-
   );
 }
 export default MainRoutes;
