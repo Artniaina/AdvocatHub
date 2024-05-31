@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #496989;
+  background-color: #7f9bb8;
   padding: 1.5rem;
-  box-shadow:4px 5px 20px 2px #56586491;
+  box-shadow:4px 5px 20px 2px #595b6991;
 }
 
 .navbar-brand {
@@ -82,6 +82,7 @@
   margin-left: 2rem;
   font-size: 30px;
   transition: color 0.3s;
+  display: flex;
 }
 
 .nav-user:hover {

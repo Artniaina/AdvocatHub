@@ -18,13 +18,13 @@ function MainRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        {/* <Route exact path="/home" element={<ProtectedRoute />}> */}
+        {/* <Route exact path="/" element={<ProtectedRoute />}> */}
           <Route exact path="/home" element={<HomePage />} />
           <Route exact path="/document" element={<Document />} />
           <Route exact path="/faq" element={<FAQ />} />
           <Route exact path="/lbc" element={<LBC />} />
         {/* </Route> */}
+        <Route path="/" element={<Login />} />
         <Route exact path="/userlist" element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
@@ -37,6 +37,7 @@ function MainRoutes() {
         <Route path="/validationotp" element={<ValidationOTP />} />
       </Routes>
     </Router>
+
   );
 }
 export default MainRoutes;

@@ -10,7 +10,7 @@ const ContenuAcceuil = () => {
       <div className="container">
         <img src={PersoIcon} alt="logo" className="logo" />
         <h1>
-          Information personnelle 
+          Informations personnelles
           <hr />
         </h1>
         <div className="containerInfo">
@@ -27,11 +27,11 @@ const ContenuAcceuil = () => {
           <p>Code BIC:<br />121212</p>
         </div>
       </div>
-
+      
       <div className="container">
         <img src={ProIcon} alt="logo" className="logo" style={{ margin: "0 auto", width: "110px" }} />
         <h1>
-         Information professionnnelle<hr />
+         Informations professionnnelles<hr />
         </h1>
         <div className="containerInfo">
           <p>Identifiant Interne:<br />3</p>
@@ -45,7 +45,6 @@ const ContenuAcceuil = () => {
           <p>Assistance Judiciaire:<br /><button>Oui</button><button>Non</button></p>
         </div>
       </div>
-
       <div className="container">
         <img src={EtudeIcon} alt="logo" className="logo" />
         <h1>

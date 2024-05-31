@@ -5,7 +5,6 @@ import { IoHome } from "react-icons/io5";
 import { IoDocumentTextSharp } from "react-icons/io5";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
 import { FaBookBookmark } from "react-icons/fa6";
-import logo from "../../assets/logo.png";
 import "../Styles/Homepage/Navbar.css";
 
 const Navbar = () => {
@@ -55,9 +54,8 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="nav-user">
-        <Link to="/profile" className="nav-user">
+      <p></p>
           <FaRegUserCircle />
-        </Link>
         <button className="btn-nav">
           Log out
         </button>
