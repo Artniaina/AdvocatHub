@@ -1,8 +1,12 @@
+body{
+  background-color: #ceccd34d;
+}
 .mainContainer {
   display: flex;
   margin-top: 20px;
   justify-content: space-arround;
 }
+
 
 .container {
   border: 1px solid #7272774f;

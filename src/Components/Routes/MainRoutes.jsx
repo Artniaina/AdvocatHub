@@ -20,17 +20,11 @@ function MainRoutes() {
       <Routes>
         <Route path="/" element={<Login />} />
 
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route exact path="/home" element={<HomePage />} />
-        </Route>
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route exact path="/faq" element={<FAQ />} />{" "}
-        </Route>
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route exact path="/document" element={<Document />} />{" "}
-        </Route>
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route exact path="/lbc" element={<LBC />} />
+          <Route path="/home" element={<HomePage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/document" element={<Document />} />
+          <Route path="/lbc" element={<LBC />} />
         </Route>
 
         <Route exact path="/userlist" element={<PrivateRoute />}>

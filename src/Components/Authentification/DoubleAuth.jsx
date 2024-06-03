@@ -52,7 +52,6 @@ const DoubleAuth = () => {
         sAdresseEmail: email,
         sMotdePasse: password,
         scodeOTP: codeOTP,
-
       };
       console.log(userData);
 

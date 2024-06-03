@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
     const isAuthenticated = location.state && location.state.isAuthenticated;
   
   if (!isAuthenticated) {
-    return <Navigate to="/" />;
+    return <Navigate to="/"/>;
   }
 
   return <Outlet />;

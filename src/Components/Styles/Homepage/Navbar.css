@@ -2,14 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #7f9bb8;
-  padding: 1.5rem;
-  box-shadow:4px 5px 20px 2px #595b6991;
+  background-color: #ffffff;
+  padding: 8px;
+  box-shadow: 4px 5px 20px 2px #595b6991;
+  font-weight: 600;
 }
 
 .navbar-brand {
   font-size: 2rem;
-  color: #fff;
   text-decoration: none;
 }
 
@@ -21,70 +21,78 @@
 }
 
 .nav-item {
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
-.btn-nav{
-    padding: 12px;
-    width: 100px;
-    font-size: 16px;
-    margin-top: 20px;
-    background-color: #73a9ad;
-    color: #fff;
-    cursor: pointer;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
-    margin-left: 15px;
+.btn-nav {
+  padding: 12px;
+  width: 100px;
+  margin-top: 20px;
+  background-color: #371675;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+  margin-left: 15px;
 }
 
-.icon-nav{
+.icon-nav {
   font-size: 25px;
 }
 
 .nav-link {
-  color: #fff;
+  color: rgba(55, 22, 117, 0.74);
   font-size: 20px;
   text-decoration: none;
-  transition: color 0.3s;
+  transition: color 0.5s;
   cursor: pointer;
-  padding: 15px;
-}
-.nav-link.active {
-  font-weight: bold;
-  background-color: beige;
-  color: #3c86a3;
-  border-radius: 20px;
-  border: 1px solid #3c86a3;
-  padding: 15px;
-  text-decoration: none;
-  cursor: pointer;
+  padding: 10px;
+  padding-bottom: 2px;
+  transition: all 0.5s;
+  border-radius: 15px;
 }
 
 .nav-link:hover,
+.nav-link.active,
 .nav-link:focus {
-  font-weight: bold;
-  background-color: beige;
-  color: #3c86a3;
-  border-radius: 20px;
-  border: 1px solid #3c86a3;
-  padding: 15px;
+  background-color: #371675;
+  padding: 10px;
+  padding-bottom: 2px;
+  font-weight: 600;
+  color: #f5f5dc;
+  border-radius: 15px;
+  border: 1px solid #d8d8d8;
   text-decoration: none;
   cursor: pointer;
+  font-size: 20px;
+ 
 }
-
 
 .nav-user {
   font-size: 1.2rem;
-  color: #fff;
+  color: #371675;
   text-decoration: none;
-  margin-left: 2rem;
+  margin-left: 5px;
   font-size: 30px;
   transition: color 0.3s;
-  display: flex;
 }
-
+.txt{
+  font-size: 20px;
+  margin: 0;
+  color: #5a5088;
+}
 .nav-user:hover {
-  color: #c7d5e0;
+  color: #5a5088;
+
+}
+.btn-nav {
+  position: relative;
+  padding: 5px;
+  bottom: 10px;
+  right: -10px;
+}
+.btn-nav:hover {
+  background-color: #5a5088;
 }

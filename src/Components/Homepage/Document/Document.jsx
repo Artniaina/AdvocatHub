@@ -1,9 +1,8 @@
-import React, {useState} from 'react'
-import { useLocation } from 'react-router-dom'
-
-import Navbar from '../Navbar'
-import Footer from '../Footer'
-import ContenuDoc from './ContenuDoc'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import ContenuDoc from './ContenuDoc';
 
 const Document = () => {
   const location = useLocation();
@@ -11,11 +10,11 @@ const Document = () => {
 
   return (
     <>
-    <Navbar/>
-    <ContenuDoc/>
-    <Footer/>
+      <Navbar />
+      <ContenuDoc isAuthenticated={isAuthenticated} />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Document
+export default Document;

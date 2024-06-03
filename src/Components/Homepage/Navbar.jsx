@@ -5,6 +5,7 @@ import { IoHome } from "react-icons/io5";
 import { IoDocumentTextSharp } from "react-icons/io5";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
 import { FaBookBookmark } from "react-icons/fa6";
+import { FaFileLines } from "react-icons/fa6";
 import "../Styles/Homepage/Navbar.css";
 
 const Navbar = () => {
@@ -22,7 +23,7 @@ const Navbar = () => {
             className={`nav-link ${location.pathname === "/home" || location.pathname === "/home" ? "active" : ""}`}
           >
             <IoHome className="icon-nav" />
-            Acceuil
+            Accueil
           </Link>
         </li>
         <li className="nav-item">
@@ -30,7 +31,7 @@ const Navbar = () => {
             to="/document"  
             className={`nav-link ${location.pathname === "/document" ? "active" : ""}`}
           >
-            <IoDocumentTextSharp className="icon-nav" />
+            <FaFileLines className="icon-nav" />
             Document
           </Link>
         </li>
@@ -53,9 +54,8 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <div className="nav-user">
-      <p></p>
-          <FaRegUserCircle />
+      <div >
+        <p className="txt"> Votre nom<FaRegUserCircle className="nav-user"/></p>
         <button className="btn-nav">
           Log out
         </button>

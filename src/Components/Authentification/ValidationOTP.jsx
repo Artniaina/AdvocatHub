@@ -12,7 +12,6 @@ const ValidationOTP = () => {
 
   useEffect(() => {
     setLoading(false);
-
     const formatOTPAuthURLForQR = (url) => {
       const originalURL = url;
 
@@ -63,9 +62,9 @@ const ValidationOTP = () => {
       });
       if (codeOTP === "") {
         alert("Veuillez remplir le champ");
-      } 
+      }
       if (!response.ok) {
-        alert("Code non valide")
+        alert("Code non valide");
         throw new Error("Échec de la requête API.");
       }
       const data = await response.json();
@@ -73,7 +72,9 @@ const ValidationOTP = () => {
         console.log(`${data.svalideOTP}, ${data.sRole}`);
         setIsAuthenticated(true);
         if (data.sRole === "Admin") {
-          navigate("/userlist", { state: { isAdminAuthenticated: true, isAuthenticated: true } });
+          navigate("/userlist", {
+            state: { isAdminAuthenticated: true, isAuthenticated: true },
+          });
         } else {
           navigate("/home", { state: { isAuthenticated: true } });
         }

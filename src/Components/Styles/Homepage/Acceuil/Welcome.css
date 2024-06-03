@@ -1,0 +1,19 @@
+.mainContainerNav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+.text1 {
+  color: #371675;
+  font-size: 55px;
+  margin-bottom: 0;
+  padding: 0; 
+  font-family: "Open Sans", sans-serif;}
+.text2 {
+    margin: 0  0 30px 0;
+    color: #49425a;
+    font-size: 25px;
+    font-family: "Inter", sans-serif;
+}
+
+
