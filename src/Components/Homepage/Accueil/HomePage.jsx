@@ -1,14 +1,13 @@
 import React from "react";
 import Navbar from "../Navbar";
-import Acceuil from "./ContenuAcceuil";
 import Welcome from "./Welcome";
-
+import Accueil from "./Accueil"
 const HomePage = () => {
   return (
     <div>
       <Navbar />
       <Welcome />
-      <Acceuil />
+      <Accueil />
 
     </div>
   );

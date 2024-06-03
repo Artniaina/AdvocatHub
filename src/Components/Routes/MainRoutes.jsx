@@ -6,7 +6,7 @@ import ModifMdp from "../Authentification/ModifMdp";
 import DoubleAuth from "../Authentification/DoubleAuth";
 import ProtectedRoute from "./ProtectedRoute";
 import ValidationOTP from "../Authentification/ValidationOTP";
-import HomePage from "../Homepage/Acceuil/HomePage";
+import HomePage from "../Homepage/Accueil/HomePage";
 import VerifEmail from "../Authentification/VerifEmail";
 import UserList from "../AdminDashboard/UserList";
 import PrivateRoute from "./PrivateRoute";

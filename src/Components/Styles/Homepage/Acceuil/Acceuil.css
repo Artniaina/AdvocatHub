@@ -15,16 +15,22 @@ body{
   padding: 20px;
   border-radius: 10px;
   background-color: #ffffff;
-  box-shadow: 0 4px 8px #4e48485b;
   flex-direction: column;
 }
 
 .container h1 {
   text-align: center;
-  font-size: 25px;
-  color: #23233a;
+  font-size: 24px;
+  color: #371675;
   margin-bottom: 15px;
   text-transform: uppercase;
+}
+.hr{
+  border: 1px solid #371675 ; 
+
+}
+hr {
+  border: 1px solid #7272774f;
 }
 
 .containerInfo {
@@ -38,6 +44,20 @@ body{
   margin-bottom: 8px;
   display: flex;
   flex-direction: column;
+  text-align: start;
+}
+.containerInfo .p {
+  font-size: 16px;
+  color: #555;
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+  margin: 0;
+}
+.containerInfo .b {
+  font-size: 16px;
+  color: #555;
+  margin-left: 20px;
   text-align: start;
 }
 
@@ -55,5 +75,10 @@ body{
 .logo {
   width: 90px;
   height: 90px;
-  margin: auto;
+  margin: 0px auto;
 }
+.container .containerInfo p{
+ color: #555;
+ font-size: 20px;
+}
+
