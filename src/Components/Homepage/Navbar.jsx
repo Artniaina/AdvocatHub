@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
-import { IoDocumentTextSharp } from "react-icons/io5";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
 import { FaBookBookmark } from "react-icons/fa6";
 import { FaFileLines } from "react-icons/fa6";
