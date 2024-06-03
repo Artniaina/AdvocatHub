@@ -1,12 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaRegUserCircle } from "react-icons/fa";
-import { IoHome } from "react-icons/io5";
-import { IoDocumentTextSharp } from "react-icons/io5";
-import { TbDeviceIpadQuestion } from "react-icons/tb";
-import { FaBookBookmark } from "react-icons/fa6";
-import { FaFileLines } from "react-icons/fa6";
+import document from "../../../assets/icons8-document-64(1).png";
+import formulaire from "../../../assets/icons8-formulaire-64 (2).png";
+import modif from "../../../assets/icons8-liste-presse-papiers-64.png";
+import etude from "../../../assets/icons8-configuration-du-projet-64.png";
 import "../../Styles/Homepage/Acceuil/Welcome.css";
+
 
 const HomeNav = () => {
   const location = useLocation();
@@ -16,23 +15,26 @@ const HomeNav = () => {
       <ul className="home-navbar-nav">
         <li className="home-item">
           <Link to="/home" className="nav-link2">
-          <IoHome className="icon-nav" />
+            <img src={modif} />
             Modification fiche avocat
           </Link>
         </li>
         <li className="home-item">
           <Link to="/home" className="nav-link2">
-          <IoHome className="icon-nav" />
+      
+            <img src={document} />
             Certificat d'inscription
           </Link>
         </li>
         <li className="home-item">
           <Link to="/home" className="nav-link2">
+            <img src={etude} />
             Changement d'étude
           </Link>
         </li>
         <li className="home-item">
           <Link to="/home" className="nav-link2">
+            <img src={formulaire} />
             Formulaire de taxation
           </Link>
         </li>
