@@ -70,13 +70,14 @@ function MainRoutes() {
     <Router>
       <PageTitleUpdater />
       <Routes>
-          <Route path="/document" element={<Document />} />
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="/document" element={<Document />} />
         <Route path="/home" element={<HomePage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
         </Route>
+
         <Route exact path="/userlist" element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>

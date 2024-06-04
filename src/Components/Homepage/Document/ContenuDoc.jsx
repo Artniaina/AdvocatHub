@@ -1,11 +1,11 @@
 import React from 'react';
-const ContenuDoc = () => {
 
+const ContenuDoc = ({isAuthenticated}) => {
+  console.log(isAuthenticated);
   return (
     <div className="mainContainerDoc">
       hello
     </div>
   );
 };
-
 export default ContenuDoc;

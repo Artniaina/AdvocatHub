@@ -22,19 +22,16 @@ const Navbar = ({isAuthenticated}) => {
           <Link 
             to="/home"  
             className={`nav-link ${location.pathname === "/home" || location.pathname === "/home" ? "active" : ""}`}
-        
-
           >
             <IoHome className="icon-nav" />
             Accueil
           </Link>
         </li>
         <li className="nav-item">
-          <Link 
-            to="/document"  
-            className={`nav-link ${location.pathname === "/document" ? "active" : ""}`}
-          
-          >
+        <Link 
+        to={{ pathname: "/document", state: { isAuthenticated } }}  
+        className={`nav-link ${location.pathname === "/document" ? "active" : ""}`}
+      >
             <FaFileLines className="icon-nav" />
             Document
           </Link>

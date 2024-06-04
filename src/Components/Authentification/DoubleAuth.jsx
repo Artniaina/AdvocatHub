@@ -76,7 +76,7 @@ const DoubleAuth = () => {
         if (role==="Admin") {
           navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
         }else{
-          navigate("/home", { state: { isAuthenticated: true }});
+          navigate("/home", { state: {isAuthenticated: true }});
           
         }
       } else {
@@ -95,7 +95,7 @@ const DoubleAuth = () => {
       ) : (
         <>
           <p className="text">
-            Scannez ce QR Code avec Google Authenticator :
+            Scannez le QR Code avec Google Authenticator:
           </p>
           <div className="qrCode">
             <QRCode
