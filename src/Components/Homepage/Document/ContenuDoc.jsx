@@ -1,10 +1,9 @@
 import React from 'react';
+const ContenuDoc = () => {
 
-const ContenuDoc = (props) => {
-  console.log(props.isAuthenticated);
   return (
-    <div>
-      ContenuDoc
+    <div className="mainContainerDoc">
+      
     </div>
   );
 };

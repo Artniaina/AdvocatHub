@@ -25,7 +25,7 @@ const Accueil = () => {
             </div>
           </div>
           <hr />
-          <p>Date de naissance:<br />121212<hr /></p>
+          <p>Date de naissance:<br />121212</p><hr/>
           <p>Lieu de naissance:<br />121212</p>
           <p>Adresse privée:<br />121212</p>
           <p>Téléphone mobile:<br />121212</p>

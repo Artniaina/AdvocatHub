@@ -54,8 +54,6 @@ const DoubleAuth = () => {
         scodeOTP: codeOTP,
       };
       console.log(userData);
-
-      console.log(userData);
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
@@ -79,7 +77,6 @@ const DoubleAuth = () => {
           navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
         }else{
           navigate("/home", { state: { isAuthenticated: true } });
-
         }
       } else {
         setIsAuthenticated(false);
