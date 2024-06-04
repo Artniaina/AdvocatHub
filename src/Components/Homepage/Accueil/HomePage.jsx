@@ -13,6 +13,7 @@ const HomePage = () => {
     <div>
       <Navbar  isAuthenticated={isAuthenticated} />
       <Welcome /> 
+
       <Accueil />
     </div>
   );

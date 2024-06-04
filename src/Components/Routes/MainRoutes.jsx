@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Login from "../Authentification/Login";
 import Registration from "../Authentification/Registration";
 import ModifMdp from "../Authentification/ModifMdp";
@@ -25,6 +30,7 @@ function PageTitleUpdater() {
       case "/":
         pageTitle = "Login";
         break;
+
       case "/home":
         pageTitle = "Page d'acceuil";
         break;
@@ -32,16 +38,16 @@ function PageTitleUpdater() {
         pageTitle = "FAQ";
         break;
       case "/document":
-        pageTitle = "Document";
+        pageTitle = "Documents";
         break;
       case "/lbc":
-        pageTitle = "LBC";
+        pageTitle = "LBC/FT";
         break;
       case "/userlist":
         pageTitle = "User list";
         break;
       case "/doubleAuth":
-        pageTitle = "Scan Qr Code";
+        pageTitle = "Scan QrCode";
         break;
       case "/registration":
         pageTitle = "Inscription";
@@ -73,7 +79,7 @@ function MainRoutes() {
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/document" element={<Document />} />
-        <Route path="/home" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
         </Route>
