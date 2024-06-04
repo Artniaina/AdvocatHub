@@ -76,7 +76,8 @@ const DoubleAuth = () => {
         if (role==="Admin") {
           navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
         }else{
-          navigate("/home", { state: { isAuthenticated: true } });
+          navigate("/home", { state: { isAuthenticated: true }});
+          
         }
       } else {
         setIsAuthenticated(false);

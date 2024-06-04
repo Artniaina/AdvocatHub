@@ -7,7 +7,9 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { FaFileLines } from "react-icons/fa6";
 import "../Styles/Homepage/Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({isAuthenticated}) => {
+  console.log(`Le props est ${isAuthenticated}`);
+
   const location = useLocation();
 
   return (
@@ -20,6 +22,8 @@ const Navbar = () => {
           <Link 
             to="/home"  
             className={`nav-link ${location.pathname === "/home" || location.pathname === "/home" ? "active" : ""}`}
+        
+
           >
             <IoHome className="icon-nav" />
             Accueil
@@ -29,6 +33,7 @@ const Navbar = () => {
           <Link 
             to="/document"  
             className={`nav-link ${location.pathname === "/document" ? "active" : ""}`}
+          
           >
             <FaFileLines className="icon-nav" />
             Document
@@ -37,7 +42,7 @@ const Navbar = () => {
         <li className="nav-item">
           <Link 
             to="/lbc" 
-            className={`nav-link ${location.pathname === "/lbc" ? "active" : ""}`}
+            className={`nav-link ${location.pathname === "/lbc" ? "active" : ""} `}
           >
             <FaBookBookmark className="icon-nav" />
             LBC/FT
@@ -46,7 +51,8 @@ const Navbar = () => {
         <li className="nav-item">
           <Link 
             to="/faq" 
-            className={`nav-link ${location.pathname === "/faq" ? "active" : ""}`}
+            className={`nav-link ${location.pathname === "/faq" ? "active" : ""},`}
+
           >
             <TbDeviceIpadQuestion className="icon-nav" />
             FAQ

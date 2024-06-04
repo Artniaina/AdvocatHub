@@ -6,12 +6,12 @@ import ContenuDoc from "./ContenuDoc";
 
 const Document = () => {
   const location = useLocation();
-  const { isAuthenticated } = location.state || {};
+  const isAuthenticated = location.state?.isAuthenticated || false;
   console.log(isAuthenticated);
 
   return (
     <>
-      <Navbar />
+      <Navbar isAuthenticated={isAuthenticated} />
       <ContenuDoc />
       <Footer />
     </>

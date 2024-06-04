@@ -59,7 +59,6 @@ function PageTitleUpdater() {
         pageTitle = "My app";
         break;
     }
-
     document.title = pageTitle;
   }, [location]);
 
@@ -71,10 +70,10 @@ function MainRoutes() {
     <Router>
       <PageTitleUpdater />
       <Routes>
+          <Route path="/document" element={<Document />} />
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
         <Route path="/home" element={<HomePage />} />
-          <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
         </Route>

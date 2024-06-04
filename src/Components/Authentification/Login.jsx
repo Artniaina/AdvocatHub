@@ -53,9 +53,6 @@ const Login = () => {
           const email = userData.sAdresseEmail;
           const passwordl = userData.sMotdePasse;
           const role = data.sRole;
-          console.log(
-            `Clé TOTP récupérée : ${totpKey}, URL récupérée: ${url}, ${userData.sAdresseEmail} , ${userData.sMotdePasse}, ${role}`
-          );
           setTotpKey(totpKey);
           setUrl(url);
           const storedIsAlreadyAuthenticated = localStorage.getItem(
