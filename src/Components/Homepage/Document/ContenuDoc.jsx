@@ -4,7 +4,7 @@ const ContenuDoc = ({isAuthenticated}) => {
   console.log(isAuthenticated);
   return (
     <div className="mainContainerDoc">
-      hello
+      
     </div>
   );
 };

@@ -21,7 +21,6 @@ import Document from "../Homepage/Document/Document";
 
 function PageTitleUpdater() {
   const location = useLocation();
-
   useEffect(() => {
     const { pathname } = location;
     let pageTitle = "";
@@ -30,7 +29,6 @@ function PageTitleUpdater() {
       case "/":
         pageTitle = "Login";
         break;
-
       case "/home":
         pageTitle = "Page d'acceuil";
         break;
@@ -65,6 +63,7 @@ function PageTitleUpdater() {
         pageTitle = "My app";
         break;
     }
+
     document.title = pageTitle;
   }, [location]);
 
@@ -77,13 +76,12 @@ function MainRoutes() {
       <PageTitleUpdater />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/document" element={<Document />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-        </Route>
-
+        {/* </Route> */}
         <Route exact path="/userlist" element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
@@ -98,5 +96,4 @@ function MainRoutes() {
     </Router>
   );
 }
-
 export default MainRoutes;

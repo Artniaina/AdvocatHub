@@ -1,19 +1,16 @@
-import React from "react";
-import Navbar from "../Navbar";
+import { AuthContext } from '../../AuthContext';
+import React, { useContext } from "react";
+import Navbar from "../FAQ/FAQ";
 import Welcome from "./Welcome";
 import Accueil from "./Accueil";
-import {  useLocation } from "react-router-dom";
 
 const HomePage = () => {
-  const location = useLocation();
-  const isAuthenticated = location.state && location.state.isAuthenticated;
-  console.log(isAuthenticated);
-  
+  const { authState } = useContext(AuthContext); 
+  console.log(`home ${authState.isAuthenticated}`);
   return (
     <div>
-      <Navbar  isAuthenticated={isAuthenticated} />
+      <Navbar   />
       <Welcome /> 
-
       <Accueil />
     </div>
   );

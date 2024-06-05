@@ -1,15 +1,17 @@
-import React from "react";
-import { useLocation } from 'react-router-dom'
+
+import React, { useContext } from "react";
+import { AuthContext } from '../../AuthContext';
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import ContenuFAQ from "./ContenuFAQ";
 
 const FAQ = () => {
-  const location = useLocation();
-  const isAuthenticated = true;
+  const { authState } = useContext(AuthContext); 
+  console.log(`faq ${authState.isAuthenticated}`);
+
   return (
     <>
-      <Navbar isAuthenticated={isAuthenticated}/>
+      <Navbar />
       <ContenuFAQ />
       <Footer />
     </>

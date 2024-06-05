@@ -1,16 +1,16 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom'
+import React , {useContext} from "react";
+import { AuthContext } from '../../AuthContext'
 import Navbar from '../Navbar'
 import ContenuLBC from './ContenuLBC'
 import Footer from '../Footer'
 
 const LBC = () => {
-  const location = useLocation();
-  const isAuthenticated = true;
-  
+  const { authState } = useContext(AuthContext); 
+  console.log(`lbc ${authState.isAuthenticated}`);
+
   return (
    <>
-   <Navbar isAuthenticated={isAuthenticated}/>
+   <Navbar/>
    <ContenuLBC/>
    <Footer/>
    </>

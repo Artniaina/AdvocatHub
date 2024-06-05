@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useContext} from "react";
 import QRCode from "qrcode.react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../Styles/Authentification/DoubleAuthent.css"
+import { AuthContext } from "../AuthContext";
+
+
 const DoubleAuth = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { authState, setAuthState } = useContext(AuthContext); 
+
   const { url, email, password } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
@@ -69,16 +74,18 @@ const DoubleAuth = () => {
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
         const role= data.sRole
-        setIsAuthenticated(true);
-        setIsAlreadyAuthenticated(true);
+        const newState = {
+          isAuthenticated: true,
+          isAdminAuthenticated: role === "Admin",
+     
+        };
+        setAuthState(newState);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-        console.log(role);
-        if (role==="Admin") {
-          navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
-        }else{
-          navigate("/home", { state: {isAuthenticated: true }});
-          
-        }
+        setIsAlreadyAuthenticated(true)
+        
+        navigate(data.sRole === "Admin" ? "/userlist" : "/home", {
+          state: newState,
+        });
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");

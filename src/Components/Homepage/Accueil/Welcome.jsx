@@ -11,7 +11,6 @@ const Welcome = () => {
           <strong>Votre nom</strong> <br /> dans votre espace personnel
         </p>
       </div>
-
       <HomeNav />
     </div>
   );
