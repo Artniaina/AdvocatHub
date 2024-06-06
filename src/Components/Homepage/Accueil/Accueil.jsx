@@ -18,10 +18,9 @@ const Accueil = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://192.168.10.5//Utilisateur/AvocatInfo/%7Bidavocatpp%7D")
+    fetch("http://192.168.10.5//Utilisateur/AvocatInfo/{idavocatpp}")
       .then((response) => response.json())
       .then((data) => setAvocatInfo(data[0]))
-      .then((data) => setEtudeInfo(data[0]))
       .catch((error) =>
         console.error("Erreur lors de la récupération des données:", error)
       );
@@ -39,78 +38,71 @@ const Accueil = () => {
           <p>
             Nom:
             <br />
-            {avocatInfo && avocatInfo.m_sNom}
+            <strong>{avocatInfo && avocatInfo.m_sNom}</strong>
           </p>
           <p>
             Prénom:
             <br />
-            {avocatInfo && avocatInfo.m_sPrenom}
+            <strong>{avocatInfo && avocatInfo.m_sPrenom}</strong>
           </p>
           <div className="p">
-            <div className="b" style={{ marginLeft: -5 }}>
+            <div className="b1" style={{ marginLeft: -5 }}>
               <p>
                 Genre:
                 <br />
-                {avocatInfo && avocatInfo.m_sSexe}
-              </p>{" "}
-              <hr />
+                <strong>{avocatInfo && avocatInfo.m_sSexe}</strong>
+              </p>
             </div>
             <div className="b">
               <p>
                 Nationalité:
                 <br />
-                {avocatInfo && avocatInfo.m_sNationalite}
+                <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
               </p>
-              <hr />
             </div>
           </div>
           <hr />
           <p>
             Date de naissance:
             <br />
-            {avocatInfo && avocatInfo.m_dDateNaissance}
+            <strong>{avocatInfo && avocatInfo.m_dDateNaissance}</strong>
           </p>
           <hr />
           <p>
             Lieu de naissance:
             <br />
-            {avocatInfo && avocatInfo.m_sLieuNaissance}
+            <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
           <p>
             Adresse privée:
             <br />
-            {avocatInfo && avocatInfo.m_sAdressePrivee}
+            <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
           </p>
           <p>
             Téléphone mobile:
             <br />
-            {avocatInfo && avocatInfo.m_stelephoneMobile}
+            <strong>{avocatInfo && avocatInfo.m_stelephoneMobile}</strong>
           </p>
           <p>
             E-mail privé:
             <br />
-            {avocatInfo && avocatInfo.m_sEmailSecondaire}
+            <strong>{avocatInfo && avocatInfo.m_sEmailSecondaire}</strong>
           </p>
           <p>
             IBAN:
             <br />
-            {avocatInfo && avocatInfo.m_IBAN}
+            <strong>{avocatInfo && avocatInfo.m_IBAN}</strong>
           </p>
           <p>
             Code BIC:
             <br />
-            {avocatInfo && avocatInfo.m_BIC}
+            <strong>{avocatInfo && avocatInfo.m_BIC}</strong>
           </p>
         </div>
       </div>
 
       <div className="container">
-        <img
-          src={ProIcon}
-          alt="logo"
-          className="logo"
-          style={{ margin: "0 auto", width: "100px" }}
-        />
+        <img src={ProIcon} alt="logo" className="logo" />
         <h1>
           Informations professionnnelles
           <hr className="hr" />
@@ -118,41 +110,43 @@ const Accueil = () => {
         <div className="containerInfo">
           <p>
             Identifiant Interne:
-            <br />3
+            <br />
+            <strong>{avocatInfo && avocatInfo.m_NumInterne}</strong>
           </p>
           <p>
             Liste:
             <br />
-            Avocat à la Cour
+            <strong>{avocatInfo && avocatInfo.m_sLibelleliste}</strong>
           </p>
           <p>
             E-mail barreau:
-            <br />M
+            <br />
+            <strong>{avocatInfo && avocatInfo.m_emailbarreau}</strong>
           </p>
           <p>
             E-mail professionnel:
             <br />
-            France
+            <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
           </p>
           <p>
             Date d'assermentation:
             <br />
-            121212
+            <strong>{avocatInfo && avocatInfo.m_dDateAssermentation}</strong>
           </p>
           <p>
             Date d'avoué:
             <br />
-            121212
+            <strong>{avocatInfo && avocatInfo.m_dDateAvoue}</strong>
           </p>
           <p>
             Langue parlées:
             <br />
-            121212
+            <strong>{avocatInfo && avocatInfo.m_langue}</strong>
           </p>
           <p>
             Activités préférentielles:
             <br />
-            121212
+            <strong>{avocatInfo && avocatInfo.m_sactivitépref}</strong>
           </p>
           <p>
             Assistance Judiciaire:
@@ -172,47 +166,58 @@ const Accueil = () => {
             <>
               <p>
                 Dénomination:
-                <br /> {etudeInfo.m_sDénominationEtude}
+                <br />
+                <strong>{etudeInfo.m_sDénominationEtude}</strong>
               </p>
               <p>
                 Numéro voie:
-                <br /> {etudeInfo.m_nNumVoie}
+                <br />
+                <strong>{etudeInfo.m_nNumVoie}</strong>
               </p>
               <p>
                 Adresse:
-                <br /> {etudeInfo.m_sAdresse}
+                <br />
+                <strong>{etudeInfo.m_sAdresse}</strong>
               </p>
               <p>
                 Nationalité:
-                <br /> {etudeInfo.m_sNationalite}
+                <br />
+                <strong>{etudeInfo.m_sNationalite}</strong>
               </p>
               <p>
                 Date de naissance:
-                <br /> {etudeInfo.m_dDateNaissance}
+                <br />
+                <strong>{etudeInfo.m_dDateNaissance}</strong>
               </p>
               <p>
                 Lieu de naissance:
-                <br /> {etudeInfo.m_sLieuNaissance}
+                <br />
+                <strong>{etudeInfo.m_sLieuNaissance}</strong>
               </p>
               <p>
                 Adresse privée:
-                <br /> {etudeInfo.m_sAdressePrivee}
+                <br />
+                <strong>{etudeInfo.m_sAdressePrivee}</strong>
               </p>
               <p>
                 Téléphone mobile:
-                <br /> {etudeInfo.m_stelephoneMobile}
+                <br />
+                <strong>{etudeInfo.m_stelephoneMobile}</strong>
               </p>
               <p>
                 E-mail privé:
-                <br /> {etudeInfo.m_sEmailSecondaire}
+                <br />
+                <strong>{etudeInfo.m_sEmailSecondaire}</strong>
               </p>
               <p>
                 IBAN:
-                <br /> {etudeInfo.m_IBAN}
+                <br />
+                <strong>{etudeInfo.m_IBAN}</strong>
               </p>
               <p>
                 Code BIC:
-                <br /> {etudeInfo.m_BIC}
+                <br />
+                <strong>{etudeInfo.m_BIC}</strong>
               </p>
             </>
           )}
