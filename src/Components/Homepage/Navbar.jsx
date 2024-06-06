@@ -10,9 +10,8 @@ import "../Styles/Homepage/Navbar.css";
 
 const Navbar = ({description}) => {
   const location = useLocation();
-  const { authState } = useContext(AuthContext); 
-  console.log(`Etat d authentification de ce composant: ${authState.isAuthenticated}`);
-console.log({authState});
+
+console.log();
   return (
     <nav className="navbar">
       <div className="navbar-brand">Logo</div>

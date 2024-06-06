@@ -36,16 +36,17 @@ body{
 }
 .containerInfo p {
   color: #555;
-  padding-bottom: 5px;
+ padding-bottom: 5px;
   margin-bottom: 8px;
   display: flex;
   width: 480px;
   flex-direction: column;
   text-align: start;
   border-bottom: 1px solid #5555555d;
-  border-width: auto; 
-
- 
+  border-width: auto;
+}
+strong{
+  color: #000;
 }
 .containerInfo   .info p  {
   font-weight: bold;

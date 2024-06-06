@@ -8,23 +8,26 @@ const Accueil = () => {
   const [avocatInfo, setAvocatInfo] = useState(null);
   const [etudeInfo, setEtudeInfo] = useState(null);
 
-  useEffect(() => {
-    fetch(`http://192.168.10.5//Utilisateur/AvocatEtude/{idetude}`)
+ useEffect(() => {
+  fetch(`http://192.168.10.5//Utilisateur/AvocatInfo/{idavocatpp}`)
+    .then((response) => response.json())
+    .then((data) => setAvocatInfo(data[0]))
+    .catch((error) =>
+      console.error("Erreur lors de la récupération des données:", error)
+    );
+}, []);
+
+useEffect(() => {
+  if (avocatInfo && avocatInfo.m_nidetude) {
+    fetch(`http://192.168.10.5//Utilisateur/AvocatEtude/${avocatInfo.m_nidetude}`)
       .then((response) => response.json())
       .then((data) => setEtudeInfo(data[0]))
       .catch((error) =>
         console.error("Erreur lors de la récupération des données:", error)
       );
-  }, []);
+  }
+}, [avocatInfo]);
 
-  useEffect(() => {
-    fetch("http://192.168.10.5//Utilisateur/AvocatInfo/{idavocatpp}")
-      .then((response) => response.json())
-      .then((data) => setAvocatInfo(data[0]))
-      .catch((error) =>
-        console.error("Erreur lors de la récupération des données:", error)
-      );
-  }, []);
 
   return (
     <div className="mainContainer">
@@ -35,6 +38,11 @@ const Accueil = () => {
           <hr className="hr" />
         </h1>
         <div className="containerInfo">
+          <p>
+            idEtude:
+            <br />
+            <strong>{avocatInfo && avocatInfo.m_nidetude}</strong>
+          </p>
           <p>
             Nom:
             <br />
@@ -180,44 +188,49 @@ const Accueil = () => {
                 <strong>{etudeInfo.m_sAdresse}</strong>
               </p>
               <p>
-                Nationalité:
+                Complement d'adresse:
                 <br />
-                <strong>{etudeInfo.m_sNationalite}</strong>
+                <strong>{etudeInfo.m_sAdresseSuite}</strong>
               </p>
               <p>
-                Date de naissance:
+                Code postal:
                 <br />
-                <strong>{etudeInfo.m_dDateNaissance}</strong>
+                <strong>{etudeInfo.m_sCodePostale}</strong>
               </p>
               <p>
-                Lieu de naissance:
+                Localité:
                 <br />
-                <strong>{etudeInfo.m_sLieuNaissance}</strong>
+                <strong>{etudeInfo.m_sLocalite}</strong>
               </p>
               <p>
-                Adresse privée:
+                B.P.:
                 <br />
-                <strong>{etudeInfo.m_sAdressePrivee}</strong>
+                <strong>{etudeInfo.m_sboitepostal}</strong>
               </p>
               <p>
-                Téléphone mobile:
+                Code postal B.P.:
                 <br />
-                <strong>{etudeInfo.m_stelephoneMobile}</strong>
+                <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
               </p>
               <p>
-                E-mail privé:
+                Localité B.P.:
                 <br />
-                <strong>{etudeInfo.m_sEmailSecondaire}</strong>
+                <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
               </p>
               <p>
-                IBAN:
+                Telehone fixe:
                 <br />
                 <strong>{etudeInfo.m_IBAN}</strong>
               </p>
               <p>
-                Code BIC:
+                Fax:
                 <br />
-                <strong>{etudeInfo.m_BIC}</strong>
+                <strong>{etudeInfo.m_sfax}</strong>
+              </p>
+              <p>
+                Site web:
+                <br />
+                <strong>{etudeInfo.m_ssite}</strong>
               </p>
             </>
           )}
