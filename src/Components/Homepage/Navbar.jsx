@@ -8,7 +8,7 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { FaFileLines } from "react-icons/fa6";
 import "../Styles/Homepage/Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({description}) => {
   const location = useLocation();
   const { authState } = useContext(AuthContext); 
   console.log(`Etat d authentification de ce composant: ${authState.isAuthenticated}`);
@@ -44,7 +44,7 @@ console.log({authState});
       </ul>
       <div>
         <p className="txt">
-          Votre nom
+        {description}
           <FaRegUserCircle className="nav-user" />
         </p>
         <button className="btn-nav">Log out</button>

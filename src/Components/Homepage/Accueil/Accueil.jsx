@@ -6,11 +6,22 @@ import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
 const Accueil = () => {
   const [avocatInfo, setAvocatInfo] = useState(null);
+  const [etudeInfo, setEtudeInfo] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://192.168.10.5//Utilisateur/AvocatEtude/{idetude}`)
+      .then((response) => response.json())
+      .then((data) => setEtudeInfo(data[0]))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des données:", error)
+      );
+  }, []);
 
   useEffect(() => {
     fetch("http://192.168.10.5//Utilisateur/AvocatInfo/%7Bidavocatpp%7D")
       .then((response) => response.json())
       .then((data) => setAvocatInfo(data[0]))
+      .then((data) => setEtudeInfo(data[0]))
       .catch((error) =>
         console.error("Erreur lors de la récupération des données:", error)
       );
@@ -157,61 +168,54 @@ const Accueil = () => {
           Etude <hr className="hr" />
         </h1>
         <div className="containerInfo">
-          <p>
-            Dénomination:
-            <br />
-            LUTHER S.A
-          </p>
-          <p>
-            Numéro voie:
-            <br />
-            1B
-          </p>
-          <p>
-            Adresse:
-            <br />
-            Hei
-          </p>
-          <p>
-            Nationalité:
-            <br />
-            France
-          </p>
-          <p>
-            Date de naissance:
-            <br />
-            121212
-          </p>
-          <p>
-            Lieu de naissance:
-            <br />
-            121212
-          </p>
-          <p>
-            Adresse privée:
-            <br />
-            121212
-          </p>
-          <p>
-            Téléphone mobile:
-            <br />
-            121212
-          </p>
-          <p>
-            E-mail privé:
-            <br />
-            121212
-          </p>
-          <p>
-            IBAN:
-            <br />
-            121212
-          </p>
-          <p>
-            Code BIC:
-            <br />
-            121212
-          </p>
+          {etudeInfo && (
+            <>
+              <p>
+                Dénomination:
+                <br /> {etudeInfo.m_sDénominationEtude}
+              </p>
+              <p>
+                Numéro voie:
+                <br /> {etudeInfo.m_nNumVoie}
+              </p>
+              <p>
+                Adresse:
+                <br /> {etudeInfo.m_sAdresse}
+              </p>
+              <p>
+                Nationalité:
+                <br /> {etudeInfo.m_sNationalite}
+              </p>
+              <p>
+                Date de naissance:
+                <br /> {etudeInfo.m_dDateNaissance}
+              </p>
+              <p>
+                Lieu de naissance:
+                <br /> {etudeInfo.m_sLieuNaissance}
+              </p>
+              <p>
+                Adresse privée:
+                <br /> {etudeInfo.m_sAdressePrivee}
+              </p>
+              <p>
+                Téléphone mobile:
+                <br /> {etudeInfo.m_stelephoneMobile}
+              </p>
+              <p>
+                E-mail privé:
+                <br /> {etudeInfo.m_sEmailSecondaire}
+              </p>
+              <p>
+                IBAN:
+                <br /> {etudeInfo.m_IBAN}
+              </p>
+              <p>
+                Code BIC:
+                <br /> {etudeInfo.m_BIC}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
