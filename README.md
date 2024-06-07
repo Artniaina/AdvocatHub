@@ -1,4 +1,4 @@
-#Law Firm Management Application
+Law Firm Management web Application
 
 This project is a law firm management application currently in development. It is designed as a learning exercise to explore the use of WebDev web services in conjunction with a React frontend. The application will eventually manage client files, appointments, legal documents, and other essential functions within a law practice.
 
@@ -6,7 +6,7 @@ This project is a law firm management application currently in development. It i
 
 Note: This project is in the early stages of development and is intended for learning and experimentation with WebDev web services.
 
-#Technology Stack
+Technology Stack
 Frontend
 
     React: A JavaScript library for building user interfaces.
