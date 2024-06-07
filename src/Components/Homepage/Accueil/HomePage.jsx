@@ -6,7 +6,7 @@ import Accueil from "./Accueil";
 
 const HomePage = () => {
   const { avocatInfo, etudeInfo } = useData();
-console.log(avocatInfo);
+  console.log(avocatInfo);
 
   return (
     <div>

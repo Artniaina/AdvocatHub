@@ -39,11 +39,6 @@ useEffect(() => {
         </h1>
         <div className="containerInfo">
           <p>
-            idEtude:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_nidetude}</strong>
-          </p>
-          <p>
             Nom:
             <br />
             <strong>{avocatInfo && avocatInfo.m_sNom}</strong>
@@ -159,8 +154,11 @@ useEffect(() => {
           <p>
             Assistance Judiciaire:
             <br />
-            <button>Oui</button>
-            <button>Non</button>
+            <div  className="bout">
+
+            <button className="boutonn">Oui</button>
+            <button className="boutonn">Non</button>
+            </div>
           </p>
         </div>
       </div>

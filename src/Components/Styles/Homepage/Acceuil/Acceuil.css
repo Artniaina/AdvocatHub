@@ -17,6 +17,21 @@ body{
   flex-direction: column;
 }
 
+.bout{
+  display: flex;
+  margin: 12px;
+
+}
+.bout .boutonn{
+  pointer-events: none;
+  width: 50px;
+  background-color: #3c1880d7;
+  border-radius: 20px;
+  border: 1px solid #3c1880d7;
+  color: #ffffff;
+  font-size: 12px;
+}
+
 .container h1 {
   text-align: center;
   font-size: 22px;
