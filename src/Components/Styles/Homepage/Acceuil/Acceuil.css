@@ -1,35 +1,46 @@
-body{
-  background-color: #ceccd34d;
+body {
+  background-color: #ceccd33b;
 }
 .mainContainer {
   display: flex;
-  margin-top: 20px;
   justify-content: space-around;
 }
 .container {
   border: 1px solid #7272774f;
-  min-width: 480px;
+  width: 500px;
   display: flex;
   height: auto;
   padding: 12px;
   border-radius: 10px;
   background-color: #ffffff;
   flex-direction: column;
+  margin: 12px;
 }
 
-.bout{
+.bout {
   display: flex;
   margin: 12px;
-
 }
-.bout .boutonn{
+
+.boutonn {
   pointer-events: none;
   width: 50px;
-  background-color: #3c1880d7;
   border-radius: 20px;
   border: 1px solid #3c1880d7;
   color: #ffffff;
-  font-size: 12px;
+  font-size: 20px;
+}
+
+.boutonn.oui {
+  background-color: #3c1880d7;
+  border: 1px solid #3c1880d7;
+  color: #ffffff;
+}
+
+.boutonn.non {
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  color: #000000;
 }
 
 .container h1 {
@@ -39,8 +50,8 @@ body{
   text-transform: uppercase;
   margin: 0;
 }
-.hr{
-  border: 1px solid #3c1880d7 ; 
+.hr {
+  border: 1px solid #3c1880d7;
   margin-top: -1px;
 }
 
@@ -51,22 +62,23 @@ body{
 }
 .containerInfo p {
   color: #555;
- padding-bottom: 5px;
-  margin-bottom: 8px;
+  padding-bottom: 5px;
+  margin: 10px;
+
   display: flex;
-  width: 480px;
+  width: 460px;
   flex-direction: column;
   text-align: start;
   border-bottom: 1px solid #5555555d;
   border-width: auto;
 }
-strong{
+strong {
   color: #000;
 }
-.containerInfo   .info p  {
+.containerInfo .info p {
   font-weight: bold;
 }
-.containerInfo  .p  {
+.containerInfo .p {
   color: #555;
   width: 12px;
   display: flex;
@@ -75,12 +87,12 @@ strong{
   margin: 0;
 }
 .containerInfo .p .b p {
-  width: 320px;
+  width: 300px;
   border-bottom: 1px solid #5555555d;
   color: #555;
   text-align: start;
 }
-.containerInfo .p .b1 p{
+.containerInfo .p .b1 p {
   border-bottom: 1px solid #5555555d;
 
   width: 150px;
@@ -105,8 +117,7 @@ strong{
   height: 70px;
   margin: 0px auto;
 }
-.container .containerInfo p{
- color: #555;
- font-size: 18px;
+.container .containerInfo p {
+  color: #555;
+  font-size: 18px;
 }
-

@@ -1,18 +1,37 @@
-import { useData } from '../../DataContext';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from '../Navbar';
 import Welcome from "./Welcome";
 import Accueil from "./Accueil";
 
 const HomePage = () => {
-  const { avocatInfo, etudeInfo } = useData();
-  console.log(avocatInfo);
+  const [avocatInfo, setAvocatInfo] = useState(null);
+  const [etudeInfo, setEtudeInfo] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://192.168.10.5/Utilisateur/AvocatInfo/3`)
+      .then((response) => response.json())
+      .then((data) => setAvocatInfo(data[0]))
+      .catch((error) =>
+        console.error("Erreur lors de la récupération des données:", error)
+      );
+  }, []);
+  
+  useEffect(() => {
+    if (avocatInfo && avocatInfo.m_nidetude) {
+      fetch(`http://192.168.10.5/Utilisateur/AvocatEtude/${avocatInfo.m_nidetude}`)
+        .then((response) => response.json())
+        .then((data) => setEtudeInfo(data[0]))
+        .catch((error) =>
+          console.error("Erreur lors de la récupération des données:", error)
+        );
+    }
+  }, [avocatInfo]);
 
   return (
     <div>
-      <Navbar description={avocatInfo && avocatInfo.m_sNom + " " + avocatInfo.m_sPrenom} />
-      <Welcome description={avocatInfo && avocatInfo.m_sNom + " " + avocatInfo.m_sPrenom} />
-      <Accueil />
+      <Navbar avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
+      <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
+      <Accueil avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
     </div>
   );
 };

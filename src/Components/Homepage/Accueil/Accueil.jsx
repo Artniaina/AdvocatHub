@@ -4,34 +4,17 @@ import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
-const Accueil = () => {
-  const [avocatInfo, setAvocatInfo] = useState(null);
-  const [etudeInfo, setEtudeInfo] = useState(null);
 
- useEffect(() => {
-  fetch(`http://192.168.10.5//Utilisateur/AvocatInfo/{idavocatpp}`)
-    .then((response) => response.json())
-    .then((data) => setAvocatInfo(data[0]))
-    .catch((error) =>
-      console.error("Erreur lors de la récupération des données:", error)
-    );
-}, []);
+const Accueil = ({ avocatInfo, etudeInfo }) => {
+  const aj = avocatInfo && avocatInfo.m_dispenseaj;
+  const [isDispensed, setIsDispensed] = useState(aj);
 
-useEffect(() => {
-  if (avocatInfo && avocatInfo.m_nidetude) {
-    fetch(`http://192.168.10.5//Utilisateur/AvocatEtude/${avocatInfo.m_nidetude}`)
-      .then((response) => response.json())
-      .then((data) => setEtudeInfo(data[0]))
-      .catch((error) =>
-        console.error("Erreur lors de la récupération des données:", error)
-      );
-  }
-}, [avocatInfo]);
-
-
+  useEffect(() => {
+    setIsDispensed(aj);
+  }, [avocatInfo]);
   return (
     <div className="mainContainer">
-      <div className="container">
+      <div className="container" style={{marginLeft:"30px"}}>
         <img src={PersoIcon} alt="logo" className="logo" />
         <h1>
           Informations personnelles
@@ -129,7 +112,7 @@ useEffect(() => {
           <p>
             E-mail professionnel:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
+            <strong></strong>
           </p>
           <p>
             Date d'assermentation:
@@ -151,18 +134,23 @@ useEffect(() => {
             <br />
             <strong>{avocatInfo && avocatInfo.m_sactivitépref}</strong>
           </p>
-          <p>
-            Assistance Judiciaire:
-            <br />
-            <div  className="bout">
-
-            <button className="boutonn">Oui</button>
-            <button className="boutonn">Non</button>
-            </div>
-          </p>
+          <p>Assistance Judiciaire:</p>
+          <div className="bout">
+            {aj == 1 ? (
+              <>
+                <button className="boutonn oui">Oui</button>
+                <button className="boutonn non">Non</button>
+              </>
+            ) : (
+              <>
+                <button className="boutonn non">Oui</button>
+                <button className="boutonn oui">Non</button>
+              </>
+            )}
+          </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container" style={{marginRight:"30px"}}>
         <img src={EtudeIcon} alt="logo" className="logo" />
         <h1>
           Etude <hr className="hr" />
