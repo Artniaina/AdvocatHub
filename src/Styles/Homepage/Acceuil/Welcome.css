@@ -19,7 +19,9 @@
   font-family: "Noto Sans JP", sans-serif;
   font-weight: 700;
 }
+button .home-nav2{
 
+}
 .home-nav {
   display: flex;
   justify-content: space-around;
@@ -49,22 +51,24 @@ img{
   margin: 5px;
 }
 
-.nav-link2 {
+ .nav-link2 {
   text-align: center;
   color: #0b0614ee;
   font-size: 16px;
   font-family: "Montserrat", sans-serif;
   text-decoration: none;
   transition: color 0.5s;
+  background-color: #ffffff;
   cursor: pointer;
   padding-bottom: 2px;
   transition: all 0.5s;
   padding: 20px;
-  width: 100px;
+  width: 120px;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding-bottom: 10px;
+  border: none;
 }
 
 .nav-link2:hover,
