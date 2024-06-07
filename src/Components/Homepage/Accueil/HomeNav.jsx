@@ -4,7 +4,7 @@ import document from "../../../assets/icons8-document-64(1).png";
 import formulaire from "../../../assets/icons8-formulaire-64 (2).png";
 import modif from "../../../assets/icons8-liste-presse-papiers-64.png";
 import etude from "../../../assets/icons8-configuration-du-projet-64.png";
-import "../../Styles/Homepage/Acceuil/Welcome.css";
+import "../../../Styles/Homepage/Acceuil/Welcome.css";
 
 
 const HomeNav = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../Styles/Homepage/Acceuil/Acceuil.css";
+import "../../../Styles/Homepage/Acceuil/Acceuil.css"
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
@@ -87,13 +87,13 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
         </div>
       </div>
 
-      <div className="container">
+      <div className="container " style={{width:"520px"}}>
         <img src={ProIcon} alt="logo" className="logo" />
         <h1>
           Informations professionnnelles
           <hr className="hr" />
         </h1>
-        <div className="containerInfo">
+        <div className="containerInfo middle">
           <p>
             Identifiant Interne:
             <br />
@@ -189,17 +189,17 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
                 <strong>{etudeInfo.m_sLocalite}</strong>
               </p>
               <p>
-                B.P.:
+                BP:
                 <br />
                 <strong>{etudeInfo.m_sboitepostal}</strong>
               </p>
               <p>
-                Code postal B.P.:
+                Code postal BP:
                 <br />
                 <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
               </p>
               <p>
-                Localité B.P.:
+                Localité BP:
                 <br />
                 <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
               </p>

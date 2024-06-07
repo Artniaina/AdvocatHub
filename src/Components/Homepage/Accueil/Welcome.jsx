@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar";
-import "../../Styles/Homepage/Acceuil/Welcome.css";
+import "../../../Styles/Homepage/Acceuil/Welcome.css";
 import HomeNav from "./HomeNav";
 
 const Welcome = ({avocatInfo}) => {

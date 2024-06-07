@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaRegUserCircle } from "react-icons/fa";
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { FaUserCircle } from "react-icons/fa";import { IoDocumentTextOutline } from "react-icons/io5";
 import Logo from "../../assets/icons8-palais-de-justice-64.png";
 import { AiFillHome } from "react-icons/ai";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
-import "../Styles/Homepage/Navbar.css";
+import "../../Styles/Homepage/Navbar.css";
 import { IoNewspaperOutline } from "react-icons/io5";
 
 const Navbar = ({ avocatInfo }) => {
@@ -69,7 +68,7 @@ const Navbar = ({ avocatInfo }) => {
       <div>
         <p className="txt">
           {fullName}
-          <FaRegUserCircle className="nav-user" />
+          <FaUserCircle className="nav-user" style={{fontSize:"35px"}}/>
         </p>
         <button className="btn-nav">Déconnexion</button>
       </div>

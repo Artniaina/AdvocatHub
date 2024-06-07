@@ -5,19 +5,19 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import Login from "../Authentification/Login";
-import Registration from "../Authentification/Registration";
-import ModifMdp from "../Authentification/ModifMdp";
-import DoubleAuth from "../Authentification/DoubleAuth";
+import Login from "../Screens/Login";
+import Registration from "../Screens/Registration";
+import ModifMdp from "../Screens/ModifMdp";
+import DoubleAuth from "../Screens/DoubleAuth";
 import ProtectedRoute from "./ProtectedRoute";
-import ValidationOTP from "../Authentification/ValidationOTP";
-import HomePage from "../Homepage/Accueil/HomePage";
-import VerifEmail from "../Authentification/VerifEmail";
-import UserList from "../AdminDashboard/UserList";
+import ValidationOTP from "../Screens/ValidationOTP";
+import HomePage from "../Pages/HomePage";
+import VerifEmail from "../Screens/VerifEmail";
+import UserList from "../Components/AdminDashboard/UserList";
 import PrivateRoute from "./PrivateRoute";
-import FAQ from "../Homepage/FAQ/FAQ";
-import LBC from "../Homepage/LBC/LBC";
-import Document from "../Homepage/Document/Document";
+import FAQ from "../Pages/FAQPage";
+import LBC from "../Pages/LBCPage";
+import Document from "../Pages/DocumentPage";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -30,7 +30,7 @@ function PageTitleUpdater() {
         pageTitle = "Login";
         break;
       case "/home":
-        pageTitle = "Page d'acceuil";
+        pageTitle = "Acceuil";
         break;
       case "/faq":
         pageTitle = "FAQ";

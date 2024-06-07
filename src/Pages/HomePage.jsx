@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from '../Navbar';
-import Welcome from "./Welcome";
-import Accueil from "./Accueil";
+import Navbar from '../Components/Homepage/Navbar';
+import Welcome from "../Components/Homepage/Accueil/Welcome";
+import Accueil from "../Components/Homepage/Accueil/Accueil";
 
 const HomePage = () => {
   const [avocatInfo, setAvocatInfo] = useState(null);

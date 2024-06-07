@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "../Styles/AdminDashboard/Table.css";
+import "../../Styles/AdminDashboard/Table.css"
 import { useNavigate, useLocation} from "react-router-dom";
 
 const UserTable = () => {
