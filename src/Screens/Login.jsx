@@ -25,10 +25,11 @@ const Login = () => {
     if (!email || !password) {
       alert("Tous les champs doivent être remplis.");
       return;
-    } else if (!captchaValue) {
-      alert("Veuillez cocher la case 'Je ne suis pas un robot'!");
-      return;
-    }
+    } 
+    // else if (!captchaValue) {
+    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'!");
+    //   return;
+    // }
 
     try {
       const userData = {

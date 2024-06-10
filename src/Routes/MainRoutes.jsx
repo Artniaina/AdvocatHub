@@ -77,24 +77,30 @@ function MainRoutes() {
       <PageTitleUpdater />
       <Routes>
         <Route path="/" element={<Login />} />
-        {/* <Route element={<ProtectedRoute />}> */}
-          <Route path="/document" element={<Document />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/lbc" element={<LBC />} />
-        {/* </Route> */}
-        <Route exact path="/userlist" element={<PrivateRoute />}>
-          <Route exact path="/userlist" element={<UserList />} />
-        </Route>
-        <Route exact path="/" element={<ProtectedRoute />}>
-        <Route path="/validationotp" element={<ValidationOTP />} />
-          <Route exact path="/doubleAuth" element={<DoubleAuth />} />
-        </Route>
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/modifFiche" element={<FicheAvocatPage />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/document" element={<Document />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/lbc" element={<LBC />} />
+        </Route>
+
+        <Route exact path="/userlist" element={<PrivateRoute />}>
+          <Route exact path="/userlist" element={<UserList />} />
+        </Route>
+
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/doubleAuth" element={<DoubleAuth />} />
+          <Route path="/validationotp" element={<ValidationOTP />} />
+        </Route>
+
+
       </Routes>
+
     </Router>
   );
 }

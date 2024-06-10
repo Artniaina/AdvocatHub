@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../Styles/Authentification/Validationotp.css";
-import { AuthContext } from "../Hooks/AuthContext";
 
 const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authState, setAuthState } = useContext(AuthContext);
 
   const { url, email, password } = location.state || {};
   const [loading, setLoading] = useState(true);
@@ -36,7 +34,7 @@ const ValidationOTP = () => {
       const formattedURL = `otpauth://totp/${issuer}:${encodedEmail}?secret=${secret}&digits=${digits}&issuer=${issuer}`;
       return formattedURL;
     };
-
+    
     if (url) {
       try {
         const formattedURL = formatOTPAuthURLForQR(url);
@@ -75,18 +73,27 @@ const ValidationOTP = () => {
       if (data && data.svalideOTP === "1") {
         console.log(`${data.svalideOTP}, ${data.sRole}`);
         setIsAuthenticated(true);
-        const newState = {
-          isAuthenticated: true,
-          isAdminAuthenticated: data.sRole === "Admin",
-        };
-        setAuthState(newState);
-        navigate(data.sRole === "Admin" ? "/userlist" : "/home", {
-          state: newState,
-        });
+        if (data.sRole === "Admin") {
+          navigate("/userlist", {
+            state: {
+              isAuthenticated: true,
+              isAdminAuthenticated: true
+            }
+          });
+        } else {
+          navigate("/home", {
+            state: {
+              isAuthenticated: true,
+              isAdminAuthenticated: false
+            }
+          });
+        }
+        
       } else {
         setIsAuthenticated(false);
       }
     } catch (error) {}
+    
   };
 
   return (

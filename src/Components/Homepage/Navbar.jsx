@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";import { IoDocumentTextOutline } from "react-icons/io5";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import Logo from "../../assets/icons8-palais-de-justice-64.png";
 import { AiFillHome } from "react-icons/ai";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
@@ -12,6 +13,12 @@ const Navbar = ({ avocatInfo }) => {
   const fullName = `${avocatInfo && avocatInfo.m_sPrenom} ${
     avocatInfo && avocatInfo.m_sNom
   } `;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // vider les données d'authentification, cookies etc.
+    navigate("/");
+  };
 
   console.log();
   return (
@@ -68,9 +75,11 @@ const Navbar = ({ avocatInfo }) => {
       <div>
         <p className="txt">
           {fullName}
-          <FaUserCircle className="nav-user" style={{fontSize:"35px"}}/>
+          <FaUserCircle className="nav-user" style={{ fontSize: "35px" }} />
         </p>
-        <button className="btn-nav">Déconnexion</button>
+        <button className="btn-nav" onClick={handleLogout}>
+          Déconnexion
+        </button>{" "}
       </div>
     </nav>
   );

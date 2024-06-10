@@ -2,13 +2,11 @@ import React, { useState, useEffect , useContext} from "react";
 import QRCode from "qrcode.react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../Styles/Authentification/DoubleAuthent.css"
-import { AuthContext } from "../Hooks/AuthContext";
 
 
 const DoubleAuth = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authState, setAuthState } = useContext(AuthContext); 
 
   const { url, email, password } = location.state || {};
   const [loading, setLoading] = useState(true);
@@ -66,7 +64,6 @@ const DoubleAuth = () => {
         },
         body: JSON.stringify(userData),
       });
-
       if (!response.ok) {
         alert("Code non valide")
         throw new Error("Échec de la requête API.");
@@ -74,27 +71,26 @@ const DoubleAuth = () => {
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
         const role= data.sRole
-        const newState = {
-          isAuthenticated: true,
-          isAdminAuthenticated: role === "Admin",
-     
-        };
-        setAuthState(newState);
+        setIsAuthenticated(true);
+        setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-        setIsAlreadyAuthenticated(true)
-        
-        navigate(data.sRole === "Admin" ? "/userlist" : "/home", {
-          state: newState,
-        });
+        console.log(role);
+        if (role==="Admin") {
+          navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
+        }else{
+          navigate("/home", { state: { isAuthenticated: true }});
+
+        }
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");
       }
+
     } catch (error) {}
   };
 
   return (
-    <div  className="headerAuthent">
+    <div  className= "headerAuthent">
     <div className="container1">
       <h2 className="heading">Configurer Google Authenticator</h2>
       {loading ? (
