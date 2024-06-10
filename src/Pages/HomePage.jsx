@@ -1,31 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
 import Navbar from '../Components/Homepage/Navbar';
 import Welcome from "../Components/Homepage/Accueil/Welcome";
 import Accueil from "../Components/Homepage/Accueil/Accueil";
 
 const HomePage = () => {
-  const [avocatInfo, setAvocatInfo] = useState(null);
-  const [etudeInfo, setEtudeInfo] = useState(null);
+  const dispatch = useDispatch();
+  const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
+  const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
 
   useEffect(() => {
-    fetch(`http://192.168.10.5/Utilisateur/AvocatInfo/3`)
-      .then((response) => response.json())
-      .then((data) => setAvocatInfo(data[0]))
-      .catch((error) =>
-        console.error("Erreur lors de la récupération des données:", error)
-      );
-  }, []);
-  
+    dispatch(fetchAvocatInfo(3));
+  }, [dispatch]);
+
   useEffect(() => {
     if (avocatInfo && avocatInfo.m_nidetude) {
-      fetch(`http://192.168.10.5/Utilisateur/AvocatEtude/${avocatInfo.m_nidetude}`)
-        .then((response) => response.json())
-        .then((data) => setEtudeInfo(data[0]))
-        .catch((error) =>
-          console.error("Erreur lors de la récupération des données:", error)
-        );
+      dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
     }
-  }, [avocatInfo]);
+  }, [dispatch, avocatInfo]);
 
   return (
     <div>

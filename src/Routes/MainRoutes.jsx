@@ -18,6 +18,7 @@ import PrivateRoute from "./PrivateRoute";
 import FAQ from "../Pages/FAQPage";
 import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
+import FicheAvocatPage from "../Pages/FicheAvocatPage";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -86,12 +87,13 @@ function MainRoutes() {
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
         <Route exact path="/" element={<ProtectedRoute />}>
+        <Route path="/validationotp" element={<ValidationOTP />} />
           <Route exact path="/doubleAuth" element={<DoubleAuth />} />
         </Route>
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
-        <Route path="/validationotp" element={<ValidationOTP />} />
+        <Route path="/modifFiche" element={<FicheAvocatPage />} />
       </Routes>
     </Router>
   );
