@@ -17,7 +17,4 @@ Backend
     HFSQL Client/Server: The database used for managing and storing application data.
     
 
-Prerequisites
 
-    Node.js: Ensure you have Node.js installed to run the React frontend.
-    PC SOFT WebDev: Required for backend development and must be installed locally on your computer.
