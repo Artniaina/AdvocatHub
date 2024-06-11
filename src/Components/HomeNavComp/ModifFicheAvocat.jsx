@@ -1,20 +1,34 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
-import "../../Styles/Homepage/Acceuil/Acceuil.css"
-
+import { FaFilePen } from "react-icons/fa6";
+import "../../Styles/Homepage/Acceuil/Acceuil.css";
+import "../../Styles/Homepage/Acceuil/PopUp.css";
+import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
+  const navigate = useNavigate();
+
+  const [showDocumentPopup, setShowDocumentPopup] = useState(false);
+
+  const handleDocumentClick = () => {
+    setShowDocumentPopup(true);
+  };
+
+  const closeDocumentPopup = () => {
+    setShowDocumentPopup(false);
+  };
+
   const aj = avocatInfo && avocatInfo.m_dispenseaj;
   const [isDispensed, setIsDispensed] = useState(aj);
-
   useEffect(() => {
     setIsDispensed(aj);
   }, [avocatInfo]);
   return (
     <div className="mainContainer">
-      <div className="container" style={{marginLeft:"30px"}}>
+      <div className="container" style={{ marginLeft: "30px" }}>
         <img src={PersoIcon} alt="logo" className="logo" />
         <h1>
           Informations personnelles
@@ -51,7 +65,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           <p>
             Date de naissance:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_dDateNaissance}</strong>
+            <strong>{avocatInfo && avocatInfo.m_dDateNaissance} </strong>
           </p>
           <hr />
           <p>
@@ -59,35 +73,45 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <br />
             <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
-          <p>
+          <p style={{ height: "180px" }}>
             Adresse privée:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
+            <span>
+              <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
+              <button className="btnpop" onClick={handleDocumentClick}>
+                <FaFilePen />
+              </button>
+              {showDocumentPopup && (
+                <PopUpAdressePrivee onClose={closeDocumentPopup} />
+              )}
+            </span>
           </p>
+
           <p>
             Téléphone mobile:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_stelephoneMobile}</strong>
+            <select>
+              <option value="valeur1">Option 1</option>
+              <option value="valeur2">Option 2</option>
+              <option value="valeur3">Option 3</option>
+            </select>
           </p>
+
           <p>
             E-mail privé:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_sEmailSecondaire}</strong>
+            <input type="text" />
           </p>
           <p>
             IBAN:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_IBAN}</strong>
+            <input type="text" defaultValue={avocatInfo && avocatInfo.m_IBAN} />
           </p>
           <p>
             Code BIC:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_BIC}</strong>
+            <input type="text" defaultValue={avocatInfo && avocatInfo.m_BIC} />
           </p>
         </div>
       </div>
 
-      <div className="container " style={{width:"520px"}}>
+      <div className="container " style={{ width: "520px" }}>
         <img src={ProIcon} alt="logo" className="logo" />
         <h1>
           Informations professionnnelles
@@ -150,7 +174,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           </div>
         </div>
       </div>
-      <div className="container" style={{marginRight:"30px"}}>
+      <div className="container" style={{ marginRight: "30px" }}>
         <img src={EtudeIcon} alt="logo" className="logo" />
         <h1>
           Etude <hr className="hr" />

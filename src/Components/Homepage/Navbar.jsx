@@ -17,6 +17,7 @@ const Navbar = ({ avocatInfo }) => {
 
   const handleLogout = () => {
     // vider les données d'authentification, cookies etc.
+    // pas avant que le cookies soit ok
     navigate("/");
   };
 
@@ -31,7 +32,7 @@ const Navbar = ({ avocatInfo }) => {
           <Link
             to="/home"
             className={`nav-link ${
-              location.pathname === "/home" ? "active" : ""
+              location.pathname.includes("/home") ? "active" : ""
             }`}
           >
             <AiFillHome className="icon-nav" />
@@ -79,7 +80,7 @@ const Navbar = ({ avocatInfo }) => {
         </p>
         <button className="btn-nav" onClick={handleLogout}>
           Déconnexion
-        </button>{" "}
+        </button>
       </div>
     </nav>
   );
