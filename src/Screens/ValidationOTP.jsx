@@ -52,9 +52,7 @@ const ValidationOTP = () => {
         sMotdePasse: password,
         scodeOTP: codeOTP,
       };
-      console.log(userData);
 
-      console.log(userData);
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
@@ -71,7 +69,6 @@ const ValidationOTP = () => {
       }
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
-        console.log(`${data.svalideOTP}, ${data.sRole}`);
         setIsAuthenticated(true);
         if (data.sRole === "Admin") {
           navigate("/userlist", {

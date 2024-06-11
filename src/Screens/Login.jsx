@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import "../Styles/Authentification/Form.css"
+import "../Styles/Authentification/Form.css";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
   const location = useLocation();
@@ -19,17 +20,14 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [totpKey, setTotpKey] = useState("");
   const [url, setUrl] = useState("");
+  const [cookies, setCookie] = useCookies(["COOKIE_SESSION"]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       alert("Tous les champs doivent être remplis.");
       return;
-    } 
-    // else if (!captchaValue) {
-    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'!");
-    //   return;
-    // }
+    }
 
     try {
       const userData = {
@@ -41,6 +39,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include', // Ajout des informations d'identification
         body: JSON.stringify(userData),
       });
 
@@ -50,9 +49,9 @@ const Login = () => {
         if (data.smessage === "OK") {
           const totpKey = data.scléTOTP;
           setIsAuthenticated(true);
+
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
-          const passwordl = userData.sMotdePasse;
           const role = data.sRole;
           setTotpKey(totpKey);
           setUrl(url);
@@ -61,13 +60,26 @@ const Login = () => {
           );
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
-              state: { url, email, password, role, isAuthenticated: true },
+              state: { url, email, role, isAuthenticated: true },
+            });
+          } else {
+            navigate("/DoubleAuth", {
+              state: { url, email, role, isAuthenticated: true },
             });
           }
-         else {
-            navigate("/DoubleAuth", {
-              state: { url, email, password, role, isAuthenticated: true },
-            });
+
+          const cookieHeaderValue = response.headers.get("Set-Cookie");
+          if (cookieHeaderValue) {
+            const match = cookieHeaderValue.match(/([^=]+)=([^;]+)/);
+            if (match && match.length === 3) {
+              const cookieName = match[1];
+              const cookieValue = match[2];
+              setCookie(cookieName, cookieValue, { path: "/" });
+            } else {
+              console.log("Nom ou valeur du cookie non trouvé dans la réponse.");
+            }
+          } else {
+            console.log("Cookie header non trouvé dans la réponse.");
           }
         } else {
           console.log("Email ou mot de passe incorrect");
@@ -77,9 +89,8 @@ const Login = () => {
         console.log("Email ou mot de passe incorrect");
         setErrorMessage("Email ou mot de passe incorrect");
       }
-
     } catch (error) {
-      console.error("Email ou mot de passed incorrect");
+      console.error("Email ou mot de passe incorrect");
       alert("Email ou mot de passe incorrect");
     }
   };
