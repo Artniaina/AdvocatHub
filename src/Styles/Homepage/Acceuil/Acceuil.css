@@ -145,3 +145,12 @@ select{
   background-color: #ffffff;
   width: 180px;
 }
+
+.btnpopup{
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: white;
+  font-size: 35px;
+
+}

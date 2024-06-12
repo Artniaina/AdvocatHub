@@ -1,0 +1,29 @@
+.popup {
+  }
+  
+#adressePrivee{
+    width: 750px;
+    height: 300px;
+    outline: none;
+    font-size: 25px;
+}
+.buttonPop{
+    padding: 15px;
+    margin: 10px;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    background-color: #3c1880d7;
+    border-radius: 10px;
+    border: none;
+    color: #ffffff;    
+}
+.btnpop{
+    text-align: center;
+    font-size: 30px;
+    color: #363333a8;
+    margin-left: 400px;
+    margin-top: -30px;
+    background-color: #ffffff;
+    border: none;
+}

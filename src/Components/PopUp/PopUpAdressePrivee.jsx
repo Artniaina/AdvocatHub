@@ -1,7 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import "../../Styles/PopUp/AdressePriveePopUp.css";
 
-const PopUpAdressePrivee = ({ onClose }) => {
+const PopUpAdressePrivee = ({ onClose, onSubmit }) => {
   const overlayRef = useRef(null);
+  const [adressePrivee, setAdressePrivee] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -17,6 +19,12 @@ const PopUpAdressePrivee = ({ onClose }) => {
     };
   }, [onClose]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(adressePrivee);
+    onClose();
+  };
+
   return (
     <div className="overlay" ref={overlayRef}>
       <div className="popup">
@@ -24,9 +32,15 @@ const PopUpAdressePrivee = ({ onClose }) => {
           X
         </button>
         <div className="popup-content">
-          <p>Adresse privée</p>
-          <input type="text" />
-          <button>Valider</button>
+          <h3 className="pup">Adresse privée</h3>
+          <textarea 
+            name="adressePrivee" 
+            id="adressePrivee" 
+            value={adressePrivee}
+            onChange={(e) => setAdressePrivee(e.target.value)}
+          /> 
+          <br />
+          <button className="buttonPop" onClick={handleSubmit}>Valider</button>
         </div>
       </div>
     </div>

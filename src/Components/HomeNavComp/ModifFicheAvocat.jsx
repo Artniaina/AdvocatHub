@@ -9,24 +9,31 @@ import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
 import { BsPlusCircleFill } from "react-icons/bs";
 import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../PopUp/PopUpActivPref";
+import "../../Styles/PopUp/AdressePriveePopUp.css"
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
-  const [selectedCountry, setSelectedCountry] = useState('+261'); 
-  const [phoneNumber, setPhoneNumber] = useState(''); 
+  const [selectedCountry, setSelectedCountry] = useState("+261");
+  const [adresse, setAdresse] = useState("");
 
+  const handleAdresseSubmit = (adressePrivee) => {
+    setAdresse(adressePrivee);
+    console.log(`${adressePrivee}`);
+  };
+
+  const [phoneNumber, setPhoneNumber] = useState("");
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
   };
 
   const handlePhoneNumberChange = (e) => {
     const input = e.target.value;
-    const numberWithoutCountryCode = input.replace(selectedCountry, '').trim();
-    const number = numberWithoutCountryCode.replace(/[^\d]/g, '');
+    const numberWithoutCountryCode = input.replace(selectedCountry, "").trim();
+    const number = numberWithoutCountryCode.replace(/[^\d]/g, "");
     setPhoneNumber(number);
   };
 
   const formatPhoneNumber = (number) => {
-    return number.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+    return number.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
   };
 
   const langues =
@@ -132,18 +139,23 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <br />
             <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
-          <p style={{ height: "180px" }}>
+          <p style={{height:"200px"}}>
             Adresse privée:
             <br />
-            <span>
-              <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
-              <button className="btnpop" onClick={handleDocumentClick}>
-                <FaFilePen />
-              </button>
-              {showDocumentPopup && (
-                <PopUpAdressePrivee onClose={closeDocumentPopup} />
-              )}
-            </span>
+            {adresse && (
+          
+                <strong>{adresse}</strong>
+             
+            )}
+            <button className="btnpop" onClick={handleDocumentClick}>
+              <FaFilePen />
+            </button>
+            {showDocumentPopup && (
+              <PopUpAdressePrivee
+                onClose={closeDocumentPopup}
+                onSubmit={handleAdresseSubmit}
+              />
+            )}
           </p>
 
           <p>
@@ -366,11 +378,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               </div>
               <div>
                 <input
-              type="text"
-              value={`${selectedCountry} ${formatPhoneNumber(phoneNumber)}`}
-              onChange={handlePhoneNumberChange}
-              placeholder="Numéro de téléphone"
-              className="modifInput"
+                  type="text"
+                  value={`${selectedCountry} ${formatPhoneNumber(phoneNumber)}`}
+                  onChange={handlePhoneNumberChange}
+                  placeholder="Numéro de téléphone"
+                  className="modifInput"
                 />
               </div>
             </div>
@@ -499,66 +511,70 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           Etude <hr className="hr" />
         </h1>
         <div className="containerInfo">
-          <p>
-            Dénomination:
-            <br />
-            <strong>{etudeInfo.m_sDénominationEtude}</strong>
-          </p>
-          <p>
-            Numéro voie:
-            <br />
-            <strong>{etudeInfo.m_nNumVoie}</strong>
-          </p>
-          <p>
-            Adresse:
-            <br />
-            <strong>{etudeInfo.m_sAdresse}</strong>
-          </p>
-          <p>
-            Complement d'adresse:
-            <br />
-            <strong>{etudeInfo.m_sAdresseSuite}</strong>
-          </p>
-          <p>
-            Code postal:
-            <br />
-            <strong>{etudeInfo.m_sCodePostale}</strong>
-          </p>
-          <p>
-            Localité:
-            <br />
-            <strong>{etudeInfo.m_sLocalite}</strong>
-          </p>
-          <p>
-            BP:
-            <br />
-            <strong>{etudeInfo.m_sboitepostal}</strong>
-          </p>
-          <p>
-            Code postal BP:
-            <br />
-            <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
-          </p>
-          <p>
-            Localité BP:
-            <br />
-            <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
-          </p>
-          <p>
-            Telephone fixe:
-            <br />
-            <strong>{etudeInfo.m_IBAN}</strong>
-          </p>
-          <p>
-            Fax:
-            <br />
-            <strong>{etudeInfo.m_sfax}</strong>
-          </p>
-          <p>
-            Site web:
-            <br />
-            <strong>{etudeInfo.m_ssite}</strong>
-          </p>
+          {etudeInfo && (
+            <>
+              <p>
+                Dénomination:
+                <br />
+                <strong>{etudeInfo.m_sDénominationEtude}</strong>
+              </p>
+              <p>
+                Numéro voie:
+                <br />
+                <strong>{etudeInfo.m_nNumVoie}</strong>
+              </p>
+              <p>
+                Adresse:
+                <br />
+                <strong>{etudeInfo.m_sAdresse}</strong>
+              </p>
+              <p>
+                Complement d'adresse:
+                <br />
+                <strong>{etudeInfo.m_sAdresseSuite}</strong>
+              </p>
+              <p>
+                Code postal:
+                <br />
+                <strong>{etudeInfo.m_sCodePostale}</strong>
+              </p>
+              <p>
+                Localité:
+                <br />
+                <strong>{etudeInfo.m_sLocalite}</strong>
+              </p>
+              <p>
+                BP:
+                <br />
+                <strong>{etudeInfo.m_sboitepostal}</strong>
+              </p>
+              <p>
+                Code postal BP:
+                <br />
+                <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
+              </p>
+              <p>
+                Localité BP:
+                <br />
+                <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
+              </p>
+              <p>
+                Telephone fixe:
+                <br />
+                <strong>{etudeInfo.m_IBAN}</strong>
+              </p>
+              <p>
+                Fax:
+                <br />
+                <strong>{etudeInfo.m_sfax}</strong>
+              </p>
+              <p>
+                Site web:
+                <br />
+                <strong>{etudeInfo.m_ssite}</strong>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
