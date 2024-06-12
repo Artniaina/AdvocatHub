@@ -1,11 +1,15 @@
-.popup {
-  }
-  
 #adressePrivee{
-    width: 750px;
+    width: 950px;
     height: 300px;
     outline: none;
     font-size: 25px;
+}
+.head{
+    background-color:#671786 ;
+    margin-top: -21px;
+    margin-right:  -21px;
+    margin-left:  -21px;
+    height: 80px;
 }
 .buttonPop{
     padding: 15px;
@@ -13,11 +17,11 @@
     width: 150px;
     height: 50px;
     font-size: 20px;
-    background-color: #3c1880d7;
+    background-color: #671786;
     border-radius: 10px;
     border: none;
     color: #ffffff;    
-margin-left: 600px;
+margin-left: 810px;
 }
 .btnpop{
     text-align: center;
@@ -29,13 +33,16 @@ margin-left: 600px;
     border: none;
 }
 .closebtn{
-    font-size: 30px;
+    font-size: 40px;
     color: #000000;
     background-color: #ffffff;
     border: none;
-    margin-left: 730px;
+    margin-left: 950px;
+    margin-top: 20px;
+    background-color:#671786 ;
+    height: 50px;
+    color: #a7a4a4bd;
 }
 .pup{
-    text-align: center;
     margin:  0;
 }

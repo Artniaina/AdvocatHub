@@ -29,9 +29,11 @@ const PopUpAdressePrivee = ({ onClose, onSubmit }) => {
   return (
     <div className="overlay" ref={overlayRef}>
       <div className="popup">
+        <div className='head'>
         <button className="closebtn" onClick={onClose}>
         <SlClose />
         </button>
+        </div>
         <div className="popup-content">
           <h3 className="pup">Adresse privée</h3>
           <textarea 
