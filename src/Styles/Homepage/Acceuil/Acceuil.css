@@ -130,3 +130,18 @@ strong {
   color: #555;
   font-size: 18px;
 }
+
+.modifInput{
+  border: none;
+  outline: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+select{
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #ffffff;
+  width: 180px;
+}

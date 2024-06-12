@@ -12,9 +12,23 @@ import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../PopUp/PopUpActivPref";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
-  const navigate = useNavigate();
-  const langues = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(',') : [];
-  const activites = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_sactivitépref.split(',') : [];
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleCountryCodeChange = (event) => {
+    setSelectedCountry(event.target.value);
+    setPhoneNumber("");
+  };
+  const handlePhoneNumberChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+
+  const langues =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+  const activites =
+    avocatInfo && avocatInfo.m_langue
+      ? avocatInfo.m_sactivitépref.split(",")
+      : [];
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -33,13 +47,29 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const closeActivitePopup = () => {
     setShowActivPrefPopup(false);
   };
-  
+
   const handleLangueClick = () => {
     setShowLanguePopup(true);
   };
 
   const closeLanguePopup = () => {
     setShowLanguePopup(false);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+
+    if (dateString.length === 8) {
+      const year = dateString.substring(0, 4);
+      const month = dateString.substring(4, 6);
+      const day = dateString.substring(6, 8);
+      return `${day}/${month}/${year}`;
+    } else if (dateString.length === 10) {
+      const [year, month, day] = dateString.split("-");
+      return `${day}/${month}/${year}`;
+    } else {
+      return "Format de date inconnu";
+    }
   };
 
   const aj = avocatInfo && avocatInfo.m_dispenseaj;
@@ -86,7 +116,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           <p>
             Date de naissance:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_dDateNaissance} </strong>
+            <strong>
+              {avocatInfo && formatDate(avocatInfo.m_dDateNaissance)}{" "}
+            </strong>
           </p>
           <hr />
           <p>
@@ -106,224 +138,256 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <PopUpAdressePrivee onClose={closeDocumentPopup} />
               )}
             </span>
-          
           </p>
 
           <p>
             Téléphone mobile:
-            <select name="pays">
-              <option value="+355">Albanie</option>
-              <option value="+213">Algérie</option>
-              <option value="+376">Andorre</option>
-              <option value="+54">Argentine</option>
-              <option value="+374">Arménie</option>
-              <option value="+297">Aruba</option>
-              <option value="+61">Australie</option>
-              <option value="+43">Autriche</option>
-              <option value="+994">Azerbaïdjan</option>
-              <option value="+1 268">Antigua-et-Barbuda</option>
-              <option value="+1 242">Bahamas</option>
-              <option value="+973">Bahreïn</option>
-              <option value="+880">Bangladesh</option>
-              <option value="+1 246">Barbade</option>
-              <option value="+375">Biélorussie</option>
-              <option value="+32">Belgique</option>
-              <option value="+501">Belize</option>
-              <option value="+229">Bénin</option>
-              <option value="+975">Bhoutan</option>
-              <option value="+591">Bolivie</option>
-              <option value="+387">Bosnie-Herzégovine</option>
-              <option value="+267">Botswana</option>
-              <option value="+55">Brésil</option>
-              <option value="+673">Brunei</option>
-              <option value="+359">Bulgarie</option>
-              <option value="+226">Burkina Faso</option>
-              <option value="+257">Burundi</option>
-              <option value="+855">Cambodge</option>
-              <option value="+237">Cameroun</option>
-              <option value="+1">Canada</option>
-              <option value="+238">Cap-Vert</option>
-              <option value="+236">République centrafricaine</option>
-              <option value="+235">Tchad</option>
-              <option value="+56">Chili</option>
-              <option value="+86">Chine</option>
-              <option value="+357">Chypre</option>
-              <option value="+57">Colombie</option>
-              <option value="+269">Comores</option>
-              <option value="+506">Costa Rica</option>
-              <option value="+385">Croatie</option>
-              <option value="+53">Cuba</option>
-              <option value="+599">Curaçao</option>
-              <option value="+45">Danemark</option>
-              <option value="+253">Djibouti</option>
-              <option value="+1 767">Dominique</option>
-              <option value="+1">République dominicaine</option>
-              <option value="+670">Timor oriental</option>
-              <option value="+593">Équateur</option>
-              <option value="+20">Égypte</option>
-              <option value="+503">Salvador</option>
-              <option value="+291">Érythrée</option>
-              <option value="+372">Estonie</option>
-              <option value="+251">Éthiopie</option>
-              <option value="+679">Fidji</option>
-              <option value="+358">Finlande</option>
-              <option value="+33">France</option>
-              <option value="+241">Gabon</option>
-              <option value="+220">Gambie</option>
-              <option value="+995">Géorgie</option>
-              <option value="+49">Allemagne</option>
-              <option value="+233">Ghana</option>
-              <option value="+350">Gibraltar</option>
-              <option value="+30">Grèce</option>
-              <option value="+299">Groenland</option>
-              <option value="+1 473">Grenade</option>
-              <option value="+502">Guatemala</option>
-              <option value="+224">Guinée</option>
-              <option value="+245">Guinée-Bissau</option>
-              <option value="+592">Guyana</option>
-              <option value="+509">Haïti</option>
-              <option value="+504">Honduras</option>
-              <option value="+852">Hong Kong</option>
-              <option value="+36">Hongrie</option>
-              <option value="+354">Islande</option>
-              <option value="+91">Inde</option>
-              <option value="+62">Indonésie</option>
-              <option value="+98">Iran</option>
-              <option value="+964">Irak</option>
-              <option value="+353">Irlande</option>
-              <option value="+44">Royaume-Uni</option>
-              <option value="+972">Israël</option>
-              <option value="+39">Italie</option>
-              <option value="+225">Côte d'Ivoire</option>
-              <option value="+1 876">Jamaïque</option>
-              <option value="+81">Japon</option>
-              <option value="+962">Jordanie</option>
-              <option value="+7">Kazakhstan</option>
-              <option value="+254">Kenya</option>
-              <option value="+686">Kiribati</option>
-              <option value="+965">Koweït</option>
-              <option value="+996">Kirghizistan</option>
-              <option value="+856">Laos</option>
-              <option value="+371">Lettonie</option>
-              <option value="+961">Liban</option>
-              <option value="+266">Lesotho</option>
-              <option value="+231">Liberia</option>
-              <option value="+218">Libye</option>
-              <option value="+423">Liechtenstein</option>
-              <option value="+370">Lituanie</option>
-              <option value="+352">Luxembourg</option>
-              <option value="+853">Macao</option>
-              <option value="+389">Macédoine du Nord</option>
-              <option value="+261">Madagascar</option>
-              <option value="+265">Malawi</option>
-              <option value="+60">Malaisie</option>
-              <option value="+960">Maldives</option>
-              <option value="+223">Mali</option>
-              <option value="+356">Malte</option>
-              <option value="+692">Îles Marshall</option>
-              <option value="+222">Mauritanie</option>
-              <option value="+230">Maurice</option>
-              <option value="+262">Mayotte</option>
-              <option value="+52">Mexique</option>
-              <option value="+691">États fédérés deMicronésie</option>
-              <option value="+373">Moldavie</option>
-              <option value="+377">Monaco</option>
-              <option value="+976">Mongolie</option>
-              <option value="+382">Monténégro</option>
-              <option value="+212">Maroc</option>
-              <option value="+258">Mozambique</option>
-              <option value="+264">Namibie</option>
-              <option value="+674">Nauru</option>
-              <option value="+977">Népal</option>
-              <option value="+31">Pays-Bas</option>
-              <option value="+687">Nouvelle-Calédonie</option>
-              <option value="+64">Nouvelle-Zélande</option>
-              <option value="+505">Nicaragua</option>
-              <option value="+227">Niger</option>
-              <option value="+234">Nigeria</option>
-              <option value="+683">Niue</option>
-              <option value="+47">Norvège</option>
-              <option value="+968">Oman</option>
-              <option value="+92">Pakistan</option>
-              <option value="+680">Palaos</option>
-              <option value="+970">Palestine</option>
-              <option value="+507">Panama</option>
-              <option value="+675">Papouasie-Nouvelle-Guinée</option>
-              <option value="+595">Paraguay</option>
-              <option value="+51">Pérou</option>
-              <option value="+63">Philippines</option>
-              <option value="+48">Pologne</option>
-              <option value="+351">Portugal</option>
-              <option value="+1">Porto Rico</option>
-              <option value="+974">Qatar</option>
-              <option value="+262">Réunion</option>
-              <option value="+40">Roumanie</option>
-              <option value="+7">Russie</option>
-              <option value="+250">Rwanda</option>
-              <option value="+685">Samoa</option>
-              <option value="+378">Saint-Marin</option>
-              <option value="+239">Sao Tomé-et-Principe</option>
-              <option value="+966">Arabie saoudite</option>
-              <option value="+221">Sénégal</option>
-              <option value="+381">Serbie</option>
-              <option value="+248">Seychelles</option>
-              <option value="+232">Sierra Leone</option>
-              <option value="+65">Singapour</option>
-              <option value="+421">Slovaquie</option>
-              <option value="+386">Slovénie</option>
-              <option value="+677">Îles Salomon</option>
-              <option value="+252">Somalie</option>
-              <option value="+27">Afrique du Sud</option>
-              <option value="+82">Corée du Sud</option>
-              <option value="+211">Soudan du Sud</option>
-              <option value="+34">Espagne</option>
-              <option value="+94">Sri Lanka</option>
-              <option value="+1 869">Saint-Christophe-et-Niévès</option>
-              <option value="+1 758">Sainte-Lucie</option>
-              <option value="+1 784">Saint-Vincent-et-les-Grenadines</option>
-              <option value="+249">Soudan</option>
-              <option value="+597">Suriname</option>
-              <option value="+268">Eswatini</option>
-              <option value="+46">Suède</option>
-              <option value="+41">Suisse</option>
-              <option value="+963">Syrie</option>
-              <option value="+886">Taïwan</option>
-              <option value="+992">Tadjikistan</option>
-              <option value="+255">Tanzanie</option>
-              <option value="+66">Thaïlande</option>
-              <option value="+670">Timor oriental</option>
-              <option value="+228">Togo</option>
-              <option value="+676">Tonga</option>
-              <option value="+1 868">Trinité-et-Tobago</option>
-              <option value="+216">Tunisie</option>
-              <option value="+90">Turquie</option>
-              <option value="+993">Turkménistan</option>
-              <option value="+688">Tuvalu</option>
-              <option value="+256">Ouganda</option>
-              <option value="+380">Ukraine</option>
-              <option value="+598">Uruguay</option>
-              <option value="+998">Ouzbékistan</option>
-              <option value="+678">Vanuatu</option>
-              <option value="+39">Vatican</option>
-              <option value="+58">Venezuela</option>
-              <option value="+84">Viêt Nam</option>
-              <option value="+967">Yémen</option>
-              <option value="+260">Zambie</option>
-              <option value="+263">Zimbabwe</option>
-            </select>
+            <div className="p">
+              <div>
+                <select
+                  name="pays"
+                  value={selectedCountry}
+                  onChange={handleCountryCodeChange}
+                >
+                  <option value="+355">Albanie (+355)</option>
+                  <option value="+213">Algérie (+213)</option>
+                  <option value="+376">Andorre (+376)</option>
+                  <option value="+54">Argentine (+54)</option>
+                  <option value="+374">Arménie (+374)</option>
+                  <option value="+297">Aruba (+297)</option>
+                  <option value="+61">Australie (+61)</option>
+                  <option value="+43">Autriche (+43)</option>
+                  <option value="+994">Azerbaïdjan (+994)</option>
+                  <option value="+1 268">Antigua-et-Barbuda (+1 268)</option>
+                  <option value="+1 242">Bahamas (+1 242)</option>
+                  <option value="+973">Bahreïn (+973)</option>
+                  <option value="+880">Bangladesh (+880)</option>
+                  <option value="+1 246">Barbade (+1 246)</option>
+                  <option value="+375">Biélorussie (+375)</option>
+                  <option value="+32">Belgique (+32)</option>
+                  <option value="+501">Belize (+501)</option>
+                  <option value="+229">Bénin (+229)</option>
+                  <option value="+975">Bhoutan (+975)</option>
+                  <option value="+591">Bolivie (+591)</option>
+                  <option value="+387">Bosnie-Herzégovine (+387)</option>
+                  <option value="+267">Botswana (+267)</option>
+                  <option value="+55">Brésil (+55)</option>
+                  <option value="+673">Brunei (+673)</option>
+                  <option value="+359">Bulgarie (+359)</option>
+                  <option value="+226">Burkina Faso (+226)</option>
+                  <option value="+257">Burundi (+257)</option>
+                  <option value="+855">Cambodge (+855)</option>
+                  <option value="+237">Cameroun (+237)</option>
+                  <option value="+1">Canada (+1)</option>
+                  <option value="+238">Cap-Vert (+238)</option>
+                  <option value="+236">République centrafricaine (+236)</option>
+                  <option value="+235">Tchad (+235)</option>
+                  <option value="+56">Chili (+56)</option>
+                  <option value="+86">Chine (+86)</option>
+                  <option value="+357">Chypre (+357)</option>
+                  <option value="+57">Colombie (+57)</option>
+                  <option value="+269">Comores (+269)</option>
+                  <option value="+506">Costa Rica (+506)</option>
+                  <option value="+385">Croatie (+385)</option>
+                  <option value="+53">Cuba (+53)</option>
+                  <option value="+599">Curaçao (+599)</option>
+                  <option value="+45">Danemark (+45)</option>
+                  <option value="+253">Djibouti (+253)</option>
+                  <option value="+1 767">Dominique (+1 767)</option>
+                  <option value="+1">République dominicaine (+1)</option>
+                  <option value="+670">Timor oriental (+670)</option>
+                  <option value="+593">Équateur (+593)</option>
+                  <option value="+20">Égypte (+20)</option>
+                  <option value="+503">Salvador (+503)</option>
+                  <option value="+291">Érythrée (+291)</option>
+                  <option value="+372">Estonie (+372)</option>
+                  <option value="+251">Éthiopie (+251)</option>
+                  <option value="+679">Fidji (+679)</option>
+                  <option value="+358">Finlande (+358)</option>
+                  <option value="+33">France (+33)</option>
+                  <option value="+241">Gabon (+241)</option>
+                  <option value="+220">Gambie (+220)</option>
+                  <option value="+995">Géorgie (+995)</option>
+                  <option value="+49">Allemagne (+49)</option>
+                  <option value="+233">Ghana (+233)</option>
+                  <option value="+350">Gibraltar (+350)</option>
+                  <option value="+30">Grèce (+30)</option>
+                  <option value="+299">Groenland (+299)</option>
+                  <option value="+1 473">Grenade (+1 473)</option>
+                  <option value="+502">Guatemala (+502)</option>
+                  <option value="+224">Guinée (+224)</option>
+                  <option value="+245">Guinée-Bissau (+245)</option>
+                  <option value="+592">Guyana (+592)</option>
+                  <option value="+509">Haïti (+509)</option>
+                  <option value="+504">Honduras (+504)</option>
+                  <option value="+852">Hong Kong (+852)</option>
+                  <option value="+36">Hongrie (+36)</option>
+                  <option value="+354">Islande (+354)</option>
+                  <option value="+91">Inde (+91)</option>
+                  <option value="+62">Indonésie (+62)</option>
+                  <option value="+98">Iran (+98)</option>
+                  <option value="+964">Irak (+964)</option>
+                  <option value="+353">Irlande (+353)</option>
+                  <option value="+44">Royaume-Uni (+44)</option>
+                  <option value="+972">Israël (+972)</option>
+                  <option value="+39">Italie (+39)</option>
+                  <option value="+225">Côte d'Ivoire (+225)</option>
+                  <option value="+1 876">Jamaïque (+1 876)</option>
+                  <option value="+81">Japon (+81)</option>
+                  <option value="+962">Jordanie (+962)</option>
+                  <option value="+7">Kazakhstan (+7)</option>
+                  <option value="+254">Kenya (+254)</option>
+                  <option value="+686">Kiribati (+686)</option>
+                  <option value="+965">Koweït (+965)</option>
+                  <option value="+996">Kirghizistan (+996)</option>
+                  <option value="+856">Laos (+856)</option>
+                  <option value="+371">Lettonie (+371)</option>
+                  <option value="+961">Liban (+961)</option>
+                  <option value="+266">Lesotho (+266)</option>
+                  <option value="+231">Liberia (+231)</option>
+                  <option value="+218">Libye (+218)</option>
+                  <option value="+423">Liechtenstein (+423)</option>
+                  <option value="+370">Lituanie (+370)</option>
+                  <option value="+352">Luxembourg (+352)</option>
+                  <option value="+853">Macao (+853)</option>
+                  <option value="+389">Macédoine du Nord (+389)</option>
+                  <option value="+261">Madagascar (+261)</option>
+                  <option value="+265">Malawi (+265)</option>
+                  <option value="+60">Malaisie (+60)</option>
+                  <option value="+960">Maldives (+960)</option>
+                  <option value="+223">Mali (+223)</option>
+                  <option value="+356">Malte (+356)</option>
+                  <option value="+692">Îles Marshall (+692)</option>
+                  <option value="+222">Mauritanie (+222)</option>
+                  <option value="+230">Maurice (+230)</option>
+                  <option value="+262">Mayotte (+262)</option>
+                  <option value="+52">Mexique (+52)</option>
+                  <option value="+691">
+                    États fédérés de Micronésie (+691)
+                  </option>
+                  <option value="+373">Moldavie (+373)</option>
+                  <option value="+377">Monaco (+377)</option>
+                  <option value="+976">Mongolie (+976)</option>
+                  <option value="+382">Monténégro (+382)</option>
+                  <option value="+212">Maroc (+212)</option>
+                  <option value="+258">Mozambique (+258)</option>
+                  <option value="+264">Namibie (+264)</option>
+                  <option value="+674">Nauru (+674)</option>
+                  <option value="+977">Népal (+977)</option>
+                  <option value="+31">Pays-Bas (+31)</option>
+                  <option value="+687">Nouvelle-Calédonie (+687)</option>
+                  <option value="+64">Nouvelle-Zélande (+64)</option>
+                  <option value="+505">Nicaragua (+505)</option>
+                  <option value="+227">Niger (+227)</option>
+                  <option value="+234">Nigeria (+234)</option>
+                  <option value="+683">Niue (+683)</option>
+                  <option value="+47">Norvège (+47)</option>
+                  <option value="+968">Oman (+968)</option>
+                  <option value="+92">Pakistan (+92)</option>
+                  <option value="+680">Palaos (+680)</option>
+                  <option value="+970">Palestine (+970)</option>
+                  <option value="+507">Panama (+507)</option>
+                  <option value="+675">Papouasie-Nouvelle-Guinée (+675)</option>
+                  <option value="+595">Paraguay (+595)</option>
+                  <option value="+51">Pérou (+51)</option>
+                  <option value="+63">Philippines (+63)</option>
+                  <option value="+48">Pologne (+48)</option>
+                  <option value="+351">Portugal (+351)</option>
+                  <option value="+1 787">Porto Rico (+1 787)</option>
+                  <option value="+974">Qatar (+974)</option>
+                  <option value="+40">Roumanie (+40)</option>
+                  <option value="+7">Russie (+7)</option>
+                  <option value="+250">Rwanda (+250)</option>
+                  <option value="+290">Sainte-Hélène (+290)</option>
+                  <option value="+1 869">
+                    Saint-Christophe-et-Niévès (+1 869)
+                  </option>
+                  <option value="+1 758">Sainte-Lucie (+1 758)</option>
+                  <option value="+508">Saint-Pierre-et-Miquelon (+508)</option>
+                  <option value="+1 784">
+                    Saint-Vincent-et-les-Grenadines (+1 784)
+                  </option>
+                  <option value="+685">Samoa (+685)</option>
+                  <option value="+378">Saint-Marin (+378)</option>
+                  <option value="+239">Sao Tomé-et-Principe (+239)</option>
+                  <option value="+966">Arabie saoudite (+966)</option>
+                  <option value="+221">Sénégal (+221)</option>
+                  <option value="+381">Serbie (+381)</option>
+                  <option value="+248">Seychelles (+248)</option>
+                  <option value="+232">Sierra Leone (+232)</option>
+                  <option value="+65">Singapour (+65)</option>
+                  <option value="+421">Slovaquie (+421)</option>
+                  <option value="+386">Slovénie (+386)</option>
+                  <option value="+677">Îles Salomon (+677)</option>
+                  <option value="+252">Somalie (+252)</option>
+                  <option value="+27">Afrique du Sud (+27)</option>
+                  <option value="+211">Soudan du Sud (+211)</option>
+                  <option value="+34">Espagne (+34)</option>
+                  <option value="+94">Sri Lanka (+94)</option>
+                  <option value="+249">Soudan (+249)</option>
+                  <option value="+597">Suriname (+597)</option>
+                  <option value="+268">Eswatini (+268)</option>
+                  <option value="+46">Suède (+46)</option>
+                  <option value="+41">Suisse (+41)</option>
+                  <option value="+963">Syrie (+963)</option>
+                  <option value="+886">Taïwan (+886)</option>
+                  <option value="+992">Tadjikistan (+992)</option>
+                  <option value="+255">Tanzanie (+255)</option>
+                  <option value="+66">Thaïlande (+66)</option>
+                  <option value="+670">Timor oriental (+670)</option>
+                  <option value="+228">Togo (+228)</option>
+                  <option value="+676">Tonga (+676)</option>
+                  <option value="+1 868">Trinité-et-Tobago (+1 868)</option>
+                  <option value="+216">Tunisie (+216)</option>
+                  <option value="+90">Turquie (+90)</option>
+                  <option value="+993">Turkménistan (+993)</option>
+                  <option value="+688">Tuvalu (+688)</option>
+                  <option value="+256">Ouganda (+256)</option>
+                  <option value="+380">Ukraine (+380)</option>
+                  <option value="+971">Émirats arabes unis (+971)</option>
+                  <option value="+44">Royaume-Uni (+44)</option>
+                  <option value="+1">États-Unis (+1)</option>
+                  <option value="+598">Uruguay (+598)</option>
+                  <option value="+998">Ouzbékistan (+998)</option>
+                  <option value="+678">Vanuatu (+678)</option>
+                  <option value="+379">Cité du Vatican (+379)</option>
+                  <option value="+58">Venezuela (+58)</option>
+                  <option value="+84">Vietnam (+84)</option>
+                  <option value="+967">Yémen (+967)</option>
+                  <option value="+260">Zambie (+260)</option>
+                  <option value="+263">Zimbabwe (+263)</option>
+                </select>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="modifInput"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
+                />
+              </div>
+            </div>
           </p>
 
           <p>
             E-mail privé:
-            <input type="text" />
+            <input className="modifInput" type="text" />
           </p>
           <p>
             IBAN:
-            <input type="text" defaultValue={avocatInfo && avocatInfo.m_IBAN} />
+            <input
+              className="modifInput"
+              type="text"
+              defaultValue={avocatInfo && avocatInfo.m_IBAN}
+            />
           </p>
           <p>
             Code BIC:
-            <input type="text" defaultValue={avocatInfo && avocatInfo.m_BIC} />
+            <input
+              className="modifInput"
+              type="text"
+              defaultValue={avocatInfo && avocatInfo.m_BIC}
+            />
           </p>
         </div>
       </div>
@@ -353,65 +417,73 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           <p>
             E-mail professionnel:
             <br />
-           <input type="text" />
+            <input className="modifInput" type="text" />
           </p>
           <p>
             Date d'assermentation:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_dDateAssermentation}</strong>
+            <strong>
+              {avocatInfo && formatDate(avocatInfo.m_dDateAssermentation)}
+            </strong>
           </p>
           <p>
             Date d'avoué:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_dDateAvoue}</strong>
+            <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
           <p>
-          Langue parlées:
-          <br />
+            Langue parlées:
+            <br />
             <span>
-            {langues.map((langue, index) => (
-            <React.Fragment key={index}>
-             <strong>{langue}</strong> 
-              <br />
-            </React.Fragment>
-          ))}
-              <button onClick={handleLangueClick}><BsPlusCircleFill /></button>          
+              {langues.map((langue, index) => (
+                <React.Fragment key={index}>
+                  <strong>{langue}</strong>
+                  <br />
+                </React.Fragment>
+              ))}
+              <button onClick={handleLangueClick}>
+                <BsPlusCircleFill />
+              </button>
               {showLanguePopup && (
                 <PopUpLangueParlees onClose={closeLanguePopup} />
               )}
             </span>
           </p>
           <p>
-          Activités préférentielles:
-          <br />
+            Activités préférentielles:
+            <br />
             <span>
-            {activites.map((activites, index) => (
-            <React.Fragment key={index}>
-             <strong>{activites}</strong> 
-              <br />
-            </React.Fragment>
-          ))}
-              <button onClick={handleActiviteClick}><BsPlusCircleFill /></button>          
+              {activites.map((activites, index) => (
+                <React.Fragment key={index}>
+                  <strong>{activites}</strong>
+                  <br />
+                </React.Fragment>
+              ))}
+              <button onClick={handleActiviteClick}>
+                <BsPlusCircleFill />
+              </button>
               {showActivPrefPopup && (
                 <PopUpActiPref onClose={closeActivitePopup} />
               )}
             </span>
           </p>
-         
-          <p>Assistance Judiciaire:</p>
-          <div className="bout">
-            {aj == 1 ? (
-              <>
-                <button className="boutonn oui">Oui</button>
-                <button className="boutonn non">Non</button>
-              </>
-            ) : (
-              <>
-                <button className="boutonn non">Oui</button>
-                <button className="boutonn oui">Non</button>
-              </>
-            )}
-          </div>
+
+          <p>
+            Assistance Judiciaire:
+            <div className="bout">
+              {aj == 1 ? (
+                <>
+                  <button className="boutonn oui">Oui</button>
+                  <button className="boutonn non">Non</button>
+                </>
+              ) : (
+                <>
+                  <button className="boutonn non">Oui</button>
+                  <button className="boutonn oui">Non</button>
+                </>
+              )}
+            </div>
+          </p>
         </div>
       </div>
       <div className="container" style={{ marginRight: "30px" }}>
@@ -420,69 +492,66 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           Etude <hr className="hr" />
         </h1>
         <div className="containerInfo">
-            <>
-              <p>
-                Dénomination:
-                <br />
-                <strong>{etudeInfo.m_sDénominationEtude}</strong>
-              </p>
-              <p>
-                Numéro voie:
-                <br />
-                <strong>{etudeInfo.m_nNumVoie}</strong>
-              </p>
-              <p>
-                Adresse:
-                <br />
-                <strong>{etudeInfo.m_sAdresse}</strong>
-              </p>
-              <p>
-                Complement d'adresse:
-                <br />
-                <strong>{etudeInfo.m_sAdresseSuite}</strong>
-              </p>
-              <p>
-                Code postal:
-                <br />
-                <strong>{etudeInfo.m_sCodePostale}</strong>
-              </p>
-              <p>
-                Localité:
-                <br />
-                <strong>{etudeInfo.m_sLocalite}</strong>
-              </p>
-              <p>
-                BP:
-                <br />
-                <strong>{etudeInfo.m_sboitepostal}</strong>
-              </p>
-              <p>
-                Code postal BP:
-                <br />
-                <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
-              </p>
-              <p>
-                Localité BP:
-                <br />
-                <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
-              </p>
-              <p>
-                Telehone fixe:
-                <br />
-                <strong>{etudeInfo.m_IBAN}</strong>
-              </p>
-              <p>
-                Fax:
-                <br />
-                <strong>{etudeInfo.m_sfax}</strong>
-              </p>
-              <p>
-                Site web:
-                <br />
-                <strong>{etudeInfo.m_ssite}</strong>
-              </p>
-            </>
-          
+          <p>
+            Dénomination:
+            <br />
+            <strong>{etudeInfo.m_sDénominationEtude}</strong>
+          </p>
+          <p>
+            Numéro voie:
+            <br />
+            <strong>{etudeInfo.m_nNumVoie}</strong>
+          </p>
+          <p>
+            Adresse:
+            <br />
+            <strong>{etudeInfo.m_sAdresse}</strong>
+          </p>
+          <p>
+            Complement d'adresse:
+            <br />
+            <strong>{etudeInfo.m_sAdresseSuite}</strong>
+          </p>
+          <p>
+            Code postal:
+            <br />
+            <strong>{etudeInfo.m_sCodePostale}</strong>
+          </p>
+          <p>
+            Localité:
+            <br />
+            <strong>{etudeInfo.m_sLocalite}</strong>
+          </p>
+          <p>
+            BP:
+            <br />
+            <strong>{etudeInfo.m_sboitepostal}</strong>
+          </p>
+          <p>
+            Code postal BP:
+            <br />
+            <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
+          </p>
+          <p>
+            Localité BP:
+            <br />
+            <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
+          </p>
+          <p>
+            Telehone fixe:
+            <br />
+            <strong>{etudeInfo.m_IBAN}</strong>
+          </p>
+          <p>
+            Fax:
+            <br />
+            <strong>{etudeInfo.m_sfax}</strong>
+          </p>
+          <p>
+            Site web:
+            <br />
+            <strong>{etudeInfo.m_ssite}</strong>
+          </p>
         </div>
       </div>
     </div>

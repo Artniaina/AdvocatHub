@@ -10,7 +10,21 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
   const [isDispensed, setIsDispensed] = useState(aj);
   const langues = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(',') : [];
   const activites = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_sactivitépref.split(',') : [];
-
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+  
+    if (dateString.length === 8) {
+      const year = dateString.substring(0, 4);
+      const month = dateString.substring(4, 6);
+      const day = dateString.substring(6, 8);
+      return `${day}/${month}/${year}`;
+    } else if (dateString.length === 10) {
+      const [year, month, day] = dateString.split("-");
+      return `${day}/${month}/${year}`;
+    } else {
+      return "Format de date inconnu";
+    }
+  };
   useEffect(() => {
     setIsDispensed(aj);
   }, [avocatInfo]);
@@ -42,7 +56,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
               </p>
             </div>
             <div className="b">
-              <p>hdhhd
+              <p>
                 Nationalité:
                 <br />
                 <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
@@ -119,12 +133,12 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <p>
             Date d'assermentation:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_dDateAssermentation}</strong>
+            <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAssermentation) }</strong>
           </p>
           <p>
             Date d'avoué:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_dDateAvoue}</strong>
+            <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
           <p>
           Langue parlées:
@@ -148,7 +162,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           ))}    
           </p>
                     
-          <p>Assistance Judiciaire:</p>
+          <p>Assistance Judiciaire:
           <div className="bout">
             {aj == 1 ? (
               <>
@@ -162,6 +176,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
               </>
             )}
           </div>
+          </p>
         </div>
       </div>
       <div className="container" style={{marginRight:"30px"}}>
