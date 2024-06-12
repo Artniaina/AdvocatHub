@@ -17,6 +17,7 @@
     border-radius: 10px;
     border: none;
     color: #ffffff;    
+margin-left: 600px;
 }
 .btnpop{
     text-align: center;
@@ -26,4 +27,15 @@
     margin-top: -30px;
     background-color: #ffffff;
     border: none;
+}
+.closebtn{
+    font-size: 30px;
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    margin-left: 730px;
+}
+.pup{
+    text-align: center;
+    margin:  0;
 }

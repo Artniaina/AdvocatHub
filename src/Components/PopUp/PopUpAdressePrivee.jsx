@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { SlClose } from "react-icons/sl";
 import "../../Styles/PopUp/AdressePriveePopUp.css";
 
 const PopUpAdressePrivee = ({ onClose, onSubmit }) => {
@@ -28,8 +29,8 @@ const PopUpAdressePrivee = ({ onClose, onSubmit }) => {
   return (
     <div className="overlay" ref={overlayRef}>
       <div className="popup">
-        <button className="close-button" onClick={onClose}>
-          X
+        <button className="closebtn" onClick={onClose}>
+        <SlClose />
         </button>
         <div className="popup-content">
           <h3 className="pup">Adresse privée</h3>
