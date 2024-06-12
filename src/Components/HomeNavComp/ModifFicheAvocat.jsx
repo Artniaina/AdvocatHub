@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
@@ -12,15 +11,22 @@ import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../PopUp/PopUpActivPref";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState('+261'); 
+  const [phoneNumber, setPhoneNumber] = useState(''); 
 
-  const handleCountryCodeChange = (event) => {
-    setSelectedCountry(event.target.value);
-    setPhoneNumber("");
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountry(e.target.value);
   };
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
+
+  const handlePhoneNumberChange = (e) => {
+    const input = e.target.value;
+    const numberWithoutCountryCode = input.replace(selectedCountry, '').trim();
+    const number = numberWithoutCountryCode.replace(/[^\d]/g, '');
+    setPhoneNumber(number);
+  };
+
+  const formatPhoneNumber = (number) => {
+    return number.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
   };
 
   const langues =
@@ -360,10 +366,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               </div>
               <div>
                 <input
-                  type="text"
-                  className="modifInput"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
+              type="text"
+              value={`${selectedCountry} ${formatPhoneNumber(phoneNumber)}`}
+              onChange={handlePhoneNumberChange}
+              placeholder="Numéro de téléphone"
+              className="modifInput"
                 />
               </div>
             </div>
@@ -538,7 +545,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
           </p>
           <p>
-            Telehone fixe:
+            Telephone fixe:
             <br />
             <strong>{etudeInfo.m_IBAN}</strong>
           </p>
