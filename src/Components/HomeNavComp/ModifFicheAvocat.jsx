@@ -7,11 +7,17 @@ import { FaFilePen } from "react-icons/fa6";
 import "../../Styles/Homepage/Acceuil/Acceuil.css";
 import "../../Styles/Homepage/Acceuil/PopUp.css";
 import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
+import { BsPlusCircleFill } from "react-icons/bs";
+import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
+import PopUpActiPref from "../PopUp/PopUpActivPref";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
-
+  const langues = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(',') : [];
+  const activites = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_sactivitépref.split(',') : [];
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
+  const [showLanguePopup, setShowLanguePopup] = useState(false);
+  const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
 
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
@@ -19,6 +25,21 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const closeDocumentPopup = () => {
     setShowDocumentPopup(false);
+  };
+  const handleActiviteClick = () => {
+    setShowActivPrefPopup(true);
+  };
+
+  const closeActivitePopup = () => {
+    setShowActivPrefPopup(false);
+  };
+  
+  const handleLangueClick = () => {
+    setShowLanguePopup(true);
+  };
+
+  const closeLanguePopup = () => {
+    setShowLanguePopup(false);
   };
 
   const aj = avocatInfo && avocatInfo.m_dispenseaj;
@@ -85,6 +106,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <PopUpAdressePrivee onClose={closeDocumentPopup} />
               )}
             </span>
+          
           </p>
 
           <p>
@@ -331,7 +353,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           <p>
             E-mail professionnel:
             <br />
-            <strong></strong>
+           <input type="text" />
           </p>
           <p>
             Date d'assermentation:
@@ -344,15 +366,38 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <strong>{avocatInfo && avocatInfo.m_dDateAvoue}</strong>
           </p>
           <p>
-            Langue parlées:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_langue}</strong>
+          Langue parlées:
+          <br />
+            <span>
+            {langues.map((langue, index) => (
+            <React.Fragment key={index}>
+             <strong>{langue}</strong> 
+              <br />
+            </React.Fragment>
+          ))}
+              <button onClick={handleLangueClick}><BsPlusCircleFill /></button>          
+              {showLanguePopup && (
+                <PopUpLangueParlees onClose={closeLanguePopup} />
+              )}
+            </span>
           </p>
           <p>
-            Activités préférentielles:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_sactivitépref}</strong>
+          Activités préférentielles:
+          <br />
+            <span>
+            {activites.map((activites, index) => (
+            <React.Fragment key={index}>
+             <strong>{activites}</strong> 
+              <br />
+            </React.Fragment>
+          ))}
+              <button onClick={handleActiviteClick}><BsPlusCircleFill /></button>          
+              {showActivPrefPopup && (
+                <PopUpActiPref onClose={closeActivitePopup} />
+              )}
+            </span>
           </p>
+         
           <p>Assistance Judiciaire:</p>
           <div className="bout">
             {aj == 1 ? (
@@ -375,7 +420,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           Etude <hr className="hr" />
         </h1>
         <div className="containerInfo">
-          {etudeInfo && (
             <>
               <p>
                 Dénomination:
@@ -438,7 +482,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <strong>{etudeInfo.m_ssite}</strong>
               </p>
             </>
-          )}
+          
         </div>
       </div>
     </div>

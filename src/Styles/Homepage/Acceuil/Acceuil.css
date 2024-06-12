@@ -68,7 +68,7 @@ body {
   text-align: start;
   border-bottom: 1px solid #5555555d;
   border-width: auto;
-  height: 50px;
+  min-height: 50px;
 }
  .middle p  {
   color: #555;

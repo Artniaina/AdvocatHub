@@ -8,6 +8,8 @@ import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 const Accueil = ({ avocatInfo, etudeInfo }) => {
   const aj = avocatInfo && avocatInfo.m_dispenseaj;
   const [isDispensed, setIsDispensed] = useState(aj);
+  const langues = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(',') : [];
+  const activites = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_sactivitépref.split(',') : [];
 
   useEffect(() => {
     setIsDispensed(aj);
@@ -40,7 +42,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
               </p>
             </div>
             <div className="b">
-              <p>
+              <p>hdhhd
                 Nationalité:
                 <br />
                 <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
@@ -125,15 +127,27 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
             <strong>{avocatInfo && avocatInfo.m_dDateAvoue}</strong>
           </p>
           <p>
-            Langue parlées:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_langue}</strong>
+          Langue parlées:
+          <br />
+            {langues.map((langue, index) => (
+            <React.Fragment key={index}>
+             <strong>{langue}</strong> 
+              <br />
+            </React.Fragment>
+          ))}
+             
           </p>
           <p>
-            Activités préférentielles:
-            <br />
-            <strong>{avocatInfo && avocatInfo.m_sactivitépref}</strong>
+          Activités préférentielles:
+          <br />
+            {activites.map((activites, index) => (
+            <React.Fragment key={index}>
+             <strong>{activites}</strong> 
+              <br />
+            </React.Fragment>
+          ))}    
           </p>
+                    
           <p>Assistance Judiciaire:</p>
           <div className="bout">
             {aj == 1 ? (

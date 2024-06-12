@@ -30,6 +30,8 @@ const FicheAvocatPage = () => {
        <Navbar avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
        <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
       <ModifFicheAvocat avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
+      <button>Annuler</button>
+      <button>Enregistrer</button>
     </>
   );
 };
