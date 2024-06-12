@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import { SlClose } from "react-icons/sl";
 import "../../Styles/PopUp/AdressePriveePopUp.css";
 
-const PopUpAdressePrivee = ({ onClose, onSubmit }) => {
+const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
   const overlayRef = useRef(null);
-  const [adressePrivee, setAdressePrivee] = useState("");
+  const [adressePrivee, setAdressePrivee] = useState(value || "");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -30,9 +30,9 @@ const PopUpAdressePrivee = ({ onClose, onSubmit }) => {
     <div className="overlay" ref={overlayRef}>
       <div className="popup">
         <div className='head'>
-        <button className="closebtn" onClick={onClose}>
-        <SlClose />
-        </button>
+          <button className="closebtn" onClick={onClose}>
+            <SlClose />
+          </button>
         </div>
         <div className="popup-content">
           <h3 className="pup">Adresse privée</h3>

@@ -17,7 +17,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
-    console.log(`${adressePrivee}`);
   };
 
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -154,6 +153,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               <PopUpAdressePrivee
                 onClose={closeDocumentPopup}
                 onSubmit={handleAdresseSubmit}
+                value={adresse}
               />
             )}
           </p>
