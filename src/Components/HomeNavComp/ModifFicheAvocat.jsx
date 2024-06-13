@@ -197,15 +197,50 @@ const languages = [
   { code: "za", name: "Zhuang" },
   { code: "zu", name: "Zoulou" },
 ];
-
-
+const activity = [
+  { code: "PA01", name: "Droit de la faillite et du surendettement" },
+  { code: "PA02", name: "Droit de la circulation et des transports" },
+  { code: "PA03", name: "Droit de la consommation" },
+  { code: "PA04", name: "Droit pénal" },
+  { code: "PA05", name: "Droit du travail" },
+  { code: "PA06", name: "Droit de l'environnement" },
+  { code: "PA07", name: "Droit de l'UE" },
+  { code: "PA08", name: "Droit de la famille" },
+  { code: "PA09", name: "Droits de l'homme et libertés publiques" },
+  { code: "PA10", name: "Droit de l'immigration et d'asile" },
+  { code: "PA11", name: "Propriété intellectuelle" },
+  { code: "PA12", name: "Droit des technologies de l'information" },
+  { code: "PA13", name: "Contentieux, médiation, arbitrage" },
+  { code: "PA14", name: "Dommages corporels et matériels" },
+  { code: "PA15", name: "Droit des biens" },
+  { code: "PA16", name: "Droit public" },
+  { code: "PA17", name: "Droit de la sécurité sociale" },
+  { code: "PA18", name: "Droit des successions" },
+  { code: "PA19", name: "Droit fiscal" }
+];
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [adresse, setAdresse] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
+  const languageSelected=    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
+
+  const handleActiviteClick = () => {
+    setShowActivPrefPopup(true);
+  };
+
+  const closeActivitePopup = () => {
+    setShowActivPrefPopup(false);
+  };
+
+  const handleSubmitActivity = (selected) => {
+    setSelectedActivities(selected);
+    setShowActivPrefPopup(false);
+  };
   const handleLangueClick = () => {
     setShowLanguePopup(true);
   };
@@ -219,6 +254,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowLanguePopup(false);
   };
 
+
+  
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
@@ -246,21 +283,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       ? avocatInfo.m_sactivitépref.split(",")
       : [];
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
-  const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
-
+  
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
   };
 
   const closeDocumentPopup = () => {
     setShowDocumentPopup(false);
-  };
-  const handleActiviteClick = () => {
-    setShowActivPrefPopup(true);
-  };
-
-  const closeActivitePopup = () => {
-    setShowActivPrefPopup(false);
   };
 
   const formatDate = (dateString) => {
@@ -682,23 +711,28 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             </span>
           </p>
           <p>
-            Activités préférentielles:
+      Activités préférentielles:
+      <br />
+      <span>
+        {selectedActivities.map((activity, index) => (
+          <React.Fragment key={index}>
+            <strong>{activity.name}</strong>
             <br />
-            <span>
-              {activites.map((activites, index) => (
-                <React.Fragment key={index}>
-                  <strong>{activites}</strong>
-                  <br />
-                </React.Fragment>
-              ))}
-              <button onClick={handleActiviteClick}>
-                <BsPlusCircleFill />
-              </button>
-              {showActivPrefPopup && (
-                <PopUpActiPref onClose={closeActivitePopup} />
-              )}
-            </span>
-          </p>
+          </React.Fragment>
+        ))}
+        <button onClick={handleActiviteClick}>
+          <BsPlusCircleFill />
+        </button>
+        {showActivPrefPopup && (
+          <PopUpActiPref
+            onClose={closeActivitePopup}
+            onSubmit={handleSubmitActivity}
+            value={selectedActivities}
+            activity={activity}
+          />
+        )}
+      </span>
+    </p>
 
           <p>
             Assistance Judiciaire:
