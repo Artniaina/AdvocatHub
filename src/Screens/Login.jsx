@@ -39,7 +39,8 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include', // Ajout des informations d'identification
+        //Need Access-Control-Allow-Credentials: true
+        credentials: 'include',
         body: JSON.stringify(userData),
       });
 

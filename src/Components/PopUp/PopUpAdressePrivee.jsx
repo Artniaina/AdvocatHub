@@ -12,9 +12,7 @@ const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
         onClose();
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
