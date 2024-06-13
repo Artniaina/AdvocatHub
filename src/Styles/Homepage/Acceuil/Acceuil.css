@@ -161,3 +161,14 @@ select {
   margin-top: -25px;
 
 }
+.btnsub{
+  margin: 12px 18px;
+  padding: 10px 16px;
+  background-color: #671786;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  
+}
