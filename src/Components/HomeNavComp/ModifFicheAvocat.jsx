@@ -307,10 +307,17 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  const aj = avocatInfo && avocatInfo.m_dispenseaj;
-  const [isDispensed, setIsDispensed] = useState(aj);
+  const initialAjState = avocatInfo && avocatInfo.m_dispenseaj;
+  const [ajState, setAjState] = useState(initialAjState || 1);
+  
+  const toggleAj = () => {
+    setAjState(ajState === 1 ? 0 : 1);
+  };
+  
+
+  const [isDispensed, setIsDispensed] = useState(initialAjState);
   useEffect(() => {
-    setIsDispensed(aj);
+    setIsDispensed(initialAjState);
   }, [avocatInfo]);
 
   const handleSubmit = (selectedLanguage) => {
@@ -735,22 +742,22 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             </span>
           </p>
 
-          <p>
-            Assistance Judiciaire:
-            <div className="bout">
-              {aj == 1 ? (
-                <>
-                  <button className="boutonn oui">Oui</button>
-                  <button className="boutonn non">Non</button>
-                </>
-              ) : (
-                <>
-                  <button className="boutonn non">Oui</button>
-                  <button className="boutonn oui">Non</button>
-                </>
-              )}
-            </div>
-          </p>
+         <p>
+      Assistance Judiciaire:
+      <div className="bout">
+        {initialAjState === 1 ? (
+          <>
+            <button className="boutonn oui" onClick={toggleAj}>Oui</button>
+            <button className="boutonn non" onClick={toggleAj}>Non</button>
+          </>
+        ) : (
+          <>
+            <button className="boutonn non" onClick={toggleAj}>Oui</button>
+            <button className="boutonn oui" onClick={toggleAj}>Non</button>
+          </>
+        )}
+      </div>
+    </p>
         </div>
       </div>
       <div className="container" style={{ marginRight: "30px" }}>
