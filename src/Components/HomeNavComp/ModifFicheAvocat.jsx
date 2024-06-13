@@ -9,7 +9,7 @@ import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
 import { BsPlusCircleFill } from "react-icons/bs";
 import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../PopUp/PopUpActivPref";
-import "../../Styles/PopUp/AdressePriveePopUp.css"
+import "../../Styles/PopUp/AdressePriveePopUp.css";
 
 const languages = [
   { code: "ab", name: "Abkhazian" },
@@ -202,6 +202,20 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [adresse, setAdresse] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [showLanguePopup, setShowLanguePopup] = useState(false);
+
+  const handleLangueClick = () => {
+    setShowLanguePopup(true);
+  };
+
+  const closeLanguePopup = () => {
+    setShowLanguePopup(false);
+  };
+
+  const handleSubmitLangues = (selected) => {
+    setSelectedLanguages(selected);
+    setShowLanguePopup(false);
+  };
 
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
@@ -230,7 +244,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       ? avocatInfo.m_sactivitépref.split(",")
       : [];
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
-  const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
 
   const handleDocumentClick = () => {
@@ -246,14 +259,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const closeActivitePopup = () => {
     setShowActivPrefPopup(false);
-  };
-
-  const handleLangueClick = () => {
-    setShowLanguePopup(true);
-  };
-
-  const closeLanguePopup = () => {
-    setShowLanguePopup(false);
   };
 
   const formatDate = (dateString) => {
@@ -282,16 +287,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setSelectedLanguages([...selectedLanguages, selectedLanguage]);
     setShowLanguePopup(false);
     console.log(selectedLanguage);
-  };
-  const handleSubmitLangues = (newLanguages) => {
-    const updatedLanguages = newLanguages.map(langCode => {
-      const foundLanguage = languages.find(lang => lang.code === langCode);
-      return foundLanguage ? foundLanguage.name : ""; 
-    })
-    setSelectedLanguages([...selectedLanguages, ...updatedLanguages]);
-    setShowLanguePopup(false);
-    console.log(updatedLanguages);
-
   };
 
   return (
@@ -343,14 +338,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <br />
             <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
-          <p style={{height:"200px"}}>
+          <p style={{ height: "200px" }}>
             Adresse privée:
             <br />
-            {adresse && (
-          
-                <strong>{adresse}</strong>
-             
-            )}
+            {adresse && <strong>{adresse}</strong>}
             <button className="btnpop" onClick={handleDocumentClick}>
               <FaFilePen />
             </button>
@@ -655,24 +646,20 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <br />
             <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
-    
 
           <p>
             Langues parlées:
             <br />
             <span>
-              {langues.map((langue, index) => (
-                <React.Fragment key={index}>
-                  <strong>{langue}</strong>
-                  <br />
-                </React.Fragment>
-              ))}
-              {selectedLanguages.map((langue, index) => (
-                <React.Fragment key={index}>
-                  <strong>{langue}</strong>
-                  <br />
-                </React.Fragment>
-              ))}
+              {selectedLanguages.map((code, index) => {
+                const language = languages.find((lang) => lang.code === code);
+                return (
+                  <React.Fragment key={index}>
+                    <strong>{language ? language.name : code}</strong>
+                    <br />
+                  </React.Fragment>
+                );
+              })}
               <button onClick={handleLangueClick}>
                 <BsPlusCircleFill />
               </button>
@@ -680,8 +667,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <PopUpLangueParlees
                   onClose={closeLanguePopup}
                   onSubmit={handleSubmitLangues}
+                  value={selectedLanguages}
                   languages={languages}
-                  selectedLanguages={selectedLanguages}
                 />
               )}
             </span>
