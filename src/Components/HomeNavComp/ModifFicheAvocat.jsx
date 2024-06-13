@@ -216,7 +216,7 @@ const activity = [
   { code: "PA16", name: "Droit public" },
   { code: "PA17", name: "Droit de la sécurité sociale" },
   { code: "PA18", name: "Droit des successions" },
-  { code: "PA19", name: "Droit fiscal" }
+  { code: "PA19", name: "Droit fiscal" },
 ];
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
@@ -224,7 +224,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [adresse, setAdresse] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
-  const languageSelected=    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+  const languageSelected =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -254,8 +255,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowLanguePopup(false);
   };
 
-
-  
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
@@ -283,7 +282,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       ? avocatInfo.m_sactivitépref.split(",")
       : [];
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
-  
+
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
   };
@@ -680,14 +679,17 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
           <p>
             Langues parlées:
+            <button onClick={handleLangueClick} className="btnadd">
+              <BsPlusCircleFill />
+            </button>
             <br />
             <span>
-            {langues.map((langue, index) => (
-            <React.Fragment key={index}>
-              <strong>{langue}</strong>
-              <br />
-            </React.Fragment>
-          ))}
+              {langues.map((langue, index) => (
+                <React.Fragment key={index}>
+                  <strong>{langue}</strong>
+                  <br />
+                </React.Fragment>
+              ))}
               {selectedLanguages.map((code, index) => {
                 const language = languages.find((lang) => lang.code === code);
                 return (
@@ -697,9 +699,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   </React.Fragment>
                 );
               })}
-              <button onClick={handleLangueClick}>
-                <BsPlusCircleFill />
-              </button>
+
               {showLanguePopup && (
                 <PopUpLangueParlees
                   onClose={closeLanguePopup}
@@ -711,28 +711,29 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             </span>
           </p>
           <p>
-      Activités préférentielles:
-      <br />
-      <span>
-        {selectedActivities.map((activity, index) => (
-          <React.Fragment key={index}>
-            <strong>{activity.name}</strong>
+            Activités préférentielles:
+            <button onClick={handleActiviteClick} className="btnadd">
+              <BsPlusCircleFill />
+            </button>
             <br />
-          </React.Fragment>
-        ))}
-        <button onClick={handleActiviteClick}>
-          <BsPlusCircleFill />
-        </button>
-        {showActivPrefPopup && (
-          <PopUpActiPref
-            onClose={closeActivitePopup}
-            onSubmit={handleSubmitActivity}
-            value={selectedActivities}
-            activity={activity}
-          />
-        )}
-      </span>
-    </p>
+            <span>
+              {selectedActivities.map((activity, index) => (
+                <React.Fragment key={index}>
+                  <strong>{activity.name}</strong>
+                  <br />
+                </React.Fragment>
+              ))}
+
+              {showActivPrefPopup && (
+                <PopUpActiPref
+                  onClose={closeActivitePopup}
+                  onSubmit={handleSubmitActivity}
+                  value={selectedActivities}
+                  activity={activity}
+                />
+              )}
+            </span>
+          </p>
 
           <p>
             Assistance Judiciaire:

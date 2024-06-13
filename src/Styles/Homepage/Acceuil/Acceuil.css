@@ -4,7 +4,6 @@ body {
 .mainContainer {
   display: flex;
   justify-content: space-around;
-
 }
 .container {
   border: 1px solid #7272774f;
@@ -52,7 +51,6 @@ body {
   margin: 0;
 }
 
-
 .containerInfo {
   display: flex;
   align-items: flex-start;
@@ -70,7 +68,7 @@ body {
   border-width: auto;
   min-height: 50px;
 }
- .middle p  {
+.middle p {
   color: #555;
   padding-bottom: 5px;
   margin: 10px;
@@ -131,14 +129,14 @@ strong {
   font-size: 18px;
 }
 
-.modifInput{
+.modifInput {
   border: none;
   outline: none;
   font-weight: bold;
   font-size: 18px;
 }
 
-select{
+select {
   border: none;
   font-weight: bold;
   font-size: 18px;
@@ -146,11 +144,20 @@ select{
   width: 180px;
 }
 
-.btnpopup{
+.btnpopup {
   width: 30px;
   height: 30px;
   border: none;
   background-color: white;
   font-size: 35px;
+}
+
+.btnadd {
+  border: none;
+  background-color: white;
+  color: #534848cc;
+  font-size: 30px;
+  margin-left: 450px;
+  margin-top: -25px;
 
 }
