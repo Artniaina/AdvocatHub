@@ -14,7 +14,7 @@ Frontend
 Backend
 
     PC SOFT Tools: Webdev webservices for backend development.
-    HFSQL Client/Server: The database used for managing and storing application data.
+    HFSQL Client/Server: database used for managing and storing application data.
     
 
 
