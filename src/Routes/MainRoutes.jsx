@@ -5,14 +5,14 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import Login from "../Screens/Login";
-import Registration from "../Screens/Registration";
-import ModifMdp from "../Screens/ModifMdp";
-import DoubleAuth from "../Screens/DoubleAuth";
+import Login from "../Pages/SimpleAuthentication/Login";
+import Registration from "../Pages/SimpleAuthentication/Registration";
+import ModifMdp from "../Pages/SimpleAuthentication/ModifMdp";
+import DoubleAuth from "../Pages/DoubleAuthentication/DoubleAuth";
 import ProtectedRoute from "./ProtectedRoute";
-import ValidationOTP from "../Screens/ValidationOTP";
+import ValidationOTP from "../Pages/DoubleAuthentication/ValidationOTP";
 import HomePage from "../Pages/HomePage";
-import VerifEmail from "../Screens/VerifEmail";
+import VerifEmail from "../Pages/SimpleAuthentication/VerifEmail";
 import UserList from "../Components/AdminDashboard/UserList";
 import PrivateRoute from "./PrivateRoute";
 import FAQ from "../Pages/FAQPage";

@@ -3,7 +3,16 @@ import { SlClose } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
 import "../../Styles/PopUp/LangueParlees.css";
 
-const PopUpLangueParlees = ({ onClose, onSubmit, value, languages }) => {
+const PopUpLangueParlees = ({
+  onClose,
+  onSubmit,
+  value,
+  languages,
+  defaultLangue,
+  selectedLangue,
+}) => {
+  console.log(defaultLangue);
+
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
   const [sortOrder, setSortOrder] = useState("az");
@@ -63,7 +72,7 @@ const PopUpLangueParlees = ({ onClose, onSubmit, value, languages }) => {
   }, [onClose]);
 
   const handleSubmit = () => {
-    onSubmit(selectedLanguages); 
+    onSubmit(selectedLanguages);
     onClose();
   };
 
@@ -140,6 +149,7 @@ const PopUpLangueParlees = ({ onClose, onSubmit, value, languages }) => {
                         {sortOrder === "az" ? "Langue ▲" : "Langue ▼"}
                       </button>
                     </>
+                    
                   )}
                 </th>
                 <th className="theadbtn">Choix</th>

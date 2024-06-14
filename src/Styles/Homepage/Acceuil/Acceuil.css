@@ -16,7 +16,6 @@ body {
   flex-direction: column;
   margin: 12px;
 }
-
 .bout {
   display: flex;
   margin: 12px;
@@ -179,7 +178,6 @@ select {
   color: #671786;
   border: 1px solid #671786 ;
 }
-
 .btnt {
   padding: 8px 15px ;
   border: 1px solid #ccc;
@@ -189,7 +187,6 @@ select {
   border-radius: 20px;
   user-select: none;
   display: inline-block;
-  position: relative;
 }
 
 .btnt input[type="radio"] {

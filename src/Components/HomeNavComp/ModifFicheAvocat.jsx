@@ -220,8 +220,11 @@ const activity = [
   { code: "PA18", name: "Droit des successions" },
   { code: "PA19", name: "Droit fiscal" },
 ];
-
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
+  const names = languages.map(language => language.name);
+  const langues =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [adresse, setAdresse] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -230,10 +233,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
-
+  
   const languageSelected =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-  const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const activites =
     avocatInfo && avocatInfo.m_langue
@@ -319,8 +320,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       return "Format de date inconnu";
     }
   };
-
-
+  
   const handleSubmitAllChange = () => {
     console.log("Hello World");
   };
@@ -330,6 +330,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   return (
     <>
+    
       <div className="mainContainer">
         <div className="container" style={{ marginLeft: "30px" }}>
           <img src={PersoIcon} alt="logo" className="logo" />
@@ -393,7 +394,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 />
               )}
             </p>
-
             <p>
               Téléphone mobile:
               <div className="p">
@@ -700,7 +700,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <p style={{ minHeight: "150px" }}>
               Langues parlées:
               <button onClick={handleLangueClick} className="btnadd">
-                <BsPlusCircleFill />
+                <BsPlusCircleFill/>
               </button>
               <br />
               <span>
@@ -719,13 +719,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                     </React.Fragment>
                   );
                 })}
-
                 {showLanguePopup && (
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
                     value={selectedLanguages}
                     languages={languages}
+                    defaultLangue={langues}
                   />
                 )}
               </span>

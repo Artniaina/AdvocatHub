@@ -1,7 +1,7 @@
 import React, { useState, useEffect , useContext} from "react";
 import QRCode from "qrcode.react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "../Styles/Authentification/DoubleAuthent.css"
+import "../../Styles/Authentification/DoubleAuthent.css"
 
 
 const DoubleAuth = () => {

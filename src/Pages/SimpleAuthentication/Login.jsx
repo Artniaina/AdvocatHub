@@ -5,7 +5,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import "../Styles/Authentification/Form.css";
+import "../../Styles/Authentification/Form.css";
 import { useCookies } from "react-cookie";
 
 const Login = () => {
