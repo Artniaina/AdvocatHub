@@ -162,15 +162,22 @@ select {
 
 }
 .btnsub{
-  margin: 12px 18px;
+  margin: 12px 8px;
   padding: 10px 16px;
   background-color: #671786;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 20px;
-  
+  transition: all 0.5s;
+  width: 200px;
+}
+
+.btnsub:hover{
+  background-color: #ffffff;
+  color: #671786;
+  border: 1px solid #671786 ;
 }
 
 .btnt {
@@ -194,5 +201,5 @@ select {
   color: white;
   border-color: #671786;
   border-radius: 20px;
-
 }
+

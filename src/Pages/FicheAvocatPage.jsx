@@ -5,8 +5,7 @@ import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
 import Navbar from "../Components/Homepage/Navbar";
 import ModifFicheAvocat from "../Components/HomeNavComp/ModifFicheAvocat";
 import Welcome from "../Components/Homepage/Accueil/Welcome";
-import { FaCheck } from "react-icons/fa";
-import { FiMinusCircle } from "react-icons/fi";
+
 
 const FicheAvocatPage = () => {
   const location = useLocation(); 
@@ -32,11 +31,7 @@ const FicheAvocatPage = () => {
        <Navbar avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
        <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
       <ModifFicheAvocat avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
-      <div style={{textAlign:"end"}}>
-
-      <button className='btnsub'><FiMinusCircle />Annuler</button>
-      <button className='btnsub'><FaCheck />Enregistrer</button>
-      </div>
+    
     </>
   );
 };
