@@ -30,8 +30,11 @@ function PageTitleUpdater() {
       case "/":
         pageTitle = "Login";
         break;
-      case "/home":
-        pageTitle = "Acceuil";
+        case "/home":
+          pageTitle = "Accueil";
+          break;
+      case "/home/modifFiche":
+        pageTitle = "Accueil";
         break;
       case "/faq":
         pageTitle = "FAQ";
@@ -61,7 +64,7 @@ function PageTitleUpdater() {
         pageTitle = "Validation OTP";
         break;
       default:
-        pageTitle = "My app";
+        pageTitle = "My-app";
         break;
     }
 
@@ -82,7 +85,7 @@ function MainRoutes() {
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
 
-          <Route path="/home" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
@@ -97,10 +100,7 @@ function MainRoutes() {
           <Route exact path="/doubleAuth" element={<DoubleAuth />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
-
-
       </Routes>
-
     </Router>
   );
 }

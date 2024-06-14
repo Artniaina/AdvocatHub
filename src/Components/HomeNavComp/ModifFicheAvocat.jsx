@@ -226,67 +226,74 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [adresse, setAdresse] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
-  
-  
-  
-  const languageSelected =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
+  const [showDocumentPopup, setShowDocumentPopup] = useState(false);
 
-  const handleActiviteClick = () => {
-    setShowActivPrefPopup(true);
-  };
-
-  const closeActivitePopup = () => {
-    setShowActivPrefPopup(false);
-  };
-
-  const handleSubmitActivity = (selected) => {
-    setSelectedActivities(selected);
-    setShowActivPrefPopup(false);
-  };
-  const handleLangueClick = () => {
-    setShowLanguePopup(true);
-  };
-
-  const closeLanguePopup = () => {
-    setShowLanguePopup(false);
-  };
-
-  const handleSubmitLangues = (selected) => {
-    setSelectedLanguages(selected);
-    setShowLanguePopup(false);
-  };
-
-  const handleAdresseSubmit = (adressePrivee) => {
-    setAdresse(adressePrivee);
-  };
-
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const handleCountryCodeChange = (e) => {
-    setSelectedCountry(e.target.value);
-  };
-
-  const handlePhoneNumberChange = (e) => {
-    const input = e.target.value;
-    const numberWithoutCountryCode = input.replace(selectedCountry, "").trim();
-    const number = numberWithoutCountryCode.replace(/[^\d]/g, "");
-    setPhoneNumber(number);
-  };
-
-  const formatPhoneNumber = (number) => {
-    return number.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
-  };
-
+  const languageSelected =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
       : [];
-  const [showDocumentPopup, setShowDocumentPopup] = useState(false);
+  const initialAjState = avocatInfo && avocatInfo.m_dispenseaj;
+  const [ajState, setAjState] = useState(initialAjState);
+  const toggleAj = () => {
+    setAjState((prevState) => (prevState == 1 ? 0 : 1));
+  };
+  
+  useEffect(() => {
+    setAjState(initialAjState);
+  }, [initialAjState]);
+
+
+  const handleActiviteClick = () => {
+    setShowActivPrefPopup(true);
+  };
+  const closeActivitePopup = () => {
+    setShowActivPrefPopup(false);
+  };
+  const handleSubmitActivity = (selected) => {
+    setSelectedActivities(selected);
+    setShowActivPrefPopup(false);
+  };
+
+
+  const handleLangueClick = () => {
+    setShowLanguePopup(true);
+  };
+  const closeLanguePopup = () => {
+    setShowLanguePopup(false);
+  };
+  const handleSubmitLangues = (selected) => {
+    setSelectedLanguages(selected);
+    setShowLanguePopup(false);
+  };
+
+
+  const handleAdresseSubmit = (adressePrivee) => {
+    setAdresse(adressePrivee);
+  };
+
+
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountry(e.target.value);
+  };
+
+  
+  const handlePhoneNumberChange = (e) => {
+    const input = e.target.value;
+    const numberWithoutCountryCode = input.replace(selectedCountry, "").trim();
+    const number = numberWithoutCountryCode.replace(/[^\d]/g, "");
+    setPhoneNumber(number);
+  };
+  const formatPhoneNumber = (number) => {
+    return number.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+  };
+
 
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
@@ -296,15 +303,16 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowDocumentPopup(false);
   };
 
+
   const formatDate = (dateString) => {
     if (!dateString) return "";
 
-    if (dateString.length === 8) {
+    if (dateString.length == 8) {
       const year = dateString.substring(0, 4);
       const month = dateString.substring(4, 6);
       const day = dateString.substring(6, 8);
       return `${day}/${month}/${year}`;
-    } else if (dateString.length === 10) {
+    } else if (dateString.length == 10) {
       const [year, month, day] = dateString.split("-");
       return `${day}/${month}/${year}`;
     } else {
@@ -312,22 +320,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  const initialAjState = avocatInfo && avocatInfo.m_dispenseaj;
-  const [ajState, setAjState] = useState(initialAjState);
-  useEffect(() => {
-    setAjState(initialAjState);
-  }, [initialAjState]);
 
-  const toggleAj = () => {
-    setAjState((prevState) => (prevState === 1 ? 0 : 1));
+  const handleSubmitAllChange = () => {
+    console.log("Hello World");
   };
-
-  const handleSubmitAllChange=()=>{
+  const handleSubmitResetChange = () => {
     console.log("Hello World");
-  }
-  const handleSubmitResetChange=()=>{
-    console.log("Hello World");
-  }
+  };
 
   return (
     <>
