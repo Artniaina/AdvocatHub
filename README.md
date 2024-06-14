@@ -1,11 +1,11 @@
 
 This project is the frontend of a law firm management application currently in development. It is designed as a learning exercise to explore the integration of React with WebDev web services. The application will eventually manage client files, appointments, legal documents, and other essential functions within a law practice.
 
-Project Status
+# Project Status
 
 Note: This project is in the early stages of development and is intended for learning and experimentation with WebDev web services.
 
-Technology Stack
+# Technology Stack
 
 Frontend
 
