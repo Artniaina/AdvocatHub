@@ -172,3 +172,27 @@ select {
   font-size: 20px;
   
 }
+
+.btnt {
+  padding: 8px 15px ;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  border-radius: 20px;
+  user-select: none;
+  display: inline-block;
+  position: relative;
+}
+
+.btnt input[type="radio"] {
+  display: none;
+}
+
+.btnt.selected {
+  background-color: #671786;
+  color: white;
+  border-color: #671786;
+  border-radius: 20px;
+
+}

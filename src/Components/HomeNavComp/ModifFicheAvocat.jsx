@@ -308,22 +308,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   const initialAjState = avocatInfo && avocatInfo.m_dispenseaj;
-  const [ajState, setAjState] = useState(initialAjState || 1);
-  
-  const toggleAj = () => {
-    setAjState(ajState === 1 ? 0 : 1);
-  };
-  
-
-  const [isDispensed, setIsDispensed] = useState(initialAjState);
+  const [ajState, setAjState] = useState(initialAjState);
   useEffect(() => {
-    setIsDispensed(initialAjState);
-  }, [avocatInfo]);
+    setAjState(initialAjState);
+  }, [initialAjState]);
 
-  const handleSubmit = (selectedLanguage) => {
-    setSelectedLanguages([...selectedLanguages, selectedLanguage]);
-    setShowLanguePopup(false);
-    console.log(selectedLanguage);
+  const toggleAj = () => {
+    setAjState((prevState) => (prevState === 1 ? 0 : 1));
   };
 
   return (
@@ -684,7 +675,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
 
-          <p>
+          <p style={{ minHeight: "150px" }}>
             Langues parlées:
             <button onClick={handleLangueClick} className="btnadd">
               <BsPlusCircleFill />
@@ -717,7 +708,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               )}
             </span>
           </p>
-          <p>
+          <p style={{ minHeight: "200px" }}>
             Activités préférentielles:
             <button onClick={handleActiviteClick} className="btnadd">
               <BsPlusCircleFill />
@@ -741,25 +732,32 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               )}
             </span>
           </p>
-
-         <p>
-      Assistance Judiciaire:
+          <p>
+      Assistance Judiciaire
       <div className="bout">
-        {initialAjState === 1 ? (
-          <>
-            <button className="boutonn oui" onClick={toggleAj}>Oui</button>
-            <button className="boutonn non" onClick={toggleAj}>Non</button>
-          </>
-        ) : (
-          <>
-            <button className="boutonn non" onClick={toggleAj}>Oui</button>
-            <button className="boutonn oui" onClick={toggleAj}>Non</button>
-          </>
-        )}
+     
+        <label className={`btnt ${ajState == 1 ? 'selected' : ''}`}>
+          <input
+            type="radio"
+            checked={ajState === 1}
+            onChange={toggleAj}
+          />
+          Oui
+        </label>
+        <label className={`btnt ${ajState == 0 ? 'selected' : ''}`}>
+          <input
+            type="radio"
+            checked={ajState === 0}
+            onChange={toggleAj}
+          />
+          Non
+        </label>
       </div>
     </p>
         </div>
       </div>
+      
+
       <div className="container" style={{ marginRight: "30px" }}>
         <img src={EtudeIcon} alt="logo" className="logo" />
         <h1>
