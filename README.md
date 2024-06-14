@@ -3,7 +3,7 @@ This project is the frontend of a law firm management application currently in d
 
 # Project Status
 
-Note: This project is in the early stages of development and is intended for learning and experimentation with WebDev web services.
+This project is in the early stages of development and is intended for learning and experimentation with WebDev web services.
 
 # Technology Stack
 
