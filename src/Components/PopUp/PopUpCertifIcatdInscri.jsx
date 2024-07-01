@@ -15,4 +15,5 @@ const PopUpCertifIcatdInscri = ({ message, onClose }) => {
       </div>
     );
   };
+  
   export default PopUpCertifIcatdInscri

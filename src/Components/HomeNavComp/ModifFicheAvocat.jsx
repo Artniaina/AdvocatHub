@@ -221,19 +221,24 @@ const activity = [
   { code: "PA19", name: "Droit fiscal" },
 ];
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
-  const names = languages.map(language => language.name);
+  const names = languages.map((language) => language.name);
+
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
   const [selectedCountry, setSelectedCountry] = useState("+261");
-  const [adresse, setAdresse] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [emailPrivee, setEmailPrivee] = useState("");
+  const [emailPro, setEmailPro] = useState("");
+  const [codeIBAN, setCodeIBAN] = useState(avocatInfo ? avocatInfo.m_IBAN : "");
+  const [codeBIC, setCodeBIC] = useState(avocatInfo ? avocatInfo.m_BIC : "");
+  const [adresse, setAdresse] = useState("");
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
-  
+
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const activites =
@@ -245,11 +250,16 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const toggleAj = () => {
     setAjState((prevState) => (prevState == 1 ? 0 : 1));
   };
-  
+
+  useEffect(() => {
+    if (avocatInfo) {
+      setCodeIBAN(avocatInfo.m_IBAN);
+    }
+  }, [avocatInfo]);
+
   useEffect(() => {
     setAjState(initialAjState);
   }, [initialAjState]);
-
 
   const handleActiviteClick = () => {
     setShowActivPrefPopup(true);
@@ -261,8 +271,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setSelectedActivities(selected);
     setShowActivPrefPopup(false);
   };
-
-
   const handleLangueClick = () => {
     setShowLanguePopup(true);
   };
@@ -273,18 +281,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setSelectedLanguages(selected);
     setShowLanguePopup(false);
   };
-
-
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
-
-
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
   };
 
-  
   const handlePhoneNumberChange = (e) => {
     const input = e.target.value;
     const numberWithoutCountryCode = input.replace(selectedCountry, "").trim();
@@ -295,7 +298,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     return number.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
   };
 
-
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
   };
@@ -303,7 +305,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const closeDocumentPopup = () => {
     setShowDocumentPopup(false);
   };
-
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -320,17 +321,59 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       return "Format de date inconnu";
     }
   };
-  
-  const handleSubmitAllChange = () => {
-    console.log("Hello World");
+
+  const handleSubmitAllChange = (e) => {
+    e.preventDefault();
+    const dataToSend = {
+      adresse: adresse,
+      emailPrivee: emailPrivee,
+      emailPro: emailPro,
+      codeIBAN: codeIBAN,
+      codeBIC: codeBIC,
+      telephone: selectedCountry + " " + formatPhoneNumber(phoneNumber),
+      languesParlees: selectedLanguages,
+      activitesPreferentielles: selectedActivities.map((item) => item.code),
+      assistanceJudiciaire: ajState === 1,
+    };
+
+    // try {
+    //   const response = await fetch('', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(dataToSend),
+    //   });
+
+    //   if (response.ok) {
+    //     const jsonResponse = await response.json();
+    //     console.log('Data sent successfully:', jsonResponse);
+    //   } else {
+    //     console.error('Error sending data:', response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
+    console.log(dataToSend);
   };
+
   const handleSubmitResetChange = () => {
-    console.log("Hello World");
+    setAdresse('');
+    setEmailPrivee('');
+    setEmailPro('');
+    setCodeIBAN(avocatInfo ? avocatInfo.m_IBAN : '');
+    setCodeBIC(avocatInfo ? avocatInfo.m_BIC : '');
+    setSelectedCountry('+261'); 
+    setPhoneNumber(''); 
+    setSelectedLanguages([]);
+    setSelectedActivities([]);
+    setShowDocumentPopup(false);
+    setShowLanguePopup(false);
+    setShowActivPrefPopup(false);
   };
 
   return (
-    <>
-    
+    <form onSubmit={handleSubmitAllChange}>
       <div className="mainContainer">
         <div className="container" style={{ marginLeft: "30px" }}>
           <img src={PersoIcon} alt="logo" className="logo" />
@@ -634,7 +677,12 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
             <p>
               E-mail privé:
-              <input className="modifInput" type="text" />
+              <input
+                className="modifInput"
+                type="text"
+                value={emailPrivee}
+                onChange={(e) => setEmailPrivee(e.target.value)}
+              />
             </p>
             <p>
               IBAN:
@@ -642,6 +690,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 className="modifInput"
                 type="text"
                 defaultValue={avocatInfo && avocatInfo.m_IBAN}
+                value={codeIBAN}
+                onChange={(e) => setCodeIBAN(e.target.value)}
               />
             </p>
             <p>
@@ -650,6 +700,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 className="modifInput"
                 type="text"
                 defaultValue={avocatInfo && avocatInfo.m_BIC}
+                value={codeBIC}
+                onChange={(e) => setCodeBIC(e.target.value)}
               />
             </p>
           </div>
@@ -680,7 +732,12 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <p>
               E-mail professionnel:
               <br />
-              <input className="modifInput" type="text" />
+              <input
+                className="modifInput"
+                type="text"
+                value={emailPro}
+                onChange={(e) => setEmailPro(e.target.value)}
+              />
             </p>
             <p>
               Date d'assermentation:
@@ -696,11 +753,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 {avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}
               </strong>
             </p>
-
             <p style={{ minHeight: "150px" }}>
               Langues parlées:
               <button onClick={handleLangueClick} className="btnadd">
-                <BsPlusCircleFill/>
+                <BsPlusCircleFill />
               </button>
               <br />
               <span>
@@ -743,7 +799,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                     <br />
                   </React.Fragment>
                 ))}
-
                 {showActivPrefPopup && (
                   <PopUpActiPref
                     onClose={closeActivitePopup}
@@ -862,7 +917,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           Enregistrer
         </button>
       </div>
-    </>
+    </form>
   );
 };
 

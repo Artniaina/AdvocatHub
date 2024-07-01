@@ -12,38 +12,6 @@ const ValidationOTP = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
 
-  useEffect(() => {
-    setLoading(false);
-    const formatOTPAuthURLForQR = (url) => {
-      const originalURL = url;
-
-      const parts = originalURL.split("?");
-
-      if (parts.length !== 2) {
-        throw new Error("URL OTP invalide.");
-      }
-      const [baseURL, queryParams] = parts;
-      const params = new URLSearchParams(queryParams);
-      const secret = params.get("secret");
-      const digits = params.get("digits");
-      const issuer = params.get("issuer");
-      const emailStartIndex = baseURL.lastIndexOf(":") + 1;
-      const emailEndIndex = baseURL.lastIndexOf("@");
-      const email = baseURL.substring(emailStartIndex, emailEndIndex);
-      const encodedEmail = encodeURIComponent(email);
-      const formattedURL = `otpauth://totp/${issuer}:${encodedEmail}?secret=${secret}&digits=${digits}&issuer=${issuer}`;
-      return formattedURL;
-    };
-    
-    if (url) {
-      try {
-        const formattedURL = formatOTPAuthURLForQR(url);
-        setFormattedOTPURL(formattedURL);
-      } catch (error) {
-        console.error("Erreur lors du formatage de l'URL OTP :", error.message);
-      }
-    }
-  }, [url]);
 
   const handleSubmit = async () => {
     try {
@@ -58,6 +26,8 @@ const ValidationOTP = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        //Ampiana Access-Control-Allow-Credentials: true
+        // credentials: 'include',
         body: JSON.stringify(userData),
       });
       if (codeOTP === "") {

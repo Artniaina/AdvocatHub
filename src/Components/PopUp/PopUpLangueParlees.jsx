@@ -12,7 +12,6 @@ const PopUpLangueParlees = ({
   selectedLangue,
 }) => {
   console.log(defaultLangue);
-
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
   const [sortOrder, setSortOrder] = useState("az");
@@ -20,7 +19,6 @@ const PopUpLangueParlees = ({
   const [searchQueryLangue, setSearchQueryLangue] = useState("");
   const [searchType, setSearchType] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(value || []);
-
   useEffect(() => {
     setSelectedLanguages(value);
   }, [value]);

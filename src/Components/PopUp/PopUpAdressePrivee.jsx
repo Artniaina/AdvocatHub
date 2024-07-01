@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { SlClose } from "react-icons/sl";
 import "../../Styles/PopUp/AdressePriveePopUp.css";
 
+
 const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
   const overlayRef = useRef(null);
   const [adressePrivee, setAdressePrivee] = useState(value || "");
@@ -17,13 +18,12 @@ const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(adressePrivee);
     onClose();
   };
-
+  
   return (
     <div className="overlay" ref={overlayRef}>
       <div className="popup">
