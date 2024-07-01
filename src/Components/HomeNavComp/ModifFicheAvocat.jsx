@@ -375,12 +375,20 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       activitesPreferentielles: selectedActivities.map((item) => item.code),
       assistanceJudiciaire: ajState === 1,
     };
+
     setTimeout(() => {
       console.log("Fermeture automatique après soumission des données");
       window.location.href = "/home";
     }, 2000);
     console.log(dataToSend);
   };
+
+  const handleNoChangeSubmitted = () => {
+    setTimeout(() => {
+      window.location.href = "/home";
+    }, 2000);
+  };
+  
 
   const handleSubmitResetChange = () => {
     setAdresse("");
@@ -395,10 +403,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowDocumentPopup(false);
     setShowLanguePopup(false);
     setShowActivPrefPopup(false);
-    
   };
 
- 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
       <div className="mainContainer">
@@ -943,18 +949,18 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           </button>
           <br />
           <span>
-            {showAnnulePopup && <PopUpAnnuler onClose={closeAnnulePopup} />}
+            {showAnnulePopup && <PopUpAnnuler onClose={closeAnnulePopup} onReset={handleNoChangeSubmitted} />}
           </span>
         </div>
         <div style={{ minHeight: "150px" }}>
-          <button className="btnsub" onClick={handleValidPopup}>
+          <button className="btnsub" onClick={handleValidPopup} >
             <FaCheck />
             Enregistrer
           </button>
           <br />
           <span>
             {showValiderPopUp && (
-              <ConfirmationValidation onClose={closeValidPopup} onSubmit={handleSubmitAllChange} />
+              <ConfirmationValidation onClose={closeValidPopup} onSubmit={handleSubmitAllChange} onNoSubmit={handleNoChangeSubmitted}/>
             )}
           </span>
         </div>

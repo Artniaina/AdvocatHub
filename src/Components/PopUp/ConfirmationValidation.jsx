@@ -3,7 +3,7 @@ import "../../Styles/PopUp/Confirmation.css";
 import { BsQuestionCircleFill } from "react-icons/bs";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
-const ConfirmationValidation = ({ onClose , onSubmit}) => {
+const ConfirmationValidation = ({ onClose , onSubmit, onNoSubmit}) => {
   return (
     <div className="overlay">
       <div className="popup">
@@ -23,7 +23,7 @@ const ConfirmationValidation = ({ onClose , onSubmit}) => {
           
           <div className="confbtn">
             <button onClick={onSubmit} >Oui</button>
-            <button onClick={onClose}>Non</button>
+            <button onClick={onNoSubmit}>Non</button>
           </div>
         </div>
       </div>

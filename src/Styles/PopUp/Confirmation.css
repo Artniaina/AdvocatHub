@@ -44,4 +44,8 @@
 .confbtn button{
   font-size: 18px;
   padding: 10px;
+  transition: all 0.3s;
+}
+.confbtn button:hover{
+  background-color: #9626c2e3 ;
 }
