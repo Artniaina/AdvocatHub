@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
@@ -14,6 +15,7 @@ import "../../Styles/PopUp/AdressePriveePopUp.css";
 import { FaCheck } from "react-icons/fa";
 import { FiMinusCircle } from "react-icons/fi";
 import ConfirmationValidation from "../PopUp/ConfirmationValidation";
+import { useNavigate } from "react-router-dom";
 
 const languages = [
   { code: "ab", name: "Abkhaze" },
@@ -223,6 +225,7 @@ const activity = [
   { code: "PA19", name: "Droit fiscal" },
 ];
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
+  const navigate= useNavigate();
   const names = languages.map((language) => language.name);
 
   const langues =
@@ -240,7 +243,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
-
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
 
   const handleValidPopup = () => {
@@ -344,7 +346,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  const handleSubmitAllChange = (e) => {
+  const handleSubmitAllChangeform = (e) => {
     e.preventDefault();
     const dataToSend = {
       adresse: adresse,
@@ -358,24 +360,25 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       assistanceJudiciaire: ajState === 1,
     };
 
-    // try {
-    //   const response = await fetch('', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(dataToSend),
-    //   });
-
-    //   if (response.ok) {
-    //     const jsonResponse = await response.json();
-    //     console.log('Data sent successfully:', jsonResponse);
-    //   } else {
-    //     console.error('Error sending data:', response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
+    console.log(dataToSend);
+  };
+  const handleSubmitAllChange = (e) => {
+    e.preventDefault();
+    const dataToSend = {
+      adresse: adresse,
+      emailPrivee: emailPrivee,
+      emailPro: emailPro,
+      codeIBAN: codeIBAN,
+      codeBIC: codeBIC,
+      telephone: selectedCountry + " " + formatPhoneNumber(phoneNumber),
+      languesParlees: selectedLanguages,
+      activitesPreferentielles: selectedActivities.map((item) => item.code),
+      assistanceJudiciaire: ajState === 1,
+    };
+    setTimeout(() => {
+      console.log("Fermeture automatique après soumission des données");
+      window.location.href = "/home";
+    }, 2000);
     console.log(dataToSend);
   };
 
@@ -392,10 +395,12 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowDocumentPopup(false);
     setShowLanguePopup(false);
     setShowActivPrefPopup(false);
+    
   };
 
+ 
   return (
-    <form onSubmit={handleSubmitAllChange}>
+    <form onSubmit={handleSubmitAllChangeform}>
       <div className="mainContainer">
         <div className="container" style={{ marginLeft: "30px" }}>
           <img src={PersoIcon} alt="logo" className="logo" />
@@ -949,7 +954,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           <br />
           <span>
             {showValiderPopUp && (
-              <ConfirmationValidation onClose={closeValidPopup} />
+              <ConfirmationValidation onClose={closeValidPopup} onSubmit={handleSubmitAllChange} />
             )}
           </span>
         </div>

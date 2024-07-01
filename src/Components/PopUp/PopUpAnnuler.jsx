@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../Styles/PopUp/Annuler.css';
+import '../../Styles/PopUp/Confirmation.css';
 
 const PopUpAnnuler = ({ onClose }) => {
   return (

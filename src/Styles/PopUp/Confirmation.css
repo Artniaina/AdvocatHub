@@ -1,0 +1,47 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00000080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px #0000001a;
+  width: 500px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button {
+  font-size: 20px;
+  color: #ffff;
+  cursor: pointer;
+  background-color: #671786;
+  width: 543px;
+  height: 35px;
+  text-align: end;
+  margin: -6px 2px 5px 6px;
+  margin-right: -6px;
+}
+
+.popup-content {
+  margin-top: 10px;
+
+}
+.confbtn{
+  display: flex;
+  justify-content: space-between;
+}
+.confbtn button{
+  font-size: 18px;
+  padding: 10px;
+}
