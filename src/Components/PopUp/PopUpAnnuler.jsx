@@ -23,7 +23,7 @@ const PopUpAnnuler = ({ onClose, onReset }) => {
 
           <div className="confbtn">
             <button onClick={onReset}>Oui</button>
-            <button onClick={onclose}>Non</button>
+            <button onClick={onClose}>Non</button>
           </div>
         </div>
       </div>
