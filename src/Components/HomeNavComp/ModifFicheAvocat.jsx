@@ -929,7 +929,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
         </div>
       </div>
 
-      <div style={{ textAlign: "end" }}>
+      <div style={{ display:"flex", justifyContent:"flex-end", marginRight:"20px"}} >
+
         <div style={{ minHeight: "150px" }}>
           <button className="btnsub" onClick={handleAnnuleClick}>
             <FiMinusCircle />
@@ -940,7 +941,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             {showAnnulePopup && <PopUpAnnuler onClose={closeAnnulePopup} />}
           </span>
         </div>
-
         <div style={{ minHeight: "150px" }}>
           <button className="btnsub" onClick={handleValidPopup}>
             <FaCheck />
@@ -953,6 +953,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             )}
           </span>
         </div>
+
       </div>
     </form>
   );
