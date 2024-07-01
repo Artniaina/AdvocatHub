@@ -41,6 +41,7 @@ const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
             onChange={(e) => setAdressePrivee(e.target.value)}
           /> 
           <br />
+          
           <button className="buttonPop" onClick={handleSubmit}>Valider</button>
         </div>
       </div>

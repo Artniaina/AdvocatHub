@@ -7,11 +7,13 @@ import "../../Styles/Homepage/Acceuil/Acceuil.css";
 import "../../Styles/Homepage/Acceuil/PopUp.css";
 import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
 import { BsPlusCircleFill } from "react-icons/bs";
+import PopUpAnnuler from "../PopUp/PopUpAnnuler";
 import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../PopUp/PopUpActivPref";
 import "../../Styles/PopUp/AdressePriveePopUp.css";
 import { FaCheck } from "react-icons/fa";
 import { FiMinusCircle } from "react-icons/fi";
+import ConfirmationValidation from "../PopUp/ConfirmationValidation";
 
 const languages = [
   { code: "ab", name: "Abkhaze" },
@@ -239,6 +241,26 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
 
+  const [showValiderPopUp, setShowValiderPopUp] = useState(false);
+
+  const handleValidPopup = () => {
+    setShowValiderPopUp(true);
+  };
+
+  const closeValidPopup = () => {
+    setShowValiderPopUp(false);
+  };
+
+  const [showAnnulePopup, setShowAnnulePopup] = useState(false);
+
+  const handleAnnuleClick = () => {
+    setShowAnnulePopup(true);
+  };
+
+  const closeAnnulePopup = () => {
+    setShowAnnulePopup(false);
+  };
+
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const activites =
@@ -358,13 +380,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   const handleSubmitResetChange = () => {
-    setAdresse('');
-    setEmailPrivee('');
-    setEmailPro('');
-    setCodeIBAN(avocatInfo ? avocatInfo.m_IBAN : '');
-    setCodeBIC(avocatInfo ? avocatInfo.m_BIC : '');
-    setSelectedCountry('+261'); 
-    setPhoneNumber(''); 
+    setAdresse("");
+    setEmailPrivee("");
+    setEmailPro("");
+    setCodeIBAN(avocatInfo ? avocatInfo.m_IBAN : "");
+    setCodeBIC(avocatInfo ? avocatInfo.m_BIC : "");
+    setSelectedCountry("+261");
+    setPhoneNumber("");
     setSelectedLanguages([]);
     setSelectedActivities([]);
     setShowDocumentPopup(false);
@@ -908,14 +930,29 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       </div>
 
       <div style={{ textAlign: "end" }}>
-        <button className="btnsub" onClick={handleSubmitResetChange}>
-          <FiMinusCircle />
-          Annuler
-        </button>
-        <button className="btnsub" onClick={handleSubmitAllChange}>
-          <FaCheck />
-          Enregistrer
-        </button>
+        <div style={{ minHeight: "150px" }}>
+          <button className="btnsub" onClick={handleAnnuleClick}>
+            <FiMinusCircle />
+            Annuler
+          </button>
+          <br />
+          <span>
+            {showAnnulePopup && <PopUpAnnuler onClose={closeAnnulePopup} />}
+          </span>
+        </div>
+
+        <div style={{ minHeight: "150px" }}>
+          <button className="btnsub" onClick={handleValidPopup}>
+            <FaCheck />
+            Enregistrer
+          </button>
+          <br />
+          <span>
+            {showValiderPopUp && (
+              <ConfirmationValidation onClose={closeValidPopup} />
+            )}
+          </span>
+        </div>
       </div>
     </form>
   );
