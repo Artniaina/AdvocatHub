@@ -388,22 +388,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       window.location.href = "/home";
     }, 2000);
   };
-  
-
-  const handleSubmitResetChange = () => {
-    setAdresse("");
-    setEmailPrivee("");
-    setEmailPro("");
-    setCodeIBAN(avocatInfo ? avocatInfo.m_IBAN : "");
-    setCodeBIC(avocatInfo ? avocatInfo.m_BIC : "");
-    setSelectedCountry("+261");
-    setPhoneNumber("");
-    setSelectedLanguages([]);
-    setSelectedActivities([]);
-    setShowDocumentPopup(false);
-    setShowLanguePopup(false);
-    setShowActivPrefPopup(false);
-  };
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
