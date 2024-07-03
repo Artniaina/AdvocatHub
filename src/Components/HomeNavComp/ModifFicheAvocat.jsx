@@ -314,10 +314,12 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setSelectedCountry(e.target.value);
   };
 
-
   const formatPhoneNumber = (number) => {
-    number = number.replace(/\D/g, ""); 
-    const formattedNumber = number.replace(/(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})/, "+$1 $2 $3 $4 $5");
+    number = number.replace(/\D/g, "");
+    const formattedNumber = number.replace(
+      /(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})/,
+      "+$1 $2 $3 $4 $5"
+    );
     return formattedNumber;
   };
   const handlePhoneNumberChange = (event) => {
@@ -325,7 +327,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     const formattedNumber = formatPhoneNumber(inputNumber);
     setPhoneNumber(formattedNumber);
   };
-  
+
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
   };
@@ -475,6 +477,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   onClose={closeDocumentPopup}
                   onSubmit={handleAdresseSubmit}
                   value={adresse}
+                  defaultValue={avocatInfo && avocatInfo.m_sAdressePrivee}
                 />
               )}
             </p>
@@ -721,10 +724,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               <input
                 className="modifInput"
                 type="text"
-                value={emailPrivee}
+                defaultValue={avocatInfo && avocatInfo.m_sEmailSecondaire}
                 onChange={(e) => setEmailPrivee(e.target.value)}
               />
             </p>
+
             <p>
               IBAN:
               <input
@@ -736,12 +740,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               />
             </p>
             <p>
-              Code BIC:
+              Code BIC{" "}
               <input
                 className="modifInput"
                 type="text"
                 defaultValue={avocatInfo && avocatInfo.m_BIC}
-                value={codeBIC}
                 onChange={(e) => setCodeBIC(e.target.value)}
               />
             </p>
@@ -776,10 +779,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               <input
                 className="modifInput"
                 type="text"
-                value={emailPro}
+                defaultValue={avocatInfo && avocatInfo.m_sEmailPro}
                 onChange={(e) => setEmailPro(e.target.value)}
               />
             </p>
+
             <p>
               Date d'assermentation:
               <br />

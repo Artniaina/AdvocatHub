@@ -128,7 +128,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <p>
             E-mail professionnel:
             <br />
-            <strong></strong>
+            <strong>{avocatInfo && avocatInfo.m_sEmailPro}</strong>
           </p>
           <p>
             Date d'assermentation:

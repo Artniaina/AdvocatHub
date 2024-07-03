@@ -3,7 +3,7 @@ import { SlClose } from "react-icons/sl";
 import "../../Styles/PopUp/AdressePriveePopUp.css";
 
 
-const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
+const PopUpAdressePrivee = ({ onClose, onSubmit, value, defaultValue }) => {
   const overlayRef = useRef(null);
   const [adressePrivee, setAdressePrivee] = useState(value || "");
 
@@ -37,6 +37,7 @@ const PopUpAdressePrivee = ({ onClose, onSubmit, value }) => {
           <textarea 
             name="adressePrivee" 
             id="adressePrivee" 
+            defaultValue={defaultValue}
             value={adressePrivee}
             onChange={(e) => setAdressePrivee(e.target.value)}
           /> 
