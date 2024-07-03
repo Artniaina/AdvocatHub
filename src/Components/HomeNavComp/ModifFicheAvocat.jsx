@@ -225,7 +225,7 @@ const activity = [
   { code: "PA19", name: "Droit fiscal" },
 ];
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const names = languages.map((language) => language.name);
 
   const langues =
@@ -247,8 +247,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const handleValidPopup = (e) => {
     setShowValiderPopUp(true);
-    handleSubmitAllChangeform(e, 'valider');
-
+    handleSubmitAllChangeform(e, "valider");
   };
 
   const closeValidPopup = () => {
@@ -259,7 +258,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const handleAnnuleClick = (e) => {
     setShowAnnulePopup(true);
-    handleSubmitAllChangeform(e, 'annuler');
+    handleSubmitAllChangeform(e, "annuler");
   };
 
   const closeAnnulePopup = () => {
@@ -315,16 +314,18 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setSelectedCountry(e.target.value);
   };
 
-  const handlePhoneNumberChange = (e) => {
-    const input = e.target.value;
-    const numberWithoutCountryCode = input.replace(selectedCountry, "").trim();
-    const number = numberWithoutCountryCode.replace(/[^\d]/g, "");
-    setPhoneNumber(number);
-  };
-  const formatPhoneNumber = (number) => {
-    return number.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
-  };
 
+  const formatPhoneNumber = (number) => {
+    number = number.replace(/\D/g, ""); 
+    const formattedNumber = number.replace(/(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})/, "+$1 $2 $3 $4 $5");
+    return formattedNumber;
+  };
+  const handlePhoneNumberChange = (event) => {
+    const inputNumber = event.target.value.replace(selectedCountry, "").trim();
+    const formattedNumber = formatPhoneNumber(inputNumber);
+    setPhoneNumber(formattedNumber);
+  };
+  
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
   };
@@ -350,53 +351,60 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   const handleSubmitAllChangeform = (e, buttonType) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (buttonType == 'valider') {
+    if (buttonType == "valider") {
       setShowValiderPopUp(true);
-    } else if (buttonType == 'annuler') {
+    } else if (buttonType == "annuler") {
       setShowAnnulePopup(true);
-    } 
+    }
   };
 
   const handleSubmitAllChange = async (e) => {
     e.preventDefault();
-  
+
     const dataToSend = {
       m_sAdressePrivee: adresse,
       m_sEmailPro: emailPro,
       m_sEmailSecondaire: emailPrivee,
-      m_stelephoneMobile: `${selectedCountry} ${formatPhoneNumber(phoneNumber)}`,
+      m_stelephoneMobile: `${selectedCountry} ${formatPhoneNumber(
+        phoneNumber
+      )}`,
     };
-  
-    console.log('Données envoyées:', JSON.stringify(dataToSend));
-  
-    const IdAvocat=avocatInfo && avocatInfo.m_nIDAvocat_PP
+
+    console.log("Données envoyées:", JSON.stringify(dataToSend));
+
+    const IdAvocat = avocatInfo && avocatInfo.m_nIDAvocat_PP;
 
     try {
+      const response = await fetch(
+        `http://192.168.10.5/Utilisateur/ModifFicheAvocat/${IdAvocat}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataToSend),
+        }
+      );
 
-      const response = await fetch(`http://192.168.10.5/Utilisateur/ModifFicheAvocat/${IdAvocat}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataToSend),
-      });
-  
       const responseData = await response.json();
-      console.log('Réponse serveur:', responseData);
-  
+      console.log("Réponse serveur:", responseData);
+
       if (!response.ok) {
         throw new Error("Échec lors de l'enregistrement des modifications");
       }
-  
-      console.log('Modifications enregistrées avec succès');
+
+      console.log("Modifications enregistrées avec succès");
       setTimeout(() => {
         window.location.href = "/home";
       }, 2000);
     } catch (error) {
       alert("Échec lors de l'enregistrement des modifications");
-      console.error("Erreur lors de l'enregistrement des modifications:", error);
+      console.error(
+        "Erreur lors de l'enregistrement des modifications:",
+        error
+      );
     }
   };
   const handleNoChangeSubmitted = () => {
@@ -940,8 +948,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
         </div>
       </div>
 
-      <div style={{ display:"flex", justifyContent:"flex-end", marginRight:"20px"}} >
-
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginRight: "20px",
+        }}
+      >
         <div style={{ minHeight: "150px" }}>
           <button className="btnsub" onClick={handleAnnuleClick}>
             <FiMinusCircle />
@@ -949,22 +962,30 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           </button>
           <br />
           <span>
-            {showAnnulePopup && <PopUpAnnuler onClose={closeAnnulePopup} onReset={handleNoChangeSubmitted} />}
+            {showAnnulePopup && (
+              <PopUpAnnuler
+                onClose={closeAnnulePopup}
+                onReset={handleNoChangeSubmitted}
+              />
+            )}
           </span>
         </div>
         <div style={{ minHeight: "150px" }}>
-          <button className="btnsub" onClick={handleValidPopup} >
+          <button className="btnsub" onClick={handleValidPopup}>
             <FaCheck />
             Enregistrer
           </button>
           <br />
           <span>
             {showValiderPopUp && (
-              <ConfirmationValidation onClose={closeValidPopup} onSubmit={handleSubmitAllChange} onNoSubmit={handleNoChangeSubmitted}/>
+              <ConfirmationValidation
+                onClose={closeValidPopup}
+                onSubmit={handleSubmitAllChange}
+                onNoSubmit={handleNoChangeSubmitted}
+              />
             )}
           </span>
         </div>
-
       </div>
     </form>
   );
