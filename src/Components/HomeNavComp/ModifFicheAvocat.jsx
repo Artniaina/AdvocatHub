@@ -359,30 +359,47 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     } 
   };
 
-  const handleSubmitAllChange = (e) => {
+  const handleSubmitAllChange = async (e) => {
     e.preventDefault();
+  
     const dataToSend = {
-      adresse: adresse,
-      emailPrivee: emailPrivee,
-      emailPro: emailPro,
-      codeIBAN: codeIBAN,
-      codeBIC: codeBIC,
-      telephone: selectedCountry + " " + formatPhoneNumber(phoneNumber),
-      languesParlees: selectedLanguages,
-      activitesPreferentielles: selectedActivities.map((item) => item.code),
-      assistanceJudiciaire: ajState === 1,
+      m_sAdressePrivee: adresse,
+      m_sEmailPro: emailPro,
+      m_sEmailSecondaire: emailPrivee,
+      m_stelephoneMobile: `${selectedCountry} ${formatPhoneNumber(phoneNumber)}`,
     };
-
-    setTimeout(() => {
-      window.location.href = "/home";
-    }, 10000);
-    console.log(dataToSend);
+  
+    console.log('Données envoyées:', JSON.stringify(dataToSend));
+  
+    try {
+      const response = await fetch("http://192.168.10.5/Utilisateur/ModifFicheAvocat/3", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+  
+      const responseData = await response.json();
+      console.log('Réponse serveur:', responseData);
+  
+      if (!response.ok) {
+        throw new Error("Échec lors de l'enregistrement des modifications");
+      }
+  
+      console.log('Modifications enregistrées avec succès');
+      setTimeout(() => {
+        window.location.href = "/home";
+      }, 2000);
+    } catch (error) {
+      alert("Échec lors de l'enregistrement des modifications");
+      console.error("Erreur lors de l'enregistrement des modifications:", error);
+    }
   };
-
   const handleNoChangeSubmitted = () => {
     setTimeout(() => {
       window.location.href = "/home";
-    }, 10000);
+    }, 30000);
   };
 
   return (
