@@ -1,4 +1,4 @@
-# Law firm managment web app
+# Advocathub
 This project is the frontend of a law firm management application currently in development. It is designed as a learning exercise to explore the integration of React with WebDev webservices
 
 # Project Status
