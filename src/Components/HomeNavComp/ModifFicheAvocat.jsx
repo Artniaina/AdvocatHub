@@ -371,8 +371,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   
     console.log('Données envoyées:', JSON.stringify(dataToSend));
   
+    const IdAvocat=avocatInfo && avocatInfo.m_nIDAvocat_PP
+
     try {
-      const response = await fetch("http://192.168.10.5/Utilisateur/ModifFicheAvocat/3", {
+
+      const response = await fetch(`http://192.168.10.5/Utilisateur/ModifFicheAvocat/${IdAvocat}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
