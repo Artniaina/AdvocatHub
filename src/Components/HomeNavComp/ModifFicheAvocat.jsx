@@ -245,8 +245,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
 
-  const handleValidPopup = () => {
+  const handleValidPopup = (e) => {
     setShowValiderPopUp(true);
+    handleSubmitAllChangeform(e, 'valider');
+
   };
 
   const closeValidPopup = () => {
@@ -255,8 +257,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
-  const handleAnnuleClick = () => {
+  const handleAnnuleClick = (e) => {
     setShowAnnulePopup(true);
+    handleSubmitAllChangeform(e, 'annuler');
   };
 
   const closeAnnulePopup = () => {
@@ -346,22 +349,16 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  const handleSubmitAllChangeform = (e) => {
-    e.preventDefault();
-    const dataToSend = {
-      adresse: adresse,
-      emailPrivee: emailPrivee,
-      emailPro: emailPro,
-      codeIBAN: codeIBAN,
-      codeBIC: codeBIC,
-      telephone: selectedCountry + " " + formatPhoneNumber(phoneNumber),
-      languesParlees: selectedLanguages,
-      activitesPreferentielles: selectedActivities.map((item) => item.code),
-      assistanceJudiciaire: ajState === 1,
-    };
+  const handleSubmitAllChangeform = (e, buttonType) => {
+    e.preventDefault()
 
-    console.log(dataToSend);
+    if (buttonType == 'valider') {
+      setShowValiderPopUp(true);
+    } else if (buttonType == 'annuler') {
+      setShowAnnulePopup(true);
+    } 
   };
+
   const handleSubmitAllChange = (e) => {
     e.preventDefault();
     const dataToSend = {
@@ -377,16 +374,15 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     };
 
     setTimeout(() => {
-      console.log("Fermeture automatique après soumission des données");
       window.location.href = "/home";
-    }, 2000);
+    }, 10000);
     console.log(dataToSend);
   };
 
   const handleNoChangeSubmitted = () => {
     setTimeout(() => {
       window.location.href = "/home";
-    }, 2000);
+    }, 10000);
   };
 
   return (
