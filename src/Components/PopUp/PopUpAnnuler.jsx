@@ -6,8 +6,8 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 const PopUpAnnuler = ({ onClose, onReset }) => {
   return (
     <div className="overlay">
-      <div className="popup">
-        <button className="close-button" onClick={onClose}>
+      <div className="popupModif">
+        <button className="closeConf" onClick={onClose}>
           <IoMdCloseCircleOutline />
         </button>
         <div className="popup-content">
@@ -20,7 +20,6 @@ const PopUpAnnuler = ({ onClose, onReset }) => {
               Souhaitez-vous annuler la modification de votre fiche avocat ?
             </p>
           </div>
-
           <div className="confbtn">
             <button onClick={onReset}>Oui</button>
             <button onClick={onClose}>Non</button>

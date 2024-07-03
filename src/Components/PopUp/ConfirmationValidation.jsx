@@ -6,8 +6,8 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 const ConfirmationValidation = ({ onClose , onSubmit, onNoSubmit}) => {
   return (
     <div className="overlay">
-      <div className="popup">
-        <button className="close-button" onClick={onClose}>
+      <div className="popupModif">
+        <button className="closeConf" onClick={onClose}>
           <IoMdCloseCircleOutline />
         </button>
         <div className="popup-content">

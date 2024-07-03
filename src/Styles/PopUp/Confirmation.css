@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.popup {
+.popupModif {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 10px #0000001a;
@@ -19,23 +19,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
-.close-button {
+.closeConf{
   font-size: 20px;
   color: #ffff;
   cursor: pointer;
   background-color: #671786;
-  width: 543px;
+  width: 500px;
   height: 35px;
-  text-align: end;
   margin: -6px 2px 5px 6px;
-  margin-right: -6px;
+  margin-right: 5px;
+  border: none;
+  border-top-right-radius:5px ;
+  border-top-left-radius:5px ;
+  text-align: end;
 }
 
 .popup-content {
   margin-top: 10px;
-
 }
 .confbtn{
   display: flex;
