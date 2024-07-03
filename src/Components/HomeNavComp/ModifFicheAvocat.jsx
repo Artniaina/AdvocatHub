@@ -468,7 +468,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <p style={{ height: "200px" }}>
               Adresse privée:
               <br />
-              {adresse && <strong>{adresse}</strong>}
+              {adresse ? (
+                <strong>{adresse}</strong>
+              ) : (
+                <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
+              )}
               <button className="btnpop" onClick={handleDocumentClick}>
                 <FaFilePen />
               </button>
@@ -477,7 +481,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   onClose={closeDocumentPopup}
                   onSubmit={handleAdresseSubmit}
                   value={adresse}
-                  defaultValue={avocatInfo && avocatInfo.m_sAdressePrivee}
+                  defaultValuee={
+                    adresse
+                      ? adresse
+                      : avocatInfo && avocatInfo.m_sAdressePrivee
+                  }
                 />
               )}
             </p>
