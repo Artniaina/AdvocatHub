@@ -75,7 +75,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
             <br />
             <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
-          <p>
+          <p style={{ height: "200px" }}>
             Adresse privée:
             <br />
             <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>

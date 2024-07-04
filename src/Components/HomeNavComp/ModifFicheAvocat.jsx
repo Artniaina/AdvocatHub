@@ -227,19 +227,21 @@ const activity = [
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const names = languages.map((language) => language.name);
+  const defaultPhoneNumber = avocatInfo ? avocatInfo.m_stelephoneMobile  : "+261 15 236 56 "
+  console.log(defaultPhoneNumber);
 
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
-  const [emailPrivee, setEmailPrivee] = useState("");
-  const [emailPro, setEmailPro] = useState("");
+  const [emailPrivee, setEmailPrivee] = useState(avocatInfo && avocatInfo.m_sEmailSecondaire);
+  const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber);
+  const [emailPro, setEmailPro] = useState(avocatInfo && avocatInfo.m_sEmailPro);
   const [codeIBAN, setCodeIBAN] = useState(avocatInfo ? avocatInfo.m_IBAN : "");
   const [codeBIC, setCodeBIC] = useState(avocatInfo ? avocatInfo.m_BIC : "");
-  const [adresse, setAdresse] = useState("");
+  const [adresse, setAdresse] = useState(avocatInfo && avocatInfo.m_sAdressePrivee);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
@@ -716,6 +718,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <div>
                   <input
                     type="text"
+                    defaultValue={defaultPhoneNumber} 
                     value={`${selectedCountry} ${formatPhoneNumber(
                       phoneNumber
                     )}`}
