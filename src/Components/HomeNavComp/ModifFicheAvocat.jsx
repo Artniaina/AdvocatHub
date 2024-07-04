@@ -227,9 +227,11 @@ const activity = [
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const names = languages.map((language) => language.name);
-  const defaultPhoneNumber = avocatInfo ? avocatInfo.m_stelephoneMobile  : "+261 15 236 56 "
+  const defaultPhoneNumber = avocatInfo ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+") : "+261 15 236 56";
   console.log(defaultPhoneNumber);
+  
 
+  
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 

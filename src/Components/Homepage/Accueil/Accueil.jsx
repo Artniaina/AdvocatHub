@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
-import "../../../Styles/Homepage/Acceuil/Acceuil.css"
+import "../../../Styles/Homepage/Acceuil/Acceuil.css";
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
-
 const Accueil = ({ avocatInfo, etudeInfo }) => {
   const aj = avocatInfo && avocatInfo.m_dispenseaj;
   const [isDispensed, setIsDispensed] = useState(aj);
-  const langues = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(',') : [];
-  const activites = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_sactivitépref.split(',') : [];
+
+  
+  const langues =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+  const activites =
+    avocatInfo && avocatInfo.m_langue
+      ? avocatInfo.m_sactivitépref.split(",")
+      : [];
   const formatDate = (dateString) => {
     if (!dateString) return "";
-  
+
     if (dateString.length === 8) {
       const year = dateString.substring(0, 4);
       const month = dateString.substring(4, 6);
@@ -30,7 +35,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
   }, [avocatInfo]);
   return (
     <div className="mainContainer">
-      <div className="container" style={{marginLeft:"30px"}}>
+      <div className="container" style={{ marginLeft: "30px" }}>
         <img src={PersoIcon} alt="logo" className="logo" />
         <h1>
           Informations personnelles
@@ -83,8 +88,11 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <p>
             Téléphone mobile:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_stelephoneMobile}</strong>
+            <strong>
+              {avocatInfo && avocatInfo.m_stelephoneMobile}
+            </strong>
           </p>
+
           <p>
             E-mail privé:
             <br />
@@ -103,7 +111,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
         </div>
       </div>
 
-      <div className="container " style={{width:"520px"}}>
+      <div className="container " style={{ width: "520px" }}>
         <img src={ProIcon} alt="logo" className="logo" />
         <h1>
           Informations professionnnelles
@@ -133,53 +141,55 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <p>
             Date d'assermentation:
             <br />
-            <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAssermentation) }</strong>
+            <strong>
+              {avocatInfo && formatDate(avocatInfo.m_dDateAssermentation)}
+            </strong>
           </p>
           <p>
             Date d'avoué:
             <br />
             <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
-          <p>
-          Langue parlées:
-          <br />
+          <p style={{minHeight:"150px"}}>
+            Langue parlées:
+            <br />
             {langues.map((langue, index) => (
-            <React.Fragment key={index}>
-             <strong>{langue}</strong> 
-              <br />
-            </React.Fragment>
-          ))}
-             
+              <React.Fragment key={index}>
+                <strong>{langue}</strong>
+                <br />
+              </React.Fragment>
+            ))}
           </p>
-          <p>
-          Activités préférentielles:
-          <br />
+          <p style={{height:"200px"}}>
+            Activités préférentielles:
+            <br />
             {activites.map((activites, index) => (
-            <React.Fragment key={index}>
-             <strong>{activites}</strong> 
-              <br />
-            </React.Fragment>
-          ))}    
+              <React.Fragment key={index}>
+                <strong>{activites}</strong>
+                <br />
+              </React.Fragment>
+            ))}
           </p>
-                    
-          <p>Assistance Judiciaire:
-          <div className="bout">
-            {aj == 1 ? (
-              <>
-                <button className="boutonn oui">Oui</button>
-                <button className="boutonn non">Non</button>
-              </>
-            ) : (
-              <>
-                <button className="boutonn non">Oui</button>
-                <button className="boutonn oui">Non</button>
-              </>
-            )}
-          </div>
+
+          <p>
+            Assistance Judiciaire:
+            <div className="bout">
+              {aj == 1 ? (
+                <>
+                  <button className="boutonn oui">Oui</button>
+                  <button className="boutonn non">Non</button>
+                </>
+              ) : (
+                <>
+                  <button className="boutonn non">Oui</button>
+                  <button className="boutonn oui">Non</button>
+                </>
+              )}
+            </div>
           </p>
         </div>
       </div>
-      <div className="container" style={{marginRight:"30px"}}>
+      <div className="container" style={{ marginRight: "30px" }}>
         <img src={EtudeIcon} alt="logo" className="logo" />
         <h1>
           Etude <hr className="hr" />
