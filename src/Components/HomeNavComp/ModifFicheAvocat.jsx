@@ -376,6 +376,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_stelephoneMobile: `${selectedCountry} ${formatPhoneNumber(
         phoneNumber
       )}`,
+      m_IBAN: codeIBAN,
+      m_BIC: codeBIC
     };
 
     console.log("Données envoyées:", JSON.stringify(dataToSend));
@@ -757,7 +759,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               <input
                 className="modifInput"
                 type="text"
-                defaultValue={avocatInfo && avocatInfo.m_BIC}
+                value={codeBIC}
                 onChange={(e) => setCodeBIC(e.target.value)}
               />
             </p>
