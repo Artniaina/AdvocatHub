@@ -234,7 +234,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+    
     const [selectedLanguages, setSelectedLanguages] = useState([]);
+    
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [emailPrivee, setEmailPrivee] = useState(
     avocatInfo && avocatInfo.m_sEmailSecondaire
@@ -848,9 +850,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
-                    value={selectedLanguages}
+                    value={["ar"]}
                     languages={languages}
-                    defaultLangue={langues}
+                    defaultLangue={["de", "fr", "lb"]}
                   />
                 )}
               </span>
