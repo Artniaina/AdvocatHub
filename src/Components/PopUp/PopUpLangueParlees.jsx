@@ -11,9 +11,10 @@ const PopUpLangueParlees = ({
   defaultLangue,
   selectedLangue,
 }) => {
-  console.log(defaultLangue);
-  console.log(value);
-  const AllLangues = defaultLangue.concat(value);
+const langDefault= defaultLangue
+const addValue= value
+const TabAllLangues = [...langDefault, ...addValue];
+console.log(TabAllLangues); 
 
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
@@ -21,12 +22,8 @@ const PopUpLangueParlees = ({
   const [searchQueryCode, setSearchQueryCode] = useState("");
   const [searchQueryLangue, setSearchQueryLangue] = useState("");
   const [searchType, setSearchType] = useState("");
-  const [selectedLanguages, setSelectedLanguages] = useState(
-   AllLangues
-  );
-  useEffect(() => {
-    setSelectedLanguages(value);
-  }, [value]);
+  const [selectedLanguages, setSelectedLanguages] = useState(TabAllLangues);
+
 
   const sortLanguages = () => {
     const newSortOrder = sortOrder === "az" ? "za" : "az";
@@ -59,9 +56,6 @@ const PopUpLangueParlees = ({
       setSearchQueryCode("");
     }
   };
-  useEffect(() => {
-    setSelectedLanguages(AllLangues);
-  }, [AllLangues]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -155,6 +149,7 @@ const PopUpLangueParlees = ({
                         {sortOrder === "az" ? "Langue ▲" : "Langue ▼"}
                       </button>
                     </>
+                    
                   )}
                 </th>
                 <th className="theadbtn">Choix</th>
@@ -169,7 +164,7 @@ const PopUpLangueParlees = ({
                     <input
                       type="checkbox"
                       value={language.code}
-                      checked={AllLangues.includes(language.code)}
+                      checked={selectedLanguages.includes(language.code)}
                       onChange={() => handleCheckboxChange(language.code)}
                     />
                   </td>

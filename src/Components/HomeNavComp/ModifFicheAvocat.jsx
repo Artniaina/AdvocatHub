@@ -850,7 +850,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
-                    value={["ar"]}
+                    value={selectedLanguages}
                     languages={languages}
                     defaultLangue={["de", "fr", "lb"]}
                   />
