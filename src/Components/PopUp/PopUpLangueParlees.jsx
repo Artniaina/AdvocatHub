@@ -19,7 +19,6 @@ const PopUpLangueParlees = ({
   const [searchQueryLangue, setSearchQueryLangue] = useState("");
   const [searchType, setSearchType] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(value || []);
-
   useEffect(() => {
     setSelectedLanguages(value);
   }, [value]);
