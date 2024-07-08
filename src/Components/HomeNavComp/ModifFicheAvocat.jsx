@@ -234,8 +234,30 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+    const languageSelected =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+  const convertLanguagesToCodes = (languageString) => {
+    const languageNames = languageString.split(", ");
+    const uniqueLanguageCodes = [];
 
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
+    languageNames.forEach((name) => {
+      const language = languages.find((lang) => lang.name === name);
+      if (language && !uniqueLanguageCodes.includes(language.code)) {
+        uniqueLanguageCodes.push(language.code);
+      }
+    });
+
+    return uniqueLanguageCodes;
+  };
+
+  const LanguageString =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
+
+  const languageCodes = convertLanguagesToCodes(LanguageString);
+  console.log(languageCodes);
+
+  // const defaultcheckedlanguage=["fr"]
+  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [emailPrivee, setEmailPrivee] = useState(
@@ -276,28 +298,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowAnnulePopup(false);
   };
 
-  const languageSelected =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-  const convertLanguagesToCodes = (languageString) => {
-    const languageNames = languageString.split(", ");
-    const uniqueLanguageCodes = [];
-
-    languageNames.forEach((name) => {
-      const language = languages.find((lang) => lang.name === name);
-      if (language && !uniqueLanguageCodes.includes(language.code)) {
-        uniqueLanguageCodes.push(language.code);
-      }
-    });
-
-    return uniqueLanguageCodes;
-  };
-
-  const LanguageString =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
-
-  const languageCodes = convertLanguagesToCodes(LanguageString);
-  console.log(languageCodes);
-
+ 
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
