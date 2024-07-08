@@ -231,12 +231,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   console.log(defaultPhoneNumber);
   
 
-  
+  const defaultCheckedLanguages = ['en', 'fr','lb']
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-
   const [selectedCountry, setSelectedCountry] = useState("+261");
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState(defaultCheckedLanguages);
   const [emailPrivee, setEmailPrivee] = useState(avocatInfo && avocatInfo.m_sEmailSecondaire);
   const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber);
   const [emailPro, setEmailPro] = useState(avocatInfo && avocatInfo.m_sEmailPro);
@@ -278,8 +277,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const initialAjState = avocatInfo && avocatInfo.m_dispenseaj;
   const [ajState, setAjState] = useState(initialAjState);
   const toggleAj = () => {
-    setAjState((prevState) => (prevState == 1 ? 0 : 1));
+    setAjState((prevState) => (prevState == 1 ? false : true));
   };
+  
 
   useEffect(() => {
     if (avocatInfo) {
@@ -308,8 +308,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowLanguePopup(false);
   };
   const handleSubmitLangues = (selected) => {
-    setSelectedLanguages(selected);
+    const mergedLanguages = [...defaultCheckedLanguages, ...selected];
+    setSelectedLanguages(mergedLanguages);
     setShowLanguePopup(false);
+    console.log(mergedLanguages);
   };
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
@@ -377,7 +379,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
         phoneNumber
       )}`,
       m_IBAN: codeIBAN,
-      m_BIC: codeBIC
+      m_BIC: codeBIC,
+      m_dispenseaj:ajState, 
+      m_tableauLangue: selectedLanguages
     };
 
     console.log("Données envoyées:", JSON.stringify(dataToSend));
@@ -404,9 +408,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       }
 
       console.log("Modifications enregistrées avec succès");
-      setTimeout(() => {
-        window.location.href = "/home";
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.href = "/home";
+      // }, 2000);
     } catch (error) {
       alert("Échec lors de l'enregistrement des modifications");
       console.error(
@@ -755,7 +759,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               />
             </p>
             <p>
-              Code BIC{" "}
+              Code BIC
               <input
                 className="modifInput"
                 type="text"
@@ -839,7 +843,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
-                    value={selectedLanguages}
+                    value={langues}
                     languages={languages}
                     defaultLangue={langues}
                   />
@@ -949,7 +953,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <p>
                   Telephone fixe:
                   <br />
-                  <strong>{etudeInfo.m_IBAN}</strong>
+                  <strong>{etudeInfo.m_stelephone}</strong>
                 </p>
                 <p>
                   Fax:
