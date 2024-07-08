@@ -254,9 +254,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
 
   const languageCodes = convertLanguagesToCodes(LanguageString);
-  console.log(languageCodes);
-
-  // const defaultcheckedlanguage=["fr"]
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
   const [selectedCountry, setSelectedCountry] = useState("+261");
