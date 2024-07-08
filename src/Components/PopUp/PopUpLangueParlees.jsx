@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import { SlClose } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
 import "../../Styles/PopUp/LangueParlees.css";
-import iso6391 from 'iso-639-1';
 
 const PopUpLangueParlees = ({
   onClose,
@@ -11,10 +10,10 @@ const PopUpLangueParlees = ({
   languages,
   defaultLangue,
 }) => {
-const langDefault= defaultLangue
-const addValue= value
-const TabAllLangues = [...langDefault, ...addValue];
-console.log(TabAllLangues);
+  const langDefault = defaultLangue;
+  const addValue = value;
+  const TabAllLangues = [...langDefault, ...addValue];
+  console.log(TabAllLangues);
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
   const [sortOrder, setSortOrder] = useState("az");
@@ -22,7 +21,6 @@ console.log(TabAllLangues);
   const [searchQueryLangue, setSearchQueryLangue] = useState("");
   const [searchType, setSearchType] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(TabAllLangues);
-
 
   const sortLanguages = () => {
     const newSortOrder = sortOrder === "az" ? "za" : "az";
@@ -71,17 +69,23 @@ console.log(TabAllLangues);
   }, [onClose]);
 
   const handleSubmit = () => {
-    onSubmit(selectedLanguages);
+    const uniqueSelectedLanguages = Array.from(new Set(selectedLanguages));
+    onSubmit(uniqueSelectedLanguages);
     onClose();
   };
 
   const handleCheckboxChange = (code) => {
-    setSelectedLanguages((prevSelectedLanguages) =>
-      prevSelectedLanguages.includes(code)
-        ? prevSelectedLanguages.filter((lang) => lang !== code)
-        : [...prevSelectedLanguages, code]
-    );
+    setSelectedLanguages((prevSelectedLanguages) => {
+      const isSelected = prevSelectedLanguages.includes(code);
+      if (isSelected) {
+        return prevSelectedLanguages.filter((lang) => lang !== code);
+      } else {
+        return [...prevSelectedLanguages, code];
+      }
+    });
   };
+  
+  console.log(selectedLanguages);
 
   const filteredLanguages = sortedLanguages.filter((language) => {
     if (searchType === "code") {
@@ -148,7 +152,6 @@ console.log(TabAllLangues);
                         {sortOrder === "az" ? "Langue ▲" : "Langue ▼"}
                       </button>
                     </>
-                    
                   )}
                 </th>
                 <th className="theadbtn">Choix</th>

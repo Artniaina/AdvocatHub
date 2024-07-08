@@ -227,16 +227,16 @@ const activity = [
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const names = languages.map((language) => language.name);
-    const defaultPhoneNumber = avocatInfo
+  const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
   console.log(defaultPhoneNumber);
 
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-    
-    const [selectedLanguages, setSelectedLanguages] = useState([]);
-    
+
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [emailPrivee, setEmailPrivee] = useState(
     avocatInfo && avocatInfo.m_sEmailSecondaire
@@ -278,19 +278,25 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-    const convertLanguagesToCodes = (languageString) => {
-      const languageNames = languageString.split(', ');
-      const languageCodes = languageNames.map(name => {
-        const language = languages.find(lang => lang.name === name);
-        return language ? language.code : null;
-      }).filter(code => code !== null);
-    
-      return languageCodes;
-    };
+  const convertLanguagesToCodes = (languageString) => {
+    const languageNames = languageString.split(", ");
+    const uniqueLanguageCodes = [];
 
-    const languageString = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : "";
-    const languageCodes = convertLanguagesToCodes(languageString);
-    console.log(languageCodes);
+    languageNames.forEach((name) => {
+      const language = languages.find((lang) => lang.name === name);
+      if (language && !uniqueLanguageCodes.includes(language.code)) {
+        uniqueLanguageCodes.push(language.code);
+      }
+    });
+
+    return uniqueLanguageCodes;
+  };
+
+  const LanguageString =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
+
+  const languageCodes = convertLanguagesToCodes(LanguageString);
+  console.log(languageCodes);
 
   const activites =
     avocatInfo && avocatInfo.m_langue
@@ -319,8 +325,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowActivPrefPopup(false);
   };
   const handleSubmitActivity = (selected) => {
-    setSelectedActivities(selected);
+    setSelectedLanguages(selected);
     setShowActivPrefPopup(false);
+    console.log(selected);
   };
   const handleLangueClick = () => {
     setShowLanguePopup(true);
@@ -328,10 +335,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const closeLanguePopup = () => {
     setShowLanguePopup(false);
   };
+
   const handleSubmitLangues = (selected) => {
     setSelectedLanguages(selected);
     setShowLanguePopup(false);
-    console.log(selected);
   };
 
   const handleAdresseSubmit = (adressePrivee) => {
@@ -845,12 +852,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               </button>
               <br />
               <span>
-                {langues.map((langue, index) => (
-                  <React.Fragment key={index}>
-                    <strong>{langue}</strong>
-                    <br />
-                  </React.Fragment>
-                ))}
                 {selectedLanguages.map((code, index) => {
                   const language = languages.find((lang) => lang.code === code);
                   return (
@@ -860,13 +861,14 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                     </React.Fragment>
                   );
                 })}
+               
                 {showLanguePopup && (
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
-                    value={selectedLanguages}
-                    languages={languages}
-                    defaultLangue={languageCodes}
+                    value={selectedLanguages} 
+                    languages={languages} 
+                    defaultLangue={languageCodes} 
                   />
                 )}
               </span>
