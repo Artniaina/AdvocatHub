@@ -227,21 +227,28 @@ const activity = [
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const names = languages.map((language) => language.name);
-  const defaultPhoneNumber = avocatInfo ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+") : "+261 15 236 56";
+  const defaultPhoneNumber = avocatInfo
+    ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
+    : "";
   console.log(defaultPhoneNumber);
-  
 
-  const defaultCheckedLanguages = ['en', 'fr','lb']
-  const langues =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+  const langues = avocatInfo?.m_langue ? avocatInfo.m_langue.split(",") : [];
+  const [selectedLanguages, setSelectedLanguages] = useState(
+    avocatInfo?.m_langue ? avocatInfo.m_langue.split(",") : []
+  );
   const [selectedCountry, setSelectedCountry] = useState("+261");
-  const [selectedLanguages, setSelectedLanguages] = useState(defaultCheckedLanguages);
-  const [emailPrivee, setEmailPrivee] = useState(avocatInfo && avocatInfo.m_sEmailSecondaire);
+  const [emailPrivee, setEmailPrivee] = useState(
+    avocatInfo && avocatInfo.m_sEmailSecondaire
+  );
   const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber);
-  const [emailPro, setEmailPro] = useState(avocatInfo && avocatInfo.m_sEmailPro);
+  const [emailPro, setEmailPro] = useState(
+    avocatInfo && avocatInfo.m_sEmailPro
+  );
   const [codeIBAN, setCodeIBAN] = useState(avocatInfo ? avocatInfo.m_IBAN : "");
   const [codeBIC, setCodeBIC] = useState(avocatInfo ? avocatInfo.m_BIC : "");
-  const [adresse, setAdresse] = useState(avocatInfo && avocatInfo.m_sAdressePrivee);
+  const [adresse, setAdresse] = useState(
+    avocatInfo && avocatInfo.m_sAdressePrivee
+  );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -279,7 +286,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const toggleAj = () => {
     setAjState((prevState) => (prevState == 1 ? false : true));
   };
-  
 
   useEffect(() => {
     if (avocatInfo) {
@@ -308,11 +314,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowLanguePopup(false);
   };
   const handleSubmitLangues = (selected) => {
-    const mergedLanguages = [...defaultCheckedLanguages, ...selected];
-    setSelectedLanguages(mergedLanguages);
+    setSelectedLanguages(selected);
     setShowLanguePopup(false);
-    console.log(mergedLanguages);
+    console.log(selected);
   };
+
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
@@ -380,8 +386,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       )}`,
       m_IBAN: codeIBAN,
       m_BIC: codeBIC,
-      m_dispenseaj:ajState, 
-      m_tableauLangue: selectedLanguages
+      m_dispenseaj: ajState,
+      m_tableauLangue: selectedLanguages,
     };
 
     console.log("Données envoyées:", JSON.stringify(dataToSend));
@@ -726,7 +732,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 <div>
                   <input
                     type="text"
-                    defaultValue={defaultPhoneNumber} 
+                    defaultValue={defaultPhoneNumber}
                     value={`${selectedCountry} ${formatPhoneNumber(
                       phoneNumber
                     )}`}
@@ -843,7 +849,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
-                    value={langues}
+                    value={selectedLanguages}
                     languages={languages}
                     defaultLangue={langues}
                   />
