@@ -278,6 +278,20 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+    const convertLanguagesToCodes = (languageString) => {
+      const languageNames = languageString.split(', ');
+      const languageCodes = languageNames.map(name => {
+        const language = languages.find(lang => lang.name === name);
+        return language ? language.code : null;
+      }).filter(code => code !== null);
+    
+      return languageCodes;
+    };
+
+    const languageString = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : "";
+    const languageCodes = convertLanguagesToCodes(languageString);
+    console.log(languageCodes);
+
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
@@ -852,7 +866,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                     onSubmit={handleSubmitLangues}
                     value={selectedLanguages}
                     languages={languages}
-                    defaultLangue={["de", "fr", "lb"]}
+                    defaultLangue={languageCodes}
                   />
                 )}
               </span>

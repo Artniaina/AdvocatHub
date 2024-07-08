@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { SlClose } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
 import "../../Styles/PopUp/LangueParlees.css";
+import iso6391 from 'iso-639-1';
 
 const PopUpLangueParlees = ({
   onClose,
@@ -9,13 +10,11 @@ const PopUpLangueParlees = ({
   value,
   languages,
   defaultLangue,
-  selectedLangue,
 }) => {
 const langDefault= defaultLangue
 const addValue= value
 const TabAllLangues = [...langDefault, ...addValue];
-console.log(TabAllLangues); 
-
+console.log(TabAllLangues);
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
   const [sortOrder, setSortOrder] = useState("az");
