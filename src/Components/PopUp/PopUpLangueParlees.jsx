@@ -12,11 +12,14 @@ const PopUpLangueParlees = ({
 }) => {
   const langDefault = defaultLangue;
   const addValue = value;
+
   const [selectedLanguages, setSelectedLanguages] = useState(langDefault);
 
-  useEffect(() => {
-    setSelectedLanguages(addValue);
-  }, [addValue]);
+    useEffect(() => {
+      if (addValue.length > 0) {
+        setSelectedLanguages(addValue);
+      }
+    }, [addValue]);
 
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
@@ -88,7 +91,6 @@ const PopUpLangueParlees = ({
     });
   };
 
-  console.log(selectedLanguages);
 
   const filteredLanguages = sortedLanguages.filter((language) => {
     if (searchType === "code") {
