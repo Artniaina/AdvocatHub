@@ -17,192 +17,6 @@ import { FiMinusCircle } from "react-icons/fi";
 import ConfirmationValidation from "../PopUp/ConfirmationValidation";
 import { useNavigate } from "react-router-dom";
 
-const languages = [
-  { code: "ab", name: "Abkhaze" },
-  { code: "aa", name: "Afar" },
-  { code: "af", name: "Afrikaans" },
-  { code: "ak", name: "Akan" },
-  { code: "sq", name: "Albanais" },
-  { code: "am", name: "Amharique" },
-  { code: "ar", name: "Arabe" },
-  { code: "an", name: "Aragonais" },
-  { code: "hy", name: "Arménien" },
-  { code: "as", name: "Assamais" },
-  { code: "av", name: "Avar" },
-  { code: "ae", name: "Avestique" },
-  { code: "ay", name: "Aymara" },
-  { code: "az", name: "Azéri" },
-  { code: "bm", name: "Bambara" },
-  { code: "ba", name: "Bachkir" },
-  { code: "eu", name: "Basque" },
-  { code: "be", name: "Biélorusse" },
-  { code: "bn", name: "Bengali" },
-  { code: "bh", name: "Bihari" },
-  { code: "bi", name: "Bichlamar" },
-  { code: "bs", name: "Bosniaque" },
-  { code: "br", name: "Breton" },
-  { code: "bg", name: "Bulgare" },
-  { code: "my", name: "Birman" },
-  { code: "ca", name: "Catalan" },
-  { code: "ch", name: "Chamorro" },
-  { code: "ce", name: "Tchétchène" },
-  { code: "ny", name: "Chewa" },
-  { code: "zh", name: "Chinois" },
-  { code: "cv", name: "Tchouvache" },
-  { code: "kw", name: "Cornique" },
-  { code: "co", name: "Corse" },
-  { code: "cr", name: "Cri" },
-  { code: "hr", name: "Croate" },
-  { code: "cs", name: "Tchèque" },
-  { code: "da", name: "Danois" },
-  { code: "dv", name: "Maldivien" },
-  { code: "nl", name: "Néerlandais" },
-  { code: "dz", name: "Dzongkha" },
-  { code: "en", name: "Anglais" },
-  { code: "eo", name: "Espéranto" },
-  { code: "et", name: "Estonien" },
-  { code: "ee", name: "Éwé" },
-  { code: "fo", name: "Féroïen" },
-  { code: "fj", name: "Fidjien" },
-  { code: "fi", name: "Finnois" },
-  { code: "fr", name: "Français" },
-  { code: "ff", name: "Peul" },
-  { code: "gl", name: "Galicien" },
-  { code: "ka", name: "Géorgien" },
-  { code: "de", name: "Allemand" },
-  { code: "el", name: "Grec" },
-  { code: "gn", name: "Guarani" },
-  { code: "gu", name: "Gujarati" },
-  { code: "ht", name: "Haïtien" },
-  { code: "ha", name: "Haoussa" },
-  { code: "he", name: "Hébreu" },
-  { code: "hz", name: "Herero" },
-  { code: "hi", name: "Hindi" },
-  { code: "ho", name: "Hiri motu" },
-  { code: "hu", name: "Hongrois" },
-  { code: "is", name: "Islandais" },
-  { code: "io", name: "Ido" },
-  { code: "ig", name: "Igbo" },
-  { code: "id", name: "Indonésien" },
-  { code: "ia", name: "Interlingua" },
-  { code: "ie", name: "Interlingue" },
-  { code: "iu", name: "Inuktitut" },
-  { code: "ik", name: "Inupiaq" },
-  { code: "ga", name: "Irlandais" },
-  { code: "it", name: "Italien" },
-  { code: "ja", name: "Japonais" },
-  { code: "jv", name: "Javanais" },
-  { code: "kl", name: "Groenlandais" },
-  { code: "kn", name: "Kannada" },
-  { code: "kr", name: "Kanouri" },
-  { code: "ks", name: "Kashmiri" },
-  { code: "kk", name: "Kazakh" },
-  { code: "km", name: "Khmer" },
-  { code: "ki", name: "Kikuyu" },
-  { code: "rw", name: "Kinyarwanda" },
-  { code: "ky", name: "Kirghize" },
-  { code: "kv", name: "Komi" },
-  { code: "kg", name: "Kongo" },
-  { code: "ko", name: "Coréen" },
-  { code: "ku", name: "Kurde" },
-  { code: "kj", name: "Kuanyama" },
-  { code: "la", name: "Latin" },
-  { code: "lb", name: "Luxembourgeois" },
-  { code: "lg", name: "Luganda" },
-  { code: "li", name: "Limbourgeois" },
-  { code: "ln", name: "Lingala" },
-  { code: "lo", name: "Laotien" },
-  { code: "lt", name: "Lituanien" },
-  { code: "lu", name: "Luba-katanga" },
-  { code: "lv", name: "Letton" },
-  { code: "gv", name: "Mannois" },
-  { code: "mk", name: "Macédonien" },
-  { code: "mg", name: "Malgache" },
-  { code: "ms", name: "Malais" },
-  { code: "ml", name: "Malayalam" },
-  { code: "mt", name: "Maltais" },
-  { code: "mi", name: "Maori" },
-  { code: "mr", name: "Marathe" },
-  { code: "mh", name: "Marshallais" },
-  { code: "mn", name: "Mongol" },
-  { code: "na", name: "Nauruan" },
-  { code: "nv", name: "Navajo" },
-  { code: "nd", name: "Ndébélé du Nord" },
-  { code: "nr", name: "Ndébélé du Sud" },
-  { code: "ng", name: "Ndonga" },
-  { code: "ne", name: "Népalais" },
-  { code: "no", name: "Norvégien" },
-  { code: "nb", name: "Norvégien Bokmål" },
-  { code: "nn", name: "Norvégien Nynorsk" },
-  { code: "ii", name: "Yi de Sichuan" },
-  { code: "oc", name: "Occitan" },
-  { code: "oj", name: "Ojibwé" },
-  { code: "cu", name: "Vieux slave ecclésiastique" },
-  { code: "om", name: "Oromo" },
-  { code: "or", name: "Oriya" },
-  { code: "os", name: "Ossète" },
-  { code: "pa", name: "Panjabi" },
-  { code: "pi", name: "Pali" },
-  { code: "fa", name: "Persan" },
-  { code: "pl", name: "Polonais" },
-  { code: "ps", name: "Pachto" },
-  { code: "pt", name: "Portugais" },
-  { code: "qu", name: "Quechua" },
-  { code: "rm", name: "Romanche" },
-  { code: "rn", name: "Rundi" },
-  { code: "ro", name: "Roumain" },
-  { code: "ru", name: "Russe" },
-  { code: "sa", name: "Sanskrit" },
-  { code: "sc", name: "Sarde" },
-  { code: "sd", name: "Sindhi" },
-  { code: "se", name: "Same du Nord" },
-  { code: "sm", name: "Samoan" },
-  { code: "sg", name: "Sango" },
-  { code: "sr", name: "Serbe" },
-  { code: "gd", name: "Gaélique" },
-  { code: "sn", name: "Shona" },
-  { code: "si", name: "Singhalais" },
-  { code: "sk", name: "Slovaque" },
-  { code: "sl", name: "Slovène" },
-  { code: "so", name: "Somali" },
-  { code: "st", name: "Sotho du Sud" },
-  { code: "es", name: "Espagnol" },
-  { code: "su", name: "Soundanais" },
-  { code: "sw", name: "Swahili" },
-  { code: "ss", name: "Swati" },
-  { code: "sv", name: "Suédois" },
-  { code: "ta", name: "Tamoul" },
-  { code: "te", name: "Télougou" },
-  { code: "tg", name: "Tadjik" },
-  { code: "th", name: "Thaï" },
-  { code: "ti", name: "Tigrigna" },
-  { code: "bo", name: "Tibétain" },
-  { code: "tk", name: "Turkmène" },
-  { code: "tl", name: "Tagalog" },
-  { code: "tn", name: "Tswana" },
-  { code: "to", name: "Tongan" },
-  { code: "tr", name: "Turc" },
-  { code: "ts", name: "Tsonga" },
-  { code: "tt", name: "Tatar" },
-  { code: "tw", name: "Twi" },
-  { code: "ty", name: "Tahitien" },
-  { code: "ug", name: "Ouïghour" },
-  { code: "uk", name: "Ukrainien" },
-  { code: "ur", name: "Ourdou" },
-  { code: "uz", name: "Ouzbek" },
-  { code: "ve", name: "Venda" },
-  { code: "vi", name: "Vietnamien" },
-  { code: "vo", name: "Volapük" },
-  { code: "wa", name: "Wallon" },
-  { code: "cy", name: "Gallois" },
-  { code: "wo", name: "Wolof" },
-  { code: "fy", name: "Frison occidental" },
-  { code: "xh", name: "Xhosa" },
-  { code: "yi", name: "Yiddish" },
-  { code: "yo", name: "Yoruba" },
-  { code: "za", name: "Zhuang" },
-  { code: "zu", name: "Zoulou" },
-];
 const activity = [
   { code: "PA01", name: "Droit de la faillite et du surendettement" },
   { code: "PA02", name: "Droit de la circulation et des transports" },
@@ -226,15 +40,42 @@ const activity = [
 ];
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.10.5/Utilisateur/LanguesParlees"
+        );
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des langues parlées");
+        }
+        const data = await response.json();
+
+        const newLanguages = data.map((langue) => ({
+          code: langue.sCodelangue,
+          name: langue.slangueparlées,
+        }));
+        setLanguages(newLanguages);
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+    };
+
+    fetchLanguages();
+    
+  }, []);
+  const [languages, setLanguages] = useState([]);
   const names = languages.map((language) => language.name);
+
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
-  console.log(defaultPhoneNumber);
 
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
-    const languageSelected =
+  const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const convertLanguagesToCodes = (languageString) => {
     const languageNames = languageString.split(", ");
@@ -252,9 +93,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const LanguageString =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
-
   const languageCodes = convertLanguagesToCodes(LanguageString);
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
+  useEffect(() => {
+    setSelectedLanguages(languageCodes);
+  }, [avocatInfo]);
 
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [emailPrivee, setEmailPrivee] = useState(
@@ -295,7 +138,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowAnnulePopup(false);
   };
 
- 
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
@@ -859,14 +701,14 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                     </React.Fragment>
                   );
                 })}
-               
+
                 {showLanguePopup && (
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
-                    value={selectedLanguages} 
-                    languages={languages} 
-                    defaultLangue={languageCodes} 
+                    value={selectedLanguages}
+                    languages={languages}
+                    defaultLangue={languageCodes}
                   />
                 )}
               </span>

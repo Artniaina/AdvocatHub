@@ -20,6 +20,7 @@ import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
 
+
 function PageTitleUpdater() {
   const location = useLocation();
   useEffect(() => {
