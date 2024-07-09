@@ -12,7 +12,7 @@ const PopUpLangueParlees = ({
 }) => {
   const langDefault = defaultLangue;
   const addValue = value;
-  const [selectedLanguages, setSelectedLanguages] = useState([langDefault]);
+  const [selectedLanguages, setSelectedLanguages] = useState(langDefault);
 
   useEffect(() => {
     setSelectedLanguages(addValue);
