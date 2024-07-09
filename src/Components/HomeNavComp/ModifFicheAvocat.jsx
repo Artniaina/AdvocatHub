@@ -16,27 +16,6 @@ import { FiMinusCircle } from "react-icons/fi";
 import ConfirmationValidation from "../PopUp/ConfirmationValidation";
 import { useNavigate } from "react-router-dom";
 
-const activity = [
-  { code: "PA01", name: "Droit de la faillite et du surendettement" },
-  { code: "PA02", name: "Droit de la circulation et des transports" },
-  { code: "PA03", name: "Droit de la consommation" },
-  { code: "PA04", name: "Droit pénal" },
-  { code: "PA05", name: "Droit du travail" },
-  { code: "PA06", name: "Droit de l'environnement" },
-  { code: "PA07", name: "Droit de l'UE" },
-  { code: "PA08", name: "Droit de la famille" },
-  { code: "PA09", name: "Droits de l'homme et libertés publiques" },
-  { code: "PA10", name: "Droit de l'immigration et d'asile" },
-  { code: "PA11", name: "Propriété intellectuelle" },
-  { code: "PA12", name: "Droit des technologies de l'information" },
-  { code: "PA13", name: "Contentieux, médiation, arbitrage" },
-  { code: "PA14", name: "Dommages corporels et matériels" },
-  { code: "PA15", name: "Droit des biens" },
-  { code: "PA16", name: "Droit public" },
-  { code: "PA17", name: "Droit de la sécurité sociale" },
-  { code: "PA18", name: "Droit des successions" },
-  { code: "PA19", name: "Droit fiscal" },
-];
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
 
@@ -87,7 +66,35 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const languageCodes = convertLanguagesToCodes(LanguageString);
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
-  ///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////////////
+  ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
+  useEffect(() => {
+    const fetchActivpref = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.10.5/Utilisateur/ActivitésPréférentielles"
+        );
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des activités preferentielles");
+        }
+        const data = await response.json();
+
+        const newActivity = data.map((activites) => ({
+          code: activites.Code,
+          name: activites.Valuebar,
+        }));
+        setActivity(newActivity);
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+    };
+
+    fetchActivpref();
+  }, []);
+
+  const [activity, setActivity] = useState([]);
+  console.log(activity);
+
+  ///////////////////////////////////////GESTION DES STATES//////////////////////////////////////////////
 
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
