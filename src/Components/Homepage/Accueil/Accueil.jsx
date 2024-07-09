@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../../../Styles/Homepage/Acceuil/Acceuil.css";
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
 const Accueil = ({ avocatInfo, etudeInfo }) => {
-  const aj = avocatInfo && avocatInfo.m_dispenseaj;
+
+  const { state } = useLocation();
+  const selectedActPref = state && state.selectedActPref;
+  console.log('Selected Activities Preferences:', selectedActPref);  const aj = avocatInfo && avocatInfo.m_dispenseaj;
+
   const [isDispensed, setIsDispensed] = useState(aj);
 
-  
+
+
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const activites =

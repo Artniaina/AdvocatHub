@@ -62,7 +62,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     return uniqueLanguageCodes;
   };
   const LanguageString =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
+  avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
@@ -74,7 +74,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           "http://192.168.10.5/Utilisateur/ActivitésPréférentielles"
         );
         if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des activités preferentielles");
+          throw new Error(
+            "Erreur lors de la récupération des activités preferentielles"
+          );
         }
         const data = await response.json();
 
@@ -92,7 +94,14 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   }, []);
 
   const [activity, setActivity] = useState([]);
-  console.log(activity);
+  const [selectedActivities, setSelectedActivities] = useState([]);
+
+  const getActivityCodes = (data) => {
+    const flattened = data.flat();
+    const codes = flattened.map(activity => activity.code);
+    return codes;
+  };
+  const activityCodes = getActivityCodes(selectedActivities);
 
   ///////////////////////////////////////GESTION DES STATES//////////////////////////////////////////////
 
@@ -113,14 +122,12 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     avocatInfo && avocatInfo.m_sAdressePrivee
   );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
-  const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
   //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
-
   const handleValidPopup = (e) => {
     setShowValiderPopUp(true);
     handleSubmitAllChangeform(e, "valider");
@@ -142,7 +149,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowActivPrefPopup(false);
   };
   const handleSubmitActivity = (selected) => {
-    setSelectedLanguages(selected);
+    setSelectedActivities(selected);
     setShowActivPrefPopup(false);
   };
   const handleLangueClick = () => {
@@ -250,6 +257,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_BIC: codeBIC,
       m_dispenseaj: ajState,
       m_tableauLangue: selectedLanguages,
+      m_tableauActivPref: activityCodes,
     };
 
     console.log("Données envoyées:", JSON.stringify(dataToSend));
@@ -272,9 +280,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       if (!response.ok) {
         throw new Error("Échec lors de l'enregistrement des modifications");
       }
-      // setTimeout(() => {
-      //   window.location.href = "/home";
-      // }, 2000);
+ 
+        
+        navigate('/home', {
+          state: { selectedActPref: selectedActivities }
+        });
+ 
+      
     } catch (error) {
       alert("Échec lors de l'enregistrement des modifications");
       console.error(
