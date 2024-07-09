@@ -85,21 +85,26 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const LanguageString =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
-  const [selectedLanguages, setSelectedLanguages] = useState(LanguageString);
+  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
-
-///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////////////
+  ///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////////////
 
   const defaultPhoneNumber = avocatInfo
-  ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
-  : "";
+    ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
+    : "";
   const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber);
   const [selectedCountry, setSelectedCountry] = useState("+261");
-  const [emailPrivee, setEmailPrivee] = useState(avocatInfo && avocatInfo.m_sEmailSecondaire);
-  const [emailPro, setEmailPro] = useState(avocatInfo && avocatInfo.m_sEmailPro);
+  const [emailPrivee, setEmailPrivee] = useState(
+    avocatInfo && avocatInfo.m_sEmailSecondaire
+  );
+  const [emailPro, setEmailPro] = useState(
+    avocatInfo && avocatInfo.m_sEmailPro
+  );
   const [codeIBAN, setCodeIBAN] = useState(avocatInfo ? avocatInfo.m_IBAN : "");
   const [codeBIC, setCodeBIC] = useState(avocatInfo ? avocatInfo.m_BIC : "");
-  const [adresse, setAdresse] = useState(avocatInfo && avocatInfo.m_sAdressePrivee);
+  const [adresse, setAdresse] = useState(
+    avocatInfo && avocatInfo.m_sAdressePrivee
+  );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -108,7 +113,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
   //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
-  
+
   const handleValidPopup = (e) => {
     setShowValiderPopUp(true);
     handleSubmitAllChangeform(e, "valider");
@@ -153,7 +158,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowDocumentPopup(false);
   };
 
-////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
@@ -199,8 +204,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-
-///////////////////////////////////SUBMIT- ONCHANGE///////////////////////////////////////
+  ///////////////////////////////////SUBMIT- ONCHANGE///////////////////////////////////////
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
@@ -209,7 +213,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setSelectedCountry(e.target.value);
   };
 
- const handlePhoneNumberChange = (event) => {
+  const handlePhoneNumberChange = (event) => {
     const inputNumber = event.target.value.replace(selectedCountry, "").trim();
     const formattedNumber = formatPhoneNumber(inputNumber);
     setPhoneNumber(formattedNumber);
@@ -279,7 +283,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }, 30000);
   };
 
-////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
@@ -673,34 +677,48 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 {avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}
               </strong>
             </p>
-         <p style={{ minHeight: "150px" }}>
-      Langues parlées:
-      <button onClick={handleLangueClick} className="btnadd">
-        <BsPlusCircleFill />
-      </button>
-      <br />
-      <span>
-        {selectedLanguages.map((code, index) => {
-          const language = languages.find((lang) => lang.code === code);
-          return (
-            <React.Fragment key={index}>
-              <strong>{language ? language.name : code}</strong>
+            <p style={{ minHeight: "150px" }}>
+              Langues parlées:
+              <button onClick={handleLangueClick} className="btnadd">
+                <BsPlusCircleFill />
+              </button>
               <br />
-            </React.Fragment>
-          );
-        })}
+              <span>
+                {selectedLanguages.length === 0
+                  ? languageCodes.map((code, index) => {
+                      const language = languages.find(
+                        (lang) => lang.code === code
+                      );
+                      return (
+                        <React.Fragment key={`default-${index}`}>
+                          <strong>{language ? language.name : code}</strong>
+                          <br />
+                        </React.Fragment>
+                      );
+                    })
+                  : selectedLanguages.map((code, index) => {
+                      const language = languages.find(
+                        (lang) => lang.code === code
+                      );
+                      return (
+                        <React.Fragment key={`selected-${index}`}>
+                          <strong>{language ? language.name : code}</strong>
+                          <br />
+                        </React.Fragment>
+                      );
+                    })}
 
-        {showLanguePopup && (
-          <PopUpLangueParlees
-            onClose={closeLanguePopup}
-            onSubmit={handleSubmitLangues}
-            value={selectedLanguages}
-            languages={languages}
-            defaultLangue={languageCodes}
-          />
-        )}
-      </span>
-    </p>
+                {showLanguePopup && (
+                  <PopUpLangueParlees
+                    onClose={closeLanguePopup}
+                    onSubmit={handleSubmitLangues}
+                    value={selectedLanguages}
+                    languages={languages}
+                    defaultLangue={languageCodes}
+                  />
+                )}
+              </span>
+            </p>
             <p style={{ minHeight: "200px" }}>
               Activités préférentielles:
               <button onClick={handleActiviteClick} className="btnadd">
