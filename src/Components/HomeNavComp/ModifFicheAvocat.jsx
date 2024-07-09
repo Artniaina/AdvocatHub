@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
@@ -41,6 +40,7 @@ const activity = [
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
 
+  ////////////////////////////////////LANGUES PARLEES////////////////////////////////
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
@@ -64,13 +64,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
     fetchLanguages();
   }, []);
+
   const [languages, setLanguages] = useState([]);
   const names = languages.map((language) => language.name);
-
-  const defaultPhoneNumber = avocatInfo
-    ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
-    : "";
-
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const languageSelected =
@@ -78,61 +74,86 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const convertLanguagesToCodes = (languageString) => {
     const languageNames = languageString.split(", ");
     const uniqueLanguageCodes = [];
-
     languageNames.forEach((name) => {
       const language = languages.find((lang) => lang.name === name);
       if (language && !uniqueLanguageCodes.includes(language.code)) {
         uniqueLanguageCodes.push(language.code);
       }
     });
-
     return uniqueLanguageCodes;
   };
-
   const LanguageString =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
   const [selectedLanguages, setSelectedLanguages] = useState(LanguageString);
 
-  const [selectedCountry, setSelectedCountry] = useState("+261");
-  const [emailPrivee, setEmailPrivee] = useState(
-    avocatInfo && avocatInfo.m_sEmailSecondaire
-  );
+
+///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////////////
+
+  const defaultPhoneNumber = avocatInfo
+  ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
+  : "";
   const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber);
-  const [emailPro, setEmailPro] = useState(
-    avocatInfo && avocatInfo.m_sEmailPro
-  );
+  const [selectedCountry, setSelectedCountry] = useState("+261");
+  const [emailPrivee, setEmailPrivee] = useState(avocatInfo && avocatInfo.m_sEmailSecondaire);
+  const [emailPro, setEmailPro] = useState(avocatInfo && avocatInfo.m_sEmailPro);
   const [codeIBAN, setCodeIBAN] = useState(avocatInfo ? avocatInfo.m_IBAN : "");
   const [codeBIC, setCodeBIC] = useState(avocatInfo ? avocatInfo.m_BIC : "");
-  const [adresse, setAdresse] = useState(
-    avocatInfo && avocatInfo.m_sAdressePrivee
-  );
+  const [adresse, setAdresse] = useState(avocatInfo && avocatInfo.m_sAdressePrivee);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
+  const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
+  //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
+  
   const handleValidPopup = (e) => {
     setShowValiderPopUp(true);
     handleSubmitAllChangeform(e, "valider");
   };
-
   const closeValidPopup = () => {
     setShowValiderPopUp(false);
   };
-
-  const [showAnnulePopup, setShowAnnulePopup] = useState(false);
-
   const handleAnnuleClick = (e) => {
     setShowAnnulePopup(true);
     handleSubmitAllChangeform(e, "annuler");
   };
-
   const closeAnnulePopup = () => {
     setShowAnnulePopup(false);
   };
+  const handleActiviteClick = () => {
+    setShowActivPrefPopup(true);
+  };
+  const closeActivitePopup = () => {
+    setShowActivPrefPopup(false);
+  };
+  const handleSubmitActivity = (selected) => {
+    setSelectedLanguages(selected);
+    setShowActivPrefPopup(false);
+  };
+  const handleLangueClick = () => {
+    setShowLanguePopup(true);
+  };
+  const closeLanguePopup = () => {
+    setShowLanguePopup(false);
+  };
 
+  const handleSubmitLangues = (selected) => {
+    setSelectedLanguages(selected);
+    setShowLanguePopup(false);
+  };
+
+  const handleDocumentClick = () => {
+    setShowDocumentPopup(true);
+  };
+
+  const closeDocumentPopup = () => {
+    setShowDocumentPopup(false);
+  };
+
+////////////////////////////////////////////////////////////////////////////////////////
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
@@ -153,36 +174,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setAjState(initialAjState);
   }, [initialAjState]);
 
-  const handleActiviteClick = () => {
-    setShowActivPrefPopup(true);
-  };
-  const closeActivitePopup = () => {
-    setShowActivPrefPopup(false);
-  };
-  const handleSubmitActivity = (selected) => {
-    setSelectedLanguages(selected);
-    setShowActivPrefPopup(false);
-    console.log(selected);
-  };
-  const handleLangueClick = () => {
-    setShowLanguePopup(true);
-  };
-  const closeLanguePopup = () => {
-    setShowLanguePopup(false);
-  };
-
-  const handleSubmitLangues = (selected) => {
-    setSelectedLanguages(selected);
-    setShowLanguePopup(false);
-  };
-
-  const handleAdresseSubmit = (adressePrivee) => {
-    setAdresse(adressePrivee);
-  };
-  const handleCountryCodeChange = (e) => {
-    setSelectedCountry(e.target.value);
-  };
-
   const formatPhoneNumber = (number) => {
     number = number.replace(/\D/g, "");
     const formattedNumber = number.replace(
@@ -190,19 +181,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       "+$1 $2 $3 $4 $5"
     );
     return formattedNumber;
-  };
-  const handlePhoneNumberChange = (event) => {
-    const inputNumber = event.target.value.replace(selectedCountry, "").trim();
-    const formattedNumber = formatPhoneNumber(inputNumber);
-    setPhoneNumber(formattedNumber);
-  };
-
-  const handleDocumentClick = () => {
-    setShowDocumentPopup(true);
-  };
-
-  const closeDocumentPopup = () => {
-    setShowDocumentPopup(false);
   };
 
   const formatDate = (dateString) => {
@@ -219,6 +197,22 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     } else {
       return "Format de date inconnu";
     }
+  };
+
+
+///////////////////////////////////SUBMIT- ONCHANGE///////////////////////////////////////
+  const handleAdresseSubmit = (adressePrivee) => {
+    setAdresse(adressePrivee);
+  };
+
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountry(e.target.value);
+  };
+
+ const handlePhoneNumberChange = (event) => {
+    const inputNumber = event.target.value.replace(selectedCountry, "").trim();
+    const formattedNumber = formatPhoneNumber(inputNumber);
+    setPhoneNumber(formattedNumber);
   };
 
   const handleSubmitAllChangeform = (e, buttonType) => {
@@ -264,13 +258,9 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       );
 
       const responseData = await response.json();
-      console.log("Réponse serveur:", responseData);
-
       if (!response.ok) {
         throw new Error("Échec lors de l'enregistrement des modifications");
       }
-
-      console.log("Modifications enregistrées avec succès");
       // setTimeout(() => {
       //   window.location.href = "/home";
       // }, 2000);
@@ -282,11 +272,14 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       );
     }
   };
+
   const handleNoChangeSubmitted = () => {
     setTimeout(() => {
       window.location.href = "/home";
     }, 30000);
   };
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
