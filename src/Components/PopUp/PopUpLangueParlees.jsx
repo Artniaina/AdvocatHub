@@ -12,16 +12,18 @@ const PopUpLangueParlees = ({
 }) => {
   const langDefault = defaultLangue;
   const addValue = value;
-  const TabAllLangues = [...langDefault, ...addValue];
-  console.log(TabAllLangues);
-  
+  const [selectedLanguages, setSelectedLanguages] = useState([langDefault]);
+
+  useEffect(() => {
+    setSelectedLanguages(addValue);
+  }, [addValue]);
+
   const overlayRef = useRef(null);
   const [sortedLanguages, setSortedLanguages] = useState(languages);
   const [sortOrder, setSortOrder] = useState("az");
   const [searchQueryCode, setSearchQueryCode] = useState("");
   const [searchQueryLangue, setSearchQueryLangue] = useState("");
   const [searchType, setSearchType] = useState("");
-  const [selectedLanguages, setSelectedLanguages] = useState(TabAllLangues);
 
   const sortLanguages = () => {
     const newSortOrder = sortOrder === "az" ? "za" : "az";
@@ -85,7 +87,7 @@ const PopUpLangueParlees = ({
       }
     });
   };
-  
+
   console.log(selectedLanguages);
 
   const filteredLanguages = sortedLanguages.filter((language) => {
