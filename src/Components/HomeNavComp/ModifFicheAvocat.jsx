@@ -41,7 +41,6 @@ const activity = [
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
@@ -64,7 +63,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     };
 
     fetchLanguages();
-    
   }, []);
   const [languages, setLanguages] = useState([]);
   const names = languages.map((language) => language.name);
@@ -94,10 +92,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const LanguageString =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
-  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
-  useEffect(() => {
-    setSelectedLanguages(languageCodes);
-  }, [avocatInfo]);
+  const [selectedLanguages, setSelectedLanguages] = useState(LanguageString);
 
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const [emailPrivee, setEmailPrivee] = useState(
@@ -685,34 +680,34 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 {avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}
               </strong>
             </p>
-            <p style={{ minHeight: "150px" }}>
-              Langues parlées:
-              <button onClick={handleLangueClick} className="btnadd">
-                <BsPlusCircleFill />
-              </button>
+         <p style={{ minHeight: "150px" }}>
+      Langues parlées:
+      <button onClick={handleLangueClick} className="btnadd">
+        <BsPlusCircleFill />
+      </button>
+      <br />
+      <span>
+        {selectedLanguages.map((code, index) => {
+          const language = languages.find((lang) => lang.code === code);
+          return (
+            <React.Fragment key={index}>
+              <strong>{language ? language.name : code}</strong>
               <br />
-              <span>
-                {selectedLanguages.map((code, index) => {
-                  const language = languages.find((lang) => lang.code === code);
-                  return (
-                    <React.Fragment key={index}>
-                      <strong>{language ? language.name : code}</strong>
-                      <br />
-                    </React.Fragment>
-                  );
-                })}
+            </React.Fragment>
+          );
+        })}
 
-                {showLanguePopup && (
-                  <PopUpLangueParlees
-                    onClose={closeLanguePopup}
-                    onSubmit={handleSubmitLangues}
-                    value={selectedLanguages}
-                    languages={languages}
-                    defaultLangue={languageCodes}
-                  />
-                )}
-              </span>
-            </p>
+        {showLanguePopup && (
+          <PopUpLangueParlees
+            onClose={closeLanguePopup}
+            onSubmit={handleSubmitLangues}
+            value={selectedLanguages}
+            languages={languages}
+            defaultLangue={languageCodes}
+          />
+        )}
+      </span>
+    </p>
             <p style={{ minHeight: "200px" }}>
               Activités préférentielles:
               <button onClick={handleActiviteClick} className="btnadd">

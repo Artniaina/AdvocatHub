@@ -84,11 +84,11 @@ const Login = () => {
             console.log("Cookie header non trouvé dans la réponse.");
           }
         } else {
-          console.log("Email ou mot de passe incorrect");
+
           setErrorMessage("Email ou mot de passe incorrect");
         }
       } else {
-        console.log("Email ou mot de passe incorrect");
+
         setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {

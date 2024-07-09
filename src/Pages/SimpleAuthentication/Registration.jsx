@@ -65,10 +65,6 @@ const Registration = () => {
       if (!response.ok) {
         throw new Error("Erreur lors de la création du compte.");
       }
-
-      console.log(
-        `Compte créé avec succès, data: nom: ${username}, email: ${email} et mot de passe ${password}`
-      );
       navigate("/");
       setFormData({
         username: "",

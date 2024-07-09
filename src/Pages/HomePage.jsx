@@ -9,7 +9,6 @@ import Accueil from "../Components/Homepage/Accueil/Accueil";
 const HomePage = () => {
   const location = useLocation(); 
   const { isAdminAuthenticated, isAuthenticated } = location.state || {};
-  console.log(`Homepage : ${isAuthenticated}`);
   
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);

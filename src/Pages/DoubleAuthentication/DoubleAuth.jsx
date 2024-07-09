@@ -56,7 +56,6 @@ const DoubleAuth = () => {
         sMotdePasse: password,
         scodeOTP: codeOTP,
       };
-      console.log(userData);
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
@@ -74,7 +73,6 @@ const DoubleAuth = () => {
         setIsAuthenticated(true);
         setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-        console.log(role);
         if (role==="Admin") {
           navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
         }else{
