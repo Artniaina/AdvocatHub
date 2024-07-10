@@ -34,6 +34,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
+
+
   const convertLanguagesToCodes = (languageString) => {
     const languageNames = languageString.split(", ");
     const uniqueLanguageCodes = [];
@@ -49,8 +51,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
 
-  const [selectedLanguages, setSelectedLanguages] = useState((languageCodes));
-
+  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
+console.log(languageCodes);
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
   useEffect(() => {
@@ -64,10 +66,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     const codes = flattened.map((activity) => activity.code);
     return codes;
   };
-
-  // const activityCodes = getActivityCodes(
-  //   Array.isArray(selectedActivities) ? selectedActivities : []
-  // );
 
   const transformStringToArray = (str) => {
     if (Array.isArray(str)) {
@@ -87,7 +85,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
   const [selectedActivities, setSelectedActivities] = useState(defaultActivityArray);
-
   ///////////////////////////////////////GESTION DES STATES///////////////////////////////////////
 
   const defaultPhoneNumber = avocatInfo
@@ -241,7 +238,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_IBAN: codeIBAN,
       m_BIC: codeBIC,
       m_dispenseaj: ajState,
-      m_tableauLangue: selectedLanguages,
+      m_tableauLangue: languageCodes,
       m_tableauActivPref: selectedActivities,
     };
 
