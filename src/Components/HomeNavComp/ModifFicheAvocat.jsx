@@ -23,7 +23,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-////////////////////////////////////LANGUES PARLEES////////////////////////////////
+  ////////////////////////////////////LANGUES PARLEES////////////////////////////////
   useEffect(() => {
     dispatch(fetchLangues());
   }, [dispatch]);
@@ -48,7 +48,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const LanguageString =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
-  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
+
+  const [selectedLanguages, setSelectedLanguages] = useState((languageCodes));
 
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
@@ -58,19 +59,15 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const activity = useSelector((state) => state.activities.activities) || [];
 
-  const [selectedActivities, setSelectedActivities] = useState([]);
-
   const getActivityCodes = (data) => {
     const flattened = data.flat();
     const codes = flattened.map((activity) => activity.code);
     return codes;
   };
 
-  console.log(selectedActivities);
-
-  const activityCodes = getActivityCodes(
-    Array.isArray(selectedActivities) ? selectedActivities : []
-  );
+  // const activityCodes = getActivityCodes(
+  //   Array.isArray(selectedActivities) ? selectedActivities : []
+  // );
 
   const transformStringToArray = (str) => {
     if (Array.isArray(str)) {
@@ -89,8 +86,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
+  const [selectedActivities, setSelectedActivities] = useState(defaultActivityArray);
 
-  ///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////
+  ///////////////////////////////////////GESTION DES STATES///////////////////////////////////////
+
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
