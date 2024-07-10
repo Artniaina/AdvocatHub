@@ -102,7 +102,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     return codes;
   };
   const activityCodes = getActivityCodes(selectedActivities);
-
+  
   ///////////////////////////////////////GESTION DES STATES//////////////////////////////////////////////
 
   const defaultPhoneNumber = avocatInfo
@@ -283,7 +283,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
  
         
         navigate('/home', {
-          state: { selectedActPref: selectedActivities }
+          state: { selectedActPref: activity }
         });
  
       

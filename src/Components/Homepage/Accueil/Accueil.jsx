@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
 import "../../../Styles/Homepage/Acceuil/Acceuil.css";
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
 const Accueil = ({ avocatInfo, etudeInfo }) => {
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchActivities());
+  }, [dispatch]);
+
+  const activities = useSelector((state) => state.activities.activities);
   const { state } = useLocation();
-  const selectedActPref = state && state.selectedActPref;
-  console.log('Selected Activities Preferences:', selectedActPref);  const aj = avocatInfo && avocatInfo.m_dispenseaj;
 
+  const selectedActPref = activities || [];
+  const aj = avocatInfo && avocatInfo.m_dispenseaj;
   const [isDispensed, setIsDispensed] = useState(aj);
 
+  const m_sactivitépref = (avocatInfo && avocatInfo.m_sactivitépref) || "";
+  const activityCodes = m_sactivitépref.slice(1, -1).split(",");
 
+  const activityNames = activityCodes.map((code) => {
+    const activity = selectedActPref
+      .flat()
+      .find((activity) => activity.code === code);
+    return activity ? activity.name : code;
+  });
 
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
@@ -94,9 +110,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <p>
             Téléphone mobile:
             <br />
-            <strong>
-              {avocatInfo && avocatInfo.m_stelephoneMobile}
-            </strong>
+            <strong>{avocatInfo && avocatInfo.m_stelephoneMobile}</strong>
           </p>
 
           <p>
@@ -156,7 +170,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
             <br />
             <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
-          <p style={{minHeight:"150px"}}>
+          <p style={{ minHeight: "150px" }}>
             Langue parlées:
             <br />
             {langues.map((langue, index) => (
@@ -166,12 +180,12 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
               </React.Fragment>
             ))}
           </p>
-          <p style={{height:"200px"}}>
+          <p style={{ height: "200px" }}>
             Activités préférentielles:
             <br />
-            {activites.map((activites, index) => (
+            {activityNames.map((name, index) => (
               <React.Fragment key={index}>
-                <strong>{activites}</strong>
+                <strong>{name}</strong>
                 <br />
               </React.Fragment>
             ))}
