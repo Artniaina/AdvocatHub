@@ -23,10 +23,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  ////////////////////////////////////LANGUES PARLEES////////////////////////////////
+////////////////////////////////////LANGUES PARLEES////////////////////////////////
   useEffect(() => {
     dispatch(fetchLangues());
   }, [dispatch]);
+
   const languages = useSelector((state) => state.langues.langues);
   const names = languages.map((language) => language.name);
   const langues =
@@ -54,23 +55,38 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   useEffect(() => {
     dispatch(fetchActivities());
   }, [dispatch]);
-  const activity = useSelector((state) => state.activities.activities);
+
+  const activity = useSelector((state) => state.activities.activities) || [];
 
   const [selectedActivities, setSelectedActivities] = useState([]);
+
   const getActivityCodes = (data) => {
     const flattened = data.flat();
     const codes = flattened.map((activity) => activity.code);
     return codes;
   };
-  const activityCodes = getActivityCodes(selectedActivities);
 
-  const transformStringToArray=(str)=> {
+  console.log(selectedActivities);
+
+  const activityCodes = getActivityCodes(
+    Array.isArray(selectedActivities) ? selectedActivities : []
+  );
+
+  const transformStringToArray = (str) => {
+    if (Array.isArray(str)) {
+      console.error("Input is an array, expected a string:", str);
+      return [];
+    }
+
+    if (typeof str !== "string") {
+      console.error("Input is not a string:", str);
+      return [];
+    }
     const trimmedStr = str.slice(1, -1);
-    const codesArray = trimmedStr.split(',');
-      return codesArray.map(code => code.trim());
-  }
-  
-  const defaultActivity =  (avocatInfo && avocatInfo.m_sactivitépref)|| [];
+    const codesArray = trimmedStr.split(",");
+    return codesArray.map((code) => code.trim());
+  };
+  const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
 
   ///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////
@@ -250,7 +266,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
         throw new Error("Échec lors de l'enregistrement des modifications");
       }
 
-      navigate("/home")
+      navigate("/home");
     } catch (error) {
       alert("Échec lors de l'enregistrement des modifications");
       console.error(
@@ -721,13 +737,17 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                         </React.Fragment>
                       );
                     })
-                  : selectedActivities.map((activity, index) => (
-                      <React.Fragment key={index}>
-                        <strong>{activity.name}</strong>
-                        <br />
-                      </React.Fragment>
-                    ))}
-
+                  : selectedActivities.map((code, index) => {
+                      const activites = activity.find(
+                        (act) => act.code === code
+                      );
+                      return (
+                        <React.Fragment key={`selected-${index}`}>
+                          <strong>{activites ? activites.name : code}</strong>
+                          <br />
+                        </React.Fragment>
+                      );
+                    })}
                 {showActivPrefPopup && (
                   <PopUpActiPref
                     onClose={closeActivitePopup}
