@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchActivities } from "../../Store/ActivtesPreferentiellesSlice";
 import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
@@ -15,36 +17,17 @@ import { FaCheck } from "react-icons/fa";
 import { FiMinusCircle } from "react-icons/fi";
 import ConfirmationValidation from "../PopUp/ConfirmationValidation";
 import { useNavigate } from "react-router-dom";
+import { fetchLangues } from "../../Store/LanguagesSlice";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   ////////////////////////////////////LANGUES PARLEES////////////////////////////////
   useEffect(() => {
-    const fetchLanguages = async () => {
-      try {
-        const response = await fetch(
-          "http://192.168.10.5/Utilisateur/LanguesParlees"
-        );
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des langues parlées");
-        }
-        const data = await response.json();
-
-        const newLanguages = data.map((langue) => ({
-          code: langue.sCodelangue,
-          name: langue.slangueparlées,
-        }));
-        setLanguages(newLanguages);
-      } catch (error) {
-        console.error("Erreur:", error);
-      }
-    };
-
-    fetchLanguages();
-  }, []);
-
-  const [languages, setLanguages] = useState([]);
+    dispatch(fetchLangues());
+  }, [dispatch]);
+  const languages = useSelector((state) => state.langues.langues);
   const names = languages.map((language) => language.name);
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
@@ -67,35 +50,14 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
+  
+  
   useEffect(() => {
-    const fetchActivpref = async () => {
-      try {
-        const response = await fetch(
-          "http://192.168.10.5/Utilisateur/ActivitésPréférentielles"
-        );
-        if (!response.ok) {
-          throw new Error(
-            "Erreur lors de la récupération des activités preferentielles"
-          );
-        }
-        const data = await response.json();
-
-        const newActivity = data.map((activites) => ({
-          code: activites.Code,
-          name: activites.Valuebar,
-        }));
-        setActivity(newActivity);
-      } catch (error) {
-        console.error("Erreur:", error);
-      }
-    };
-
-    fetchActivpref();
-  }, []);
-
-  const [activity, setActivity] = useState([]);
+    dispatch(fetchActivities());
+  }, [dispatch]);
+  const activity = useSelector((state) => state.activities.activities);
+  
   const [selectedActivities, setSelectedActivities] = useState([]);
-
   const getActivityCodes = (data) => {
     const flattened = data.flat();
     const codes = flattened.map(activity => activity.code);
