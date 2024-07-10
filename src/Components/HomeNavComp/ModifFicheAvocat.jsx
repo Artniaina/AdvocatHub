@@ -45,28 +45,35 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     return uniqueLanguageCodes;
   };
   const LanguageString =
-  avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
 
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
-  
-  
+
   useEffect(() => {
     dispatch(fetchActivities());
   }, [dispatch]);
   const activity = useSelector((state) => state.activities.activities);
-  
+
   const [selectedActivities, setSelectedActivities] = useState([]);
   const getActivityCodes = (data) => {
     const flattened = data.flat();
-    const codes = flattened.map(activity => activity.code);
+    const codes = flattened.map((activity) => activity.code);
     return codes;
   };
   const activityCodes = getActivityCodes(selectedActivities);
-  
-  ///////////////////////////////////////GESTION DES STATES//////////////////////////////////////////////
 
+  const transformStringToArray=(str)=> {
+    const trimmedStr = str.slice(1, -1);
+    const codesArray = trimmedStr.split(',');
+      return codesArray.map(code => code.trim());
+  }
+  
+  const defaultActivity =  (avocatInfo && avocatInfo.m_sactivitépref)|| [];
+  const defaultActivityArray = transformStringToArray(defaultActivity);
+
+  ///////////////////////////////////////GESTION DES STATES/////////////////////////////////////////
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
@@ -242,13 +249,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       if (!response.ok) {
         throw new Error("Échec lors de l'enregistrement des modifications");
       }
- 
-        
-        navigate('/home', {
-          state: { selectedActPref: activity }
-        });
- 
-      
+
+      navigate("/home")
     } catch (error) {
       alert("Échec lors de l'enregistrement des modifications");
       console.error(
@@ -707,18 +709,32 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               </button>
               <br />
               <span>
-                {selectedActivities.map((activity, index) => (
-                  <React.Fragment key={index}>
-                    <strong>{activity.name}</strong>
-                    <br />
-                  </React.Fragment>
-                ))}
+                {selectedActivities.length === 0
+                  ? defaultActivityArray.map((code, index) => {
+                      const activites = activity.find(
+                        (act) => act.code === code
+                      );
+                      return (
+                        <React.Fragment key={`default-${index}`}>
+                          <strong>{activites ? activites.name : code}</strong>
+                          <br />
+                        </React.Fragment>
+                      );
+                    })
+                  : selectedActivities.map((activity, index) => (
+                      <React.Fragment key={index}>
+                        <strong>{activity.name}</strong>
+                        <br />
+                      </React.Fragment>
+                    ))}
+
                 {showActivPrefPopup && (
                   <PopUpActiPref
                     onClose={closeActivitePopup}
                     onSubmit={handleSubmitActivity}
                     value={selectedActivities}
                     activity={activity}
+                    defaultActivity={defaultActivityArray}
                   />
                 )}
               </span>

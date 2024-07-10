@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { SlClose } from "react-icons/sl";
 
-const PopUpActiPref = ({ onClose, onSubmit, value, activity }) => {
+const PopUpActiPref = ({ onClose, onSubmit, value, activity, defaultActivity }) => {
   const overlayRef = useRef(null);
   const [sortedActivities, setSortedActivities] = useState([...activity]);
   const [sortOrder, setSortOrder] = useState("az");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedActivities, setSelectedActivities] = useState(value || []);
 
+  console.log(defaultActivity);
   useEffect(() => {
     setSelectedActivities(value);
   }, [value]);
