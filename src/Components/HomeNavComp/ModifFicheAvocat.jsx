@@ -86,6 +86,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     const codesArray = trimmedStr.split(",");
     return codesArray.map((code) => code.trim());
   };
+
   const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
 
@@ -242,7 +243,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_BIC: codeBIC,
       m_dispenseaj: ajState,
       m_tableauLangue: selectedLanguages,
-      m_tableauActivPref: activityCodes,
+      m_tableauActivPref: selectedActivities,
     };
 
     console.log("Données envoyées:", JSON.stringify(dataToSend));
