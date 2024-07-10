@@ -9,14 +9,12 @@ const PopUpActiPref = ({
   defaultActivity,
   defaultValue
 }) => {
-  console.log(defaultValue);
   const overlayRef = useRef(null);
   const [sortedActivities, setSortedActivities] = useState([...activity]);
   const [sortOrder, setSortOrder] = useState("az");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedActivities, setSelectedActivities] = useState(defaultActivity);
   
-  console.log(value.code);
 
   useEffect(() => {
     if (value.length > 0) {

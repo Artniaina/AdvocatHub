@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchLangues } from "../../Store/LanguagesSlice";
 import { fetchActivities } from "../../Store/ActivtesPreferentiellesSlice";
+import { FaCheck } from "react-icons/fa";
+import { BsPlusCircleFill } from "react-icons/bs";
+import { FiMinusCircle } from "react-icons/fi";
+import { FaFilePen } from "react-icons/fa6";
 import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
-import { FaFilePen } from "react-icons/fa6";
-import "../../Styles/Homepage/Acceuil/Acceuil.css";
-import "../../Styles/Homepage/Acceuil/PopUp.css";
-import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
-import { BsPlusCircleFill } from "react-icons/bs";
-import PopUpAnnuler from "../PopUp/PopUpAnnuler";
 import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../PopUp/PopUpActivPref";
-import "../../Styles/PopUp/AdressePriveePopUp.css";
-import { FaCheck } from "react-icons/fa";
-import { FiMinusCircle } from "react-icons/fi";
+import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
+import PopUpAnnuler from "../PopUp/PopUpAnnuler";
 import ConfirmationValidation from "../PopUp/ConfirmationValidation";
-import { useNavigate } from "react-router-dom";
-import { fetchLangues } from "../../Store/LanguagesSlice";
+import "../../Styles/PopUp/AdressePriveePopUp.css";
+import "../../Styles/Homepage/Acceuil/Acceuil.css";
+import "../../Styles/Homepage/Acceuil/PopUp.css";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
@@ -35,7 +35,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
-
   const convertLanguagesToCodes = (languageString) => {
     const languageNames = languageString.split(", ");
     const uniqueLanguageCodes = [];
@@ -52,7 +51,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const languageCodes = convertLanguagesToCodes(LanguageString);
 
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
-console.log(languageCodes);
+
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
   useEffect(() => {
@@ -60,12 +59,6 @@ console.log(languageCodes);
   }, [dispatch]);
 
   const activity = useSelector((state) => state.activities.activities) || [];
-
-  const getActivityCodes = (data) => {
-    const flattened = data.flat();
-    const codes = flattened.map((activity) => activity.code);
-    return codes;
-  };
 
   const transformStringToArray = (str) => {
     if (Array.isArray(str)) {
@@ -84,7 +77,9 @@ console.log(languageCodes);
 
   const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
-  const [selectedActivities, setSelectedActivities] = useState(defaultActivityArray);
+  const [selectedActivities, setSelectedActivities] =
+    useState(defaultActivityArray);
+
   ///////////////////////////////////////GESTION DES STATES///////////////////////////////////////
 
   const defaultPhoneNumber = avocatInfo
@@ -110,6 +105,7 @@ console.log(languageCodes);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
   //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
+
   const handleValidPopup = (e) => {
     setShowValiderPopUp(true);
     handleSubmitAllChangeform(e, "valider");
@@ -582,7 +578,6 @@ console.log(languageCodes);
                 <div>
                   <input
                     type="text"
-                    defaultValue={defaultPhoneNumber}
                     value={`${selectedCountry} ${formatPhoneNumber(
                       phoneNumber
                     )}`}
@@ -599,7 +594,7 @@ console.log(languageCodes);
               <input
                 className="modifInput"
                 type="text"
-                defaultValue={avocatInfo && avocatInfo.m_sEmailSecondaire}
+                value={avocatInfo && avocatInfo.m_sEmailSecondaire}
                 onChange={(e) => setEmailPrivee(e.target.value)}
               />
             </p>
@@ -609,7 +604,6 @@ console.log(languageCodes);
               <input
                 className="modifInput"
                 type="text"
-                defaultValue={avocatInfo && avocatInfo.m_IBAN}
                 value={codeIBAN}
                 onChange={(e) => setCodeIBAN(e.target.value)}
               />
@@ -654,7 +648,7 @@ console.log(languageCodes);
               <input
                 className="modifInput"
                 type="text"
-                defaultValue={avocatInfo && avocatInfo.m_sEmailPro}
+                value={avocatInfo && avocatInfo.m_sEmailPro}
                 onChange={(e) => setEmailPro(e.target.value)}
               />
             </p>
