@@ -24,6 +24,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const dispatch = useDispatch();
 
   ////////////////////////////////////LANGUES PARLEES////////////////////////////////
+
   useEffect(() => {
     dispatch(fetchLangues());
   }, [dispatch]);
@@ -50,8 +51,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
   const languageCodes = convertLanguagesToCodes(LanguageString);
 
-  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes);
-
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
   useEffect(() => {
@@ -77,26 +76,39 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
-  const [selectedActivities, setSelectedActivities] =
-    useState(defaultActivityArray);
 
-  ///////////////////////////////////////GESTION DES STATES///////////////////////////////////////
-
+  ////////////////////////////////////INITIAL STATE////////////////////////////////
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
-  const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber);
-  const [selectedCountry, setSelectedCountry] = useState("+261");
-  const [emailPrivee, setEmailPrivee] = useState(
-    avocatInfo && avocatInfo.m_sEmailSecondaire
+
+  const initialState = {
+    phoneNumber: defaultPhoneNumber || "",
+    adresse: (avocatInfo && avocatInfo.m_sAdressePrivee) || "",
+    selectedCountry: "+261",
+    emailPrivee: avocatInfo?.m_sEmailSecondaire || "",
+    emailPro: avocatInfo?.m_sEmailPro || "",
+    codeIBAN: avocatInfo?.m_IBAN || "",
+    codeBIC: avocatInfo?.m_BIC || "",
+    selectedActivities: defaultActivityArray || [],
+    selectedLanguages: languageCodes || [],
+  };
+  ///////////////////////////////////////GESTION DES STATES///////////////////////////////////////
+
+  const [adresse, setAdresse] = useState(initialState.adresse);
+  const [phoneNumber, setPhoneNumber] = useState(initialState.phoneNumber);
+  const [selectedCountry, setSelectedCountry] = useState(
+    initialState.selectedCountry
   );
-  const [emailPro, setEmailPro] = useState(
-    avocatInfo && avocatInfo.m_sEmailPro
+  const [emailPrivee, setEmailPrivee] = useState(initialState.emailPrivee);
+  const [emailPro, setEmailPro] = useState(initialState.emailPro);
+  const [codeIBAN, setCodeIBAN] = useState(initialState.codeIBAN);
+  const [codeBIC, setCodeBIC] = useState(initialState.codeBIC);
+  const [selectedActivities, setSelectedActivities] = useState(
+    initialState.selectedActivities
   );
-  const [codeIBAN, setCodeIBAN] = useState(avocatInfo ? avocatInfo.m_IBAN : "");
-  const [codeBIC, setCodeBIC] = useState(avocatInfo ? avocatInfo.m_BIC : "");
-  const [adresse, setAdresse] = useState(
-    avocatInfo && avocatInfo.m_sAdressePrivee
+  const [selectedLanguages, setSelectedLanguages] = useState(
+    initialState.selectedLanguages
   );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -106,17 +118,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
 
-  const handleValidPopup = (e) => {
-    setShowValiderPopUp(true);
-    handleSubmitAllChangeform(e, "valider");
-  };
   const closeValidPopup = () => {
     setShowValiderPopUp(false);
   };
-  const handleAnnuleClick = (e) => {
-    setShowAnnulePopup(true);
-    handleSubmitAllChangeform(e, "annuler");
-  };
+
   const closeAnnulePopup = () => {
     setShowAnnulePopup(false);
   };
@@ -196,7 +201,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  ///////////////////////////////////SUBMIT- ONCHANGE///////////////////////////////////////
+  ///////////////////////////////////FONCTION DE SOUMISSION-SUBMIT- ONCHANGE///////////////////////////////////////
+
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
@@ -213,7 +219,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const handleSubmitAllChangeform = (e, buttonType) => {
     e.preventDefault();
-
     if (buttonType == "valider") {
       setShowValiderPopUp(true);
     } else if (buttonType == "annuler") {
@@ -223,7 +228,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const handleSubmitAllChange = async (e) => {
     e.preventDefault();
-
     const dataToSend = {
       m_sAdressePrivee: adresse,
       m_sEmailPro: emailPro,
@@ -270,9 +274,65 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   const handleNoChangeSubmitted = () => {
-    setTimeout(() => {
-      window.location.href = "/home";
-    }, 30000);
+    navigate("/home");
+  };
+  ////////////////////////////////////////CAS DE PAS DE CHANGEMENT DES DATAS///////////////////////////////
+
+  const currentState = {
+    phoneNumber,
+    selectedCountry,
+    adresse,
+    emailPrivee,
+    emailPro,
+    codeIBAN,
+    codeBIC,
+    selectedActivities,
+    selectedLanguages,
+  };
+  console.log("Initial:", initialState);
+  console.log("Changed:", currentState);
+
+  const ObjectComparison = (obj1, obj2) => {
+    if (obj1 === obj2) return true;
+    if (
+      typeof obj1 !== "object" ||
+      obj1 === null ||
+      typeof obj2 !== "object" ||
+      obj2 === null
+    ) {
+      return false;
+    }
+    let keys1 = Object.keys(obj1);
+    let keys2 = Object.keys(obj2);
+    if (keys1.length !== keys2.length) return false;
+    for (let key of keys1) {
+      if (!keys2.includes(key) || !ObjectComparison(obj1[key], obj2[key])) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleValidPopup = (e) => {
+    if (ObjectComparison(initialState, currentState)) {
+      navigate("/home");
+      console.log("Pas de changement sur les donnees");
+    } else {
+      setShowValiderPopUp(true);
+      handleSubmitAllChangeform(e, "valider");
+      console.log("Changement sur les donnees");
+    }
+  };
+
+  const handleAnnuleClick = (e) => {
+    if (ObjectComparison(initialState, currentState)) {
+      navigate("/home");
+      console.log("Pas de changement sur les donnees");
+    } else {
+      setShowAnnulePopup(true);
+      handleSubmitAllChangeform(e, "annuler");
+      console.log("Changement sur les donnees");
+    }
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////
