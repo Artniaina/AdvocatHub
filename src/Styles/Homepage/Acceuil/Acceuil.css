@@ -199,4 +199,10 @@ select {
   border-color: #671786;
   border-radius: 20px;
 }
-
+.disabled-popup {
+  pointer-events: none;
+  background-color: #555;
+}
+.disabled-popup:hover{
+  background-color: #555;
+}

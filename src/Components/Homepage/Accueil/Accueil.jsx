@@ -55,7 +55,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
 
 
   const formatPhoneNumber = (number) => {
-
+    number = number || "";
     number = number.replace(/\D/g, "");
   
     const formattedNumber = number.replace(

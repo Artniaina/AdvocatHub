@@ -36,28 +36,25 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
-   
-    
-
-    const convertLanguagesToCodes = (languageString) => {
-
-      if (typeof languageString !== 'string' || languageString.trim() === '') {
-        return [];
+  const convertLanguagesToCodes = (languageString) => {
+    if (typeof languageString !== "string" || languageString.trim() === "") {
+      return [];
+    }
+    const languageNames = languageString.split(",").map((name) => name.trim());
+    const uniqueLanguageCodes = [];
+    languageNames.forEach((name) => {
+      const language = languages.find((lang) => lang.name === name);
+      if (language && !uniqueLanguageCodes.includes(language.code)) {
+        uniqueLanguageCodes.push(language.code);
       }
-      const languageNames = languageString.split(',').map(name => name.trim());
-      const uniqueLanguageCodes = [];
-      languageNames.forEach((name) => {
-        const language = languages.find((lang) => lang.name === name);
-        if (language && !uniqueLanguageCodes.includes(language.code)) {
-          uniqueLanguageCodes.push(language.code);
-        }
-      });
-    
-      return uniqueLanguageCodes;
-    };
-    
- const LanguageString = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : '';
-    const languageCodes = convertLanguagesToCodes(LanguageString);
+    });
+
+    return uniqueLanguageCodes;
+  };
+
+  const LanguageString =
+    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : "";
+  const languageCodes = convertLanguagesToCodes(LanguageString);
 
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
@@ -86,7 +83,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultActivityArray = transformStringToArray(defaultActivity);
 
   ////////////////////////////////////INITIAL STATE////////////////////////////////
-  
+
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
@@ -101,18 +98,24 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     selectedActivities: defaultActivityArray || [],
     selectedLanguages: languageCodes || [],
   };
-  
+
   ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
 
   const [adresse, setAdresse] = useState(initialState.adresse);
   const [phoneNumber, setPhoneNumber] = useState(initialState.phoneNumber);
-  const [selectedCountry, setSelectedCountry] = useState(initialState.selectedCountry);
+  const [selectedCountry, setSelectedCountry] = useState(
+    initialState.selectedCountry
+  );
   const [emailPrivee, setEmailPrivee] = useState(initialState.emailPrivee);
   const [emailPro, setEmailPro] = useState(initialState.emailPro);
   const [codeIBAN, setCodeIBAN] = useState(initialState.codeIBAN);
   const [codeBIC, setCodeBIC] = useState(initialState.codeBIC);
-  const [selectedActivities, setSelectedActivities] = useState(initialState.selectedActivities);
-  const [selectedLanguages, setSelectedLanguages] = useState(initialState.selectedLanguages);
+  const [selectedActivities, setSelectedActivities] = useState(
+    initialState.selectedActivities
+  );
+  const [selectedLanguages, setSelectedLanguages] = useState(
+    initialState.selectedLanguages
+  );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
@@ -120,7 +123,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
   ////////////////////////////////GESTION DE FORME DE SAISI CORRECTE: DES EMAILS, BIC ET IBAN//////////////////////
-  
+
   const inputRef = useRef(null);
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -133,7 +136,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   const validIBAN = () => {
-    const ibanRegex = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/;
+    const ibanRegex =
+      /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/;
     return ibanRegex.test(codeIBAN);
   };
 
@@ -157,24 +161,23 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
         if (!validateEmail(emailPro)) {
-          alert('Adresse email professionnelle invalide');
+          alert("Adresse email professionnelle invalide");
         } else if (!validateEmail(emailPrivee)) {
-          alert('Adresse email privée invalide');
+          alert("Adresse email privée invalide");
         } else if (!validBIC()) {
-          alert('Code BIC invalide');
+          alert("Code BIC invalide");
         } else if (!validIBAN()) {
-          alert('Code IBAN invalide');
+          alert("Code IBAN invalide");
         }
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [emailPro, emailPrivee, codeBIC, codeIBAN]);
 
- 
   //////////////////////////////////FONCTION DE GESTION DES POPUPS//////////////////////////////////////////
 
   const closeValidPopup = () => {
@@ -236,17 +239,16 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   }, [initialAjState]);
 
   const formatPhoneNumber = (number) => {
-
     number = number.replace(/\D/g, "");
-  
+
     const formattedNumber = number.replace(
       /^(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})$/,
       "+$1 $2 $3 $4 $5"
     );
-  
+
     return formattedNumber;
   };
-   
+
   const formatDate = (dateString) => {
     if (!dateString) return "";
 
@@ -304,7 +306,10 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_tableauActivPref: selectedActivities,
     };
 
-    console.log("Données envoyées pour la modification:", JSON.stringify(dataToSend));
+    console.log(
+      "Données envoyées pour la modification:",
+      JSON.stringify(dataToSend)
+    );
 
     const IdAvocat = avocatInfo && avocatInfo.m_nIDAvocat_PP;
 
@@ -339,6 +344,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     navigate("/home");
   };
   /////////////////////////////////////GESTION DISPLAY DES POPUPS LORS DES CHANGEMENT OU NON  DE DONNEES///////////////////////////////
+
   const currentState = {
     phoneNumber,
     selectedCountry,
@@ -372,16 +378,23 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     return true;
   };
 
+  const isButtonDisabled = 
+    ObjectComparison(initialState, currentState) ? true : false
+
   const handleValidPopup = (e) => {
-    if (ObjectComparison(initialState, currentState)) {
-      navigate("/home");
+    if (isButtonDisabled==true) {
       console.log("Pas de changement sur les donnees");
-    } else {
+    } 
+    else {
       setShowValiderPopUp(true);
       handleSubmitAllChangeform(e, "valider");
       console.log("Changement sur les donnees");
     }
+
   };
+  
+  const popupClassName = isButtonDisabled ? 'disabled-popup' : 'btnsub';
+  console.log(popupClassName);
 
   const handleAnnuleClick = (e) => {
     if (ObjectComparison(initialState, currentState)) {
@@ -394,7 +407,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  ///////////////////////////////////////FIN/////////////////////////////////////////////////////
+  ///////////////////////////////////////FIN//////////////////////////////////////////////
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
@@ -991,7 +1004,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           </span>
         </div>
         <div style={{ minHeight: "150px" }}>
-          <button className="btnsub" onClick={handleValidPopup}>
+          <button className={popupClassName} onClick={handleValidPopup}>
             <FaCheck />
             Enregistrer
           </button>
