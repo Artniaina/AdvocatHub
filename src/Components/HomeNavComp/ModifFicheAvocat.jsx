@@ -86,6 +86,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultActivityArray = transformStringToArray(defaultActivity);
 
   ////////////////////////////////////INITIAL STATE////////////////////////////////
+  
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
@@ -100,6 +101,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     selectedActivities: defaultActivityArray || [],
     selectedLanguages: languageCodes || [],
   };
+  
   ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
 
   const [adresse, setAdresse] = useState(initialState.adresse);
@@ -234,14 +236,17 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   }, [initialAjState]);
 
   const formatPhoneNumber = (number) => {
+
     number = number.replace(/\D/g, "");
+  
     const formattedNumber = number.replace(
-      /(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})/,
+      /^(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})$/,
       "+$1 $2 $3 $4 $5"
     );
+  
     return formattedNumber;
   };
-
+   
   const formatDate = (dateString) => {
     if (!dateString) return "";
 

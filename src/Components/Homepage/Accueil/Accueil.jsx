@@ -52,6 +52,22 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
       return "Format de date inconnu";
     }
   };
+
+
+  const formatPhoneNumber = (number) => {
+
+    number = number.replace(/\D/g, "");
+  
+    const formattedNumber = number.replace(
+      /^(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})$/,
+      "+$1 $2 $3 $4 $5"
+    );
+  
+    return formattedNumber;
+  };
+  const telephoneMobile=formatPhoneNumber(avocatInfo && avocatInfo.m_stelephoneMobile)
+
+
   useEffect(() => {
     setIsDispensed(aj);
   }, [avocatInfo]);
@@ -110,7 +126,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <p>
             Téléphone mobile:
             <br />
-            <strong>{avocatInfo && avocatInfo.m_stelephoneMobile}</strong>
+            <strong>{telephoneMobile}</strong>
           </p>
 
           <p>
