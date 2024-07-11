@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchLangues } from "../../Store/LanguagesSlice";
@@ -36,20 +36,28 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const languageSelected =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];
 
-  const convertLanguagesToCodes = (languageString) => {
-    const languageNames = languageString.split(", ");
-    const uniqueLanguageCodes = [];
-    languageNames.forEach((name) => {
-      const language = languages.find((lang) => lang.name === name);
-      if (language && !uniqueLanguageCodes.includes(language.code)) {
-        uniqueLanguageCodes.push(language.code);
+   
+    
+
+    const convertLanguagesToCodes = (languageString) => {
+
+      if (typeof languageString !== 'string' || languageString.trim() === '') {
+        return [];
       }
-    });
-    return uniqueLanguageCodes;
-  };
-  const LanguageString =
-    avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : [];
-  const languageCodes = convertLanguagesToCodes(LanguageString);
+      const languageNames = languageString.split(',').map(name => name.trim());
+      const uniqueLanguageCodes = [];
+      languageNames.forEach((name) => {
+        const language = languages.find((lang) => lang.name === name);
+        if (language && !uniqueLanguageCodes.includes(language.code)) {
+          uniqueLanguageCodes.push(language.code);
+        }
+      });
+    
+      return uniqueLanguageCodes;
+    };
+    
+ const LanguageString = avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue : '';
+    const languageCodes = convertLanguagesToCodes(LanguageString);
 
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
@@ -81,7 +89,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
-
   const initialState = {
     phoneNumber: defaultPhoneNumber || "",
     adresse: (avocatInfo && avocatInfo.m_sAdressePrivee) || "",
@@ -93,7 +100,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     selectedActivities: defaultActivityArray || [],
     selectedLanguages: languageCodes || [],
   };
-  ///////////////////////////////////////GESTION DES STATES///////////////////////////////////////
+  ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
 
   const [adresse, setAdresse] = useState(initialState.adresse);
   const [phoneNumber, setPhoneNumber] = useState(initialState.phoneNumber);
@@ -115,6 +122,49 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
+
+  //////////////////////////////////GESTION DES FORMES CORRECTES DES EMAILS//////////////////////
+
+  const inputRef = useRef(null);
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleEmailPriveeChange = (e) => {
+    const email = e.target.value;
+    setEmailPrivee(email);
+  };
+  const handleEmailProChange = (e) => {
+    const email = e.target.value;
+    setEmailPro(email);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        if (!validateEmail(emailPro)) {
+          alert("Adresse email invalide");
+        }
+      }      
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        if (!validateEmail(emailPrivee)) {
+          alert("Adresse email invalide");
+        }
+      }      
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [emailPro]);
+
+  //////////////////////////////////GESTION DU CODE BIC ////////////////////////////////////////
+
+  //////////////////////////////////GESTION DU CODE IBAN //////////////////////////////////////
 
   //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
 
@@ -155,7 +205,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowDocumentPopup(false);
   };
 
-  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////STATES INITIALES IHANY KOA////////////////////////////////////////////////////
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
@@ -201,7 +251,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  ///////////////////////////////////FONCTION DE SOUMISSION-SUBMIT- ONCHANGE///////////////////////////////////////
+  ///////////////////////////////////FONCTION DE SOUMISSION///////////////////////////////////////
 
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
@@ -276,8 +326,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const handleNoChangeSubmitted = () => {
     navigate("/home");
   };
-  ////////////////////////////////////////CAS DE PAS DE CHANGEMENT DES DATAS///////////////////////////////
-
+  /////////////////////////////////////GESTION DISPLAY DES POPUPS LORS DES CHANGEMENT OU NON  DE DONNEES///////////////////////////////
   const currentState = {
     phoneNumber,
     selectedCountry,
@@ -289,8 +338,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     selectedActivities,
     selectedLanguages,
   };
-  console.log("Initial:", initialState);
-  console.log("Changed:", currentState);
 
   const ObjectComparison = (obj1, obj2) => {
     if (obj1 === obj2) return true;
@@ -335,7 +382,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  ////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////FIN/////////////////////////////////////////////////////
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
@@ -652,10 +699,11 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
             <p>
               E-mail privé:
               <input
+                ref={inputRef}
                 className="modifInput"
                 type="text"
-                value={avocatInfo && avocatInfo.m_sEmailSecondaire}
-                onChange={(e) => setEmailPrivee(e.target.value)}
+                value={emailPrivee}
+                onChange={handleEmailPriveeChange}
               />
             </p>
 
@@ -706,13 +754,13 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
               E-mail professionnel:
               <br />
               <input
+                ref={inputRef}
                 className="modifInput"
                 type="text"
-                value={avocatInfo && avocatInfo.m_sEmailPro}
-                onChange={(e) => setEmailPro(e.target.value)}
+                value={emailPro}
+                onChange={handleEmailProChange}
               />
             </p>
-
             <p>
               Date d'assermentation:
               <br />
