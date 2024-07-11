@@ -104,69 +104,76 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const [adresse, setAdresse] = useState(initialState.adresse);
   const [phoneNumber, setPhoneNumber] = useState(initialState.phoneNumber);
-  const [selectedCountry, setSelectedCountry] = useState(
-    initialState.selectedCountry
-  );
+  const [selectedCountry, setSelectedCountry] = useState(initialState.selectedCountry);
   const [emailPrivee, setEmailPrivee] = useState(initialState.emailPrivee);
   const [emailPro, setEmailPro] = useState(initialState.emailPro);
   const [codeIBAN, setCodeIBAN] = useState(initialState.codeIBAN);
   const [codeBIC, setCodeBIC] = useState(initialState.codeBIC);
-  const [selectedActivities, setSelectedActivities] = useState(
-    initialState.selectedActivities
-  );
-  const [selectedLanguages, setSelectedLanguages] = useState(
-    initialState.selectedLanguages
-  );
+  const [selectedActivities, setSelectedActivities] = useState(initialState.selectedActivities);
+  const [selectedLanguages, setSelectedLanguages] = useState(initialState.selectedLanguages);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
-  //////////////////////////////////GESTION DES FORMES CORRECTES DES EMAILS//////////////////////
-
+  ////////////////////////////////GESTION DE FORME DE SAISI CORRECTE: DES EMAILS, BIC ET IBAN//////////////////////
+  
   const inputRef = useRef(null);
-
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  const handleEmailPriveeChange = (e) => {
-    const email = e.target.value;
-    setEmailPrivee(email);
+  const validBIC = () => {
+    const bicRegex = /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/;
+    return bicRegex.test(codeBIC);
   };
+
+  const validIBAN = () => {
+    const ibanRegex = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/;
+    return ibanRegex.test(codeIBAN);
+  };
+
   const handleEmailProChange = (e) => {
-    const email = e.target.value;
-    setEmailPro(email);
+    setEmailPro(e.target.value);
+  };
+
+  const handleEmailPriveeChange = (e) => {
+    setEmailPrivee(e.target.value);
+  };
+
+  const handleBICChange = (e) => {
+    setCodeBIC(e.target.value);
+  };
+
+  const handleIBANChange = (e) => {
+    setCodeIBAN(e.target.value);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
         if (!validateEmail(emailPro)) {
-          alert("Adresse email invalide");
+          alert('Adresse email professionnelle invalide');
+        } else if (!validateEmail(emailPrivee)) {
+          alert('Adresse email privée invalide');
+        } else if (!validBIC()) {
+          alert('Code BIC invalide');
+        } else if (!validIBAN()) {
+          alert('Code IBAN invalide');
         }
-      }      
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        if (!validateEmail(emailPrivee)) {
-          alert("Adresse email invalide");
-        }
-      }      
+      }
     };
 
-    document.addEventListener("click", handleClickOutside);
-
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [emailPro]);
+  }, [emailPro, emailPrivee, codeBIC, codeIBAN]);
 
-  //////////////////////////////////GESTION DU CODE BIC ////////////////////////////////////////
-
-  //////////////////////////////////GESTION DU CODE IBAN //////////////////////////////////////
-
-  //////////////////////////////////GESTION DES POPUPS//////////////////////////////////////////
+ 
+  //////////////////////////////////FONCTION DE GESTION DES POPUPS//////////////////////////////////////////
 
   const closeValidPopup = () => {
     setShowValiderPopUp(false);
@@ -292,7 +299,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_tableauActivPref: selectedActivities,
     };
 
-    console.log("Données envoyées:", JSON.stringify(dataToSend));
+    console.log("Données envoyées pour la modification:", JSON.stringify(dataToSend));
 
     const IdAvocat = avocatInfo && avocatInfo.m_nIDAvocat_PP;
 
@@ -713,7 +720,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 className="modifInput"
                 type="text"
                 value={codeIBAN}
-                onChange={(e) => setCodeIBAN(e.target.value)}
+                onChange={handleIBANChange}
               />
             </p>
             <p>
@@ -722,7 +729,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
                 className="modifInput"
                 type="text"
                 value={codeBIC}
-                onChange={(e) => setCodeBIC(e.target.value)}
+                onChange={handleBICChange}
               />
             </p>
           </div>
