@@ -201,8 +201,16 @@ select {
 }
 .disabled-popup {
   pointer-events: none;
-  background-color: #555;
+  background-color: #671786;
+  color: white;
+  padding: 8px 15px ;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 20px;
+  width: 200px;
+  opacity: 0.6;
+  margin: 12px 8px;
+  padding: 10px 16px;
 }
-.disabled-popup:hover{
-  background-color: #555;
-}
+
