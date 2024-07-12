@@ -7,14 +7,13 @@ const PopUpActiPref = ({
   value,
   activity,
   defaultActivity,
-  defaultValue,
 }) => {
   const overlayRef = useRef(null);
   const [sortedActivities, setSortedActivities] = useState([...activity]);
   const [sortOrder, setSortOrder] = useState("az");
   const [searchQueryCode, setSearchQueryCode] = useState("");
   const [searchQueryActivity, setSearchQueryActivity] = useState("");
-  const [searchType, setSearchType] = useState("activity");
+  const [searchType, setSearchType] = useState("");
 
   const [selectedActivities, setSelectedActivities] = useState(defaultActivity);
 
@@ -124,7 +123,7 @@ const PopUpActiPref = ({
                   {searchType === "activity" ? (
                     <input
                       type="text"
-                      placeholder="Recherche"
+                      placeholder="activités"
                       value={searchQueryActivity}
                       onChange={handleSearchActivitésChange}
                     />

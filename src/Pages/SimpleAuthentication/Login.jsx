@@ -51,7 +51,6 @@ const Login = () => {
         if (data.smessage === "OK") {
           const totpKey = data.scléTOTP;
           setIsAuthenticated(true);
-
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
           const role = data.sRole;
@@ -92,7 +91,6 @@ const Login = () => {
         setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      console.error("Email ou mot de passe incorrect");
       alert("Email ou mot de passe incorrect");
     }
   };
