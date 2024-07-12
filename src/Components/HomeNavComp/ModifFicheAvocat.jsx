@@ -87,17 +87,18 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
-  const initialState = {
-    phoneNumber: defaultPhoneNumber || "",
-    adresse: (avocatInfo && avocatInfo.m_sAdressePrivee) || "",
-    selectedCountry: "+261",
-    emailPrivee: avocatInfo?.m_sEmailSecondaire || "",
-    emailPro: avocatInfo?.m_sEmailPro || "",
-    codeIBAN: avocatInfo?.m_IBAN || "",
-    codeBIC: avocatInfo?.m_BIC || "",
-    selectedActivities: defaultActivityArray || [],
-    selectedLanguages: languageCodes || [],
-  };
+
+    const initialState = {
+      phoneNumber: defaultPhoneNumber || "",
+      adresse: (avocatInfo && avocatInfo.m_sAdressePrivee) || "",
+      selectedCountry: "+261",
+      emailPrivee: avocatInfo?.m_sEmailSecondaire || "",
+      emailPro: avocatInfo?.m_sEmailPro || "",
+      codeIBAN: avocatInfo?.m_IBAN || "",
+      codeBIC: avocatInfo?.m_BIC || "",
+      selectedActivities: defaultActivityArray || [],
+      languageCodes: languageCodes || [],
+    };
 
   ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
 
@@ -114,7 +115,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     initialState.selectedActivities
   );
   const [selectedLanguages, setSelectedLanguages] = useState(
-    initialState.selectedLanguages
+    initialState.languageCodes
   );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -227,6 +228,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const toggleAj = () => {
     setAjState((prevState) => (prevState == 1 ? false : true));
   };
+  
 
   useEffect(() => {
     if (avocatInfo) {
@@ -354,7 +356,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     codeIBAN,
     codeBIC,
     selectedActivities,
-    selectedLanguages,
+    languageCodes,
   };
 
   const ObjectComparison = (obj1, obj2) => {
@@ -376,25 +378,44 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       }
     }
     return true;
-  };
+  }
 
-  const isButtonDisabled = 
-    ObjectComparison(initialState, currentState) ? true : false
+  const [isButtonDisabled, setIsButtonDisabled] = useState(ObjectComparison(initialState, currentState));
+
+  useEffect(() => {
+    console.log('initialState:', initialState);
+    console.log('currentState:', currentState);
+    const isDisabled = ObjectComparison(initialState, currentState);
+    console.log('ObjectComparison result:', isDisabled);
+    setIsButtonDisabled(isDisabled);
+  }, [initialState, currentState]);
 
   const handleValidPopup = (e) => {
-    if (isButtonDisabled==true) {
+    if (isButtonDisabled) {
       console.log("Pas de changement sur les donnees");
-    } 
-    else {
-      setShowValiderPopUp(true);
-      handleSubmitAllChangeform(e, "valider");
+      setIsButtonDisabled(true);
+    } else {
       console.log("Changement sur les donnees");
+      handleSubmitAllChangeform(e, "valider");
+      setShowValiderPopUp(true);
+      initialState.phoneNumber = currentState.phoneNumber;
+      initialState.selectedCountry = currentState.selectedCountry;
+      initialState.adresse = currentState.adresse;
+      initialState.emailPrivee = currentState.emailPrivee;
+      initialState.emailPro = currentState.emailPro;
+      initialState.codeIBAN = currentState.codeIBAN;
+      initialState.codeBIC = currentState.codeBIC;
+      initialState.selectedActivities = currentState.selectedActivities;
+       initialState.languageCodes= currentState.selectedLanguages
+      ;
+      setIsButtonDisabled(true);
     }
-
   };
-  
+
   const popupClassName = isButtonDisabled ? 'disabled-popup' : 'btnsub';
-  console.log(popupClassName);
+  console.log('popupClassName:', popupClassName);
+
+
 
   const handleAnnuleClick = (e) => {
     if (ObjectComparison(initialState, currentState)) {
