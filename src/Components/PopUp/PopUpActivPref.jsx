@@ -51,7 +51,7 @@ const PopUpActiPref = ({
     if (type === "code") {
       setSearchQueryActivity("");
     } else if (type === "activity") {
-      setSearchQueryCode("activity");
+      setSearchQueryCode("");
     }
   };
 
