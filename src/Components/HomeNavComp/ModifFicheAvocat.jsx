@@ -22,7 +22,7 @@ import "../../Styles/Homepage/Acceuil/PopUp.css";
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   ////////////////////////////////////DISPENSE AJ//////////////////////////////////
 
   const activites =
@@ -98,18 +98,18 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
 
-    const initialState = {
-      ajState: initialAjState,
-      phoneNumber: defaultPhoneNumber || "",
-      adresse: (avocatInfo && avocatInfo.m_sAdressePrivee) || "",
-      selectedCountry: "+261",
-      emailPrivee: avocatInfo?.m_sEmailSecondaire || "",
-      emailPro: avocatInfo?.m_sEmailPro || "",
-      codeIBAN: avocatInfo?.m_IBAN || "",
-      codeBIC: avocatInfo?.m_BIC || "",
-      selectedActivities: defaultActivityArray || [],
-      languageCodes: languageCodes || [],
-    };
+  const initialState = {
+    ajState: initialAjState,
+    phoneNumber: defaultPhoneNumber || "",
+    adresse: (avocatInfo && avocatInfo.m_sAdressePrivee) || "",
+    selectedCountry: "+261",
+    emailPrivee: avocatInfo?.m_sEmailSecondaire || "",
+    emailPro: avocatInfo?.m_sEmailPro || "",
+    codeIBAN: avocatInfo?.m_IBAN || "",
+    codeBIC: avocatInfo?.m_BIC || "",
+    selectedActivities: defaultActivityArray || [],
+    languageCodes: languageCodes || [],
+  };
 
   ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
 
@@ -230,10 +230,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     setShowDocumentPopup(false);
   };
 
-  ////////////////////////////////////STATES INITIALES IHANY KOA////////////////////////////////////////////////////
-
-
-
+  //////////////////////////////////////USEEFFECT DES CODE IBAN, BIC/////////////////////////////////////////////
   useEffect(() => {
     if (avocatInfo) {
       setCodeIBAN(avocatInfo.m_IBAN);
@@ -272,7 +269,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   ///////////////////////////////////FONCTION DE SOUMISSION///////////////////////////////////////
-
   const handleAdresseSubmit = (adressePrivee) => {
     setAdresse(adressePrivee);
   };
@@ -383,15 +379,17 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       }
     }
     return true;
-  }
+  };
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(ObjectComparison(initialState, currentState));
+  const [isButtonDisabled, setIsButtonDisabled] = useState(
+    ObjectComparison(initialState, currentState)
+  );
 
   useEffect(() => {
-    console.log('initialState:', initialState);
-    console.log('currentState:', currentState);
+    console.log("initialState:", initialState);
+    console.log("currentState:", currentState);
     const isDisabled = ObjectComparison(initialState, currentState);
-    console.log('ObjectComparison result:', isDisabled);
+    console.log("ObjectComparison result:", isDisabled);
     setIsButtonDisabled(isDisabled);
   }, [initialState, currentState]);
 
@@ -403,24 +401,12 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       console.log("Changement sur les donnees");
       handleSubmitAllChangeform(e, "valider");
       setShowValiderPopUp(true);
-      initialState.phoneNumber = currentState.phoneNumber;
-      initialState.selectedCountry = currentState.selectedCountry;
-      initialState.adresse = currentState.adresse;
-      initialState.emailPrivee = currentState.emailPrivee;
-      initialState.emailPro = currentState.emailPro;
-      initialState.codeIBAN = currentState.codeIBAN;
-      initialState.codeBIC = currentState.codeBIC;
-      initialState.selectedActivities = currentState.selectedActivities;
-       initialState.languageCodes= currentState.selectedLanguages
-      ;
-      setIsButtonDisabled(true);
+      setIsButtonDisabled(false);
     }
   };
 
-  const popupClassName = isButtonDisabled ? 'disabled-popup' : 'btnsub';
-  console.log('popupClassName:', popupClassName);
-
-
+  const popupClassName = isButtonDisabled ? "disabled-popup" : "btnsub";
+  console.log("popupClassName:", popupClassName);
 
   const handleAnnuleClick = (e) => {
     if (ObjectComparison(initialState, currentState)) {
