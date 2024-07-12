@@ -96,7 +96,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
     : "";
-
   const initialState = {
     ajState: initialAjState,
     phoneNumber: defaultPhoneNumber || "",
