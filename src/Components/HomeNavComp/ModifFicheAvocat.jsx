@@ -58,7 +58,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
         uniqueLanguageCodes.push(language.code);
       }
     });
-
     return uniqueLanguageCodes;
   };
 

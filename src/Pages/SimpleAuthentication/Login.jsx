@@ -41,7 +41,7 @@ const Login = () => {
         },
 
         //Need Access-Control-Allow-Credentials: true
-        // credentials: 'include',
+        //credentials: 'include',
         body: JSON.stringify(userData),
       });
 
@@ -65,7 +65,7 @@ const Login = () => {
               state: { url, email, role, isAuthenticated: true },
             });
           } else {
-            navigate("/DoubleAuth", {
+            navigate("/scanqrcode", {
               state: { url, email, role, isAuthenticated: true },
             });
           }

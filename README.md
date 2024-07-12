@@ -14,6 +14,7 @@ Two-Factor Authentication (2FA) with Google Authenticator and TOTP
 Frontend
 
     React: A JavaScript library for building user interfaces.
+    Redux: state management library for JavaScript applications, used  to manage application state efficiently.
 
 Backend and Database
 

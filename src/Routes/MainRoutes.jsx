@@ -50,7 +50,7 @@ function PageTitleUpdater() {
         pageTitle = "User list";
         break;
       case "/scanqrcode":
-        pageTitle = "2FA";
+        pageTitle = "Two factor Authent";
         break;
       case "/registration":
         pageTitle = "Inscription";

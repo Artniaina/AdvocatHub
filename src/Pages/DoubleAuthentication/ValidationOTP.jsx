@@ -23,7 +23,7 @@ const ValidationOTP = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        //Ampiana Access-Control-Allow-Credentials: true
+        // Ampiana Access-Control-Allow-Credentials: true
         // credentials: 'include',
         body: JSON.stringify(userData),
       });

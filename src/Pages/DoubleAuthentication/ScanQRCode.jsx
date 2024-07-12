@@ -64,7 +64,7 @@ const ScanQRCode = () => {
         body: JSON.stringify(userData),
       });
       if (!response.ok) {
-        alert("Code non valide")
+        alert("Code non valide, réessayer")
         throw new Error("Échec de la requête API.");
       }
       const data = await response.json();
