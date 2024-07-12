@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
 
@@ -7,11 +7,8 @@ const ValidationOTP = () => {
   const location = useLocation();
 
   const { url, email, password } = location.state || {};
-  const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [formattedOTPURL, setFormattedOTPURL] = useState("");
-
 
   const handleSubmit = async () => {
     try {

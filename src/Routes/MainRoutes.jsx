@@ -8,7 +8,7 @@ import {
 import Login from "../Pages/SimpleAuthentication/Login";
 import Registration from "../Pages/SimpleAuthentication/Registration";
 import ModifMdp from "../Pages/SimpleAuthentication/ModifMdp";
-import DoubleAuth from "../Pages/DoubleAuthentication/DoubleAuth";
+import ScanQRCode from "../Pages/DoubleAuthentication/ScanQRCode";
 import ProtectedRoute from "./ProtectedRoute";
 import ValidationOTP from "../Pages/DoubleAuthentication/ValidationOTP";
 import HomePage from "../Pages/HomePage";
@@ -49,8 +49,8 @@ function PageTitleUpdater() {
       case "/userlist":
         pageTitle = "User list";
         break;
-      case "/doubleAuth":
-        pageTitle = "Scan QrCode";
+      case "/scanqrcode":
+        pageTitle = "2FA";
         break;
       case "/registration":
         pageTitle = "Inscription";
@@ -62,7 +62,7 @@ function PageTitleUpdater() {
         pageTitle = "Modification de mot de passe";
         break;
       case "/validationotp":
-        pageTitle = "Validation OTP";
+        pageTitle = "2FA";
         break;
       default:
         pageTitle = "My-app";
@@ -98,7 +98,7 @@ function MainRoutes() {
         </Route>
 
         <Route exact path="/" element={<ProtectedRoute />}>
-          <Route exact path="/doubleAuth" element={<DoubleAuth />} />
+          <Route exact path="/scanqrcode" element={<ScanQRCode />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
       </Routes>

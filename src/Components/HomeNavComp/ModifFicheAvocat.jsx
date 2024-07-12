@@ -92,7 +92,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const defaultActivity = (avocatInfo && avocatInfo.m_sactivitépref) || [];
   const defaultActivityArray = transformStringToArray(defaultActivity);
 
-  /////////////////////////////////////////////INITIAL STATE////////////////////////////////////////////////
+  /////////////////////////////////////////////INITIAL STATES////////////////////////////////////////////////
 
   const defaultPhoneNumber = avocatInfo
     ? avocatInfo.m_stelephoneMobile.replace(/^\+\d{3}\s?/, "+")
@@ -135,7 +135,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
-  ////////////////////////////////GESTION DE FORME DE SAISI CORRECTE: DES EMAILS, BIC ET IBAN//////////////////////
+  ////////////////////////////////REGEX: FORME DE SAISI CORRECTE: DES EMAILS, BIC ET IBAN//////////////////////
 
   const inputRef = useRef(null);
   const validateEmail = (email) => {
@@ -191,7 +191,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     };
   }, [emailPro, emailPrivee, codeBIC, codeIBAN]);
 
-  //////////////////////////////////FONCTION DE GESTION DES POPUPS//////////////////////////////////////////
+  //////////////////////////////////FONCTION DE GESTION DE DISPLAY DES POPUPS//////////////////////////////////////////
 
   const closeValidPopup = () => {
     setShowValiderPopUp(false);
@@ -345,7 +345,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const handleNoChangeSubmitted = () => {
     navigate("/home");
   };
-  /////////////////////////////////////GESTION DISPLAY DES POPUPS LORS DES CHANGEMENT OU NON  DE DONNEES///////////////////////////////
+  /////////////////////////////////////FONCTION DE DETECTION DE CHANGEMENT DES DONNEES ///////////////////////////////
 
   const currentState = {
     ajState,
@@ -389,7 +389,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     console.log("initialState:", initialState);
     console.log("currentState:", currentState);
     const isDisabled = ObjectComparison(initialState, currentState);
-    console.log("ObjectComparison result:", isDisabled);
     setIsButtonDisabled(isDisabled);
   }, [initialState, currentState]);
 
@@ -406,7 +405,6 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   };
 
   const popupClassName = isButtonDisabled ? "disabled-popup" : "btnsub";
-  console.log("popupClassName:", popupClassName);
 
   const handleAnnuleClick = (e) => {
     if (ObjectComparison(initialState, currentState)) {
@@ -419,7 +417,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-  ///////////////////////////////////////FIN//////////////////////////////////////////////
+  /////////////////////////////////////////FIN//////////////////////////////////////////////
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>

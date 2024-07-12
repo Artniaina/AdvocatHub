@@ -41,7 +41,7 @@ const Login = () => {
         },
 
         //Need Access-Control-Allow-Credentials: true
-        credentials: 'include',
+        // credentials: 'include',
         body: JSON.stringify(userData),
       });
 

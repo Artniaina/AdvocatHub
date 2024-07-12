@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/DoubleAuthent.css"
 
 
-const DoubleAuth = () => {
+const ScanQRCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -77,13 +77,11 @@ const DoubleAuth = () => {
           navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
         }else{
           navigate("/home", { state: { isAuthenticated: true }});
-
         }
       } else {
         setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");
       }
-
     } catch (error) {}
   };
 
@@ -96,7 +94,7 @@ const DoubleAuth = () => {
       ) : (
         <>
           <p className="text">
-            Scannez le QR Code avec Google Authenticator:
+            Scannez le QR Code avec Google Authenticator
           </p>
           <div className="qrCode">
             <QRCode
@@ -123,4 +121,4 @@ const DoubleAuth = () => {
   );
 };
 
-export default DoubleAuth;
+export default ScanQRCode;
