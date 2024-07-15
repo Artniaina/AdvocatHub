@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Login from "../Pages/SimpleAuthentication/Login";
+import Page404 from "../Pages/Page404";
 import Registration from "../Pages/SimpleAuthentication/Registration";
 import ModifMdp from "../Pages/SimpleAuthentication/ModifMdp";
 import ScanQRCode from "../Pages/DoubleAuthentication/ScanQRCode";
@@ -64,7 +65,7 @@ function PageTitleUpdater() {
         pageTitle = "Two-factor-Authentication";
         break;
       default:
-        pageTitle = "404";
+        pageTitle = "Page not found";
         break;
     }
 
@@ -79,20 +80,22 @@ function MainRoutes() {
     <Router>
       <PageTitleUpdater />
       <Routes>
+        <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
 
-        //ROUTE PRIVEE: ROLE ADMIN
+      //ROUTE PRIVEE: ROLE ADMIN
         <Route element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
 
-        //ROUTE PROTEGE: NEED AUTHENTIFICATION
+      //ROUTE PROTEGE: NEED AUTHENTIFICATION
         <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/document" element={<Document />} />
+
         <Route element={<ProtectedRoute />}>
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
