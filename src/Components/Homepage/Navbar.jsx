@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import { FaUserCircle } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import Logo from "../../assets/icons8-palais-de-justice-64.png";
@@ -7,18 +9,23 @@ import { AiFillHome } from "react-icons/ai";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
 import "../../Styles/Homepage/Navbar.css";
 import { IoNewspaperOutline } from "react-icons/io5";
+import { useAuth } from "../../Hooks/AuthContext";
 
-const Navbar = ({ avocatInfo }) => {
+const Navbar = () => {
   const location = useLocation();
-  const fullName = `${avocatInfo && avocatInfo.m_sPrenom} ${
-    avocatInfo && avocatInfo.m_sNom
-  } `;
-  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
+
+  const dispatch = useDispatch();
+  const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
+
+  useEffect(() => {
+    dispatch(fetchAvocatInfo(3));
+  }, [dispatch]);
+
+  const fullName = `${avocatInfo.m_sPrenom || ""} ${avocatInfo.m_sNom || ""}`;
 
   const handleLogout = () => {
-    // vider les données d'authentification, cookies etc.
-    // pas avant que le cookies soit ok
-    navigate("/");
+    setIsAuthenticated(false);
   };
 
   return (

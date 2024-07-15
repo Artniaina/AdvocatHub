@@ -1,19 +1,19 @@
-import React, { useState, useEffect , useContext} from "react";
-import QRCode from "qrcode.react";
-import { useNavigate, useLocation } from "react-router-dom";
-import "../../Styles/Authentification/DoubleAuthent.css"
+import React, { useState, useEffect} from "react";
 import { useAuth } from "../../Hooks/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
+import QRCode from "qrcode.react";
+import "../../Styles/Authentification/DoubleAuthent.css"
 
 
 const ScanQRCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { url, email, password } = location.state || {};
-  
   const {setIsAuthenticated, setIsAdminAuthenticated}= useAuth();
+  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
+  
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
-  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
 
   useEffect(() => {
@@ -73,7 +73,6 @@ const ScanQRCode = () => {
         setIsAuthenticated(true);
         setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-
         if (role==="Admin") {
           setIsAdminAuthenticated(true)
           navigate("/userlist");

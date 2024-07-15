@@ -46,7 +46,7 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         //Need Access-Control-Allow-Credentials: true
-        //credentials: 'include',
+        //credentials: 'include'
         body: JSON.stringify(userData),
       });
 
@@ -65,6 +65,7 @@ const Login = () => {
           const storedIsAlreadyAuthenticated = localStorage.getItem(
             `user:${email}:isAlreadyAuthenticated`
           );
+          
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
               state: { url, email, role, password },
@@ -74,7 +75,7 @@ const Login = () => {
               state: { url, email, role, password },
             });
           }
-
+          
           const cookieHeaderValue = response.headers.get("Set-Cookie");
           if (cookieHeaderValue) {
             const match = cookieHeaderValue.match(/([^=]+)=([^;]+)/);
