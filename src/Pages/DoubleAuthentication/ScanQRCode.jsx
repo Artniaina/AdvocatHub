@@ -2,17 +2,17 @@ import React, { useState, useEffect , useContext} from "react";
 import QRCode from "qrcode.react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/DoubleAuthent.css"
+import { useAuth } from "../../Hooks/AuthContext";
 
 
 const ScanQRCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { url, email, password } = location.state || {};
+  
+  const {setIsAuthenticated, setIsAdminAuthenticated}= useAuth();
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
 
