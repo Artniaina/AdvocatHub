@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const { setIsAuthenticated } = useAuth();
+  const { setIsSimpleAuthenticated } = useAuth();
   const [password, setPassword] = useState("");
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
@@ -33,7 +33,7 @@ const Login = () => {
     if (!captchaValue) {
       alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
       return;
-    }    
+    }
 
     try {
       const userData = {
@@ -54,7 +54,7 @@ const Login = () => {
 
       if (response.ok) {
         if (data.smessage === "OK") {
-          setIsAuthenticated(true);
+          setIsSimpleAuthenticated(true);
           const totpKey = data.scléTOTP;
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
@@ -67,9 +67,8 @@ const Login = () => {
           );
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
-              state: { url, email, role, password},
+              state: { url, email, role, password },
             });
-      
           } else {
             navigate("/scanqrcode", {
               state: { url, email, role, password },

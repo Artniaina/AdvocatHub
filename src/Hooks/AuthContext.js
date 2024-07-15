@@ -4,12 +4,15 @@ const AuthContext = createContext();
 
 const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
+  const [isSimpleAuthenticated, setIsSimpleAuthenticated] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   return (
     <AuthContext.Provider
       value={{
+        isSimpleAuthenticated,
+        setIsSimpleAuthenticated,
         isAuthenticated,
         setIsAuthenticated,
         isAdminAuthenticated,

@@ -20,6 +20,7 @@ import FAQ from "../Pages/FAQPage";
 import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
+import ProtectedRoute1 from "./ProtectedRoute1";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -94,6 +95,11 @@ function MainRoutes() {
 
 
         //ROUTE PROTEGEE: NEED AUTHENTICATION
+        <Route element={<ProtectedRoute1 />}>
+          <Route path="/validationotp" element={<ValidationOTP />} />
+          <Route exact path="/scanqrcode" element={<ScanQRCode />} />
+        </Route>
+
         <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/home" element={<HomePage />} />
@@ -103,6 +109,7 @@ function MainRoutes() {
           <Route path="/validationotp" element={<ValidationOTP />} />
           <Route exact path="/scanqrcode" element={<ScanQRCode />} />
         </Route>
+
       </Routes>
     </Router>
   );

@@ -6,8 +6,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 const UserTable = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { isAdminAuthenticated, isAuthenticated } = location.state || {};
 
   const handleNavigate = () => {
     navigate("/home");
@@ -53,7 +51,6 @@ const UserTable = () => {
           "La mise à jour du statut a échoué avec un statut :",
           response.status
         );
-        // Revert the status change if the update fails
         setUsers(
           users.map((user) =>
             user.IDUtilisateur === userID
@@ -72,7 +69,6 @@ const UserTable = () => {
         "Erreur lors de la mise à jour du statut de l'utilisateur :",
         error
       );
-      // Revert the status change if the update fails
       setUsers(
         users.map((user) =>
           user.IDUtilisateur === userID
