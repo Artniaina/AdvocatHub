@@ -20,7 +20,6 @@ import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
 
-
 function PageTitleUpdater() {
   const location = useLocation();
   useEffect(() => {
@@ -31,9 +30,9 @@ function PageTitleUpdater() {
       case "/":
         pageTitle = "Login";
         break;
-        case "/home":
-          pageTitle = "Accueil";
-          break;
+      case "/home":
+        pageTitle = "Accueil";
+        break;
       case "/home/modifFiche":
         pageTitle = "Accueil";
         break;
@@ -44,13 +43,13 @@ function PageTitleUpdater() {
         pageTitle = "Documents";
         break;
       case "/lbc":
-        pageTitle = "LBC/FT";
+        pageTitle = "Articles";
         break;
       case "/userlist":
         pageTitle = "User list";
         break;
       case "/scanqrcode":
-        pageTitle = "Two factor Authent";
+        pageTitle = "Two-factor-Authentication";
         break;
       case "/registration":
         pageTitle = "Inscription";
@@ -62,10 +61,10 @@ function PageTitleUpdater() {
         pageTitle = "Modification de mot de passe";
         break;
       case "/validationotp":
-        pageTitle = "2FA";
+        pageTitle = "Two-factor-Authentication";
         break;
       default:
-        pageTitle = "My-app";
+        pageTitle = "404";
         break;
     }
 
@@ -84,22 +83,41 @@ function MainRoutes() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
-        <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
 
+        <Route
+          exact
+          path="/userlist"
+          element={
+            <PrivateRoute>
+              <UserList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          exact
+          path="/scanqrcode"
+          element={
+            <ProtectedRoute>
+              <ScanQRCode />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/validationotp"
+          element={
+            <ProtectedRoute>
+              <ValidationOTP />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/document" element={<Document />} />
+
         <Route element={<ProtectedRoute />}>
-          <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-        </Route>
-
-        <Route exact path="/userlist" element={<PrivateRoute />}>
-          <Route exact path="/userlist" element={<UserList />} />
-        </Route>
-
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route exact path="/scanqrcode" element={<ScanQRCode />} />
-          <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
       </Routes>
     </Router>

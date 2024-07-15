@@ -1,10 +1,9 @@
 import React , {useContext} from "react";
 import Navbar from '../Components/Homepage/Navbar'
-import ContenuLBC from '../Components/Homepage/LBC/ContenuLBC'
+import ContenuLBC from '../Components/LBC/ContenuLBC'
 
 const LBC = () => {
-
-
+  
   return (
    <>
    <Navbar/>
