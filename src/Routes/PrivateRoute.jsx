@@ -4,10 +4,15 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 const PrivateRoute = () => {
     const location = useLocation();
     const isAdminAuthenticated = location.state && location.state.isAdminAuthenticated;
-  if (!isAdminAuthenticated) {
-    return <Navigate to="/home" />;
-  }
+    const isAuthenticated = location.state && location.state.isAuthenticated;
 
+  if (!isAdminAuthenticated) {
+  if (isAuthenticated) {
+    return <Navigate to="/home" />;
+  } else {
+    return <Navigate to="/" />;
+  }
+  }
   return <Outlet />;
 };
 

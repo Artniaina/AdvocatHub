@@ -84,40 +84,20 @@ function MainRoutes() {
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
 
-        <Route
-          exact
-          path="/userlist"
-          element={
-            <PrivateRoute>
-              <UserList />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          exact
-          path="/scanqrcode"
-          element={
-            <ProtectedRoute>
-              <ScanQRCode />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/validationotp"
-          element={
-            <ProtectedRoute>
-              <ValidationOTP />
-            </ProtectedRoute>
-          }
-        />
+        //ROUTE PRIVEE: ROLE ADMIN
+        <Route element={<PrivateRoute />}>
+          <Route exact path="/userlist" element={<UserList />} />
+        </Route>
 
+        //ROUTE PROTEGE: NEED AUTHENTIFICATION
         <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/document" element={<Document />} />
-
         <Route element={<ProtectedRoute />}>
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
+          <Route path="/validationotp" element={<ValidationOTP />} />
+          <Route exact path="/scanqrcode" element={<ScanQRCode />} />
         </Route>
       </Routes>
     </Router>
