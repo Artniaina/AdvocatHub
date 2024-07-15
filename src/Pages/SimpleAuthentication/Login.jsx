@@ -30,10 +30,10 @@ const Login = () => {
       alert("Tous les champs doivent être remplis.");
       return;
     }
-    // if (!captchaValue) {
-    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
-    //   return;
-    // }    
+    if (!captchaValue) {
+      alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
+      return;
+    }    
 
     try {
       const userData = {
