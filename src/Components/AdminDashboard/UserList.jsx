@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "../../Styles/AdminDashboard/Table.css"
-import { useNavigate, useLocation} from "react-router-dom";
+import "../../Styles/AdminDashboard/Table.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -10,11 +10,7 @@ const UserTable = () => {
   const { isAdminAuthenticated, isAuthenticated } = location.state || {};
 
   const handleNavigate = () => {
-    if (isAdminAuthenticated) {
-      navigate('/home', { state: { isAdminAuthenticated, isAuthenticated } });
-    } else {
-      console.error('User is not authenticated');
-    }
+    navigate("/home");
   };
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users"));
@@ -25,14 +21,14 @@ const UserTable = () => {
     }
   }, []);
 
-  const apiUrl = "http://192.168.10.5/Utilisateur/Utilisateur";
+ 
 
   const fetchData = async () => {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch( "http://192.168.10.5/Utilisateur/Utilisateur");
       const data = await response.json();
       setUsers(data);
-      localStorage.setItem("users", JSON.stringify(data)); 
+      localStorage.setItem("users", JSON.stringify(data));
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
     }
@@ -43,9 +39,9 @@ const UserTable = () => {
       user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
     );
     setUsers(updatedUsers);
-    localStorage.setItem("users", JSON.stringify(updatedUsers)); 
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
 
-    const updateUserUrl = `${apiUrl}/${userID}`;
+    const updateUserUrl = ` "http://192.168.10.5/Utilisateur/Utilisateur"/${userID}`;
     try {
       const response = await fetch(updateUserUrl, {
         method: "PUT",
@@ -53,7 +49,8 @@ const UserTable = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          statut: !updatedUsers.find((user) => user.IDUtilisateur === userID).Statut,
+          statut: !updatedUsers.find((user) => user.IDUtilisateur === userID)
+            .Statut,
         }),
       });
 
@@ -62,42 +59,48 @@ const UserTable = () => {
           "La mise à jour du statut a échoué avec un statut :",
           response.status
         );
-        setUsers(users.map((user) =>
-          user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
-        ));
-        localStorage.setItem("users", JSON.stringify(users)); 
+        setUsers(
+          users.map((user) =>
+            user.IDUtilisateur === userID
+              ? { ...user, Statut: !user.Statut }
+              : user
+          )
+        );
+        localStorage.setItem("users", JSON.stringify(users));
       } else {
         const updatedUser = updatedUsers.find(
           (user) => user.IDUtilisateur === userID
         );
-        console.log(
-          `${
-            updatedUser.Statut ? "Actif" : "Inactif"
-          }`
-        );
+        console.log(`${updatedUser.Statut ? "Actif" : "Inactif"}`);
       }
     } catch (error) {
       console.error(
         "Erreur lors de la mise à jour du statut de l'utilisateur :",
         error
       );
-      setUsers(users.map((user) =>
-        user.IDUtilisateur === userID ? { ...user, Statut: !user.Statut } : user
-      ));
-      localStorage.setItem("users", JSON.stringify(users)); 
+      setUsers(
+        users.map((user) =>
+          user.IDUtilisateur === userID
+            ? { ...user, Statut: !user.Statut }
+            : user
+        )
+      );
+      localStorage.setItem("users", JSON.stringify(users));
     }
   };
 
   const handleDelete = async (userID) => {
-    const deleteUrl = `${apiUrl}/${userID}`;
+    const deleteUrl = ` "http://192.168.10.5/Utilisateur/Utilisateur"/${userID}`;
     try {
       const response = await fetch(deleteUrl, {
         method: "DELETE",
       });
       if (response.ok) {
-        const updatedUsers = users.filter((user) => user.IDUtilisateur !== userID);
+        const updatedUsers = users.filter(
+          (user) => user.IDUtilisateur !== userID
+        );
         setUsers(updatedUsers);
-        localStorage.setItem("users", JSON.stringify(updatedUsers)); 
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
       } else {
         console.error(
           "La suppression a échoué avec un statut :",
@@ -112,7 +115,9 @@ const UserTable = () => {
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Liste des utilisateurs inscrits</h1>
-      <button className="btnDash" onClick={handleNavigate}>Page d'acceuil</button>
+      <button className="btnDash" onClick={handleNavigate}>
+        Page d'acceuil
+      </button>
       <table className="tableUsers">
         <thead>
           <tr>

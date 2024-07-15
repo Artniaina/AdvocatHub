@@ -75,9 +75,10 @@ const ScanQRCode = () => {
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
 
         if (role==="Admin") {
-          navigate("/userlist", { state: { isAdminAuthenticated: true , isAuthenticated: true  } });
+          setIsAdminAuthenticated(true)
+          navigate("/userlist");
         }else{
-          navigate("/home", { state: { isAuthenticated: true }});
+          navigate("/home");
         }
       } else {
         setIsAuthenticated(false);

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
+import { useAuth } from "../../Hooks/AuthContext";
 
 const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const {setIsAuthenticated, setIsAdminAuthenticated } = useAuth();
   const { email, password } = location.state || {};
   const [codeOTP, setCodeOTP] = useState("");
 
@@ -21,7 +22,7 @@ const ValidationOTP = () => {
         sMotdePasse: password,
         scodeOTP: codeOTP,
       };
-      
+
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
@@ -34,24 +35,15 @@ const ValidationOTP = () => {
         alert("Code OTP non valide.");
         throw new Error("Échec de la requête API.");
       }
-
       const data = await response.json();
 
       if (data && data.svalideOTP === "1") {
+        setIsAuthenticated(true)
         if (data.sRole === "Admin") {
-          navigate("/userlist", {
-            state: {
-              isAuthenticated: true,
-              isAdminAuthenticated: true,
-            },
-          });
+          setIsAdminAuthenticated(true);
+          navigate("/userlist");
         } else {
-          navigate("/home", {
-            state: {
-              isAuthenticated: true,
-              isAdminAuthenticated: false,
-            },
-          });
+          navigate("/home");
         }
       } else {
         alert("Code OTP non valide.");

@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated } = useAuth();
   const [password, setPassword] = useState("");
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
@@ -30,9 +30,10 @@ const Login = () => {
       alert("Tous les champs doivent être remplis.");
       return;
     }
-    if (!captchaValue) {
-      alert('Veuillez coché la case je ne suis pasun robot')
-    }
+    // if (!captchaValue) {
+    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
+    //   return;
+    // }    
 
     try {
       const userData = {
@@ -44,7 +45,6 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-
         //Need Access-Control-Allow-Credentials: true
         //credentials: 'include',
         body: JSON.stringify(userData),

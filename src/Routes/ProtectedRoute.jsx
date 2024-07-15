@@ -8,7 +8,6 @@ const ProtectedRoute = ({ children }) => {
     if (!isAuthenticated) {
         return <Navigate to="/" />;
     }
-
     return <Outlet />;
 };
 
