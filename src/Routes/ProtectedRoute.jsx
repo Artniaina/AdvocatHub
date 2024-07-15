@@ -1,16 +1,15 @@
 import React from 'react';
-import { Navigate,Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../Hooks/AuthContext'; 
 
 const ProtectedRoute = ({ children }) => {
-    const location = useLocation();
-    const isAuthenticated = location.state && location.state.isAuthenticated;
-    console.log(`Protected Route ${isAuthenticated}`);
-
+    const { isAuthenticated } = useAuth();
+    
     if (!isAuthenticated) {
         return <Navigate to="/" />;
     }
 
-  return <Outlet />;
+    return <Outlet />;
 };
 
 export default ProtectedRoute;

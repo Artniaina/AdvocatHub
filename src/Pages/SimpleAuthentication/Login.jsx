@@ -7,12 +7,14 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import "../../Styles/Authentification/Form.css";
 import { useCookies } from "react-cookie";
+import { useAuth } from "../../Hooks/AuthContext";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [password, setPassword] = useState("");
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
@@ -49,10 +51,11 @@ const Login = () => {
 
       if (response.ok) {
         if (data.smessage === "OK") {
-          const totpKey = data.scléTOTP;
           setIsAuthenticated(true);
+          const totpKey = data.scléTOTP;
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
+          const password = userData.sMotdePasse;
           const role = data.sRole;
           setTotpKey(totpKey);
           setUrl(url);
@@ -61,11 +64,12 @@ const Login = () => {
           );
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
-              state: { url, email, role, isAuthenticated: true },
+              state: { url, email, role, password},
             });
+      
           } else {
             navigate("/scanqrcode", {
-              state: { url, email, role, isAuthenticated: true },
+              state: { url, email, role, password },
             });
           }
 
@@ -77,17 +81,17 @@ const Login = () => {
               const cookieValue = match[2];
               setCookie(cookieName, cookieValue, { path: "/" });
             } else {
-              console.log("Nom ou valeur du cookie non trouvé dans la réponse.");
+              console.log(
+                "Nom ou valeur du cookie non trouvé dans la réponse."
+              );
             }
           } else {
             console.log("Cookie header non trouvé dans la réponse.");
           }
         } else {
-
           setErrorMessage("Email ou mot de passe incorrect");
         }
       } else {
-
         setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {

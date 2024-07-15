@@ -91,7 +91,7 @@ function MainRoutes() {
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
 
-      //ROUTE PROTEGE: NEED AUTHENTIFICATION
+      //ROUTE PROTEGEE: NEED AUTHENTIFICATION
         <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/document" element={<Document />} />

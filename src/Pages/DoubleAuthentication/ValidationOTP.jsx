@@ -1,14 +1,16 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../Hooks/AuthContext";
 import "../../Styles/Authentification/Validationotp.css";
 
 const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { url, email, password } = location.state || {};
+  const {  email, password } = location.state || {};
+
   const [codeOTP, setCodeOTP] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
 
   const handleSubmit = async () => {
     try {
@@ -17,7 +19,7 @@ const ValidationOTP = () => {
         sMotdePasse: password,
         scodeOTP: codeOTP,
       };
-
+      console.log(userData);
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
@@ -40,24 +42,22 @@ const ValidationOTP = () => {
         if (data.sRole === "Admin") {
           navigate("/userlist", {
             state: {
-              isAuthenticated: true,
-              isAdminAuthenticated: true
-            }
+              isAuthenticated,
+              isAdminAuthenticated: true,
+            },
           });
         } else {
           navigate("/home", {
             state: {
-              isAuthenticated: true,
-              isAdminAuthenticated: false
-            }
+              isAuthenticated,
+              isAdminAuthenticated: false,
+            },
           });
         }
-        
       } else {
         setIsAuthenticated(false);
       }
     } catch (error) {}
-    
   };
 
   return (
