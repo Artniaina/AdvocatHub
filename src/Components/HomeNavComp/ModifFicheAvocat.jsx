@@ -23,7 +23,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  ////////////////////////////////////DISPENSE AJ//////////////////////////////////
+  ////////////////////////////////////DISPENSE AJ/////////////////////////////////////
 
   const activites =
     avocatInfo && avocatInfo.m_langue
@@ -106,7 +106,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     codeIBAN: avocatInfo?.m_IBAN || "",
     codeBIC: avocatInfo?.m_BIC || "",
     selectedActivities: defaultActivityArray || [],
-    languageCodes: languageCodes || [],
+    selectedLanguages: languageCodes || [],
   };
 
   ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
@@ -125,7 +125,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     initialState.selectedActivities
   );
   const [selectedLanguages, setSelectedLanguages] = useState(
-    initialState.languageCodes
+    initialState.selectedLanguages
   );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
@@ -355,7 +355,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     codeIBAN,
     codeBIC,
     selectedActivities,
-    languageCodes,
+    selectedLanguages,
   };
 
   const ObjectComparison = (obj1, obj2) => {

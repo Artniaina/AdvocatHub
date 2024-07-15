@@ -99,14 +99,13 @@ function MainRoutes() {
         </Route>
 
         //ROUTE PROTEGEE: NEED AUTHENTICATION WITH 2FA
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-        </Route>
-
+        {/* </Route> */}
       </Routes>
     </Router>
   );

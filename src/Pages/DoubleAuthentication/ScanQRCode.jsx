@@ -11,7 +11,6 @@ const ScanQRCode = () => {
   const { url, email, password } = location.state || {};
   const {setIsAuthenticated, setIsAdminAuthenticated}= useAuth();
   const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
-  
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
   const [formattedOTPURL, setFormattedOTPURL] = useState("");
@@ -20,7 +19,6 @@ const ScanQRCode = () => {
     setLoading(false);
     const formatOTPAuthURLForQR = (url) => {
       const originalURL = url;
-
       const parts = originalURL.split("?");
 
       if (parts.length !== 2) {
