@@ -30,6 +30,9 @@ const Login = () => {
       alert("Tous les champs doivent être remplis.");
       return;
     }
+    if (!captchaValue) {
+      alert('Veuillez coché la case je ne suis pasun robot')
+    }
 
     try {
       const userData = {
