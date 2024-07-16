@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom'; 
 import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
-import Navbar from "../Components/Homepage/Navbar";
-import ModifFicheAvocat from "../Components/HomeNavComp/ModifFicheAvocat";
+import Navbar from "../Components/Navbar";
+import ModifFicheAvocat from "../Components/Homepage/HomeNavComp/ModifFicheAvocat";
 import Welcome from "../Components/Homepage/Accueil/Welcome";
 
 

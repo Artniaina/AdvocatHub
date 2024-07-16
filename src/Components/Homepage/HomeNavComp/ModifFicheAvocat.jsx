@@ -1,23 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchLangues } from "../../Store/LanguagesSlice";
-import { fetchActivities } from "../../Store/ActivtesPreferentiellesSlice";
+import { fetchLangues } from "../../../Store/LanguagesSlice";
+import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
 import { FaCheck } from "react-icons/fa";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { FiMinusCircle } from "react-icons/fi";
 import { FaFilePen } from "react-icons/fa6";
-import EtudeIcon from "../../assets/icons8-marqueur-de-plan-48.png";
-import ProIcon from "../../assets/icons8-management-en-développement-commercial-100.png";
-import PersoIcon from "../../assets/icons8-contrat-de-travail-100(1).png";
-import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
-import PopUpActiPref from "../PopUp/PopUpActivPref";
-import PopUpAdressePrivee from "../PopUp/PopUpAdressePrivee";
-import PopUpAnnuler from "../PopUp/PopUpAnnuler";
-import ConfirmationValidation from "../PopUp/ConfirmationValidation";
-import "../../Styles/PopUp/AdressePriveePopUp.css";
-import "../../Styles/Homepage/Acceuil/Acceuil.css";
-import "../../Styles/Homepage/Acceuil/PopUp.css";
+import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
+import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
+import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
+import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
+import PopUpActiPref from "../../PopUp/PopUpActivPref";
+import PopUpAdressePrivee from "../../PopUp/PopUpAdressePrivee";
+import PopUpAnnuler from "../../PopUp/PopUpAnnuler";
+import ConfirmationValidation from "../../PopUp/ConfirmationValidation";
+import "../../../Styles/PopUp/AdressePriveePopUp.css";
+import "../../../Styles/Homepage/Acceuil/Acceuil.css";
+import "../../../Styles/Homepage/Acceuil/PopUp.css";
 
 const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();

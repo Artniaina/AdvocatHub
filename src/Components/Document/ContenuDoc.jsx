@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ContenuDoc = ({isAuthenticated}) => {
-  console.log(isAuthenticated);
+const ContenuDoc = () => {
+
   return (
     <div className="mainContainerDoc">
       

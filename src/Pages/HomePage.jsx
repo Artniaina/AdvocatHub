@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom'; 
 import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
-import Navbar from '../Components/Homepage/Navbar';
+import Navbar from '../Components/Navbar';
 import Welcome from "../Components/Homepage/Accueil/Welcome";
 import Accueil from "../Components/Homepage/Accueil/Accueil";
 
 const HomePage = () => {
-  const location = useLocation(); 
-  const { isAdminAuthenticated, isAuthenticated } = location.state || {};
-  
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
