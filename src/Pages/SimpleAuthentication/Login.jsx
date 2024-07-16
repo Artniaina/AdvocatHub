@@ -34,19 +34,20 @@ const Login = () => {
       alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
       return;
     }
-
     try {
+      const apiwebdev="http://192.168.10.5/Utilisateur/Authent"
+      const apireact = "/Utilisateur/Authent";
+
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
       };
-      const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
+      const response = await fetch(apireact, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        //Need Access-Control-Allow-Credentials: true
-        //credentials: 'include'
+        // credentials: "include",
         body: JSON.stringify(userData),
       });
 
@@ -65,7 +66,7 @@ const Login = () => {
           const storedIsAlreadyAuthenticated = localStorage.getItem(
             `user:${email}:isAlreadyAuthenticated`
           );
-          
+
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
               state: { url, email, role, password },
@@ -75,7 +76,7 @@ const Login = () => {
               state: { url, email, role, password },
             });
           }
-          
+
           const cookieHeaderValue = response.headers.get("Set-Cookie");
           if (cookieHeaderValue) {
             const match = cookieHeaderValue.match(/([^=]+)=([^;]+)/);

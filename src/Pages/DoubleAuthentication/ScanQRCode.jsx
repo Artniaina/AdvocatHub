@@ -59,8 +59,11 @@ const ScanQRCode = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        
+        credentials:"true",
         body: JSON.stringify(userData),
       });
+      
       if (!response.ok) {
         alert("Code non valide, réessayer");
         throw new Error("Échec de la requête API.");
