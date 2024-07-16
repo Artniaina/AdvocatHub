@@ -9,7 +9,7 @@ import Welcome from "../Components/Homepage/Accueil/Welcome";
 
 const FicheAvocatPage = () => {
   const location = useLocation(); 
-  const { isAdminAuthenticated, isAuthenticated } = location.state || {};  
+
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);

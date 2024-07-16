@@ -1,15 +1,14 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Hooks/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import QRCode from "qrcode.react";
-import "../../Styles/Authentification/DoubleAuthent.css"
-
+import "../../Styles/Authentification/DoubleAuthent.css";
 
 const ScanQRCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { url, email, password } = location.state || {};
-  const {setIsAuthenticated, setIsAdminAuthenticated}= useAuth();
+  const { setIsAuthenticated, setIsAdminAuthenticated } = useAuth();
   const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
@@ -24,6 +23,7 @@ const ScanQRCode = () => {
       if (parts.length !== 2) {
         throw new Error("URL OTP invalide.");
       }
+
       const [baseURL, queryParams] = parts;
       const params = new URLSearchParams(queryParams);
       const secret = params.get("secret");
@@ -62,19 +62,19 @@ const ScanQRCode = () => {
         body: JSON.stringify(userData),
       });
       if (!response.ok) {
-        alert("Code non valide, réessayer")
+        alert("Code non valide, réessayer");
         throw new Error("Échec de la requête API.");
       }
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
-        const role= data.sRole
+        const role = data.sRole;
         setIsAuthenticated(true);
         setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-        if (role==="Admin") {
-          setIsAdminAuthenticated(true)
+        if (role === "Admin") {
+          setIsAdminAuthenticated(true);
           navigate("/userlist");
-        }else{
+        } else {
           navigate("/home");
         }
       } else {
@@ -85,37 +85,35 @@ const ScanQRCode = () => {
   };
 
   return (
-    <div  className= "headerAuthent">
-    <div className="container1">
-      <h2 className="heading">Configurer Google Authenticator</h2>
-      {loading ? (
-        <p className="text">Chargement de la clé TOTP...</p>
-      ) : (
-        <>
-          <p className="text">
-            Scannez le QR Code avec Google Authenticator
-          </p>
-          <div className="qrCode">
-            <QRCode
-              style={{ width: "100%", height: "100%" }}
-              value={formattedOTPURL}
-            />
-          </div>
-          <div className="inputContainer">
-            <input
-              type="text"
-              placeholder="Entrez les 6 chiffres dans google authenticator"
-              value={codeOTP}
-              onChange={(e) => setCodeOTP(e.target.value)}
-              className="inputqr"
-            />
-            <button onClick={handleSubmit} className="button">
-              Valider
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+    <div className="headerAuthent">
+      <div className="container1">
+        <h2 className="heading">Configurer Google Authenticator</h2>
+        {loading ? (
+          <p className="text">Chargement de la clé TOTP...</p>
+        ) : (
+          <>
+            <p className="text">Scannez le QR Code avec Google Authenticator</p>
+            <div className="qrCode">
+              <QRCode
+                style={{ width: "100%", height: "100%" }}
+                value={formattedOTPURL}
+              />
+            </div>
+            <div className="inputContainer">
+              <input
+                type="text"
+                placeholder="Entrez les 6 chiffres dans google authenticator"
+                value={codeOTP}
+                onChange={(e) => setCodeOTP(e.target.value)}
+                className="inputqr"
+              />
+              <button onClick={handleSubmit} className="button">
+                Valider
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

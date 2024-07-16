@@ -23,7 +23,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  ////////////////////////////////////DISPENSE AJ/////////////////////////////////////
+////////////////////////////////////DISPENSE ASSISTANCE JUDICIAIRE/////////////////////////////////////
 
   const activites =
     avocatInfo && avocatInfo.m_langue
@@ -33,6 +33,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const toggleAj = () => {
     setAjState((prevState) => (prevState == 1 ? false : true));
   };
+
   ////////////////////////////////////LANGUES PARLEES////////////////////////////////
 
   useEffect(() => {
@@ -132,6 +133,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
+
 
   ////////////////////////////////REGEX: FORME DE SAISI CORRECTE: DES EMAILS, BIC ET IBAN//////////////////////
 
@@ -302,7 +304,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
       m_IBAN: codeIBAN,
       m_BIC: codeBIC,
       m_dispenseaj: ajState,
-      m_tableauLangue: languageCodes,
+      m_tableauLangue: selectedLanguages,
       m_tableauActivPref: selectedActivities,
     };
 

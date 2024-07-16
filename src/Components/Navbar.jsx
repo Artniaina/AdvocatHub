@@ -1,21 +1,20 @@
-import React, { useContext, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import Logo from "../assets/icons8-palais-de-justice-64.png";
+import "../Styles/Homepage/Navbar.css";
+import { useAuth } from "../Hooks/AuthContext";
+import { Link, useLocation} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAvocatInfo } from "../Store/AvocatSlice";
 import { FaUserCircle } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import Logo from "../assets/icons8-palais-de-justice-64.png";
 import { AiFillHome } from "react-icons/ai";
 import { TbDeviceIpadQuestion } from "react-icons/tb";
-import "../Styles/Homepage/Navbar.css";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { useAuth } from "../Hooks/AuthContext";
 
 const Navbar = () => {
   const location = useLocation();
-  const { setIsAuthenticated } = useAuth();
-
   const dispatch = useDispatch();
+  const { setIsAuthenticated } = useAuth();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
 
   useEffect(() => {

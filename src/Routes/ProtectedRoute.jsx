@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../Hooks/AuthContext'; 
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
     const { isAuthenticated } = useAuth();
     
     if (!isAuthenticated) {
