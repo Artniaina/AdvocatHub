@@ -35,19 +35,17 @@ const Login = () => {
       return;
     }
     try {
-      const apiwebdev="http://192.168.10.5/Utilisateur/Authent"
-      const apireact = "/Utilisateur/Authent";
 
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
       };
-      const response = await fetch(apireact, {
+      const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // credentials: "include",
+        //  credentials: "include",
         body: JSON.stringify(userData),
       });
 
@@ -77,7 +75,7 @@ const Login = () => {
             });
           }
 
-          const cookieHeaderValue = response.headers.get("Set-Cookie");
+          const cookieHeaderValue = response.headers.get("set-Cookie");
           if (cookieHeaderValue) {
             const match = cookieHeaderValue.match(/([^=]+)=([^;]+)/);
             if (match && match.length === 3) {

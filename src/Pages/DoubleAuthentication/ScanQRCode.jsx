@@ -60,7 +60,7 @@ const ScanQRCode = () => {
           "Content-Type": "application/json",
         },
         
-        credentials:"true",
+        // credentials:"true",
         body: JSON.stringify(userData),
       });
       
