@@ -101,9 +101,9 @@ function MainRoutes() {
         </Route>
 
         //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
-        <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/home" element={<HomePage />} />
+        <Route element={<ProtectedRoute />}>
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
