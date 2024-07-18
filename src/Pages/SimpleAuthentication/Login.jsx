@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import Cookies from "universal-cookie";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
@@ -35,23 +36,24 @@ const Login = () => {
       return;
     }
     try {
-
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
       };
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
+       
         method: "POST",
         headers: {
+          Accept: 'application/json',
           "Content-Type": "application/json",
         },
-        // credentials: "include",
+        credentials: "include",
         body: JSON.stringify(userData),
       });
 
       const data = await response.json();
-
       if (response.ok) {
+        
         if (data.smessage === "OK") {
           setIsSimpleAuthenticated(true);
           const totpKey = data.scléTOTP;
@@ -75,13 +77,32 @@ const Login = () => {
             });
           }
 
-          const cookieHeaderValue = response.headers.get("set-Cookie");
+
+          console.log("Response Headers:", response.headers);
+
+          const cookies = new Cookies();
+          const cookieValue = cookies.get("COOKIE_SESSION");
+          if (cookieValue) {
+            console.log("Contenu du cookie COOKIE_SESSION :", cookieValue);
+          } else {
+            console.log("Le cookie COOKIE_SESSION n'existe pas ou est vide.");
+          }
+
+          
+          const cookieHeaderValue = response.headers.get('set-cookie')
+          const hello = response.headers.get('access-control-allow-headers');
+          console.log(hello);   
+           console.log(document.cookie); 
           if (cookieHeaderValue) {
-            const match = cookieHeaderValue.match(/([^=]+)=([^;]+)/);
-            if (match && match.length === 3) {
+            const match = cookieHeaderValue.match(/([^=]+)=([^;]+); expires=([^;]+)/);
+            if (match && match.length === 4) {
               const cookieName = match[1];
               const cookieValue = match[2];
-              setCookie(cookieName, cookieValue, { path: "/" });
+              const expirationDateString = match[3]; 
+              const expirationDate = new Date(expirationDateString);
+              cookies.set(cookieName, cookieValue, { path: '/', expires: expirationDate, sameSite: 'Lax' });
+              console.log(`Cookie ${cookieName} ${cookieValue} ${expirationDate} ${expirationDateString} set with expiration and samesite.`);
+
             } else {
               console.log(
                 "Nom ou valeur du cookie non trouvé dans la réponse."
