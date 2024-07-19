@@ -25,14 +25,10 @@ const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = (username) => {
+  const login = (value) => {
     const expirationTime = 24 * 60 * 60;
     const currentTime = new Date();
-    const expirationDate = new Date(
-      currentTime.getTime() + expirationTime * 1000
-    );
-
-    cookies.set("COOKIE_SESSION", username, {
+    cookies.set("COOKIE_SESSION", value, {
       path: "/",
       maxAge: expirationTime,
       sameSite: "Lax",
@@ -41,7 +37,6 @@ const AuthProvider = ({ children }) => {
 
     setTimeout(() => {
       cookies.remove("COOKIE_SESSION", { path: "/" });
-      console.log("Cookie removed after expiration time");
       setIsAuthenticated(false);
     }, expirationTime * 1000);
   };
