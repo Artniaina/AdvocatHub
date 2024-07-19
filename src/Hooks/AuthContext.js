@@ -1,12 +1,42 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import Cookies from "universal-cookie";
 
 const AuthContext = createContext();
 
 const useAuth = () => useContext(AuthContext);
+
 const AuthProvider = ({ children }) => {
+  const cookies = new Cookies();
   const [isSimpleAuthenticated, setIsSimpleAuthenticated] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const cookieSession = cookies.get('COOKIE_SESSION');
+      if (cookieSession) {
+        setIsSimpleAuthenticated(true);
+      } else {
+        setIsSimpleAuthenticated(false);
+      }
+      setIsLoading(false);
+    };
+    checkAuth();
+  }, []);
+
+  const login = (username) => {
+    const expirationTime = 24 * 60 * 60; 
+    cookies.set('COOKIE_SESSION', username, { path: '/', maxAge: expirationTime, sameSite: 'Lax' });
+    setIsSimpleAuthenticated(true);
+  };
+
+  const logout = () => {
+    cookies.remove('COOKIE_SESSION', { path: '/' });
+    setIsSimpleAuthenticated(false);
+    setIsAuthenticated(false);
+    setIsAdminAuthenticated(false);
+  };
 
   return (
     <AuthContext.Provider
@@ -17,6 +47,8 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated,
         isAdminAuthenticated,
         setIsAdminAuthenticated,
+        login,
+        logout
       }}
     >
       {children}
