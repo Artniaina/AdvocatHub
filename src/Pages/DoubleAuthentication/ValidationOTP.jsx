@@ -8,7 +8,7 @@ const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  const {setIsAuthenticated, setIsAdminAuthenticated } = useAuth();
+  const {setIsAdminAuthenticated } = useAuth();
   const { email, password } = location.state || {};
   const [codeOTP, setCodeOTP] = useState("");
 

@@ -6,13 +6,13 @@ import Cookies from "universal-cookie";
 const ProtectedRoute = () => {
   const cookies = new Cookies();
   const cookieSession = cookies.get("COOKIE_SESSION");
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!cookieSession || !isAuthenticated) {
+  if (!cookieSession) {
     console.log("Retour a la page de login");
     return <Navigate to="/" />;
   }

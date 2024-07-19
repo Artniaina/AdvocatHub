@@ -1,11 +1,8 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../Hooks/AuthContext";
-import Cookies from "universal-cookie";
 
 const PartialProtectedRoute = () => {
-  const cookies = new Cookies();
-  const cookieSession = cookies.get("COOKIE_SESSION");
   const { isSimpleAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
@@ -17,7 +14,6 @@ const PartialProtectedRoute = () => {
     return <Navigate to="/" />;
   }
 
-  console.log("Hello non retour");
   return <Outlet />;
 };
 

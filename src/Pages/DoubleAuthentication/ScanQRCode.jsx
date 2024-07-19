@@ -9,7 +9,7 @@ const ScanQRCode = () => {
   const location = useLocation();
   const { login } = useAuth();
   const { url, email, password } = location.state || {};
-  const { setIsAuthenticated, setIsAdminAuthenticated } = useAuth();
+  const { setIsAdminAuthenticated } = useAuth();
   const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [codeOTP, setCodeOTP] = useState("");
@@ -83,8 +83,8 @@ const ScanQRCode = () => {
           navigate("/home");
         }
       } else {
-        setIsAuthenticated(false);
         console.error("Échec de l'authentification à deux facteurs.");
+        alert("Code OTP non valide");
       }
     } catch (error) {}
   };

@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = () => {
-      const cookieSession = cookies.get('COOKIE_SESSION');
+      const cookieSession = cookies.get("COOKIE_SESSION");
       if (cookieSession) {
         setIsAuthenticated(true);
       } else {
@@ -26,12 +26,25 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (username) => {
-    const expirationTime = 24 * 60 * 60; 
-    cookies.set('COOKIE_SESSION', username, { path: '/', maxAge: expirationTime, sameSite: 'Lax' });
+    const expirationTime = 24 * 60 * 60;
+    const currentTime = new Date();
+    const expirationDate = new Date(
+      currentTime.getTime() + expirationTime * 1000
+    );
+
+    cookies.set("COOKIE_SESSION", username, {
+      path: "/",
+      maxAge: expirationTime,
+      sameSite: "Lax",
+    });
     setIsAuthenticated(true);
+
+    setTimeout(() => {
+      cookies.remove("COOKIE_SESSION", { path: "/" });
+      console.log("Cookie removed after expiration time");
+      setIsAuthenticated(false);
+    }, expirationTime * 1000);
   };
-
-
 
   return (
     <AuthContext.Provider
@@ -44,7 +57,6 @@ const AuthProvider = ({ children }) => {
         setIsAdminAuthenticated,
         isLoading,
         login,
-        
       }}
     >
       {children}
