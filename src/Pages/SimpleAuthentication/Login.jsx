@@ -14,7 +14,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isSimpleAuthenticated } = useAuth();
+  const { setIsSimpleAuthenticated } = useAuth();
   const { login } = useAuth();
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
@@ -23,18 +23,16 @@ const Login = () => {
   const [totpKey, setTotpKey] = useState("");
   const [url, setUrl] = useState("");
 
-  console.log(isSimpleAuthenticated);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       alert("Tous les champs doivent être remplis.");
       return;
     }
-    // if (!captchaValue) {
-    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
-    //   return;
-    // }
-
+    if (!captchaValue) {
+      alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
+      return;
+    }
     try {
       const userData = {
         sAdresseEmail: email,
@@ -53,8 +51,8 @@ const Login = () => {
       if (response.ok) {
         if (data.smessage === "OK") {
           const dateSys = new Date().toISOString();
-          login(data.SUsername+`${dateSys}`);
-
+          login(data.SUsername + `${dateSys}`);
+          setIsSimpleAuthenticated(true);
           const totpKey = data.scléTOTP;
           const url = data.sUrl;
           const email = userData.sAdresseEmail;
@@ -75,8 +73,6 @@ const Login = () => {
               state: { url, email, role, password },
             });
           }
-         
-
         } else {
           setErrorMessage("Email ou mot de passe incorrect");
         }

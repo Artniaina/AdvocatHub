@@ -81,7 +81,6 @@ function MainRoutes() {
     <Router>
       <PageTitleUpdater />
       <Routes>
-
         //SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
@@ -94,12 +93,12 @@ function MainRoutes() {
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
 
-        //PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION 
+        //PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION
         <Route element={<PartialProtectedRoute />}>
           <Route path="/validationotp" element={<ValidationOTP />} />
           <Route exact path="/scanqrcode" element={<ScanQRCode />} />
         </Route>
-
+        
         //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
         <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />

@@ -47,6 +47,7 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated,
         isAdminAuthenticated,
         setIsAdminAuthenticated,
+        isLoading,
         login,
         logout
       }}
