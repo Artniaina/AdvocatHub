@@ -31,12 +31,7 @@ const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
-    cookies.remove('COOKIE_SESSION', { path: '/' });
-    setIsSimpleAuthenticated(false);
-    setIsAuthenticated(false);
-    setIsAdminAuthenticated(false);
-  };
+
 
   return (
     <AuthContext.Provider
@@ -49,7 +44,7 @@ const AuthProvider = ({ children }) => {
         setIsAdminAuthenticated,
         isLoading,
         login,
-        logout
+        
       }}
     >
       {children}

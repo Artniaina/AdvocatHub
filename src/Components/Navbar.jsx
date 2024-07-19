@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Cookies from "universal-cookie";
 import Logo from "../assets/icons8-palais-de-justice-64.png";
 import "../Styles/Homepage/Navbar.css";
 import { useAuth } from "../Hooks/AuthContext";
@@ -13,8 +14,9 @@ import { IoNewspaperOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const location = useLocation();
+  const cookies = new Cookies();
   const dispatch = useDispatch();
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated , setIsAdminAuthenticated, setIsSimpleAuthenticated} = useAuth();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
 
   useEffect(() => {
@@ -24,7 +26,10 @@ const Navbar = () => {
   const fullName = `${avocatInfo.m_sPrenom || ""} ${avocatInfo.m_sNom || ""}`;
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+      cookies.remove('COOKIE_SESSION', { path: '/' });
+      setIsSimpleAuthenticated(false);
+      setIsAuthenticated(false);
+      setIsAdminAuthenticated(false);
   };
 
   return (
