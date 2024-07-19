@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import Cookies from "universal-cookie";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
@@ -15,7 +14,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setIsSimpleAuthenticated } = useAuth();
-  const { login } = useAuth();
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -50,8 +48,6 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         if (data.smessage === "OK") {
-          const dateSys = new Date().toISOString();
-          login(data.SUsername + `${dateSys}`);
           setIsSimpleAuthenticated(true);
           const totpKey = data.scléTOTP;
           const url = data.sUrl;

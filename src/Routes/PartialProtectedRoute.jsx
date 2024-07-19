@@ -12,9 +12,9 @@ const PartialProtectedRoute = () => {
     return <div>Loading...</div>;
   }
 
-  if (!cookieSession || !isSimpleAuthenticated) {
+  if (!isSimpleAuthenticated) {
     console.log("Retour a la page de login");
-    // return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   console.log("Hello non retour");

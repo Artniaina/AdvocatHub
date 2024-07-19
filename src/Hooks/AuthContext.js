@@ -16,9 +16,9 @@ const AuthProvider = ({ children }) => {
     const checkAuth = () => {
       const cookieSession = cookies.get('COOKIE_SESSION');
       if (cookieSession) {
-        setIsSimpleAuthenticated(true);
+        setIsAuthenticated(true);
       } else {
-        setIsSimpleAuthenticated(false);
+        setIsAuthenticated(false);
       }
       setIsLoading(false);
     };
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
   const login = (username) => {
     const expirationTime = 24 * 60 * 60; 
     cookies.set('COOKIE_SESSION', username, { path: '/', maxAge: expirationTime, sameSite: 'Lax' });
-    setIsSimpleAuthenticated(true);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {

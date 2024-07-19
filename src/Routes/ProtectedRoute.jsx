@@ -1,14 +1,24 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../Hooks/AuthContext'; 
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../Hooks/AuthContext";
+import Cookies from "universal-cookie";
 
 const ProtectedRoute = () => {
-    const { isAuthenticated } = useAuth();
-    
-    if (!isAuthenticated) {
-        return <Navigate to="/" />;
-    }
-    return <Outlet/>;
+  const cookies = new Cookies();
+  const cookieSession = cookies.get("COOKIE_SESSION");
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!cookieSession || !isAuthenticated) {
+    console.log("Retour a la page de login");
+    return <Navigate to="/" />;
+  }
+
+  console.log("Hello non retour");
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

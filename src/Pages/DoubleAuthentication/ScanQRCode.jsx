@@ -7,6 +7,7 @@ import "../../Styles/Authentification/DoubleAuthent.css";
 const ScanQRCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
   const { url, email, password } = location.state || {};
   const { setIsAuthenticated, setIsAdminAuthenticated } = useAuth();
   const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
@@ -60,7 +61,7 @@ const ScanQRCode = () => {
           "Content-Type": "application/json",
         },
         
-        // credentials:"true",
+        credentials:"include",
         body: JSON.stringify(userData),
       });
       
@@ -71,7 +72,8 @@ const ScanQRCode = () => {
       const data = await response.json();
       if (data && data.svalideOTP === "1") {
         const role = data.sRole;
-        setIsAuthenticated(true);
+        const dateSys = new Date().toISOString();
+        login(data.SUsername + `${dateSys}`);
         setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
         if (role === "Admin") {

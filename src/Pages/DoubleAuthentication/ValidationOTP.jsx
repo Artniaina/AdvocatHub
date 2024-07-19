@@ -3,9 +3,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
 import { useAuth } from "../../Hooks/AuthContext";
 
+
 const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
   const {setIsAuthenticated, setIsAdminAuthenticated } = useAuth();
   const { email, password } = location.state || {};
   const [codeOTP, setCodeOTP] = useState("");
@@ -38,7 +40,8 @@ const ValidationOTP = () => {
       const data = await response.json();
 
       if (data && data.svalideOTP === "1") {
-        setIsAuthenticated(true)
+        const dateSys = new Date().toISOString();
+        login(data.SUsername + `${dateSys}`);
         if (data.sRole === "Admin") {
           setIsAdminAuthenticated(true);
           navigate("/userlist");
