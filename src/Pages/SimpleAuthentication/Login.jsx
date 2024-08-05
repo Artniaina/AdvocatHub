@@ -7,9 +7,12 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import "../../Styles/Authentification/Form.css";
 import { useAuth } from "../../Hooks/AuthContext";
+import { setUser } from "../../Store/UserSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,6 +59,13 @@ const Login = () => {
           const role = data.sRole;
           setTotpKey(totpKey);
           setUrl(url);
+
+          const user = {
+            email: userData.sAdresseEmail,
+          };
+
+          dispatch(setUser(user));
+
           const storedIsAlreadyAuthenticated = localStorage.getItem(
             `user:${email}:isAlreadyAuthenticated`
           );

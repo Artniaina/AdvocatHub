@@ -9,8 +9,8 @@ const initialState = {
 
 export const fetchAvocatInfo = createAsyncThunk(
   'avocat/fetchAvocatInfo',
-  async (id) => {
-    const response = await fetch(`http://192.168.10.5/Utilisateur/AvocatInfo/${id}`);
+  async (email) => {
+    const response = await fetch(`http://192.168.10.5/Utilisateur/AvocatInfo/${email}`);
     if (!response.ok) {
       throw new Error('Failed to fetch avocat info');
     }

@@ -5,16 +5,20 @@ import Navbar from '../Components/Navbar';
 import Welcome from "../Components/Homepage/Accueil/Welcome";
 import Accueil from "../Components/Homepage/Accueil/Accueil";
 
-const HomePage = ({ userId }) => {
+const HomePage = () => {
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
+  const user = useSelector((state) => state.user.user); 
 
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchAvocatInfo(userId));
+    if (user && user.email) {
+      console.log("User Email:", user.email);
+      dispatch(fetchAvocatInfo(user.email));
+    } else {
+      console.log("User or User Email is not available.");
     }
-  }, [dispatch, userId]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (avocatInfo && avocatInfo.m_nidetude) {
