@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import "../../Styles/Authentification/Form.css";
 import { useAuth } from "../../Hooks/AuthContext";
-import { setUser } from "../../Store/UserSlice";
-import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { setIsSimpleAuthenticated, login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setIsSimpleAuthenticated } = useAuth();
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -54,24 +51,23 @@ const Login = () => {
           setIsSimpleAuthenticated(true);
           const totpKey = data.scléTOTP;
           const url = data.sUrl;
-          const email = userData.sAdresseEmail;
-          const password = userData.sMotdePasse;
           const role = data.sRole;
           setTotpKey(totpKey);
           setUrl(url);
 
           const user = {
             email: userData.sAdresseEmail,
+            role: role,
           };
 
-          dispatch(setUser(user));
+          login(totpKey, user); 
 
           const storedIsAlreadyAuthenticated = localStorage.getItem(
             `user:${email}:isAlreadyAuthenticated`
           );
 
           if (storedIsAlreadyAuthenticated) {
-            navigate("/validationotp", {
+            navigate("/home", {
               state: { url, email, role, password },
             });
           } else {
@@ -86,7 +82,7 @@ const Login = () => {
         setErrorMessage("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      alert("Email ou mot de passe incorrect");
+      setErrorMessage("Email ou mot de passe incorrect");
     }
   };
 
@@ -111,7 +107,7 @@ const Login = () => {
       <h2 className="AppAuthent">Login</h2>
       <form onSubmit={handleSubmit} className="loginForm">
         <div>
-          <label className="label"> Email:</label>
+          <label className="label">Email:</label>
           <br />
           <input
             className="input"
@@ -178,6 +174,7 @@ const Login = () => {
             Pas encore de compte? Créer un compte
           </Link>
         </p>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </div>
   );

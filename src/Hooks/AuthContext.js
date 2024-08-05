@@ -11,9 +11,10 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = () => { 
       const cookieSession = cookies.get("COOKIE_SESSION");
       if (cookieSession) {
         setIsAuthenticated(true);
@@ -25,22 +26,26 @@ const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = (value) => {
-    const expirationTime = 24 * 60 * 60;
+  const login = (value, userData) => {
+    const expirationTime = 24 * 60 * 60; 
     const currentTime = new Date();
     cookies.set("COOKIE_SESSION", value, {
       path: "/",
       maxAge: expirationTime,
-      sameSite: "Strict", 
-      secure: true, 
+      sameSite: "Strict",
+      secure: true,
     });
     setIsAuthenticated(true);
-
+    setUser(userData);
+    console.log("User data in Context:", userData);
+    
     setTimeout(() => {
       cookies.remove("COOKIE_SESSION", { path: "/" });
       setIsAuthenticated(false);
+      setUser(null);
     }, expirationTime * 1000);
   };
+  
 
   return (
     <AuthContext.Provider
@@ -53,6 +58,7 @@ const AuthProvider = ({ children }) => {
         setIsAdminAuthenticated,
         isLoading,
         login,
+        user,
       }}
     >
       {children}
