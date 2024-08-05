@@ -3,19 +3,22 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
 import { useAuth } from "../../Hooks/AuthContext";
 
-
 const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
-  const {setIsAdminAuthenticated } = useAuth();
-  const { email, password } = location.state || {};
+  const { login, setIsAdminAuthenticated } = useAuth();
+
+  const { email = "", password = "" } = location.state || {};
   const [codeOTP, setCodeOTP] = useState("");
 
   const handleSubmit = async () => {
     try {
-      if (codeOTP === "") {
+      if (!codeOTP) {
         alert("Veuillez remplir le champ OTP.");
+        return;
+      }
+      if (!email || !password) {
+        alert("Données utilisateur manquantes.");
         return;
       }
 
@@ -34,14 +37,18 @@ const ValidationOTP = () => {
       });
 
       if (!response.ok) {
-        alert("Code OTP non valide.");
         throw new Error("Échec de la requête API.");
       }
+
       const data = await response.json();
 
       if (data && data.svalideOTP === "1") {
         const dateSys = new Date().toISOString();
-        login(data.SUsername + `${dateSys}`);
+        login(data.SUsername + `${dateSys}`, {
+            email: email,
+            role: data.sRole,
+        });
+
         if (data.sRole === "Admin") {
           setIsAdminAuthenticated(true);
           navigate("/userlist");
@@ -53,6 +60,7 @@ const ValidationOTP = () => {
       }
     } catch (error) {
       console.error("Erreur lors de la validation OTP :", error);
+      alert("Une erreur est survenue lors de la validation du code OTP.");
     }
   };
 

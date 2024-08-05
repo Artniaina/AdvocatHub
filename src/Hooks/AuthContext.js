@@ -37,6 +37,7 @@ const AuthProvider = ({ children }) => {
     });
     setIsAuthenticated(true);
     setUser(userData);
+    
     console.log("User data dans le Context Tompoko:", `'${userData.email}'`);
 
     
