@@ -37,7 +37,8 @@ const AuthProvider = ({ children }) => {
     });
     setIsAuthenticated(true);
     setUser(userData);
-    console.log("User data in Context:", userData);
+    console.log("User data dans le Context Tompoko:", `'${userData.email}'`);
+
     
     setTimeout(() => {
       cookies.remove("COOKIE_SESSION", { path: "/" });

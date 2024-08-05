@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
 import Navbar from '../Components/Navbar';
-import Welcome from "../Components/Homepage/Accueil/Welcome";
-import Accueil from "../Components/Homepage/Accueil/Accueil";
-import { useAuth } from '../Hooks/AuthContext'; 
+import Welcome from '../Components/Homepage/Accueil/Welcome';
+import Accueil from '../Components/Homepage/Accueil/Accueil';
+import { useAuth } from '../Hooks/AuthContext';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -13,16 +13,15 @@ const HomePage = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user && user.email) {
-      console.log("User Email:", user.email);
-      dispatch(fetchAvocatInfo(user.email));
+    if (user?.email) {
+      dispatch(fetchAvocatInfo(`'${user.email}'`));
     } else {
-      console.log("User or User Email is not available.");
+      console.log('User or User Email is not available.');
     }
   }, [dispatch, user]);
 
   useEffect(() => {
-    if (avocatInfo && avocatInfo.m_nidetude) {
+    if (avocatInfo?.m_nidetude) {
       dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
     }
   }, [dispatch, avocatInfo]);

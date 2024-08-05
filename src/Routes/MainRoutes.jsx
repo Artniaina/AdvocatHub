@@ -97,15 +97,15 @@ function MainRoutes() {
         <Route element={<PartialProtectedRoute />}>
           <Route path="/validationotp" element={<ValidationOTP />} />
           <Route exact path="/scanqrcode" element={<ScanQRCode />} />
+        </Route>
+        
+        //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
+        <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-        </Route>
-        
-        //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
-        <Route element={<ProtectedRoute />}>
         </Route>
       </Routes>
     </Router>

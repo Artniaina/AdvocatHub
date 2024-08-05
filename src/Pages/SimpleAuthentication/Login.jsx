@@ -174,7 +174,6 @@ const Login = () => {
             Pas encore de compte? Créer un compte
           </Link>
         </p>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </div>
   );
