@@ -31,7 +31,8 @@ const AuthProvider = ({ children }) => {
     cookies.set("COOKIE_SESSION", value, {
       path: "/",
       maxAge: expirationTime,
-      sameSite: "Lax",
+      sameSite: "Strict", 
+      secure: true, 
     });
     setIsAuthenticated(true);
 
