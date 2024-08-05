@@ -16,7 +16,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [totpKey, setTotpKey] = useState("");
   const [url, setUrl] = useState("");
@@ -76,13 +75,13 @@ const Login = () => {
             });
           }
         } else {
-          setErrorMessage("Email ou mot de passe incorrect");
+         alert("Email ou mot de passe incorrect");
         }
       } else {
-        setErrorMessage("Email ou mot de passe incorrect");
+        alert("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      setErrorMessage("Email ou mot de passe incorrect");
+      alert("Email ou mot de passe incorrect");
     }
   };
 

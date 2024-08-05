@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
     };
     checkAuth();
   }, []);
-
+ 
   const login = (value, userData) => {
     const expirationTime = 24 * 60 * 60; 
     const currentTime = new Date();
@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
       sameSite: "Strict",
       secure: true,
     });
+    
     setIsAuthenticated(true);
     setUser(userData);
     

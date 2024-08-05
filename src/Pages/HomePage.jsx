@@ -11,6 +11,7 @@ const HomePage = () => {
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
+console.log(avocatInfo);
 
   useEffect(() => {
     if (user?.email) {
