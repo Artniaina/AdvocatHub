@@ -1,28 +1,61 @@
-import React from 'react';
+import React, {useEffect}from 'react';
+import { useDispatch,useSelector } from 'react-redux';
 import "../../Styles/PopUp/AllPopUp.css";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useAuth } from "../../Hooks/AuthContext";
 import { pdf } from '@react-pdf/renderer';
-import CertificatInscription from '../PDFCertificatInscription/CertificatInscription';
+import { fetchAvocatInfo } from "../../Store/AvocatSlice";
+import CertificatInscription from '../PDF/CertificatInscription';
 
-const PopUpCertifIcatdInscri = ({ message, onClose }) => {
-  const prenomNom = 'Jean Dupont';
-  const adresse = '123 Rue de l’Avocat';
-  const dateAssermentation = '01/01/2020';
-  const gedFonction = 'Avocat';
-  const date = '01/08/2024';
+const PopUpCertifIcatdInscri = ({ onClose }) => {
+  const { user } = useAuth();
+  const dispatch = useDispatch();
+  const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
 
+  useEffect(() => {
+    if (user?.email) {
+      dispatch(fetchAvocatInfo(`'${user.email}'`));
+    } else {
+      console.log('User or User Email is not available.');
+    }
+  }, [dispatch, user]);
+
+  const fullName = `${avocatInfo.m_sPrenom || ""} ${avocatInfo.m_sNom || ""}`;
+  function formatDateFromString(dateString) {
+   
+    const year = parseInt(dateString.substring(0, 4), 10);
+    const month = parseInt(dateString.substring(4, 6), 10) - 1; 
+    const day = parseInt(dateString.substring(6, 8), 10);
+  
+    const date = new Date(year, month, day);
+
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return new Intl.DateTimeFormat('fr-FR', options).format(date);
+  }
+  
+  const prenomNom = fullName;
+  const adresse = `${avocatInfo.m_sAdresse || ""} ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
+  const dateAssermentation = formatDateFromString(avocatInfo.m_dDateAssermentation);
+  const gedFonction = avocatInfo.m_sPrenom;
+  
+  const today = new Date();
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  const formattedDate = new Intl.DateTimeFormat('fr-FR', options).format(today);
+  const date = formattedDate;
+  
+  
+  
+  // TAble étude : [Numéro voie], [Adresse] [Code postal] [Localité]
+  
   const handleGeneratePDF = () => {
     const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
     pdf(doc).toBlob().then(blob => {
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'certificat.pdf';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      window.open(url, '_blank'); 
+      URL.revokeObjectURL(url);
     });
   };
+  
 
   return (
     <div className="overlay">

@@ -25,7 +25,7 @@ const CertificatInscription = ({ prenomNom, adresse, dateAssermentation, gedFonc
         <Text>Par la présente je certifie que Maître {prenomNom}:</Text>
         <Text>réside professionnellement au {adresse};</Text>
         <Text>a prêté serment d’avocat le {dateAssermentation};</Text>
-        <Text>est actuellement inscrit à l’Ordre des avocats du Barreau d’Antananarivo en tant qu’{gedFonction}.</Text>
+        <Text>est actuellement inscrit à l’Ordre des avocats du Barreau d’Antananarivo en tant qu'{gedFonction}.</Text>
         <Text>Antananarivo le {date}</Text>
       </View>
     </Page>

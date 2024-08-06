@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Cookies from "universal-cookie";
 import Logo from "../assets/icons8-palais-de-justice-64.png";
 import "../Styles/Homepage/Navbar.css";
-import { useAuth } from "../Hooks/AuthContext";
+import { useAuth } from "../Hooks/AuthContext"; 
 import { Link, useLocation} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAvocatInfo } from "../Store/AvocatSlice";
