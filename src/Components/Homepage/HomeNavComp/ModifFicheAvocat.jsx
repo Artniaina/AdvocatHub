@@ -9,7 +9,6 @@ import { FaCheck } from "react-icons/fa";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { FiMinusCircle } from "react-icons/fi";
 import { FaFilePen } from "react-icons/fa6";
-import useSessionStorage from "../../../Hooks/useSessionStorage"
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
@@ -25,8 +24,6 @@ import "../../../Styles/Homepage/Acceuil/PopUp.css";
 const ModifFicheAvocat = ({ etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const [sessionEmailPrivee, setSessionEmailPrivee] = useSessionStorage('emailPrivee', '');
-  // const [sessionEmailPro, setSessionEmailPro] = useSessionStorage('emailPro', '');
 
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const { user } = useAuth();
