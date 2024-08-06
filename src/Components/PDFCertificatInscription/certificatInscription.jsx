@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     marginBottom: 20,
-  }
+  },
 });
 
-const MyDocument = ({ prenomNom, adresse, dateAssermentation, gedFonction, date }) => (
+const CertificatInscription = ({ prenomNom, adresse, dateAssermentation, gedFonction, date }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -32,31 +32,4 @@ const MyDocument = ({ prenomNom, adresse, dateAssermentation, gedFonction, date 
   </Document>
 );
 
-const GeneratePDF = () => {
-  const prenomNom = 'Jean Dupont';
-  const adresse = '123 Rue de l’Avocat';
-  const dateAssermentation = '01/01/2020';
-  const gedFonction = 'Avocat';
-  const date = '01/08/2024';
-
-  return (
-    <div>
-      <PDFDownloadLink
-        document={
-          <MyDocument
-            prenomNom={prenomNom}
-            adresse={adresse}
-            dateAssermentation={dateAssermentation}
-            gedFonction={gedFonction}
-            date={date}
-          />
-        }
-        fileName="certificat.pdf"
-      >
-        {({ loading }) => (loading ? 'Loading document...' : 'Download PDF')}
-      </PDFDownloadLink>
-    </div>
-  );
-};
-
-export default GeneratePDF;
+export default CertificatInscription;
