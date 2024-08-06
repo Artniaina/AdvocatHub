@@ -1,32 +1,119 @@
-import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import React from "react";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Font
+} from "@react-pdf/renderer";
+import LogoLaw from "../../assets/logolaw.jpg"; 
+
+
+Font.register({
+  family: 'Open Sans',
+  fonts: [
+    { src: 'https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf' },
+    { src: 'https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf', fontWeight: 600 }
+  ]
+});
 
 const styles = StyleSheet.create({
   page: {
-    flexDirection: 'column',
-    padding: 30,
+    flexDirection: "column",
+    padding: 10,
+    fontSize: 11,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+    alignSelf: "start",
   },
   section: {
     margin: 10,
     padding: 10,
-    fontSize: 12,
+    textAlign: "justify",
   },
   title: {
-    fontSize: 16,
-    marginBottom: 20,
+    fontFamily: 'Open Sans',
+    fontSize: 14,
+    margin: 15,
+    textAlign: "center",
+    textDecoration: "underline",
+  },
+  intro: {
+    margin: 20,
+    marginLeft: 0,
+  },
+  dev: {
+    margin: 5,
+    marginLeft: 10,
+  },
+  bold: {
+    fontWeight: 800,
+  },
+  signature: {
+    marginTop: 60,
+    textAlign: "right",
+    marginRight: 20,
+  },
+  borderContainer: {
+    flex: 1,
+    border: "1pt solid grey",
+    margin: 10,
+    padding: 20,
+  },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
-const CertificatInscription = ({ prenomNom, adresse, dateAssermentation, gedFonction, date }) => (
+const CertificatInscription = ({
+  prenomNom,
+  adresse,
+  dateAssermentation,
+  gedFonction,
+  date,
+}) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.title}>CERTIFICAT</Text>
-        <Text>Par la présente je certifie que Maître {prenomNom}:</Text>
-        <Text>réside professionnellement au {adresse};</Text>
-        <Text>a prêté serment d’avocat le {dateAssermentation};</Text>
-        <Text>est actuellement inscrit à l’Ordre des avocats du Barreau d’Antananarivo en tant qu'{gedFonction}.</Text>
-        <Text>Antananarivo le {date}</Text>
+      <View style={styles.borderContainer}>
+        <Image style={styles.logo} src={LogoLaw} /> 
+        <View style={styles.section}>
+          <Text style={styles.title}> CERTIFICAT </Text>
+          <Text style={styles.intro}>
+            Par la présente, je certifie que{" "}
+            <Text style={styles.bold}>Maître {prenomNom}</Text> :
+          </Text>
+          <View style={styles.container}>
+            <Text>- </Text>
+            <Text style={styles.dev}>
+              réside professionnellement au{" "}
+              <Text style={styles.bold}>{adresse}</Text> ;
+            </Text>
+          </View>
+          <View style={styles.container}>
+            <Text>- </Text>
+            <Text style={styles.dev}>
+              a prêté serment d’avocat le{" "}
+              <Text style={styles.bold}>{dateAssermentation}</Text> ;
+            </Text>
+          </View>
+          <View style={styles.container}>
+            <Text>- </Text>
+            <Text style={styles.dev}>
+              est actuellement inscrit à l’Ordre des avocats du Barreau
+              d’Antananarivo en tant qu'
+              <Text style={styles.bold}>{gedFonction}</Text>.
+            </Text>
+          </View>
+          <Text style={styles.signature}>
+            Antananarivo, le <Text style={styles.bold}>{date}</Text>
+          </Text>
+        </View>
       </View>
     </Page>
   </Document>

@@ -34,19 +34,15 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   }
   
   const prenomNom = fullName;
-  const adresse = `${avocatInfo.m_sAdresse || ""} ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
+  const adresse = `${avocatInfo.m_nNumVoie || ""}, ${avocatInfo.m_sAdresse || ""}, ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
   const dateAssermentation = formatDateFromString(avocatInfo.m_dDateAssermentation);
-  const gedFonction = avocatInfo.m_sPrenom;
+  const gedFonction = `${avocatInfo.m_sGedFonction || ""}`;
   
   const today = new Date();
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
   const formattedDate = new Intl.DateTimeFormat('fr-FR', options).format(today);
   const date = formattedDate;
-  
-  
-  
-  // TAble étude : [Numéro voie], [Adresse] [Code postal] [Localité]
-  
+    
   const handleGeneratePDF = () => {
     const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
     pdf(doc).toBlob().then(blob => {
