@@ -1,22 +1,27 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom'; 
-import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { fetchAvocatInfo, fetchEtudeInfo } from "../Store/AvocatSlice";
+import { useAuth } from "../Hooks/AuthContext";
 import Navbar from "../Components/Navbar";
 import ModifFicheAvocat from "../Components/Homepage/HomeNavComp/ModifFicheAvocat";
 import Welcome from "../Components/Homepage/Accueil/Welcome";
 
-
 const FicheAvocatPage = () => {
-  const location = useLocation(); 
+  const location = useLocation();
 
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
+  const { user } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchAvocatInfo(3));
-  }, [dispatch]);
+    if (user?.email) {
+      dispatch(fetchAvocatInfo(`'${user.email}'`));
+    } else {
+      console.log("User or User Email is not available.");
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (avocatInfo && avocatInfo.m_nidetude) {
@@ -26,13 +31,11 @@ const FicheAvocatPage = () => {
 
   return (
     <>
-       <Navbar avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
-       <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
+      <Navbar />
+      <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
       <ModifFicheAvocat avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
-    
     </>
   );
 };
 
 export default FicheAvocatPage;
-

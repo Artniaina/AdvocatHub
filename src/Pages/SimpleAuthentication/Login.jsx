@@ -26,10 +26,10 @@ const Login = () => {
       alert("Tous les champs doivent être remplis.");
       return;
     }
-    // if (!captchaValue) {
-    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
-    //   return;
-    // }
+    if (!captchaValue) {
+      alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
+      return;
+    }
     try {
       const userData = {
         sAdresseEmail: email,
@@ -59,7 +59,7 @@ const Login = () => {
             role: role,
           };
 
-          login(totpKey, user); 
+          login(totpKey, user);
 
           const storedIsAlreadyAuthenticated = localStorage.getItem(
             `user:${email}:isAlreadyAuthenticated`
@@ -75,7 +75,7 @@ const Login = () => {
             });
           }
         } else {
-         alert("Email ou mot de passe incorrect");
+          alert("Email ou mot de passe incorrect");
         }
       } else {
         alert("Email ou mot de passe incorrect");

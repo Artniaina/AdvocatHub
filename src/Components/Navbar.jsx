@@ -16,14 +16,21 @@ const Navbar = () => {
   const location = useLocation();
   const cookies = new Cookies();
   const dispatch = useDispatch();
-  const { setIsAuthenticated , setIsAdminAuthenticated, setIsSimpleAuthenticated} = useAuth();
+  const { setIsAuthenticated, setIsAdminAuthenticated, setIsSimpleAuthenticated } = useAuth();
+  
+  const { user } = useAuth();
+  
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
-
   useEffect(() => {
-    dispatch(fetchAvocatInfo(3));
-  }, [dispatch]);
-
+    if (user?.email) {
+      dispatch(fetchAvocatInfo(`'${user.email}'`));
+    } else {
+      console.log('User or User Email is not available.');
+    }
+  }, [dispatch, user]);
+  
   const fullName = `${avocatInfo.m_sPrenom || ""} ${avocatInfo.m_sNom || ""}`;
+
 
   const handleLogout = () => {
       cookies.remove('COOKIE_SESSION', { path: '/' });

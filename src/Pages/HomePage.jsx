@@ -11,7 +11,6 @@ const HomePage = () => {
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
-console.log(avocatInfo);
 
   useEffect(() => {
     if (user?.email) {
@@ -29,7 +28,7 @@ console.log(avocatInfo);
 
   return (
     <div>
-      <Navbar avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
+      <Navbar/>
       <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
       <Accueil avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
     </div>

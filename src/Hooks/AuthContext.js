@@ -14,41 +14,52 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const checkAuth = () => { 
+    const checkAuth = () => {
       const cookieSession = cookies.get("COOKIE_SESSION");
-      if (cookieSession) {
+      const userCookie = cookies.get("USER_DATA");
+
+      if (cookieSession && userCookie) {
         setIsAuthenticated(true);
+        setUser(userCookie);
       } else {
         setIsAuthenticated(false);
+        setUser(null);
       }
       setIsLoading(false);
     };
     checkAuth();
   }, []);
- 
+
   const login = (value, userData) => {
     const expirationTime = 24 * 60 * 60; 
-    const currentTime = new Date();
+    const expirationDate = new Date(new Date().getTime() + expirationTime * 1000);
+
     cookies.set("COOKIE_SESSION", value, {
       path: "/",
-      maxAge: expirationTime,
+      expires: expirationDate,
       sameSite: "Strict",
       secure: true,
     });
-    
+
+    cookies.set("USER_DATA", userData, {
+      path: "/",
+      expires: expirationDate,
+      sameSite: "Strict",
+      secure: true,
+    });
+
     setIsAuthenticated(true);
     setUser(userData);
-    
+
     console.log("User data dans le Context Tompoko:", `'${userData.email}'`);
 
-    
     setTimeout(() => {
       cookies.remove("COOKIE_SESSION", { path: "/" });
+      cookies.remove("USER_DATA", { path: "/" });
       setIsAuthenticated(false);
       setUser(null);
     }, expirationTime * 1000);
   };
-  
 
   return (
     <AuthContext.Provider
