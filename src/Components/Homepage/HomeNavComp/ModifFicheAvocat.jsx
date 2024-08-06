@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useAuth } from '../../../Hooks/AuthContext';
+import { fetchAvocatInfo, fetchEtudeInfo } from '../../../Store/AvocatSlice';
 import { useNavigate } from "react-router-dom";
 import { fetchLangues } from "../../../Store/LanguagesSlice";
 import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
@@ -7,6 +9,7 @@ import { FaCheck } from "react-icons/fa";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { FiMinusCircle } from "react-icons/fi";
 import { FaFilePen } from "react-icons/fa6";
+import useSessionStorage from "../../../Hooks/useSessionStorage"
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
@@ -19,9 +22,23 @@ import "../../../Styles/PopUp/AdressePriveePopUp.css";
 import "../../../Styles/Homepage/Acceuil/Acceuil.css";
 import "../../../Styles/Homepage/Acceuil/PopUp.css";
 
-const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
+const ModifFicheAvocat = ({ etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // const [sessionEmailPrivee, setSessionEmailPrivee] = useSessionStorage('emailPrivee', '');
+  // const [sessionEmailPro, setSessionEmailPro] = useSessionStorage('emailPro', '');
+
+  const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.email) {
+      dispatch(fetchAvocatInfo(`'${user.email}'`));
+    } else {
+      console.log('User or User Email is not available.');
+    }
+  }, [dispatch, user]);
+console.log("Avocat", avocatInfo);
 
 ////////////////////////////////////DISPENSE ASSISTANCE JUDICIAIRE/////////////////////////////////////
 
@@ -110,6 +127,8 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
     selectedLanguages: languageCodes || [],
   };
 
+  
+
   ///////////////////////////////////////GESTION DES STATES INITIALES///////////////////////////////////////
 
   const [ajState, setAjState] = useState(initialState.dispenseAJ);
@@ -134,9 +153,7 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   const [showValiderPopUp, setShowValiderPopUp] = useState(false);
   const [showAnnulePopup, setShowAnnulePopup] = useState(false);
 
-
   ////////////////////////////////REGEX: FORME DE SAISI CORRECTE: DES EMAILS, BIC ET IBAN//////////////////////
-
   const inputRef = useRef(null);
   const validateEmail = (email) => {
     if (email === '') return true;
@@ -237,6 +254,48 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
   useEffect(() => {
     if (avocatInfo) {
       setCodeIBAN(avocatInfo.m_IBAN);
+    }
+  }, [avocatInfo]);
+  
+  useEffect(() => {
+    if (avocatInfo) {
+      setCodeBIC(avocatInfo.m_BIC);
+    }
+  }, [avocatInfo]);
+
+  useEffect(() => {
+    if (avocatInfo) {
+      setAdresse(avocatInfo.m_sAdressePrivee);
+    }
+  }, [avocatInfo]);
+  
+  useEffect(() => {
+    if (avocatInfo) {
+      setEmailPrivee(avocatInfo.m_sEmailSecondaire);
+    }
+  }, [avocatInfo]);
+  
+  useEffect(() => {
+    if (avocatInfo) {
+      setEmailPro(avocatInfo.m_sEmailPro);
+    }
+  }, [avocatInfo]);
+
+  useEffect(() => {
+    if (avocatInfo) {
+      setPhoneNumber(defaultPhoneNumber);
+    }
+  }, [avocatInfo]);
+  
+  useEffect(() => {
+    if (avocatInfo) {
+      setSelectedLanguages(languageCodes);
+    }
+  }, [avocatInfo]);
+
+  useEffect(() => {
+    if (avocatInfo) {
+      setSelectedActivities(defaultActivityArray);
     }
   }, [avocatInfo]);
 
