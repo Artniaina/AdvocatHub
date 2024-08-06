@@ -139,21 +139,24 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
 
   const inputRef = useRef(null);
   const validateEmail = (email) => {
+    if (email === '') return true;
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
-
-  const validBIC = () => {
+  
+  const validBIC = (codeBIC) => {
+    if (codeBIC === '') return true;
     const bicRegex = /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/;
     return bicRegex.test(codeBIC);
   };
-
-  const validIBAN = () => {
-    const ibanRegex =
-      /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/;
+  
+  const validIBAN = (codeIBAN) => {
+    if (codeIBAN === '') return true;
+    const ibanRegex = /^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$/;
     return ibanRegex.test(codeIBAN);
   };
 
+  
   const handleEmailProChange = (e) => {
     setEmailPro(e.target.value);
   };
@@ -177,20 +180,20 @@ const ModifFicheAvocat = ({ avocatInfo, etudeInfo }) => {
           alert("Adresse email professionnelle invalide");
         } else if (!validateEmail(emailPrivee)) {
           alert("Adresse email privée invalide");
-        } else if (!validBIC()) {
+        } else if (!validBIC(codeBIC)) {
           alert("Code BIC invalide");
-        } else if (!validIBAN()) {
+        } else if (!validIBAN(codeIBAN)) {
           alert("Code IBAN invalide");
         }
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
+  
+    document.addEventListener('click', handleClickOutside);
+  
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [emailPro, emailPrivee, codeBIC, codeIBAN]);
-
   //////////////////////////////////FONCTION DE GESTION DE DISPLAY DES POPUPS//////////////////////////////////////////
 
   const closeValidPopup = () => {
