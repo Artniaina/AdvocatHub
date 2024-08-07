@@ -1,4 +1,4 @@
-import React, {useEffect}from 'react';
+import React, {useEffect, useState}from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import "../../Styles/PopUp/AllPopUp.css";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -11,7 +11,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
-
+  const [pdfUrl, setPdfUrl] = useState('');
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchAvocatInfo(`'${user.email}'`));
@@ -45,10 +45,18 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
     
   const handleGeneratePDF = () => {
     const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
+    
     pdf(doc).toBlob().then(blob => {
       const url = URL.createObjectURL(blob);
-      window.open(url, '_blank'); 
-      URL.revokeObjectURL(url);
+      setPdfUrl(url); 
+      console.log('PDF URL:', url); 
+      
+      window.open(url, '_blank');
+    
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        console.log('PDF URL revoked');
+      }, 30000); 
     });
   };
   
