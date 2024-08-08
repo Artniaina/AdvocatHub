@@ -3,11 +3,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchLangues = createAsyncThunk(
   'langues/fetchLangues',
   async () => {
-    const response = await fetch("http://192.168.10.5/Utilisateur/LanguesParlees");
+    const response = await fetch("http://192.168.10.5/Utilisateur/LanguesParlées");
     const data = await response.json();
     return data.map((langue) => ({
-        code: langue.sCodelangue,
-        name: langue.slangueparlées,
+        code: langue.Code,
+        name: langue.NomLangue,
     }));
   }
 );
