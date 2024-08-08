@@ -60,11 +60,11 @@ const ScanQRCode = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        
-        credentials:"include",
+
+        credentials: "include",
         body: JSON.stringify(userData),
       });
-      
+
       if (!response.ok) {
         alert("Code non valide, réessayer");
         throw new Error("Échec de la requête API.");
@@ -73,7 +73,10 @@ const ScanQRCode = () => {
       if (data && data.svalideOTP === "1") {
         const role = data.sRole;
         const dateSys = new Date().toISOString();
-        login(data.SUsername + `${dateSys}`);
+        login(data.SUsername + `${dateSys}`, {
+          email: email,
+          role: data.sRole,
+        });
         setIsAlreadyAuthenticated(true);
         localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
         if (role === "Admin") {
@@ -83,10 +86,12 @@ const ScanQRCode = () => {
           navigate("/home");
         }
       } else {
-        console.error("Échec de l'authentification à deux facteurs.");
-        alert("Code OTP non valide");
+        alert("Code OTP non valide.");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Échec de l'authentification à deux facteurs.");
+      alert("Code OTP non valide");
+    }
   };
 
   return (

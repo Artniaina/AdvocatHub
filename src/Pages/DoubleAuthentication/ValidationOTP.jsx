@@ -60,7 +60,7 @@ const ValidationOTP = () => {
       }
     } catch (error) {
       console.error("Erreur lors de la validation OTP :", error);
-      alert("Une erreur est survenue lors de la validation du code OTP.");
+      alert("Code OTP non valide.");
     }
   };
 

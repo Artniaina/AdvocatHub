@@ -51,8 +51,13 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
       setPdfUrl(url); 
       console.log('PDF URL:', url); 
       
-      window.open(url, '_blank');
-    
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `certificat_d_inscription_${fullName}.pdf`; 
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+            
       setTimeout(() => {
         URL.revokeObjectURL(url);
         console.log('PDF URL revoked');
@@ -60,7 +65,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
     });
   };
   
-
+  
   return (
     <div className="overlay">
       <div className="popupNav">
