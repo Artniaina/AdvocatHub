@@ -7,8 +7,7 @@ import { useAuth } from "../../Hooks/AuthContext";
 import { pdf } from "@react-pdf/renderer";
 import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import CertificatInscription from "../PDF/CertificatInscription";
-import SuccessPopup from "../PopUp/PopUpSuccess"; 
-
+import SuccessPopup from "../PopUp/PopUpSuccess";
 
 const PopUpCertificatdInscri = ({ onClose }) => {
   const { user } = useAuth();
@@ -16,7 +15,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
   const [currentBlobUrl, setCurrentBlobUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [contentLoaded, setContentLoaded] = useState(false); // New state
+  const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
@@ -45,8 +44,40 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   const formattedDate = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(today);
   const date = formattedDate;
 
+  const generateAndViewPdf = async (doc) => {
+    try {
+      const blob = await pdf(doc).toBlob();
+      const blobUrl = URL.createObjectURL(blob);
+      setCurrentBlobUrl(blobUrl);
+
+      window.open(blobUrl, "_blank");
+
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 30000);
+    } catch (error) {
+      console.error("Erreur lors de la génération du PDF:", error);
+    }
+  };
+
+  const handleViewPdf = async () => {
+    const doc = (
+      <CertificatInscription
+        prenomNom={prenomNom}
+        adresse={adresse}
+        dateAssermentation={dateAssermentation}
+        gedFonction={gedFonction}
+        date={date}
+      />
+    );
+
+    await generateAndViewPdf(doc);
+    setLoading(false);
+    onClose(); 
+  };
+
   const handleGenerateAndSendPDF = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const doc = (
         <CertificatInscription
@@ -59,13 +90,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
       );
 
       const blob = await pdf(doc).toBlob();
-      const blobUrl = URL.createObjectURL(blob);
-      setCurrentBlobUrl(blobUrl); 
-
-      window.open(blobUrl, "_blank");
-
       const reader = new FileReader();
-      reader.readAsDataURL(blob);
 
       reader.onloadend = async () => {
         const base64data = reader.result.split(",")[1];
@@ -90,17 +115,18 @@ const PopUpCertificatdInscri = ({ onClose }) => {
           if (response.ok) {
             console.log("Notification envoyée avec succès pour l'envoi de l'email !");
             console.log("Réponse du serveur:", data.smessage);
+            setContentLoaded(true);
           } else {
             console.error("Échec de la notification de l'envoi de l'email:", data.smessage);
           }
         } catch (error) {
           console.error("Erreur lors de l'envoi de l'email:", error);
         } finally {
-          URL.revokeObjectURL(blobUrl);
           setLoading(false);
-          setContentLoaded(true); 
         }
       };
+
+      reader.readAsDataURL(blob);
     } catch (error) {
       console.error("Erreur lors de la génération du PDF:", error);
       setLoading(false);
@@ -110,10 +136,11 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   return (
     <div className="overlay">
       {loading ? (
-        <div className="loading-spinner">
-        </div>
-      ): contentLoaded ? (
-        <SuccessPopup onClose={() => setContentLoaded(false)} /> 
+        <div className="loading-spinner"></div>
+      ) : contentLoaded ? (
+        <SuccessPopup
+          onGenerateAndSendPDF={handleViewPdf}
+        />
       ) : (
         <>
           <div className="popupNav">
@@ -142,7 +169,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
                 </button>
               </div>
             </div>
-          </div>  
+          </div>
         </>
       )}
     </div>
