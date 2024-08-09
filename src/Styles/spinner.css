@@ -1,0 +1,34 @@
+.loading-spinner {
+    width: 80px; 
+    height: 80px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    border: 10px solid;
+    border-color: transparent; 
+    box-sizing: border-box;
+    animation: animloader 1s linear infinite; 
+}
+
+@keyframes animloader {
+    0% {
+        border-color: #8e44ad transparent transparent transparent; 
+        border-width: 40px; 
+    }
+    25% {
+        border-color: transparent #bb9ac9 transparent transparent; 
+        border-width: 40px; 
+    }
+    50% {
+        border-color: transparent transparent #8e44ad transparent; 
+        border-width: 40px;
+    }
+    75% {
+        border-color: transparent transparent transparent #bb9ac9; 
+        border-width: 40px; 
+    }
+    100% {
+        border-color: transparent transparent transparent transparent; 
+        border-width: 40px; 
+    }
+}
