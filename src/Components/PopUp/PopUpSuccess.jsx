@@ -1,9 +1,15 @@
-const SuccessPopup = ({ onClose }) => (
+import React from 'react';
+import "../../Styles/PopUp/SuccessPopup.css";
+
+const SuccessPopup = ({ onClose }) => {
+  return (
     <div className="success-popup-overlay">
-      <div className="success-popup">
-        <p>Succès!</p>
-        <button onClick={onClose}>Ok</button>
+      <div className="success-popup-content">
+        <p>Success!</p>
+        <button className="success-popup-button" onClick={onClose}>OK</button>
       </div>
     </div>
   );
-  
+};
+
+export default SuccessPopup;

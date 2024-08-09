@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Styles/PopUp/AllPopUp.css";
+import "../../Styles/spinner.css";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useAuth } from "../../Hooks/AuthContext";
 import { pdf } from "@react-pdf/renderer";
 import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import CertificatInscription from "../PDF/CertificatInscription";
-import { ClipLoader } from "react-spinners"; 
-import "../../Styles/spinner.css";
+import SuccessPopup from "../PopUp/PopUpSuccess"; 
+
 
 const PopUpCertificatdInscri = ({ onClose }) => {
   const { user } = useAuth();
@@ -15,6 +16,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
   const [currentBlobUrl, setCurrentBlobUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(false); // New state
 
   useEffect(() => {
     if (user?.email) {
@@ -96,6 +98,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
         } finally {
           URL.revokeObjectURL(blobUrl);
           setLoading(false);
+          setContentLoaded(true); 
         }
       };
     } catch (error) {
@@ -108,35 +111,39 @@ const PopUpCertificatdInscri = ({ onClose }) => {
     <div className="overlay">
       {loading ? (
         <div className="loading-spinner">
-        </div>  
-      ) : ( 
-        <div className="popupNav">
-          <button className="close-button" onClick={onClose}>
-            <IoIosCloseCircle />
-          </button>
-          <div className="popup-contentNav">
-            <p className="certiftxt">TYPE DE CERTIFICAT D'INSCRIPTION</p>
-            <div className="radio">
-              <label>
-                <input type="radio" name="certificateType" value="standard" defaultChecked />
-                Standard
-              </label>
-              <label>
-                <input type="radio" name="certificateType" value="assurance" />
-                Assurance
-              </label>
-              <label>
-                <input type="radio" name="certificateType" value="ce" />
-                CE
-              </label>
-            </div>
-            <div className="divNavi">
-              <button className="btnNavi" onClick={handleGenerateAndSendPDF}>
-                Valider
-              </button>
-            </div>
-          </div>
         </div>
+      ): contentLoaded ? (
+        <SuccessPopup onClose={() => setContentLoaded(false)} /> 
+      ) : (
+        <>
+          <div className="popupNav">
+            <button className="close-button" onClick={onClose}>
+              <IoIosCloseCircle />
+            </button>
+            <div className="popup-contentNav">
+              <p className="certiftxt">TYPE DE CERTIFICAT D'INSCRIPTION</p>
+              <div className="radio">
+                <label>
+                  <input type="radio" name="certificateType" value="standard" defaultChecked />
+                  Standard
+                </label>
+                <label>
+                  <input type="radio" name="certificateType" value="assurance" />
+                  Assurance
+                </label>
+                <label>
+                  <input type="radio" name="certificateType" value="ce" />
+                  CE
+                </label>
+              </div>
+              <div className="divNavi">
+                <button className="btnNavi" onClick={handleGenerateAndSendPDF}>
+                  Valider
+                </button>
+              </div>
+            </div>
+          </div>  
+        </>
       )}
     </div>
   );
