@@ -22,6 +22,7 @@ import FAQ from "../Pages/FAQPage";
 import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
+import EnvoyerEmail from "../Components/Homepage/Accueil/EnvoyerEmail";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -87,6 +88,7 @@ function MainRoutes() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
+        <Route path="/test" element={<EnvoyerEmail />} />
 
         //PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN
         <Route element={<PrivateRoute />}>
