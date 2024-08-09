@@ -12,6 +12,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
   const [pdfUrl, setPdfUrl] = useState('');
+  const [currentBlobUrl, setCurrentBlobUrl] = useState('');
 
   useEffect(() => {
     if (user?.email) {
@@ -40,20 +41,19 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
   const formattedDate = new Intl.DateTimeFormat('fr-FR', options).format(today);
   const date = formattedDate;
-    
-  const handleGeneratePDF = async () => {
+   const handleGeneratePDF = async () => {
     try {
+      if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+        console.log('Previous PDF URL revoked');
+      }
+
       const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
       const blob = await pdf(doc).toBlob();
       const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
+      setCurrentBlobUrl(url);
 
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `certificat_d_inscription_${fullName}.pdf`; 
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      window.open(url, '_blank');
 
       const response = await fetch('http://192.168.10.5/Utilisateur/Send_email', {
         method: 'POST',
@@ -62,6 +62,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
         },
         body: JSON.stringify({
           sEmailRecepteur: 'kanto.andriahariniaina@gmail.com',
+          //Mbola hiampy fa aza matahotra 
         }),
       });
 
@@ -73,11 +74,6 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
       } else {
         console.error('Échec de la notification de l\'envoi de l\'email:', data.smessage);
       }
-
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-        console.log('PDF URL revoked');
-      }, 30000); 
 
     } catch (error) {
       console.error('Erreur:', error);

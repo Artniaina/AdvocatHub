@@ -10,7 +10,6 @@ import {
 } from "@react-pdf/renderer";
 import LogoLaw from "../../assets/logolaw.jpg"; 
 
-
 Font.register({
   family: 'Open Sans',
   fonts: [
@@ -52,7 +51,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   bold: {
-    fontWeight: 800,
+    fontFamily: 'Open Sans',
+    fontWeight: 600,
   },
   signature: {
     marginTop: 60,
