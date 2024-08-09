@@ -1,5 +1,5 @@
-import React, {useEffect, useState}from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import "../../Styles/PopUp/AllPopUp.css";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useAuth } from "../../Hooks/AuthContext";
@@ -12,6 +12,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
   const [pdfUrl, setPdfUrl] = useState('');
+
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchAvocatInfo(`'${user.email}'`));
@@ -22,13 +23,10 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
 
   const fullName = `${avocatInfo.m_sPrenom || ""} ${avocatInfo.m_sNom || ""}`;
   function formatDateFromString(dateString) {
-   
     const year = parseInt(dateString.substring(0, 4), 10);
     const month = parseInt(dateString.substring(4, 6), 10) - 1; 
     const day = parseInt(dateString.substring(6, 8), 10);
-  
     const date = new Date(year, month, day);
-
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
     return new Intl.DateTimeFormat('fr-FR', options).format(date);
   }
@@ -43,29 +41,49 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   const formattedDate = new Intl.DateTimeFormat('fr-FR', options).format(today);
   const date = formattedDate;
     
-  const handleGeneratePDF = () => {
-    const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
-    
-    pdf(doc).toBlob().then(blob => {
+  const handleGeneratePDF = async () => {
+    try {
+      const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
+      const blob = await pdf(doc).toBlob();
       const url = URL.createObjectURL(blob);
-      setPdfUrl(url); 
-      console.log('PDF URL:', url); 
-      
+      setPdfUrl(url);
+
       const a = document.createElement('a');
       a.href = url;
       a.download = `certificat_d_inscription_${fullName}.pdf`; 
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-            
+
+      const response = await fetch('http://192.168.10.5/Utilisateur/Send_email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sEmailRecepteur: 'kanto.andriahariniaina@gmail.com',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Notification envoyée avec succès pour l\'envoi de l\'email !');
+        console.log('Réponse du serveur:', data.smessage);
+      } else {
+        console.error('Échec de la notification de l\'envoi de l\'email:', data.smessage);
+      }
+
       setTimeout(() => {
         URL.revokeObjectURL(url);
         console.log('PDF URL revoked');
       }, 30000); 
-    });
+
+    } catch (error) {
+      console.error('Erreur:', error);
+    }
   };
-  
-  
+
   return (
     <div className="overlay">
       <div className="popupNav">

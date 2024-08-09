@@ -8,8 +8,9 @@ const EnvoyerEmail = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // Ajoutez les données si nécessaire dans le corps de la requête
-        // body: JSON.stringify({ /* Données à envoyer */ }),
+        body: JSON.stringify({
+          sEmailRecepteur: 'kanto.andriahariniaina@gmail.com',
+        }),
       });
 
       const data = await response.json();
