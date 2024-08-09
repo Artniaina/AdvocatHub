@@ -7,11 +7,10 @@ import { pdf } from '@react-pdf/renderer';
 import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import CertificatInscription from '../PDF/CertificatInscription';
 
-const PopUpCertifIcatdInscri = ({ onClose }) => {
+const PopUpCertificatdInscri = ({ onClose }) => {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo) || {};
-  const [pdfUrl, setPdfUrl] = useState('');
   const [currentBlobUrl, setCurrentBlobUrl] = useState('');
 
   useEffect(() => {
@@ -33,6 +32,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   }
   
   const prenomNom = fullName;
+  const nom = avocatInfo.m_sNom;
   const adresse = `${avocatInfo.m_nNumVoie || ""}, ${avocatInfo.m_sAdresse || ""}, ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
   const dateAssermentation = formatDateFromString(avocatInfo.m_dDateAssermentation);
   const gedFonction = `${avocatInfo.m_sGedFonction || ""}`;
@@ -41,40 +41,54 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
   const formattedDate = new Intl.DateTimeFormat('fr-FR', options).format(today);
   const date = formattedDate;
-   const handleGeneratePDF = async () => {
+
+  const handleGenerateAndSendPDF = async () => {
     try {
       if (currentBlobUrl) {
         URL.revokeObjectURL(currentBlobUrl);
         console.log('Previous PDF URL revoked');
       }
 
-      const doc = <CertificatInscription prenomNom={prenomNom} adresse={adresse} dateAssermentation={dateAssermentation} gedFonction={gedFonction} date={date} />;
+      const doc = (
+        <CertificatInscription 
+          prenomNom={prenomNom} 
+          adresse={adresse} 
+          dateAssermentation={dateAssermentation} 
+          gedFonction={gedFonction} 
+          date={date} 
+        />
+      );
+
       const blob = await pdf(doc).toBlob();
-      const url = URL.createObjectURL(blob);
-      setCurrentBlobUrl(url);
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
 
-      window.open(url, '_blank');
+      reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1];
 
-      const response = await fetch('http://192.168.10.5/Utilisateur/Send_email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sEmailRecepteur: 'kanto.andriahariniaina@gmail.com',
-          //Mbola hiampy fa aza matahotra 
-        }),
-      });
+        const response = await fetch('http://192.168.10.5/Utilisateur/Send_email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            sEmailRecepteur: 'kanto.andriahariniaina@gmail.com',
+            sDateSys: date,
+            sNomAvocat: nom,
+            sFullName: fullName,
+            spdfBase64: base64data 
+          }),
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (response.ok) {
-        console.log('Notification envoyée avec succès pour l\'envoi de l\'email !');
-        console.log('Réponse du serveur:', data.smessage);
-      } else {
-        console.error('Échec de la notification de l\'envoi de l\'email:', data.smessage);
-      }
-
+        if (response.ok) {
+          console.log('Notification envoyée avec succès pour l\'envoi de l\'email !');
+          console.log('Réponse du serveur:', data.smessage);
+        } else {
+          console.error('Échec de la notification de l\'envoi de l\'email:', data.smessage);
+        }
+      };
     } catch (error) {
       console.error('Erreur:', error);
     }
@@ -103,7 +117,7 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
             </label>
           </div>
           <div className="divNavi">
-            <button className="btnNavi" onClick={handleGeneratePDF}>Valider</button>
+            <button className="btnNavi" onClick={handleGenerateAndSendPDF}>Valider</button>
           </div>
         </div>
       </div>
@@ -111,4 +125,4 @@ const PopUpCertifIcatdInscri = ({ onClose }) => {
   );
 };
 
-export default PopUpCertifIcatdInscri;
+export default PopUpCertificatdInscri;

@@ -92,14 +92,14 @@ const CertificatInscription = ({
             <Text>- </Text>
             <Text style={styles.dev}>
               réside professionnellement au{" "}
-              <Text style={styles.bold}>{adresse}</Text> ;
+              <Text >{adresse}</Text> ;
             </Text>
           </View>
           <View style={styles.container}>
             <Text>- </Text>
             <Text style={styles.dev}>
               a prêté serment d’avocat le{" "}
-              <Text style={styles.bold}>{dateAssermentation}</Text> ;
+              <Text >{dateAssermentation}</Text> ;
             </Text>
           </View>
           <View style={styles.container}>
@@ -107,11 +107,11 @@ const CertificatInscription = ({
             <Text style={styles.dev}>
               est actuellement inscrit à l’Ordre des avocats du Barreau
               d’Antananarivo en tant qu'
-              <Text style={styles.bold}>{gedFonction}</Text>.
+              <Text >{gedFonction}</Text>.
             </Text>
           </View>
           <Text style={styles.signature}>
-            Antananarivo, le <Text style={styles.bold}>{date}</Text>
+            Antananarivo, le{date}
           </Text>
         </View>
       </View>
