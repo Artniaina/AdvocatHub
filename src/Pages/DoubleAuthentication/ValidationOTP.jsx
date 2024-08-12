@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
 import { useAuth } from "../../Hooks/AuthContext";
- 
+
 const ValidationOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,7 +62,7 @@ const ValidationOTP = () => {
       console.error("Erreur lors de la validation OTP :", error);
       alert("Code OTP non valide.");
     }
-  }; 
+  };
 
   return (
     <div className="headerAuthent">

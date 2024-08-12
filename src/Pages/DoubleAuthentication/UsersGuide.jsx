@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../Hooks/AuthContext";
-import QRCode from "qrcode.react";
+import { useLocation } from "react-router-dom";
 import Step1 from '../../Components/UsersGuide/Step1';
 import Step2 from '../../Components/UsersGuide/Step2';
-import Step3 from '../../Components/UsersGuide/Step3';
+import ValidationOTP from '../../Components/UsersGuide/ValidationOTP';
 import '../../Styles/Authentification/UsersGuide/Card.css'; 
 
-export default function UsersGuide() {
-    const navigate = useNavigate();
+const UsersGuide = () => {
     const [currentStep, setCurrentStep] = React.useState(1);
     const location = useLocation();
-    const { login } = useAuth();
-    const { url, email, password } = location.state || {};
-    const { setIsAdminAuthenticated } = useAuth();
-    const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [codeOTP, setCodeOTP] = useState("");
+    const { url } = location.state || {};
+    const [setLoading] = useState(true);
     const [formattedOTPURL, setFormattedOTPURL] = useState("");
   
     useEffect(() => {
@@ -52,53 +45,7 @@ export default function UsersGuide() {
         }
       }, [url]);
 
-      const handleSubmit = async () => {
-        try {
-          const userData = {
-            sAdresseEmail: email,
-            sMotdePasse: password,
-            scodeOTP: codeOTP,
-          };
-          const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-    
-            credentials: "include",
-            body: JSON.stringify(userData),
-          });
-    
-          if (!response.ok) {
-            alert("Code non valide, réessayer");
-            throw new Error("Échec de la requête API.");
-          }
-          const data = await response.json();
-          if (data && data.svalideOTP === "1") {
-            const role = data.sRole;
-            const dateSys = new Date().toISOString();
-            login(data.SUsername + `${dateSys}`, {
-              email: email,
-              role: data.sRole,
-            });
-            setIsAlreadyAuthenticated(true);
-            localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
-            if (role === "Admin") {
-              setIsAdminAuthenticated(true);
-              navigate("/userlist");
-            } else {
-              navigate("/home");
-            }
-          } else {
-            alert("Code OTP non valide.");
-          }
-        } catch (error) {
-          console.error("Échec de l'authentification à deux facteurs.");
-          alert("Code OTP non valide");
-        }
-      };
-
-    const handleNext = () => {
+      const handleNext = () => {
         setCurrentStep(prevStep => (prevStep < 3 ? prevStep + 1 : 3));
     };
 
@@ -116,8 +63,10 @@ export default function UsersGuide() {
                 <Step2 currentStep={currentStep === 2} handleNext={handleNext} handlePrevious={handlePrevious} url={formattedOTPURL}/>
             </div>
             <div className={`step ${currentStep === 3 ? 'active' : 'inactive'}`}>
-                <Step3 currentStep={currentStep === 3} handleNext={handleNext} handlePrevious={handlePrevious} handleSubmit={handleSubmit} />
+                <ValidationOTP currentStep={currentStep === 3} handleNext={handleNext} handlePrevious={handlePrevious} />
             </div>
         </div>
     );
 }
+
+export default UsersGuide

@@ -6,53 +6,45 @@ import Typography from "@mui/joy/Typography";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 
-const Step3 = ({ handlePrevious, currentStep }) => {
+const ValidationOTP = ({ handlePrevious, currentStep }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, setIsAdminAuthenticated } = useAuth();
-
+  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const { email = "", password = "" } = location.state || {};
   const [codeOTP, setCodeOTP] = useState("");
 
   const handleSubmit = async () => {
-    if (!codeOTP) {
-      alert("Veuillez remplir le champ OTP.");
-      return;
-    }
-    if (!email || !password) {
-      alert("Données utilisateur manquantes.");
-      return;
-    }
-
-    const userData = {
-      sAdresseEmail: email,
-      sMotdePasse: password,
-      scodeOTP: codeOTP,
-    };
-
     try {
+      const userData = {
+        sAdresseEmail: email,
+        sMotdePasse: password,
+        scodeOTP: codeOTP,
+      };
       const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
+        alert("Code non valide, réessayer");
         throw new Error("Échec de la requête API.");
       }
-
       const data = await response.json();
-
       if (data && data.svalideOTP === "1") {
+        const role = data.sRole;
         const dateSys = new Date().toISOString();
         login(data.SUsername + `${dateSys}`, {
           email: email,
           role: data.sRole,
         });
-
-        if (data.sRole === "Admin") {
+        setIsAlreadyAuthenticated(true);
+        localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
+        if (role === "Admin") {
           setIsAdminAuthenticated(true);
           navigate("/userlist");
         } else {
@@ -62,10 +54,11 @@ const Step3 = ({ handlePrevious, currentStep }) => {
         alert("Code OTP non valide.");
       }
     } catch (error) {
-      console.error("Erreur lors de la validation OTP :", error);
-      alert("Code OTP non valide.");
+      console.error("Échec de l'authentification à deux facteurs.");
+      alert("Code OTP non valide");
     }
   };
+
 
   return (
     <div>
@@ -124,4 +117,4 @@ const Step3 = ({ handlePrevious, currentStep }) => {
   );
 };
 
-export default Step3;
+export default ValidationOTP;
