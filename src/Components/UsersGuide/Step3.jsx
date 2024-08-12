@@ -6,7 +6,7 @@ import Typography from "@mui/joy/Typography";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 
-const ValidationOTP = ({ handlePrevious, currentStep }) => {
+const Step3 = ({ handlePrevious, currentStep }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, setIsAdminAuthenticated } = useAuth();
@@ -117,4 +117,4 @@ const ValidationOTP = ({ handlePrevious, currentStep }) => {
   );
 };
 
-export default ValidationOTP;
+export default Step3;

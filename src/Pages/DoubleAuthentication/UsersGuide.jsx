@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Step1 from '../../Components/UsersGuide/Step1';
 import Step2 from '../../Components/UsersGuide/Step2';
-import ValidationOTP from '../../Components/UsersGuide/ValidationOTP';
+import ValidationOTP from '../../Components/UsersGuide/Step3';
 import '../../Styles/Authentification/UsersGuide/Card.css'; 
 
 const UsersGuide = () => {
     const [currentStep, setCurrentStep] = React.useState(1);
     const location = useLocation();
     const { url } = location.state || {};
-    const [setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [formattedOTPURL, setFormattedOTPURL] = useState("");
   
     useEffect(() => {

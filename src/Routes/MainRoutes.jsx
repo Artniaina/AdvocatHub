@@ -13,7 +13,6 @@ import Login from "../Pages/SimpleAuthentication/Login";
 import Page404 from "../Pages/Page404";
 import Registration from "../Pages/SimpleAuthentication/Registration";
 import ModifMdp from "../Pages/SimpleAuthentication/ModifMdp";
-import ScanQRCode from "../Pages/DoubleAuthentication/ScanQRCode";
 import ValidationOTP from "../Pages/DoubleAuthentication/ValidationOTP";
 import HomePage from "../Pages/HomePage";
 import VerifEmail from "../Pages/SimpleAuthentication/VerifEmail";
@@ -90,7 +89,6 @@ function MainRoutes() {
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
-        <Route path="/card" element={<UsersGuide/>} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
 
@@ -100,8 +98,8 @@ function MainRoutes() {
         </Route>
 
         //PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION
+          <Route exact path="/scanqrcode" element={<UsersGuide />} />
         <Route element={<PartialProtectedRoute />}>
-          <Route exact path="/scanqrcode" element={<ScanQRCode />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
         
