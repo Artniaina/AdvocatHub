@@ -19,7 +19,7 @@ export default function Step2({ handleNext, handlePrevious, gettingStarted , cur
         }}
       >
         <Typography level="title-lg" fontWeight="lg" mb={1}>
-          2. Scan this Barcode
+          2. Scannez le qr code 
         </Typography>
         <AspectRatio
           ratio="1"
@@ -32,10 +32,6 @@ export default function Step2({ handleNext, handlePrevious, gettingStarted , cur
             src="/mnt/data/2FA.jpeg"
           />
         </AspectRatio>
-        <Typography fontSize="sm" sx={{ mb: 1 }}>
-          If you are unable to scan this barcode, manually enter the following
-          code:
-        </Typography>
 
       </Card>
       <div

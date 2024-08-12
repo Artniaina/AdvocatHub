@@ -1,0 +1,44 @@
+.users-guide-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.step {
+    position: absolute;
+    width: 80%;
+    max-width: 400px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0.5;
+    transform-origin: center;
+
+}
+
+.step.active {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+
+}
+
+.step.inactive {
+    transform: translateY(100%) scale(0.9);
+    opacity: 0;
+    z-index: 1;
+}
+
+.step.inactive.previous {
+    transform: translateX(-100%) scale(0.9);
+}
+
+.users-guide-container .step.active + .step.inactive {
+    transform: translateX(100%) scale(0.9);
+}
+
+.users-guide-container .step.inactive.previous + .step.active {
+    transform: translateX(-100%) scale(0.9);
+}
