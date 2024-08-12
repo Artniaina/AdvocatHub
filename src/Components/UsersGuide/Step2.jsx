@@ -1,10 +1,11 @@
-import React from 'react'
+import * as React from "react";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
+import QRCode from "qrcode.react";
 
-const Step2 = ({ handleNext, handlePrevious, gettingStarted , currentStep}) => {
+export default function Step2({ handleNext, handlePrevious, url , currentStep}) {
   return (
     <div>
       <Card
@@ -19,7 +20,7 @@ const Step2 = ({ handleNext, handlePrevious, gettingStarted , currentStep}) => {
         }}
       >
         <Typography level="title-lg" fontWeight="lg" mb={1}>
-          2. Scannez le qr code 
+          2. Scannez le QR Code avec votre application
         </Typography>
         <AspectRatio
           ratio="1"
@@ -27,10 +28,10 @@ const Step2 = ({ handleNext, handlePrevious, gettingStarted , currentStep}) => {
           variant="plain"
           sx={{ mt: 1, mb: 2 }}
         >
-          <img
-            alt="QR Code"
-            src="/mnt/data/2FA.jpeg"
-          />
+            <QRCode
+                style={{ width: "100%", height: "100%" }}
+                value={url}
+              />
         </AspectRatio>
 
       </Card>
@@ -47,20 +48,12 @@ const Step2 = ({ handleNext, handlePrevious, gettingStarted , currentStep}) => {
           onClick={handlePrevious}
           disabled={currentStep === 1}
         >
-          Precedent
-        </Button>
-        {currentStep < 3 ? (
-          <Button variant="solid" color="primary" onClick={handleNext}>
+          Previous
+        </Button> 
+        <Button variant="solid" color="primary" onClick={handleNext}>
             Suivant
           </Button>
-        ) : (
-          <Button variant="solid" color="primary" onClick={gettingStarted}>
-            Get started
-          </Button>
-        )}
       </div>
     </div>
   );
 }
-
-export default Step2

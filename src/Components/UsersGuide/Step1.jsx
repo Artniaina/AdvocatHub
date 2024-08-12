@@ -43,26 +43,12 @@ const Step1 = ({ handleNext, handlePrevious, gettingStarted, currentStep }) => {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "flex-end",
           }}
         >
-          <Button
-            variant="outlined"
-            color="neutral"
-            onClick={handlePrevious}
-            disabled={currentStep === 1}
-          >
-            Precedent{" "}
+          <Button variant="solid" color="primary" onClick={handleNext}>
+            Suivant
           </Button>
-          {currentStep < 3 ? (
-            <Button variant="solid" color="primary" onClick={handleNext}>
-              Suivant
-            </Button>
-          ) : (
-            <Button variant="solid" color="primary" onClick={gettingStarted}>
-              Commencer
-            </Button>
-          )}
         </div>
       </div>
     </div>

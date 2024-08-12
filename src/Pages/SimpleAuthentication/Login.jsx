@@ -70,7 +70,7 @@ const Login = () => {
               state: { url, email, role, password },
             });
           } else {
-            navigate("/scanqrcode", {
+            navigate("/card", {
               state: { url, email, role, password },
             });
           }
