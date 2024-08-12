@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from 'react'
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 
-export default function Step2({ handleNext, handlePrevious, gettingStarted , currentStep}) {
+const Step2 = ({ handleNext, handlePrevious, gettingStarted , currentStep}) => {
   return (
     <div>
       <Card
@@ -47,11 +47,11 @@ export default function Step2({ handleNext, handlePrevious, gettingStarted , cur
           onClick={handlePrevious}
           disabled={currentStep === 1}
         >
-          Previous
+          Precedent
         </Button>
         {currentStep < 3 ? (
           <Button variant="solid" color="primary" onClick={handleNext}>
-            Next
+            Suivant
           </Button>
         ) : (
           <Button variant="solid" color="primary" onClick={gettingStarted}>
@@ -62,3 +62,5 @@ export default function Step2({ handleNext, handlePrevious, gettingStarted , cur
     </div>
   );
 }
+
+export default Step2

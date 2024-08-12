@@ -15,20 +15,17 @@
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0.5;
     transform-origin: center;
-
 }
 
 .step.active {
-    transform: translateY(0) scale(1);
+    transform: translateX(0) scale(1);
     opacity: 1;
     z-index: 3;
-
 }
 
 .step.inactive {
-    transform: translateY(100%) scale(0.9);
+    transform: translateX(-100%) scale(0.9);
     opacity: 0;
-    z-index: 1;
 }
 
 .step.inactive.previous {
@@ -41,4 +38,24 @@
 
 .users-guide-container .step.inactive.previous + .step.active {
     transform: translateX(-100%) scale(0.9);
+}
+
+.step.active + .step:last-child {
+    transform: translateX(100%) scale(0.9);
+}
+
+.step:first-child.previous + .step.active {
+    transform: translateX(100%) scale(0.9);
+}
+
+.step:last-child.previous + .step.active {
+    transform: translateX(-100%) scale(0.9);
+}
+
+.step:first-child.active ~ .step:last-child {
+    transform: translateX(-100%) scale(0.9);
+}
+
+.step:last-child.active ~ .step:first-child {
+    transform: translateX(100%) scale(0.9);
 }
