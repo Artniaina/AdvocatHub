@@ -22,6 +22,7 @@ import FAQ from "../Pages/FAQPage";
 import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
+import TaxationFormPage from "../Pages/TaxationFormPage";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -37,6 +38,9 @@ function PageTitleUpdater() {
         break;
       case "/home/modifFiche":
         pageTitle = "Accueil";
+        break;
+      case "/home/formTaxation":
+        pageTitle = "DEMANDE D'INFORMATIONS POUR TAXATION";
         break;
       case "/faq":
         pageTitle = "FAQ";
@@ -66,7 +70,7 @@ function PageTitleUpdater() {
         pageTitle = "Two-factor-Authentication";
         break;
       default:
-        pageTitle = "Page not found";
+        pageTitle = "AdvocatHub";
         break;
     }
 
@@ -102,6 +106,7 @@ function MainRoutes() {
         //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
         <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
+          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
