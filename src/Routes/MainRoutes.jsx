@@ -23,6 +23,8 @@ import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
 import TaxationFormPage from "../Pages/TaxationFormPage";
+import FAQCard from "../Components/UsersGuide/Step3";
+import UsersGuide from "../Pages/DoubleAuthentication/UsersGuide";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -89,6 +91,7 @@ function MainRoutes() {
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/card" element={<UsersGuide/>} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
 
