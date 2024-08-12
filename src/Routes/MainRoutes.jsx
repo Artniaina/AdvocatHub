@@ -23,7 +23,6 @@ import LBC from "../Pages/LBCPage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
 import TaxationFormPage from "../Pages/TaxationFormPage";
-import FAQCard from "../Components/UsersGuide/Step3";
 import UsersGuide from "../Pages/DoubleAuthentication/UsersGuide";
 
 function PageTitleUpdater() {
@@ -102,8 +101,8 @@ function MainRoutes() {
 
         //PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION
         <Route element={<PartialProtectedRoute />}>
-          <Route path="/validationotp" element={<ValidationOTP />} />
           <Route exact path="/scanqrcode" element={<ScanQRCode />} />
+          <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
         
         //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA

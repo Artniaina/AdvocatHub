@@ -4,7 +4,7 @@ import Typography from '@mui/joy/Typography';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 
-export default function Step3() {
+export default function Step3({handleNext, handlePrevious, gettingStarted, currentStep}) {
   return (
     <Card
       size="lg"
