@@ -14,7 +14,7 @@ const ValidationOTP = () => {
   const handleSubmit = async () => {
     try {
       if (!codeOTP) {
-        alert("Veuillez remplir le champ OTP.");
+        alert("Veuillez remplir le champ");
         return;
       }
       if (!email || !password) {

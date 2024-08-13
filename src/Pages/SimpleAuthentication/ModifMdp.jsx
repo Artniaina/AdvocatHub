@@ -15,7 +15,6 @@ const ModifMdp = ({email}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
   const [capsLockActive, setCapsLockActive] = useState(false);
 
   const handleChange = (e) => {

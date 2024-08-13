@@ -1,0 +1,25 @@
+.title1 {
+  border: 1px solid black;
+  padding: 25px;
+  font-size: 23px;
+  font-variant-caps: titling-caps;
+  width: 800px;
+  color: #4d4a4ad3;
+}
+.remarque {
+  color: #4f1675;
+  text-decoration: underline;
+}
+.divPara {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  flex-direction: column;
+  margin: 20px;
+  color: #4d4a4ad3;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 600;
+  
+}

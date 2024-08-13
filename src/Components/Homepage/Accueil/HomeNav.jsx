@@ -19,6 +19,10 @@ const HomeNav = () => {
     setShowEtudePopup(true);
   };
 
+  const handleFormTaxClick = () => {
+    navigate("/home/formTaxation")
+  };
+
   const handleDocumentClick = () => {
     setShowDocumentPopup(true);
   };
@@ -68,7 +72,7 @@ const HomeNav = () => {
           )}
         </li>
         <li className="home-item">
-          <button className="nav-link2">
+          <button className="nav-link2" onClick={handleFormTaxClick}>
             <img src={formulaire} alt="Formulaire de taxation" />
             <br />
             Formulaire de taxation
