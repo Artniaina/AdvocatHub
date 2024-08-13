@@ -15,8 +15,6 @@ const TaxationFormPage = () => {
     <Intro/>
     <div>
     <Generalite/>
-    <Collaborateurs/>
-    <Affaire/>
     </div>
     <div>
     <CaseDescription/>

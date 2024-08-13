@@ -35,7 +35,7 @@ const Clients = () => {
       <label style={{ display: "inline" }} htmlFor="client">
         Client(s):*{" "}
       </label>
-      <select id="client" style={{ width: "25vw" }}>
+      <select id="client">
         <option value=""></option>
       </select>
       <div className="btnAdd">

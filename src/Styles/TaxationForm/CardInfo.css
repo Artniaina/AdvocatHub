@@ -6,9 +6,16 @@
   margin: 20px;
   padding: 60px 30px;
   display: flex;
-  justify-content: space-between;
+    margin: 15px;
   position: relative;
+  flex-wrap: wrap; 
 }
+
+.cardGeneralité > div {
+    flex: 0 0 48%; 
+    margin: 10px; 
+    width: max-content;
+  }
 .cardGeneralité .mainTitle {
   background-color: #611c61;
   position: absolute;
@@ -31,8 +38,7 @@
   border-bottom: 2px solid black;
 }
 .formGroup {
-  width: 100%;
-  font-size: 18px;
+    font-size: 18px;
 }
 .formGroup label {
   display: block;
@@ -46,16 +52,16 @@
 }
 .clientsForm {
   display: flex;
-  justify-content: space-between;
   padding-top: 10px;
 }
 .clientsForm select{
-    width: 40vw;
+    width: 32vw;
     padding: 10px;
     outline: none;
     height: 30px;
     border-radius: 5px;
     border: 1px solid #808080;
+    margin: 0 20px;
 }
 .radio-group{
     margin-bottom: 10px;
@@ -67,10 +73,13 @@
     justify-content: start;
 }
 .three input{
-    width: 10vw;
+    width: max-content;
+}
+.three #rue{
+    width: 18vw;
 }
 .three  .two{
-    width: 16vw;
+    width: max-content;
 }
 .three .formGroup{
     margin: 2px;
