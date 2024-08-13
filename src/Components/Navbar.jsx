@@ -64,7 +64,7 @@ const Navbar = () => {
             }`}
           >
             <IoDocumentTextOutline className="icon-nav" />
-            Documents
+            Documents 
           </Link>
         </li>
         <li className="nav-item">

@@ -48,7 +48,7 @@ export default function Step2({ handleNext, handlePrevious, url , currentStep}) 
           onClick={handlePrevious}
           disabled={currentStep === 1}
         >
-          Previous
+          Precedent
         </Button> 
         <Button variant="solid" color="primary" onClick={handleNext}>
             Suivant

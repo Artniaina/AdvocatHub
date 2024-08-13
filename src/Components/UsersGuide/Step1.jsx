@@ -7,7 +7,7 @@ import Image from "../../assets/TOTP.png";
 const Step1 = ({ handleNext }) => {
   return (
     <>
-      {" "}
+
       <div
         style={{
           display: "flex",
@@ -34,7 +34,7 @@ const Step1 = ({ handleNext }) => {
             }}
           >
             <Typography fontSize="xl2" fontWeight="xl" mb={3}>
-              Renforcement de securité
+              Renforcement de securité de votre compte avec une double authentification
             </Typography>
 
             <Typography level="title-lg" fontWeight="lg" mb={2}>
@@ -43,7 +43,7 @@ const Step1 = ({ handleNext }) => {
             <Typography fontSize="sm" sx={{ mb: 2 }}>
               Installer une application de double authentification comme{" "}
               <strong>Google Authenticator</strong>, <strong>Authy</strong>,{" "}
-              <strong>Duo Mobile</strong>, or <strong>1Password</strong>
+              <strong>Duo Mobile</strong>, ou <strong>1Password</strong>
             </Typography>
 
             <Typography level="title-lg" fontWeight="lg" mb={2}>
@@ -79,7 +79,7 @@ const Step1 = ({ handleNext }) => {
           >
             <img
               src={Image}
-              alt="TOTP Setup"
+              alt="TOTP image"
               style={{
                 width: 500,
                 height: 500,
@@ -94,7 +94,7 @@ const Step1 = ({ handleNext }) => {
           variant="solid"
           color="primary"
         >
-          Suivant
+          Commencer
         </Button>
       </div>
     </>

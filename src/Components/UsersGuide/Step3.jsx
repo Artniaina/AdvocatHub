@@ -15,6 +15,9 @@ const Step3 = ({ handlePrevious, currentStep }) => {
   const [codeOTP, setCodeOTP] = useState("");
 
   const handleSubmit = async () => {
+    if (codeOTP=='') {
+      alert("Veuillez remplir le champ!")
+    }
     try {
       const userData = {
         sAdresseEmail: email,
