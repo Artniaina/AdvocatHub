@@ -100,3 +100,35 @@
   width: 20vw;
   margin: 2px;
 }
+.toggleButtons {
+  display: flex;
+  gap: 1em;
+}
+
+.toggleButton {
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggleButton.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.toggleButton:hover {
+  background-color: #ddd;
+}
+
+fieldset {
+  border: 1px solid #ddd;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+legend {
+  font-weight: bold;
+}
