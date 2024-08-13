@@ -1,0 +1,46 @@
+.cardGeneralité{
+    border: 1px solid #ffff;
+    border-radius: 5px;
+    box-shadow: 0px 1px 10px 3px #595b6991;
+    background-color: #ffff;
+    margin: 20px;
+    padding: 60px 30px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+.cardGeneralité .mainTitle{
+    background-color: #611c61;
+    position: absolute;
+    width: 96%;
+    top: 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+}
+.titleCard{
+    font-size: 18px;
+    font-weight: 700;
+    width: 46vw;
+    padding-bottom: 5px;
+    color: #4a4b53;
+    border-bottom: 2px solid black;
+}
+.formGroup{
+    width: 100% ;
+    font-size: 18px;
+}
+.formGroup label{
+    display: block;
+}
+.formGroup input{
+    width: 45vw;
+    padding: 10px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #808080;
+}
