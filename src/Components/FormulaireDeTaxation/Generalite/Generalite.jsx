@@ -5,7 +5,8 @@ import "../../../Styles/TaxationForm/CardInfo.css";
 import Collaborateurs from "./Collab-Prestataire/Collaborateurs";
 import Prestataires from "./Collab-Prestataire/Prestataires";
 import { FaUsers } from "react-icons/fa6";
-
+import Affaire from "./Affaire";
+import { IoStatsChartSharp } from "react-icons/io5";
 const Generalite = () => {
   return (
     <>
@@ -20,6 +21,12 @@ const Generalite = () => {
         </h2>
         <Collaborateurs />
         <Prestataires />
+        <h2 className="miniTitle">
+          {" "}
+          <IoStatsChartSharp style={{ fontSize: "30px", marginRight: "7px" }} />
+          AFFAIRE
+        </h2>
+        <Affaire />
       </div>
     </>
   );
