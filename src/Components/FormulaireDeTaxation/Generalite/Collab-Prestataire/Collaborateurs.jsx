@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
-import Image from "../../../../assets/icons8-avocat-24.png";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 
