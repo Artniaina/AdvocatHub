@@ -1,6 +1,6 @@
 import React from "react";
-import Avocat from "./Avocat";
-import Clients from "./Clients";
+import Avocat from "./AvocatClients/Avocat";
+import Clients from "./AvocatClients/Clients";
 import "../../../Styles/TaxationForm/CardInfo.css";
 
 const Generalite = () => {

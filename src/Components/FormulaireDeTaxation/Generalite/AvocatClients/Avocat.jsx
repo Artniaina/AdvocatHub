@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "../../../Styles/TaxationForm/CardInfo.css"
-import Image from '../../../assets/icons8-user-menu-male-40.png'
+import "../../../../Styles/TaxationForm/CardInfo.css"
+import Image from '../../../../assets/icons8-user-menu-male-40.png'
 
 const Avocat = () => {
   const [name, setName] = useState("");
