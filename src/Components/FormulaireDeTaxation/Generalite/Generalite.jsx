@@ -8,13 +8,13 @@ import Prestataires from "./Collab-Prestataire/Prestataires";
 const Generalite = () => {
   return (
     <>
-    <div className="cardGeneralité">
-    <div className="mainTitle" >GENERALITES</div>
-      <Avocat />
-      <Clients />
-      <Collaborateurs/>
-      <Prestataires/>
-    </div>
+      <div className="cardGeneralité" >
+        <div className="mainTitle">GENERALITES</div>
+          <Avocat />
+          <Clients />
+          <Collaborateurs />
+          <Prestataires />
+      </div>
     </>
   );
 };
