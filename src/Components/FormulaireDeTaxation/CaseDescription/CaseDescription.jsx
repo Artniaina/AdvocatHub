@@ -1,5 +1,5 @@
 import React from "react";
-import EditeurHTML from "./EditeurHTML";
+import Editor from "./EditeurHTML";
 import "../../../Styles/TaxationForm/CardInfo.css";
 
 const CaseDescription = () => {
@@ -7,7 +7,7 @@ const CaseDescription = () => {
     <>
       <div className="cardGeneralité">
         <div className="mainTitle">DESCRIPTION DE L'AFFAIRE ET DES PRESTATIONS</div>
-        <EditeurHTML/>
+        <Editor />
       </div>
     </>
   );
