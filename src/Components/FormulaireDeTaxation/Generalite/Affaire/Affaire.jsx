@@ -211,8 +211,8 @@ const Affaire = () => {
             checkedValue={showOptions.conciliation}
             onChange={(value) => handleToggle("conciliation", value)}
           />
-          <textarea className="textarea" name="conciliation" id="conciliation"></textarea>
         </div>
+          <textarea className="textarea" name="conciliation" id="conciliation"></textarea>
       </div>
 
       <div className="formGroupbtn">
@@ -223,8 +223,8 @@ const Affaire = () => {
             checkedValue={showOptions.relative}
             onChange={(value) => handleToggle("relative", value)}
           />
-          <textarea className="textarea" name="relative" id="relative"></textarea>
         </div>
+          <textarea className="textarea" name="relative" id="relative"></textarea>
       </div>
 
       <div className="formGroupbtn">
@@ -235,8 +235,8 @@ const Affaire = () => {
             checkedValue={showOptions.conserv}
             onChange={(value) => handleToggle("conserv", value)}
           />
-          <textarea className="textarea" name="conserv" id="conserv"></textarea>
         </div>
+          <textarea className="textarea" name="conserv" id="conserv"></textarea>
       </div>
 
       <div className="formGroupbtn">
@@ -247,19 +247,19 @@ const Affaire = () => {
             checkedValue={showOptions.mediation}
             onChange={(value) => handleToggle("mediation", value)}
           />
-          <textarea className="textarea" name="mediation" id="mediation"></textarea>
         </div>
+        <textarea className="textarea" name="mediation" id="mediation"></textarea>
+
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Si une médiation est en cours, a-t-elle été acceptée par la partie adverse ?</p>
+          <p> Si non, est-elle souhaitée ? </p>
           <ToggleButton
             name="mediationChoix"
             checkedValue={showOptions.mediationChoix}
             onChange={(value) => handleToggle("mediationChoix", value)}
           />
-          <textarea className="textarea" name="mediationChoix" id="mediationChoix"></textarea>
         </div>
       </div>
     </div>

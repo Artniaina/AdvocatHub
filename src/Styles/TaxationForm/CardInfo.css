@@ -112,6 +112,8 @@
 .toggleButtons {
   display: flex;
   gap: 1em;
+  justify-content: space-between;
+  margin-right: 350px;
 }
 
 .toggleButton {
@@ -163,6 +165,7 @@ legend {
   border-radius: 25px;
   width: 100px;
   margin-top: 8px;
+  justify-content: start;
 }
 
 .formGroupbtn .toggleButtonForm {
