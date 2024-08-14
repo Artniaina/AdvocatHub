@@ -23,7 +23,7 @@
   font-weight: bold;
   font-size: 18px;
 }
-.miniTitle{
+.miniTitle {
   font-size: 20px;
   width: 99.5%;
   border-bottom: 2px solid #000000;
@@ -133,14 +133,43 @@ legend {
   font-weight: bold;
 }
 
-#date{
+#date {
   width: max-content;
   margin: 0px 6px;
 }
-#date1{
+#date1 {
   width: max-content;
   margin: 0px 32px;
 }
-.formGroup1{
+.formGroup1 {
   display: inline;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  padding: 3px 5px;
+  border: 1px solid gray;
+  border-radius: 25px;
+  width: 100px;
+  margin-top: 8px;
+}
+
+.formGroupbtn .toggleButtonForm {
+  height: 20px;
+  padding: 1px 12px 4px 12px;
+  border-radius: 15px;
+  border: none;
+  background-color: #fff;
+}
+.toggleButtonForm input[type="radio"] {
+
+  display: none;
+}
+
+.toggleButtonForm.active {
+  background-color: #611c61;
+  border-color: #611c61;
+  color: #fff;
 }
