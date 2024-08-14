@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import EmojiPicker from 'emoji-picker-react';
 
 const EditorCustomBar = ({ onEmojiClick, showEmojiPicker, setShowEmojiPicker }) => (

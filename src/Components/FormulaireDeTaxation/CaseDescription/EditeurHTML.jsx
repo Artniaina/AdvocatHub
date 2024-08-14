@@ -11,17 +11,19 @@ const EditeurHTML = () => {
     setEditorContent(value);
   };
 
-  const handleEmojiClick = (event, emojiObject) => {
-    setEditorContent(editorContent + emojiObject.emoji);
-    setShowEmojiPicker(false);
+  const handleEmojiClick = (emojiObject) => {
+    if (emojiObject && emojiObject.emoji) {
+      setEditorContent((prevContent) => prevContent + emojiObject.emoji);
+      setShowEmojiPicker(false);
+    } else {
+      console.error('Emoji object or emoji property is undefined');
+    }
   };
+  
 
   const modules = {
     toolbar: {
-      container: '#toolbar',  
-      handlers: {
-       
-      }
+      container: '#toolbar',
     },
   };
 
