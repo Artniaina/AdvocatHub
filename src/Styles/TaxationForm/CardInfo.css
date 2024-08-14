@@ -132,3 +132,15 @@ fieldset {
 legend {
   font-weight: bold;
 }
+
+#date{
+  width: max-content;
+  margin: 0px 6px;
+}
+#date1{
+  width: max-content;
+  margin: 0px 32px;
+}
+.formGroup1{
+  display: inline;
+}
