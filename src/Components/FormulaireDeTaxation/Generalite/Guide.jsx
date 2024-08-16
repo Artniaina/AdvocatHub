@@ -51,7 +51,7 @@ const Guide = () => {
               className="popup-closee"
               onClick={() => setIsHovered(false)}
             >
-              <IoMdClose />
+            
               &times;
             </button>
             <h2>AVOCAT (titulaire du dossier) :</h2>

@@ -51,41 +51,64 @@ const GuideAffaire = () => {
               className="popup-closee"
               onClick={() => setIsHovered(false)}
             >
-              <IoMdClose />
               &times;
             </button>
             <h4>Nom de l'affaire * :</h4>
             <ul>
               <li>
-                Insérer le nom du dossier dans votre étude (« Monsieur X c/ Madame Y » ou « Société X SA – avis IP »), pas « Monsieur X c/ Maître ZZZ ».
+                Insérer le nom du dossier dans votre étude (« Monsieur X c/
+                Madame Y » ou « Société X SA – avis IP »), pas « Monsieur X c/
+                Maître ZZZ ».
               </li>
-              <li>
-                Une convention d’honoraires/lettre d’engagement a-t-elle été signée ?
-                <ul>
-                  <li>Cliquer sur oui ou non (le terme coloré est le terme sélectionné)</li>
-                  <li>Si oui, insérer texte de la convention (quels en étaient les termes ?)</li>
-                </ul>
-              </li>
-              <li>Joindre la convention d’honoraires au dossier de taxation dans la case « DEPOSER DES FICHIERS ici » à la fin du formulaire.</li>
-            </ul>
 
-            <h4>Date, référence et montant TTC de la/des note(s) d'honoraires contestée(s) * :</h4>
+            </ul>
+            <h4>
+                Une convention d’honoraires/lettre d’engagement a-t-elle été
+                signée ?
+              </h4>
+              <li>
+                Cliquer sur oui ou non (le terme coloré est le terme
+                sélectionné)
+              </li>
+              <strong>
+                <p>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Si oui, insérer texte de la
+                  convention (quels en étaient les termes ?) <br />
+                  Joindre la convention d’honoraires au dossier de taxation dans
+                  la case « DEPOSER DES FICHIERS ici » à la fin du formulaire.
+                </p>
+              </strong>
+
+            <h4>
+              Date, référence et montant TTC de la/des note(s) d'honoraires
+              contestée(s) * :
+            </h4>
             <ul>
-              <li>
-                Cliquer sur le plus + pour accéder au tableau
-                <ul>
-                  <li>Insérer date, référence et montant déjà ou pas payée</li>
-                  <li>Cliquer sur le bouton « Enregistrer »</li>
-                </ul>
-              </li>
-              <li>
-                Date, référence et montant TTC de la/des note(s) de provision :
-                <ul>
-                  <li>Cliquer sur le plus + pour accéder au tableau</li>
-                  <li>Insérer date, référence et montant déjà ou pas payée</li>
-                  <li>Cliquer sur le bouton « Enregistrer »</li>
-                </ul>
-              </li>
+              <ul>
+                <li>
+                  Cliquer sur le plus + <IoAddCircle className="addcirdle" />
+                  pour accéder au tableau{" "}
+                </li>
+                <li>Insérer date, référence et montant déjà ou pas payée</li>
+                <li>
+                  Cliquer sur le bouton « Enregistrer » <span>Enregistrer</span>
+                </li>
+              </ul>
+
+              <h4>
+                &nbsp;&nbsp;&nbsp;&nbsp; Date, référence et montant TTC de
+                la/des note(s) de provision :{" "}
+              </h4>
+              <ul>
+                <li>
+                  Cliquer sur le plus + <IoAddCircle className="addcirdle" />
+                  pour accéder au tableau
+                </li>
+                <li>Insérer date, référence et montant déjà ou pas payée</li>
+                <li>
+                  Cliquer sur le bouton « Enregistrer » <span>Enregistrer</span>
+                </li>
+              </ul>
             </ul>
           </div>
         </>

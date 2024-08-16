@@ -31,6 +31,10 @@
 }
  .affaire{
   top: 240vh;
+  padding-top: 12px;
+}
+.affaire h4{
+  padding-bottom: 5px;
 }
 
 .popup-guide h2{
@@ -72,14 +76,12 @@
   right: 10px;
   background: transparent;
   border: none;
-  font-size: 24px;
-  color: #fff;
+  font-size: 40px;
+  color: #858585;
   cursor: pointer;
 }
 
-.popup-closee:hover {
-  color: #ddd;
-}
+
 
 .addcirdle{
   color: #34b734;
