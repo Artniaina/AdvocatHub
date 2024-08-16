@@ -3,8 +3,7 @@ import "../../../Styles/TaxationForm/Guide.css";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { IoAddCircle } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
-
-const GuideHonoraires = () => {
+import { TfiPencilAlt } from "react-icons/tfi";const GuideHonoraires = () => {
   const [isHovered, setIsHovered] = useState(false);
   const popupRef = useRef(null);
 
@@ -54,14 +53,16 @@ const GuideHonoraires = () => {
               &times;
             </button>
 
-            <h4>
-              Cliquer sur l’icône « Crayon » pour modifier une note d’honoraires
+            <p style={{marginBottom:"0px", fontSize:"24px"}}>
+              Cliquer sur l’icône « Crayon » <TfiPencilAlt style={{margin:"-7px 26px", fontSize:"40px"}}/>pour modifier une note d’honoraires
               existante.
-            </h4>
+            </p>
             <ul>
               <li>
-                Bien penser à cliquer sur « MODIFIER » pour sauvegarder les
-                modifications !
+                <strong >
+                  Bien penser à cliquer sur « MODIFIER » pour sauvegarder les
+                  modifications !
+                </strong>
               </li>
             </ul>
           </div>

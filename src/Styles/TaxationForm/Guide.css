@@ -20,7 +20,7 @@
   background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 110px 38px 73px;
-  box-shadow: 0 4px 8px #0000001a;
+  box-shadow:2px 3px 25px #00000085;
   z-index: 1000;
   font-size: 19px;
   color: #000000;
@@ -43,7 +43,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 34px 52px;
+  padding: 17px 31px;
+}
+.honoraire ul li{
+  color: #272727;
+  margin-left: -12px;
+  font-size: 20px;
 }
 .span{
   padding: 0px 5px 4px 5px;
