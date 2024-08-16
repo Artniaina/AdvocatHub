@@ -44,6 +44,18 @@
 .formGroup label {
   display: block;
 }
+.honoraires form{
+  display: flex;
+  flex-direction: column;
+}
+ .honoraires input {
+  width: 10vw;
+  padding: 10px;
+  outline: none;
+  border-radius: 5px;
+  border: 1.5px solid #5e58589d;
+  background-color: #948a8a5b;
+}
 .formGroup input {
   width: 42vw;
   padding: 10px;
@@ -207,4 +219,14 @@ legend {
   height: 65px;
   border-radius: 5px;
   border: 1px solid #808080;
+}
+.hour{
+  width: 100px;
+  padding: 8px;
+  margin: 10px -15px 0px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #4a4b5385;
+  background-color: #e0e0e0;
+  outline: none;
+  text-align: end;
 }
