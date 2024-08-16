@@ -3,11 +3,16 @@ import Facture from './Facture'
 import Observation from './Observation'
 import "../../../Styles/TaxationForm/CardInfo.css";
 import { LuPencilLine } from "react-icons/lu";
+import GuideAffaire from '../Generalite/Affaire/GuideAffaire';
 
 
 const Honoraires = () => {
   return (
     <>
+    <div>
+
+    <GuideAffaire/>
+    </div>
       <div className="cardGeneralité" style={{display:"block"}}>
         <div className="mainTitle">HONORAIRES</div>
         <Facture />

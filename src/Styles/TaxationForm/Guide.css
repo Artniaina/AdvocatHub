@@ -29,6 +29,10 @@
   max-width: 84vw;
   border-radius: 10px;
 }
+ .affaire{
+  top: 240vh;
+}
+
 .popup-guide h2{
   font-size: 25px;
   margin-top: -80px;

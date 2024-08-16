@@ -4,7 +4,7 @@ import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { IoAddCircle } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 
-const Popup = () => {
+const Guide = () => {
   const [isHovered, setIsHovered] = useState(false);
   const popupRef = useRef(null);
 
@@ -113,4 +113,4 @@ const Popup = () => {
   );
 };
 
-export default Popup;
+export default Guide;
