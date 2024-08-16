@@ -1,15 +1,4 @@
-.cardGeneralité {
-  border: 1px solid #ffff;
-  border-radius: 5px;
-  box-shadow: 0px 1px 10px 3px #595b6991;
-  background-color: #ffff;
-  margin: 30px;
-  padding: 60px 30px;
-  display: flex;
-  position: relative;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+
 .cardGeneralité .mainTitle {
   background-color: #611c61;
   position: absolute;
@@ -22,6 +11,32 @@
   color: #fff;
   font-weight: bold;
   font-size: 18px;
+}
+
+.cardGeneralité {
+  border: 1px solid #ffff;
+  border-radius: 5px;
+  box-shadow: 0px 1px 10px 3px #595b6991;
+  background-color: #ffff;
+  margin: 30px;
+  padding: 60px 30px;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.CardFichiers{
+  border: 1.5px solid #808080;
+  border-radius: 6px;
+  width: 60vw;
+  height: 35vh;
+}
+.CardFichiers p{
+  border-bottom: 2px solid #80808079;
+  margin: -2px 20px 10px;
+  padding: 9px 0px 7px 0px;
+  color: #808080;
+  font-size: 25px;
 }
 .miniTitle {
   font-size: 20px;
@@ -36,7 +51,7 @@
   width: 43vw;
   padding-bottom: 5px;
   color: #4a4b53;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #000000;
 }
 .formGroup {
   font-size: 18px;
@@ -47,6 +62,7 @@
 .honoraires form{
   display: flex;
   flex-direction: column;
+  padding: 0px 0px 0px 0px;
 }
  .honoraires input {
   width: 10vw;
@@ -55,6 +71,7 @@
   border-radius: 5px;
   border: 1.5px solid #5e58589d;
   background-color: #948a8a5b;
+  margin: 12px 0 2px 0;
 }
 .formGroup input {
   width: 42vw;
@@ -229,4 +246,17 @@ legend {
   background-color: #e0e0e0;
   outline: none;
   text-align: end;
+}
+.buttonDiv button{
+  padding: 5px 15px;
+  font-size: 20px;
+  width: 150px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  border: 1px solid grey;
+  border-radius: 8px;
+  background-color: #ffff;
 }
