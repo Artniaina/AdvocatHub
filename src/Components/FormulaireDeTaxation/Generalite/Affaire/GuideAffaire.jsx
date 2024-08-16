@@ -60,24 +60,24 @@ const GuideAffaire = () => {
                 Madame Y » ou « Société X SA – avis IP »), pas « Monsieur X c/
                 Maître ZZZ ».
               </li>
-
             </ul>
             <h4>
-                Une convention d’honoraires/lettre d’engagement a-t-elle été
-                signée ?
-              </h4>
-              <li>
-                Cliquer sur oui ou non (le terme coloré est le terme
-                sélectionné)
-              </li>
-              <strong>
-                <p>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Si oui, insérer texte de la
-                  convention (quels en étaient les termes ?) <br />
-                  Joindre la convention d’honoraires au dossier de taxation dans
-                  la case « DEPOSER DES FICHIERS ici » à la fin du formulaire.
-                </p>
-              </strong>
+              Une convention d’honoraires/lettre d’engagement a-t-elle été
+              signée ?
+            </h4>
+            <li>
+              Cliquer sur oui ou non &nbsp;&nbsp;&nbsp;&nbsp;
+              <span className="span">Non</span> Oui&nbsp;&nbsp;&nbsp;&nbsp; (le
+              terme coloré est le terme sélectionné)
+            </li>
+            <strong>
+              <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Si oui, insérer texte de la
+                convention (quels en étaient les termes ?) <br />
+                Joindre la convention d’honoraires au dossier de taxation dans
+                la case « DEPOSER DES FICHIERS ici » à la fin du formulaire.
+              </p>
+            </strong>
 
             <h4>
               Date, référence et montant TTC de la/des note(s) d'honoraires

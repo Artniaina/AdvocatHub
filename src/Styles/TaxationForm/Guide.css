@@ -36,7 +36,20 @@
 .affaire h4{
   padding-bottom: 5px;
 }
-
+.honoraire{
+  top: 540vh;
+  min-height: 1vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 34px 52px;
+}
+.span{
+  padding: 0px 5px 4px 5px;
+  width: 42px;
+  border-radius: 18px;
+}
 .popup-guide h2{
   font-size: 25px;
   margin-top: -80px;
