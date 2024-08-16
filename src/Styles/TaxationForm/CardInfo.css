@@ -28,8 +28,8 @@
 .CardFichiers{
   border: 1.5px solid #808080;
   border-radius: 6px;
-  width: 60vw;
-  height: 35vh;
+  min-width: 60vw;
+  min-height: 35vh;
 }
 .CardFichiers p{
   border-bottom: 2px solid #80808079;

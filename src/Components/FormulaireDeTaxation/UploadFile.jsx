@@ -3,6 +3,7 @@ import "../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../assets/icons8-fichier-67.png";
 import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
+import { TiDelete } from "react-icons/ti";
 
 const UploadFile = () => {
   const [fileInfos, setFileInfos] = useState([]);
@@ -24,10 +25,17 @@ const UploadFile = () => {
 
   const handleSubmit = () => {
     if (fileInfos.length > 0) {
-      console.log("Fichiers envoyés:", fileInfos.map((file) => file.name));
+      console.log(
+        "Fichiers envoyés:",
+        fileInfos.map((file) => file.name)
+      );
     } else {
       console.log("Aucun fichier sélectionné");
     }
+  };
+
+  const triggerFileUpload = () => {
+    document.getElementById("file-upload").click();
   };
 
   return (
@@ -38,32 +46,47 @@ const UploadFile = () => {
       >
         <div className="CardFichiers">
           <p>
-            <img
-              src={Image}
-              alt=""
-              style={{ width: "40px", height: "40px" }}
-            />{" "}
+            <img src={Image} alt="" style={{ width: "40px", height: "40px" }} />{" "}
             Déposer des fichiers ici *
           </p>
           {fileInfos.length > 0 ? (
             <div>
               {fileInfos.map((file, index) => (
-                <div key={index} style={{ marginBottom: "10px" }}>
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <div>
-                    <strong>Nom du fichier:</strong> {file.name}
+                    <div>
+                      <strong>Nom du fichier:</strong> {file.name}
+                    </div>
+                    <div>
+                      <strong>Taille du fichier:</strong> {file.size} KB
+                    </div>
                   </div>
-                  <div>
-                    <strong>Taille du fichier:</strong> {file.size} KB
-                  </div>
-                  <button onClick={() => handleRemoveFile(index)}>
-                    <FaTrashAlt style={{ color: "red", fontSize: "20px" }} />{" "}
-                    Supprimer
+                  <button
+                    onClick={() => handleRemoveFile(index)}
+                    style={{
+                      marginLeft: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <TiDelete style={{ color: "red", fontSize: "40px" }} />{" "}
                   </button>
                 </div>
               ))}
             </div>
           ) : (
-            <div>Aucun fichier sélectionné</div>
+            <div></div>
           )}
         </div>
         <div
@@ -74,16 +97,16 @@ const UploadFile = () => {
             justifyContent: "center",
           }}
         >
-          <label htmlFor="file-upload" className="custom-file-upload">
+          <button onClick={triggerFileUpload}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
             Parcourir
-          </label>
+          </button>
           <input
             id="file-upload"
             type="file"
             style={{ display: "none" }}
             onChange={handleFileChange}
-            multiple 
+            multiple
           />
           <button onClick={handleSubmit}>
             <FaCheck style={{ color: "green", fontSize: "30px" }} />
