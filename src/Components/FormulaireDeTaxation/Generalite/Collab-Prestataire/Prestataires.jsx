@@ -27,7 +27,7 @@ const Prestataires = () => {
           <label style={{ display: "inline" }} htmlFor="client">
            Prestataire(s) extérieur(s):*{" "}
           </label>
-          <select id="client" style={{ width: "25vw" }}>
+          <select id="client" style={{ width: "23vw" }}>
             <option value=""></option>
           </select>
           <div className="btnAdd">

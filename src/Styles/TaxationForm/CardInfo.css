@@ -18,12 +18,12 @@
   border-radius: 5px;
   box-shadow: 0px 1px 10px 3px #595b6991;
   background-color: #ffff;
-  margin: 30px;
   padding: 60px 30px;
   display: flex;
   position: relative;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 30px 70px;
 }
 .CardFichiers{
   border: 1.5px solid #808080;
@@ -40,7 +40,7 @@
 }
 .miniTitle {
   font-size: 20px;
-  width: 99.5%;
+  width: 100%;
   border-bottom: 2px solid #000000;
   padding-bottom: 12px;
   color: #4a4b53;
@@ -48,7 +48,7 @@
 .titleCard {
   font-size: 18px;
   font-weight: 700;
-  width: 43vw;
+  width: 39.4vw;
   padding-bottom: 5px;
   color: #4a4b53;
   border-bottom: 2px solid #000000;
@@ -74,14 +74,14 @@
   margin: 12px 0 2px 0;
 }
 .formGroup input {
-  width: 42vw;
+  width: 38vw;
   padding: 10px;
   outline: none;
   border-radius: 5px;
   border: 1px solid #808080;
 }
 .formGroup textarea {
-  width: 42vw;
+  width: 38vw;
   padding: 10px;
   resize: vertical;
   outline: none;
@@ -89,7 +89,7 @@
   border: 1px solid #808080;
 }
 .formGroup .textarea {
-  width: 89vw;
+  width: 85vw;
   padding: 10px;
   resize: vertical;
   outline: none;
@@ -102,7 +102,7 @@
   padding-top: 10px;
 }
 .clientsForm select {
-  width: 34vw;
+  width: 30vw;
   padding: 10px;
   outline: none;
   height: 30px;
@@ -123,7 +123,7 @@
   width: max-content;
 }
 .three #rue {
-  width: 20vw;
+  width: 15.8vw;
 }
 .three .two {
   width: max-content;
@@ -135,7 +135,7 @@
   display: flex;
 }
 .two .formGroup input {
-  width: 20vw;
+  width: 18vw;
   margin: 2px;
 }
 .toggleButtons {
@@ -229,7 +229,7 @@ legend {
   margin-right: 15px;
 }
  .textarea{
-  width: 89vw;
+  width: 85vw;
   padding: 10px;
   resize: vertical;
   outline: none;

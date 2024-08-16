@@ -29,7 +29,7 @@ const Collaborateurs = () => {
           <label style={{ display: "inline" }} htmlFor="client">
            Liste Collaborateur(s):*{" "}
           </label>
-          <select id="client" style={{ width: "26vw" }}>
+          <select id="client" style={{ width: "24vw" }}>
             <option value=""></option>
           </select>
           <div className="btnAdd">

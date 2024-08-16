@@ -1,0 +1,42 @@
+.popup-trigger {
+    position: relative;
+    display: inline-block;
+    width: 100vw;
+    cursor: pointer;
+   
+  }
+  
+  .popup-trigger i {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .popup-content {
+    /* position: absolute; */
+    top: 30px;
+    width: 120vw;
+    left: 80px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 14px;
+    color: #000;
+  }
+  
+  .popup-content h4 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .popup-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .popup-content li {
+    margin-bottom: 10px;
+  }
+  

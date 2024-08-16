@@ -7,10 +7,14 @@ import Prestataires from "./Collab-Prestataire/Prestataires";
 import { FaUsers } from "react-icons/fa6";
 import Affaire from "./Affaire/Affaire";
 import { IoStatsChartSharp } from "react-icons/io5";
+import Guide from "./Guide";
 const Generalite = () => {
   return (
-    <>
+    <>    <div>
+          <Guide></Guide>
+        </div>
       <div className="cardGeneralité">
+    
         <div className="mainTitle">GENERALITES</div>
         <Avocat />
         <Clients />

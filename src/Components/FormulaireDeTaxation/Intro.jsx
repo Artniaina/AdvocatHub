@@ -1,5 +1,6 @@
 import React from "react";
 import "../../Styles/TaxationForm/Intro.css";
+import Guide from "./Generalite/Guide";
 
 const Intro = () => {
   return (

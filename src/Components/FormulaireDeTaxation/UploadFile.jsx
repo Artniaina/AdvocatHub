@@ -61,7 +61,7 @@ const UploadFile = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <div>
+                  <div style={{padding:"15px"}}>
                     <div>
                       <strong>Nom du fichier:</strong> {file.name}
                     </div>
@@ -80,7 +80,7 @@ const UploadFile = () => {
                       cursor: "pointer",
                     }}
                   >
-                    <TiDelete style={{ color: "red", fontSize: "40px" }} />{" "}
+                    <TiDelete style={{ color: "#e73737b2", fontSize: "40px" }} />{" "}
                   </button>
                 </div>
               ))}
