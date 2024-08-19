@@ -82,10 +82,26 @@
 }
 
 .tavleInfo {
-  width: 100%;
+  min-width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
+
+
+.tavleInfo thead th .sort-icon {
+  position: absolute;
+  left: 10px; 
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tavleInfo thead th .filter-btn {
+  position: absolute;
+  right: 10px; 
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 
 .tavleInfo th,
 .tavleInfo td {
@@ -95,8 +111,14 @@
 }
 
 .tavleInfo th {
+  position: relative;
+  text-align: left;
+  padding: 0px;
   background-color: #5e1675;
   color: white;
+  width: 150px;
+  height: 50px;
+  text-align: center;
 }
 
 .tavleInfo tr {

@@ -52,115 +52,123 @@ const PopupPrestataires = ({ onClose }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} >
-          <div className="avocatForm">
-          <div className="prestataire">
-            <div className="formGroup">
-              <label htmlFor="name">Nom:</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+        <form onSubmit={handleSubmit}>
+          <div className="avocatForm2">
+            <div className="prestataire">
+              <div className="formGroup">
+                <label htmlFor="name">Nom*:</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="formGroup">
+                <label htmlFor="prenom">Prénom*:</label>
+                <input
+                  type="text"
+                  id="prenom"
+                  value={prenom}
+                  onChange={(e) => setPrenom(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="formGroup">
+                <label htmlFor="etude">Etude/Société tierce*:</label>
+                <input
+                  type="text"
+                  id="etude"
+                  value={etude}
+                  onChange={(e) => setEtude(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="formGroup">
+                <label htmlFor="email">Email*:</label>
+                <input
+                  type="text"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <div className="formGroup">
-              <label htmlFor="prenom">Prénom:</label>
-              <input
-                type="text"
-                id="prenom"
-                value={prenom}
-                onChange={(e) => setPrenom(e.target.value)}
-              />
-            </div>
+            <div className="prestataire">
+              <div className="formGroup">
+                <label htmlFor="titrePro">Titre Professionnel*:</label>
+                <input
+                  type="text"
+                  id="titrePro"
+                  value={titrePro}
+                  onChange={(e) => setTitrePro(e.target.value)}
+                  required
+                />
+              </div>
 
-            <div className="formGroup">
-              <label htmlFor="etude">Etude/Société tierce:</label>
-              <input
-                type="text"
-                id="etude"
-                value={etude}
-                onChange={(e) => setEtude(e.target.value)}
-              />
-            </div>
+              <div className="formGroup">
+                <label htmlFor="formationExp">
+                  Formation et expérience professionnelle:
+                </label>
+                <input
+                  type="text"
+                  id="formationExp"
+                  value={formationExp}
+                  onChange={(e) => setFormationExp(e.target.value)}
+                />
+              </div>
 
-            <div className="formGroup">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div className="formGroup">
+                <label htmlFor="autreInfo">Autre informations:</label>
+                <textarea
+                  id="autreInfo"
+                  value={autresInfo}
+                  onChange={(e) => setAutresInfo(e.target.value)}
+                />
+              </div>
             </div>
           </div>
-
-          <div className="prestataire">
-            <div className="formGroup">
-              <label htmlFor="titrePro">Titre Professionnel*:</label>
-              <input
-                type="text"
-                id="titrePro"
-                value={titrePro}
-                onChange={(e) => setTitrePro(e.target.value)}
-              />
-            </div>
-
-            <div className="formGroup">
-              <label htmlFor="formationExp">
-                Formation et expérience professionnelle:
-              </label>
-              <input
-                type="text"
-                id="formationExp"
-                value={formationExp}
-                onChange={(e) => setFormationExp(e.target.value)}
-              />
-            </div>
-
-            <div className="formGroup">
-              <label htmlFor="autreInfo">Autre informations:</label>
-              <textarea id="autreInfo"  value={autresInfo}
-                onChange={(e) => setAutresInfo(e.target.value)} />
-            </div>
-          </div>
-          </div>
-    
 
           <button className="addButton" type="submit">
             Ajouter
           </button>
         </form>
-
-        <table className="tavleInfo">
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Email</th>
-              <th>Etude/Société</th>
-              <th>Titre Professionnel</th>
-              <th>Formation et expérience</th>
-              <th>Autres informations</th>
-              <th>Choix</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Prestataires.map((Prestataire, index) => (
-              <tr key={index}>
-                <td>{Prestataire.name}</td>
-                <td>{Prestataire.prenom}</td>
-                <td>{Prestataire.email}</td>
-                <td>{Prestataire.etude}</td>
-                <td>{Prestataire.titrePro}</td>
-                <td>{Prestataire.formationExp}</td>
-                <td>{Prestataire.autresInfo}</td>
-                <td>{Prestataire.choix}</td>
+        <div className="tablediv">
+          <table className="tavleInfo">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Etude/Société</th>
+                <th>Titre Professionnel</th>
+                <th>Formation et expérience</th>
+                <th>Autres informations</th>
+                <th>Choix</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {Prestataires.map((Prestataire, index) => (
+                <tr key={index}>
+                  <td>{Prestataire.name}</td>
+                  <td>{Prestataire.prenom}</td>
+                  <td>{Prestataire.email}</td>
+                  <td>{Prestataire.etude}</td>
+                  <td>{Prestataire.titrePro}</td>
+                  <td>{Prestataire.formationExp}</td>
+                  <td>{Prestataire.autresInfo}</td>
+                  <td>{Prestataire.choix}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
