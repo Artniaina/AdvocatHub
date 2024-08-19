@@ -80,6 +80,11 @@
   margin-left: 90%;
   margin-top: 16px;
 }
+.clientLink{
+  display: flex;
+  gap: 20px;
+  
+}
 
 .tavleInfo {
   width: 100%;

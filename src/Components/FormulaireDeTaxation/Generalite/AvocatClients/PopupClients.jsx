@@ -286,7 +286,7 @@ const PopupClients = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="formGroup" style={{ display: "flex" }}>
+          <div className="formGroup clientLink" style={{ display: "flex" }}>
             <div className="p">
               <div>
                 <label htmlFor="countrySelect">Téléphone :</label>
@@ -315,16 +315,16 @@ const PopupClients = ({ onClose }) => {
                 className="modifInput"
               />
             </div>
-          </div>
-
-          <div className="formGroup">
-            <label htmlFor="email">Email:</label>
+            <div className="formGroup">
+            <label htmlFor="email">Email*:</label>
             <input
               type="text"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
+          </div>
           </div>
 
           <button className="addButton" type="submit">
