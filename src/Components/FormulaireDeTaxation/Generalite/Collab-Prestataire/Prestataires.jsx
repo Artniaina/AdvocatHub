@@ -2,15 +2,22 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
+import PopupPrestataires from "./PopUpPresta";
 const Prestataires = () => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [etude, setEtude] = useState("");
-  const [adresseEtude, setAdresseEtude] = useState("");
-  const [dateAssermentation, setDateAssermentation] = useState("");
-  const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
-  
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleShowPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Hello");
@@ -30,7 +37,7 @@ const Prestataires = () => {
           <select id="client" style={{ width: "23vw" }}>
             <option value=""></option>
           </select>
-          <div className="btnAdd">
+          <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
         </div>
@@ -103,6 +110,8 @@ const Prestataires = () => {
           />
         </div>
       </form>
+      {showPopup && <PopupPrestataires onClose={handleClosePopup} />}
+
     </div>
   );
 };

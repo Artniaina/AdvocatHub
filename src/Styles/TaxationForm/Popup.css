@@ -67,7 +67,7 @@
 .close-button:hover {
   color: #ca9292;
 }
-.popupTax button {
+.popupTax .addButton {
   display: flex;
   justify-content: end;
   padding: 18px;

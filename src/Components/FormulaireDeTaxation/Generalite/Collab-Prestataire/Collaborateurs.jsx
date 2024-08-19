@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
+import PopupCollaborateurs from "./PopUpCollab";
+
 
 const Collaborateurs = () => {
   const [name, setName] = useState("");
@@ -11,11 +13,20 @@ const Collaborateurs = () => {
   const [dateAssermentation, setDateAssermentation] = useState("");
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
-  
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleShowPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Hello");
-  };
+  }; 
 
   return (
     <div>
@@ -32,7 +43,7 @@ const Collaborateurs = () => {
           <select id="client" style={{ width: "24vw" }}>
             <option value=""></option>
           </select>
-          <div className="btnAdd">
+          <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
         </div>
@@ -123,6 +134,8 @@ const Collaborateurs = () => {
           </label>
         </div>
       </form>
+      {showPopup && <PopupCollaborateurs onClose={handleClosePopup} />}
+
     </div>
   );
 };

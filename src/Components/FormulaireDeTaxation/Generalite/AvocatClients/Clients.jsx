@@ -15,7 +15,7 @@ const Clients = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Hello");
-  };
+  }; 
 
   const handleShowPopup = () => {
     setShowPopup(true);

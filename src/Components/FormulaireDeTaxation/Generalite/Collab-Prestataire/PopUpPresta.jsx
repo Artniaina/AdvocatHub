@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 
-const PopupClients = ({ onClose }) => {
+const PopupPrestataires = ({ onClose }) => {
   const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
   const [name, setName] = useState("");
@@ -269,4 +269,4 @@ const PopupClients = ({ onClose }) => {
   );
 };
 
-export default PopupClients;
+export default PopupPrestataires;
