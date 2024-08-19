@@ -5,7 +5,6 @@ import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { useSelector } from "react-redux";
 
-
 const PopupClients = ({ onClose }) => {
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
 
@@ -287,36 +286,35 @@ const PopupClients = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="formGroup">
-            <p>
-              Téléphone mobile:
-              <div className="p">
-                <div>
-                  <select
-                    name="pays"
-                    value={selectedCountry}
-                    onChange={handleCountryCodeChange}
-                  >
-                    {countryCodes.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.name} ({country.code})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    value={`${selectedCountry} ${formatPhoneNumber(
-                      phoneNumber
-                    )}`}
-                    onChange={handlePhoneNumberChange}
-                    placeholder="Numéro de téléphone"
-                    className="modifInput"
-                  />
-                </div>
+          <div className="formGroup" style={{ display: "flex" }}>
+            <div className="p">
+              <div>
+                <label htmlFor="countrySelect">Téléphone :</label>
+                <select
+                  id="countrySelect"
+                  name="pays"
+                  value={selectedCountry}
+                  onChange={handleCountryCodeChange}
+                >
+                  {countryCodes.map((country) => (
+                    <option key={country.code} value={country.code}>
+                      {country.name} ({country.code})
+                    </option>
+                  ))}
+                </select>
               </div>
-            </p>
+            </div>
+            <div>
+              <label htmlFor="phoneNumber"></label>
+              <input
+                id="phoneNumber"
+                type="text"
+                value={`${selectedCountry} ${formatPhoneNumber(phoneNumber)}`}
+                onChange={handlePhoneNumberChange}
+                placeholder="Numéro de téléphone"
+                className="modifInput"
+              />
+            </div>
           </div>
 
           <div className="formGroup">
