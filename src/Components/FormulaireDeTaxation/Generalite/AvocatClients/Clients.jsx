@@ -2,16 +2,27 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
 import { IoAddCircle } from "react-icons/io5";
+import PopupClients from "./PopupClients";
 
 const Clients = () => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Hello");
+  };
+
+  const handleShowPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -31,17 +42,17 @@ const Clients = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="avocatForm">
-      <div className="clientsForm">
-      <label style={{ display: "inline" }} htmlFor="client">
-        Client(s):*{" "}
-      </label>
-      <select id="client">
-        <option value=""></option>
-      </select>
-      <div className="btnAdd">
-        <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
-      </div>
-    </div>
+        <div className="clientsForm">
+          <label style={{ display: "inline" }} htmlFor="client">
+            Client(s):*{" "}
+          </label>
+          <select id="client">
+            <option value=""></option>
+          </select>
+          <div className="btnAdd" onClick={handleShowPopup}>
+            <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
+          </div>
+        </div>
 
         <div className="radio-group">
           <label>
@@ -123,7 +134,6 @@ const Clients = () => {
           </div>
         </div>
 
-
         <div className="two">
           <div className="formGroup ">
             <label htmlFor="telephone">Téléphone:</label>
@@ -136,6 +146,8 @@ const Clients = () => {
           </div>
         </div>
       </form>
+
+      {showPopup && <PopupClients onClose={handleClosePopup} />}
     </div>
   );
 };

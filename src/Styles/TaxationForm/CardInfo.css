@@ -116,21 +116,22 @@
 }
 .three {
   display: flex;
-  align-items: start;
-  justify-content: start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 96%;
+  gap:30px;
 }
-.three input {
-  width: max-content;
-}
-.three #rue {
-  width: 15.8vw;
-}
-.three .two {
-  width: max-content;
-}
+
 .three .formGroup {
-  margin: 2px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
+.three .formGroup input
+{
+  width:100%;
+}
+
 .two {
   display: flex;
 }
