@@ -19,6 +19,9 @@ const PopupClients = ({ onClose }) => {
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
   const [clients, setClients] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  const [filters, setFilters] = useState({});
+  const [filterActive, setFilterActive] = useState(null);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -60,6 +63,44 @@ const PopupClients = ({ onClose }) => {
     setPays("");
     setTelephone("");
     setEmail("");
+  };
+  const sortedClients = React.useMemo(() => {
+    let sortableClients = [...clients];
+    if (sortConfig !== null) {
+      sortableClients.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableClients.filter(client => {
+      return Object.keys(filters).every(key => {
+        return client[key]?.toLowerCase().includes(filters[key].toLowerCase());
+      });
+    });
+  }, [clients, sortConfig, filters]);
+
+  const requestSort = key => {
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const handleFilterChange = (e, key) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: e.target.value
+    }));
+  };
+
+  const handleFilterClick = (key) => {
+    setFilterActive(key);
   };
 
   return (
@@ -238,146 +279,47 @@ const PopupClients = ({ onClose }) => {
             Ajouter
           </button>
         </form>
-
         <table className="tavleInfo">
-          <thead>
+          <th>
             <tr>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Type
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Dénomination
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Nom
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Prénom
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Numéro voie
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Rue
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                CP
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Localité
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                BP
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Localité BP
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Pays
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Téléphone
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
-              <th>
-                <span className="sort-icon">
-                  <PiCaretUpDownFill />
-                </span>
-                Email
-                <span className="filter-btn">
-                  <FaFilter />
-                </span>
-              </th>
+              {["selectedOption", "denomination", "name", "prenom", "numVoie", "rue", "cp", "localite", "bp", "localitebp", "pays", "telephone", "email"].map((key) => (
+                <th key={key} onClick={() => requestSort(key)}>
+                  <span className="sort-icon">
+                    <PiCaretUpDownFill />
+                  </span>
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                  <span className="filter-btn" onClick={() => handleFilterClick(key)}>
+                    <FaFilter />
+                  </span>
+                  {filterActive === key && (
+                    <input
+                      type="text"
+                      placeholder={`Filter by ${key}`}
+                      value={filters[key] || ''}
+                      onChange={(e) => handleFilterChange(e, key)}
+                    />
+                  )}
+                </th>
+              ))}
             </tr>
-          </thead>
+          </th>
 
           <tbody>
-            {clients.map((client, index) => (
+            {sortedClients.map((client, index) => (
               <tr key={index}>
-                <td>{client.selectedOption} </td>
-                <td>{client.denomination} </td>
-                <td>{client.name} </td>
-                <td>{client.prenom} </td>
-                <td>{client.numVoie} </td>
-                <td>{client.rue} </td>
-                <td>{client.cp} </td>
-                <td>{client.localite} </td>
-                <td>{client.bp} </td>
-                <td>{client.localitebp} </td>
-                <td>{client.pays} </td>
-                <td>{client.telephone} </td>
-                <td>{client.email} </td>
+                <td>{client.selectedOption}</td>
+                <td>{client.denomination}</td>
+                <td>{client.name}</td>
+                <td>{client.prenom}</td>
+                <td>{client.numVoie}</td>
+                <td>{client.rue}</td>
+                <td>{client.cp}</td>
+                <td>{client.localite}</td>
+                <td>{client.bp}</td>
+                <td>{client.localitebp}</td>
+                <td>{client.pays}</td>
+                <td>{client.telephone}</td>
+                <td>{client.email}</td>
               </tr>
             ))}
           </tbody>
