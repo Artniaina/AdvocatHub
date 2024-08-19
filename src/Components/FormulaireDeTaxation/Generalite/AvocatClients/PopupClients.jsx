@@ -3,7 +3,7 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 
 const PopupClients = ({ onClose }) => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -21,10 +21,12 @@ const PopupClients = ({ onClose }) => {
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
+  const disabledInputStyle = {
+    backgroundColor: '#d3d3d3', 
+    cursor: 'not-allowed',
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add client data to the list
     setClients([...clients, {
       selectedOption,
       denomination,
@@ -40,7 +42,6 @@ const PopupClients = ({ onClose }) => {
       telephone,
       email,
     }]);
-    // Clear form fields
     setSelectedOption("");
     setDenomination("");
     setName("");
@@ -61,7 +62,7 @@ const PopupClients = ({ onClose }) => {
       <div className="popupTax">
         <div className="titleCard">
           CLIENT(S)
-          <button className="close-btn" onClick={onClose}>
+          <button className="close-button" style={{marginTop:"-5px"}} onClick={onClose}>
             &times;
           </button>
         </div>
@@ -93,69 +94,132 @@ const PopupClients = ({ onClose }) => {
             <label htmlFor="denomination">
               Denomination Sociale / Organe reprêsentatif:
             </label>
-            <input type="text" id="denomination" value={denomination} onChange={(e) => setDenomination(e.target.value)} />
+            <input
+              type="text"
+              id="denomination"
+              value={denomination}
+              onChange={(e) => setDenomination(e.target.value)}
+              style={selectedOption === "Particulier" ? disabledInputStyle : {}}
+              disabled={selectedOption === "Particulier"} 
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="name">Nom:</label>
-            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="prenom">Prénom:</label>
-            <input type="text" id="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+            <input
+              type="text"
+              id="prenom"
+              value={prenom}
+              onChange={(e) => setPrenom(e.target.value)}
+            />
           </div>
 
           <div className="three">
             <div className="formGroup">
-              <label htmlFor="numVoie"> Numéro voie:</label>
-              <input type="text" id="numVoie" value={numVoie} onChange={(e) => setNumVoie(e.target.value)} />
+              <label htmlFor="numVoie">Numéro voie:</label>
+              <input
+                type="text"
+                id="numVoie"
+                value={numVoie}
+                onChange={(e) => setNumVoie(e.target.value)}
+              />
             </div>
 
             <div className="formGroup">
-              <label htmlFor="rue"> Rue:</label>
-              <input className="two" type="text" id="rue" value={rue} onChange={(e) => setRue(e.target.value)} />
+              <label htmlFor="rue">Rue:</label>
+              <input
+                className="two"
+                type="text"
+                id="rue"
+                value={rue}
+                onChange={(e) => setRue(e.target.value)}
+              />
             </div>
 
             <div className="formGroup">
-              <label htmlFor="cp"> CP:</label>
-              <input type="text" id="cp" value={cp} onChange={(e) => setCp(e.target.value)} />
+              <label htmlFor="cp">CP:</label>
+              <input
+                type="text"
+                id="cp"
+                value={cp}
+                onChange={(e) => setCp(e.target.value)}
+              />
             </div>
           </div>
 
           <div className="two">
-            <div className="formGroup ">
+            <div className="formGroup">
               <label htmlFor="localite">Localité:</label>
-              <input type="text" id="localite" value={localite} onChange={(e) => setLocalite(e.target.value)} />
+              <input
+                type="text"
+                id="localite"
+                value={localite}
+                onChange={(e) => setLocalite(e.target.value)}
+              />
             </div>
 
             <div className="formGroup">
               <label htmlFor="bp">BP:</label>
-              <input type="text" id="bp" value={bp} onChange={(e) => setBp(e.target.value)} />
+              <input
+                type="text"
+                id="bp"
+                value={bp}
+                onChange={(e) => setBp(e.target.value)}
+              />
             </div>
           </div>
 
           <div className="two">
-            <div className="formGroup ">
+            <div className="formGroup">
               <label htmlFor="localitebp">Localité BP:</label>
-              <input type="text" id="localitebp" value={localitebp} onChange={(e) => setLocalitebp(e.target.value)} />
+              <input
+                type="text"
+                id="localitebp"
+                value={localitebp}
+                onChange={(e) => setLocalitebp(e.target.value)}
+              />
             </div>
 
             <div className="formGroup">
               <label htmlFor="pays">Pays:</label>
-              <input type="text" id="pays" value={pays} onChange={(e) => setPays(e.target.value)} />
+              <input
+                type="text"
+                id="pays"
+                value={pays}
+                onChange={(e) => setPays(e.target.value)}
+              />
             </div>
           </div>
 
           <div className="two">
-            <div className="formGroup ">
+            <div className="formGroup">
               <label htmlFor="telephone">Téléphone:</label>
-              <input type="text" id="telephone" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
+              <input
+                type="text"
+                id="telephone"
+                value={telephone}
+                onChange={(e) => setTelephone(e.target.value)}
+              />
             </div>
 
             <div className="formGroup">
               <label htmlFor="email">Email:</label>
-              <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="text"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
           </div>
 
