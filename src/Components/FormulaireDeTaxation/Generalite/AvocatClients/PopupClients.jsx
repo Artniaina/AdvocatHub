@@ -3,8 +3,12 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
+import { useSelector } from "react-redux";
+
 
 const PopupClients = ({ onClose }) => {
+  const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
+
   const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
   const [name, setName] = useState("");
@@ -16,12 +20,38 @@ const PopupClients = ({ onClose }) => {
   const [bp, setBp] = useState("");
   const [localitebp, setLocalitebp] = useState("");
   const [pays, setPays] = useState("");
-  const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
   const [clients, setClients] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
   const [filters, setFilters] = useState({});
   const [filterActive, setFilterActive] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const [selectedCountry, setSelectedCountry] = useState("+261");
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountry(e.target.value);
+  };
+  const formatPhoneNumber = (number) => {
+    number = number.replace(/\D/g, "");
+
+    const formattedNumber = number.replace(
+      /^(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})$/,
+      "+$1 $2 $3 $4 $5"
+    );
+
+    return formattedNumber;
+  };
+
+  const handlePhoneNumberChange = (event) => {
+    const inputNumber = event.target.value.replace(selectedCountry, "").trim();
+    const formattedNumber = formatPhoneNumber(inputNumber);
+    setPhoneNumber(formattedNumber);
+  };
+
+  const [telephone, setTelephone] = useState("");
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -69,33 +99,37 @@ const PopupClients = ({ onClose }) => {
     if (sortConfig !== null) {
       sortableClients.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
+          return sortConfig.direction === "ascending" ? -1 : 1;
         }
         if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
+          return sortConfig.direction === "ascending" ? 1 : -1;
         }
         return 0;
       });
     }
-    return sortableClients.filter(client => {
-      return Object.keys(filters).every(key => {
+    return sortableClients.filter((client) => {
+      return Object.keys(filters).every((key) => {
         return client[key]?.toLowerCase().includes(filters[key].toLowerCase());
       });
     });
   }, [clients, sortConfig, filters]);
 
-  const requestSort = key => {
-    let direction = 'ascending';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+  const requestSort = (key) => {
+    let direction = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
     }
     setSortConfig({ key, direction });
   };
 
   const handleFilterChange = (e, key) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [key]: e.target.value
+      [key]: e.target.value,
     }));
   };
 
@@ -253,26 +287,46 @@ const PopupClients = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="two">
-            <div className="formGroup">
-              <label htmlFor="telephone">Téléphone:</label>
-              <input
-                type="text"
-                id="telephone"
-                value={telephone}
-                onChange={(e) => setTelephone(e.target.value)}
-              />
-            </div>
+          <div className="formGroup">
+            <p>
+              Téléphone mobile:
+              <div className="p">
+                <div>
+                  <select
+                    name="pays"
+                    value={selectedCountry}
+                    onChange={handleCountryCodeChange}
+                  >
+                    {countryCodes.map((country) => (
+                      <option key={country.code} value={country.code}>
+                        {country.name} ({country.code})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={`${selectedCountry} ${formatPhoneNumber(
+                      phoneNumber
+                    )}`}
+                    onChange={handlePhoneNumberChange}
+                    placeholder="Numéro de téléphone"
+                    className="modifInput"
+                  />
+                </div>
+              </div>
+            </p>
+          </div>
 
-            <div className="formGroup">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+          <div className="formGroup">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="text"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
           <button className="addButton" type="submit">
@@ -280,30 +334,49 @@ const PopupClients = ({ onClose }) => {
           </button>
         </form>
         <table className="tavleInfo">
-          <th>
+          <thead>
             <tr>
-              {["selectedOption", "denomination", "name", "prenom", "numVoie", "rue", "cp", "localite", "bp", "localitebp", "pays", "telephone", "email"].map((key) => (
+              {[
+                "selectedOption",
+                "denomination",
+                "name",
+                "prenom",
+                "numVoie",
+                "rue",
+                "cp",
+                "localite",
+                "bp",
+                "localitebp",
+                "pays",
+                "telephone",
+                "email",
+              ].map((key) => (
                 <th key={key} onClick={() => requestSort(key)}>
                   <span className="sort-icon">
                     <PiCaretUpDownFill />
                   </span>
                   {key.charAt(0).toUpperCase() + key.slice(1)}
-                  <span className="filter-btn" onClick={() => handleFilterClick(key)}>
+                  <span
+                    className="filter-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClick(key);
+                    }}
+                  >
                     <FaFilter />
                   </span>
                   {filterActive === key && (
                     <input
                       type="text"
                       placeholder={`Filter by ${key}`}
-                      value={filters[key] || ''}
+                      value={filters[key] || ""}
                       onChange={(e) => handleFilterChange(e, key)}
                     />
                   )}
                 </th>
               ))}
             </tr>
-          </th>
-
+          </thead>
           <tbody>
             {sortedClients.map((client, index) => (
               <tr key={index}>
