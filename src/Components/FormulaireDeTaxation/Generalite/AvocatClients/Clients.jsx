@@ -48,7 +48,7 @@ const Clients = () => {
           </label>
           <select id="client">
             <option value=""></option>
-          </select>
+          </select> 
           <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>

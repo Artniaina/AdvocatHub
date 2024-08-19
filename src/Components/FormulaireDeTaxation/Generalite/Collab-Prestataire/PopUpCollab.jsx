@@ -61,7 +61,7 @@ const PopupCollaborateurs = ({ onClose }) => {
     <div className="overlay">
       <div className="popupTax">
         <div className="titleCard">
-          CLIENT(S)
+          COLLABORATEUR(S)
           <button className="close-button" style={{marginTop:"-5px"}} onClick={onClose}>
             &times;
           </button>

@@ -106,7 +106,7 @@ const Affaire = () => {
           client ?
         </label>
         <textarea className="textarea" id="nomAffaire" />
-      </div>
+      </div> 
 
       <div className="formGroupbtn">
         <div className="toggleButtons">

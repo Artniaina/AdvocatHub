@@ -1,5 +1,4 @@
-
-.cardGeneralité .mainTitle {
+ .cardGeneralité .mainTitle {
   background-color: #611c61;
   position: absolute;
   width: 95.5%;
@@ -260,4 +259,12 @@ legend {
   border: 1px solid grey;
   border-radius: 8px;
   background-color: #ffff;
+}
+.popupTax .avocatForm {
+  display: flex;
+  justify-content: space-between;
+}
+
+.prestataire  .formGroup input,.prestataire  .formGroup textarea{
+  width: 45vw;
 }

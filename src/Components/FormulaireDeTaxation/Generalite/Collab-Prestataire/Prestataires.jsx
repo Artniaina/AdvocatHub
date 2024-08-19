@@ -71,7 +71,7 @@ const Prestataires = () => {
             value={etude}
             onChange={(e) => setEtude(e.target.value)}
             readOnly
-          />
+          /> 
         </div>
 
         <div className="formGroup">
