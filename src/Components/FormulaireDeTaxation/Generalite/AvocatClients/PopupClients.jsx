@@ -28,7 +28,6 @@ const PopupClients = ({ onClose, onSelectClient }) => {
   const [filterActive, setFilterActive] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
@@ -69,8 +68,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
         bp,
         localitebp,
         pays,
-        selectedCountry,
-        phoneNumber,
+        contactInfo: `${selectedCountry} ${phoneNumber}`,
         email,
       },
     ]);
@@ -91,11 +89,9 @@ const PopupClients = ({ onClose, onSelectClient }) => {
   };
 
   const handleClientSelection = () => {
-    const selectedClients = [
-      clients
-    ];
+    const selectedClients = [clients];
 
-    onSelectClient(selectedClients); 
+    onSelectClient(selectedClients);
   };
 
   const sortedClients = React.useMemo(() => {
@@ -435,7 +431,6 @@ const PopupClients = ({ onClose, onSelectClient }) => {
             </tbody>
           </table>
           <button onClick={handleClientSelection}>Select Client</button>
-
         </div>
       </div>
     </div>
