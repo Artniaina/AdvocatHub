@@ -33,24 +33,12 @@ const PopupClients = ({ onClose }) => {
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
   };
-  const formatPhoneNumber = (number) => {
-    number = number.replace(/\D/g, "");
-
-    const formattedNumber = number.replace(
-      /^(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})$/,
-      "+$1 $2 $3 $4 $5"
-    );
-
-    return formattedNumber;
-  };
 
   const handlePhoneNumberChange = (event) => {
     const inputNumber = event.target.value.replace(selectedCountry, "").trim();
-    const formattedNumber = formatPhoneNumber(inputNumber);
-    setPhoneNumber(formattedNumber);
-  };
 
-  const [telephone, setTelephone] = useState("");
+    setPhoneNumber(inputNumber);
+  };
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -75,7 +63,8 @@ const PopupClients = ({ onClose }) => {
         bp,
         localitebp,
         pays,
-        telephone,
+        selectedCountry,
+        phoneNumber,
         email,
       },
     ]);
@@ -90,7 +79,8 @@ const PopupClients = ({ onClose }) => {
     setBp("");
     setLocalitebp("");
     setPays("");
-    setTelephone("");
+    setSelectedCountry(selectedCountry);
+    setPhoneNumber("");
     setEmail("");
   };
   const sortedClients = React.useMemo(() => {
@@ -286,115 +276,144 @@ const PopupClients = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="formGroup clientLink" style={{ display: "flex" }}>
-            <div className="p">
-              <div>
-                <label htmlFor="countrySelect">Téléphone :</label>
-                <select
-                  id="countrySelect"
-                  name="pays"
-                  value={selectedCountry}
-                  onChange={handleCountryCodeChange}
-                >
-                  {countryCodes.map((country) => (
-                    <option key={country.code} value={country.code}>
-                      {country.name} ({country.code})
-                    </option>
-                  ))}
-                </select>
-              </div>
+          <div className="formGroup three" style={{ margin: "0 0 0 -8px" }}>
+            <div
+              className="formGroup"
+              style={{
+                width: "100%",
+                padding: "8px 0px 8px 10px",
+              }}
+            >
+              <label htmlFor="countrySelect">Téléphone :</label>
+              <select
+                id="countrySelect"
+                name="pays"
+                value={selectedCountry}
+                onChange={handleCountryCodeChange}
+              >
+                {countryCodes.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name} ({country.code})
+                  </option>
+                ))}
+              </select>
             </div>
-            <div>
+
+            <div
+              className="formGroup"
+              style={{
+                width: "100%",
+                padding: "6px 10px 10px 1px",
+                marginTop: "28px",
+              }}
+            >
               <label htmlFor="phoneNumber"></label>
               <input
                 id="phoneNumber"
                 type="text"
-                value={`${selectedCountry} ${formatPhoneNumber(phoneNumber)}`}
+                value={`${selectedCountry} ${phoneNumber}`}
                 onChange={handlePhoneNumberChange}
                 placeholder="Numéro de téléphone"
                 className="modifInput"
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d\s]/g, "");
+                }}
               />
             </div>
-            <div className="formGroup">
-            <label htmlFor="email">Email*:</label>
-            <input
-              type="text"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+            <div
+              className="formGroup"
+              style={{
+                padding: "6px 10px 10px 1px",
+                marginTop: "10px",
+              }}
+            >
+              <label htmlFor="email">Email*:</label>
+              <input
+                type="text"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           <button className="addButton" type="submit">
             Ajouter
           </button>
         </form>
-        <table className="tavleInfo">
-          <thead>
-            <tr>
-              {[
-                "selectedOption",
-                "denomination",
-                "name",
-                "prenom",
-                "numVoie",
-                "rue",
-                "cp",
-                "localite",
-                "bp",
-                "localitebp",
-                "pays",
-                "telephone",
-                "email",
-              ].map((key) => (
-                <th key={key} onClick={() => requestSort(key)}>
-                  <span className="sort-icon">
-                    <PiCaretUpDownFill />
-                  </span>
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                  <span
-                    className="filter-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFilterClick(key);
-                    }}
-                  >
-                    <FaFilter />
-                  </span>
-                  {filterActive === key && (
-                    <input
-                      type="text"
-                      placeholder={`Filter by ${key}`}
-                      value={filters[key] || ""}
-                      onChange={(e) => handleFilterChange(e, key)}
-                    />
-                  )}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {sortedClients.map((client, index) => (
-              <tr key={index}>
-                <td>{client.selectedOption}</td>
-                <td>{client.denomination}</td>
-                <td>{client.name}</td>
-                <td>{client.prenom}</td>
-                <td>{client.numVoie}</td>
-                <td>{client.rue}</td>
-                <td>{client.cp}</td>
-                <td>{client.localite}</td>
-                <td>{client.bp}</td>
-                <td>{client.localitebp}</td>
-                <td>{client.pays}</td>
-                <td>{client.telephone}</td>
-                <td>{client.email}</td>
+        <div className="table-container">
+          <table className="tavleInfo">
+            <thead>
+              <tr>
+                {[
+                  "selectedOption",
+                  "denomination",
+                  "name",
+                  "prenom",
+                  "numVoie",
+                  "rue",
+                  "cp",
+                  "localite",
+                  "bp",
+                  "localitebp",
+                  "pays",
+                  "telephone",
+                  "email",
+                ].map((key) => (
+                  <th key={key} onClick={() => requestSort(key)}>
+                    <span className="sort-icon">
+                      <PiCaretUpDownFill />
+                    </span>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                    <span
+                      className="filter-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFilterClick(key);
+                      }}
+                    >
+                      <FaFilter />
+                    </span>
+                    {filterActive === key && (
+                      <input
+                        type="text"
+                        placeholder={`Filter by ${key}`}
+                        value={filters[key] || ""}
+                        onChange={(e) => handleFilterChange(e, key)}
+                      />
+                    )}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sortedClients.map((client, index) => (
+                <tr key={index}>
+                  <td>{client.selectedOption}</td>
+                  <td>{client.denomination}</td>
+                  <td>{client.name}</td>
+                  <td>{client.prenom}</td>
+                  <td>{client.numVoie}</td>
+                  <td>{client.rue}</td>
+                  <td>{client.cp}</td>
+                  <td>{client.localite}</td>
+                  <td>{client.bp}</td>
+                  <td>{client.localitebp}</td>
+                  <td>{client.pays}</td>
+                  <td>{client.selectedCountry + client.phoneNumber}</td>
+                  <td>{client.email}</td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan="13"></td>
+              </tr>
+              <tr>
+                <td colSpan="13"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

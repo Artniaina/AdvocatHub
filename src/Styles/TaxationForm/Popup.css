@@ -17,6 +17,18 @@
   min-height: 95%;
   margin: 10px;
   border-radius: 10px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+.popupTax select{
+ border: 1px solid  gray;
+ margin: 0 0 -8px 0;
+ border-radius: 8px;
+padding: 12px;
+width: 15vw;
+color: grey
+
 }
 .popupTax .titleCard{
   font-size: 25px;
@@ -46,10 +58,10 @@
 }
 
 .popupTax .two .formGroup input {
-  width: 44.3vw;
+  width: 43.7vw;
   margin: 2px;
 }
-.popupTax .three .formGroup input {
+.popupTax .three .formGroup input ,.popupTax .three .formGroup select{
   width: 96%;
 }
 .close-button {
@@ -86,6 +98,11 @@
   
 }
 
+.table-container {
+  width: 96%;
+  overflow-x: auto;
+}
+
 .tavleInfo {
   width: 100%;
   border-collapse: collapse;
@@ -97,6 +114,7 @@
   border: 2px solid #dddddd;
   padding: 10px;
   text-align: center;
+  white-space: nowrap; 
 }
 
 .tavleInfo th {
