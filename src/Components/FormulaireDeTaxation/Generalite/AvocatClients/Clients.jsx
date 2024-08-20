@@ -199,7 +199,7 @@ const Clients = () => {
               <input
                 type="text"
                 id="telephone"
-                value={firstClient.telephone || ''}
+                value={firstClient.contactInfo || ''}
                 readOnly
               />
             </div>

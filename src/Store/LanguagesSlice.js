@@ -18,7 +18,7 @@ const languagesSlice = createSlice({
     langues: [],
     status: 'idle',
     error: null,
-  },
+  },  
   reducers: {},
   extraReducers: (builder) => {
     builder

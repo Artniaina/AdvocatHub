@@ -27,7 +27,7 @@ export const fetchEtudeInfo = createAsyncThunk(
     }
     return (await response.json())[0];
   }
-);
+); 
 
 const avocatSlice = createSlice({
   name: 'avocat',

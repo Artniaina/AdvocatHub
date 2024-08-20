@@ -18,7 +18,7 @@ const activitySlice = createSlice({
     activities: [],
     status: 'idle',
     error: null,
-  },
+  }, 
   reducers: {},
   extraReducers: (builder) => {
     builder
