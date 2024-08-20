@@ -50,6 +50,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
 
   const handleSubmitData = () => {
     console.log("Données à envoyer:", clients);
+    onSelectClient(clients);
   };
 
   const handleSubmitTable = (e) => {
@@ -88,6 +89,15 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     setPhoneNumber("");
     setEmail("");
   };
+
+  const handleClientSelection = () => {
+    const selectedClients = [
+      clients
+    ];
+
+    onSelectClient(selectedClients); 
+  };
+
   const sortedClients = React.useMemo(() => {
     let sortableClients = [...clients];
     if (sortConfig !== null) {
@@ -130,7 +140,6 @@ const PopupClients = ({ onClose, onSelectClient }) => {
   const handleFilterClick = (key) => {
     setFilterActive(key);
   };
-  console.log("helloooooooooo" + name);
 
   return (
     <div className="overlay">
@@ -425,10 +434,8 @@ const PopupClients = ({ onClose, onSelectClient }) => {
               </tr>
             </tbody>
           </table>
+          <button onClick={handleClientSelection}>Select Client</button>
 
-          <button onClick={handleSubmitData} className="submit-btn">
-                        Submit
-          </button>
         </div>
       </div>
     </div>

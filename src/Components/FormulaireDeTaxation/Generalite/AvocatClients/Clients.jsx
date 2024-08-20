@@ -6,14 +6,11 @@ import PopupClients from "./PopupClients";
 
 const Clients = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [clientData, setClientsData] = useState([]);
+  const [clientData, setClientData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
-  };
-
-  const handleSubmit = (e) => {
   };
 
   const handleShowPopup = () => {
@@ -23,8 +20,17 @@ const Clients = () => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-  const handleSelectClient = (clients) => {
-    setClientsData(clients);
+
+  const handleClientSelection = (data) => {
+    setClientData(data); 
+    handleClosePopup(); 
+  };
+
+    console.log(`Dans clients: ${JSON.stringify(clientData, null, 2)}`);
+
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -180,7 +186,10 @@ const Clients = () => {
         </div>
       </form>
       {showPopup && (
-        <PopupClients onClose={handleClosePopup}  onSelectClient={handleSelectClient}  />
+        <PopupClients
+          onClose={handleClosePopup}
+          onSelectClient={handleClientSelection} // Pass the callback function
+        />
       )}
     </div>
   );
