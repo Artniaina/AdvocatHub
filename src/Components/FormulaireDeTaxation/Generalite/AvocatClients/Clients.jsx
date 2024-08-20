@@ -6,16 +6,15 @@ import PopupClients from "./PopupClients";
 
 const Clients = () => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [clientData, setClientsData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-  
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Hello");
-  }; 
+  };
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -23,6 +22,9 @@ const Clients = () => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
+  };
+  const handleSelectClient = (clients) => {
+    setClientsData(clients);
   };
 
   return (
@@ -48,7 +50,7 @@ const Clients = () => {
           </label>
           <select id="client">
             <option value=""></option>
-          </select> 
+          </select>
           <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
@@ -78,76 +80,108 @@ const Clients = () => {
 
         <div className="formGroup">
           <label htmlFor="denomination">
-            Denomination Sociale / Organe reprêsentatif:
+            Denomination Sociale / Organe représentatif:
           </label>
-          <input type="text" id="denomination" readOnly />
+          <input
+            type="text"
+            id="denomination"
+            value={clientData.denomination}
+            readOnly
+          />
         </div>
 
         <div className="formGroup">
           <label htmlFor="name">Nom:</label>
-          <input type="text" id="name" readOnly />
+          <input type="text" id="name" value={clientData.name} readOnly />
         </div>
 
         <div className="formGroup">
           <label htmlFor="prenom">Prénom:</label>
-          <input type="text" id="prenom" readOnly />
+          <input type="text" id="prenom" value={clientData.prenom} readOnly />
         </div>
 
         <div className="three">
           <div className="formGroup">
             <label htmlFor="numVoie"> Numéro voie:</label>
-            <input type="text" id="numVoie" readOnly />
+            <input
+              type="text"
+              id="numVoie"
+              value={clientData.numVoie}
+              readOnly
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="rue"> Rue:</label>
-            <input className="two" type="text" id="rue" readOnly />
+            <input
+              className="two"
+              type="text"
+              id="rue"
+              value={clientData.rue}
+              readOnly
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="cp"> CP:</label>
-            <input type="text" id="cp" readOnly />
+            <input type="text" id="cp" value={clientData.cp} readOnly />
           </div>
         </div>
 
         <div className="two">
           <div className="formGroup ">
             <label htmlFor="localite">Localité:</label>
-            <input type="text" id="localite" readOnly />
+            <input
+              type="text"
+              id="localite"
+              value={clientData.localite}
+              readOnly
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="bp">BP:</label>
-            <input type="text" id="bp" readOnly />
+            <input type="text" id="bp" value={clientData.bp} readOnly />
           </div>
         </div>
 
         <div className="two">
           <div className="formGroup ">
             <label htmlFor="localitebp">Localité BP:</label>
-            <input type="text" id="localitebp" readOnly />
+            <input
+              type="text"
+              id="localitebp"
+              value={clientData.localitebp}
+              readOnly
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="pays">Pays:</label>
-            <input type="text" id="pays" readOnly />
+            <input type="text" id="pays" value={clientData.pays} readOnly />
           </div>
         </div>
 
         <div className="two">
           <div className="formGroup ">
             <label htmlFor="telephone">Téléphone:</label>
-            <input type="text" id="telephone" readOnly />
+            <input
+              type="text"
+              id="telephone"
+              value={clientData.telephone}
+              readOnly
+            />
           </div>
 
           <div className="formGroup">
             <label htmlFor="email">Email:</label>
-            <input type="text" id="email" readOnly />
+            <input type="text" id="email" value={clientData.email} readOnly />
           </div>
         </div>
       </form>
-
-      {showPopup && <PopupClients onClose={handleClosePopup} />}
+      {showPopup && (
+        <PopupClients onClose={handleClosePopup}  onSelectClient={handleSelectClient}  />
+      )}
     </div>
   );
 };

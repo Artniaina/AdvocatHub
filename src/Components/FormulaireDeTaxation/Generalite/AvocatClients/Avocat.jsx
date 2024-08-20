@@ -1,16 +1,34 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../../../../Hooks/AuthContext";
 import "../../../../Styles/TaxationForm/CardInfo.css"
 import Image from '../../../../assets/icons8-user-menu-male-40.png'
+import { fetchAvocatInfo , fetchEtudeInfo} from '../../../../Store/AvocatSlice';
 
 const Avocat = () => {
-  const [name, setName] = useState("");
-  const [prenom, setPrenom] = useState("");
-  const [etude, setEtude] = useState("");
-  const [adresseEtude, setAdresseEtude] = useState("");
-  const [dateAssermentation, setDateAssermentation] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [email, setEmail] = useState("");
-  const [societe, setSociete] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.email) {
+      dispatch(fetchAvocatInfo(`'${user.email}'`));
+    } else {
+      console.log('User or User Email is not available.');
+    }
+  }, [dispatch, user]);
+
+console.log(avocatInfo);
+
+const [name, setName] = useState(` ${avocatInfo && avocatInfo.m_sNom} `);
+const [prenom, setPrenom] = useState(` ${avocatInfo && avocatInfo.m_sPrenom} `);
+const [etude, setEtude] = useState(` ${avocatInfo && avocatInfo.m_dDateAssermentation} `);
+const [adresseEtude, setAdresseEtude] = useState(` ${avocatInfo && avocatInfo.m_dDateAssermentation} `);
+const [dateAssermentation, setDateAssermentation] = useState(` ${avocatInfo && avocatInfo.m_dDateAssermentation} `);
+const [telephone, setTelephone] = useState(` ${avocatInfo && avocatInfo.m_stelephonetri} `);
+const [email, setEmail] = useState(` ${avocatInfo && avocatInfo.m_emailbarreau} `);
 
   const handleSubmit = (e) => {
     e.preventDefault();
