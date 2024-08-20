@@ -26,10 +26,6 @@ const Clients = () => {
     handleClosePopup(); 
   };
 
-  const handleSelectClient = (clients) => {
-    setClientData(clients.flat()); 
-    setShowPopup(false);
-  };
 
   const flattenedClients = clientData.flat();
   const firstClient = flattenedClients.length > 0 ? flattenedClients[0] : {};
@@ -52,14 +48,14 @@ const Clients = () => {
         />
         CLIENT(S)
       </div>
-      {flattenedClients.length > 0 ? (
+
         <form onSubmit={handleSubmit} className="avocatForm">
           <div className="clientsForm">
             <label style={{ display: "inline" }} htmlFor="client">
               Client(s):*{" "}
             </label>
             <select id="client">
-              <option value="">{firstClient.denomination || 'Select a client'}</option>
+              <option value="">{firstClient.name +' '+ firstClient.prenom || ''}</option>
             </select>
             <div className="btnAdd" onClick={handleShowPopup}>
               <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
@@ -219,9 +215,6 @@ const Clients = () => {
             </div>
           </div>
         </form>
-      ) : (
-        <p>No clients available</p>
-      )}
 
       {showPopup && (
         <PopupClients onClose={handleClosePopup} onSelectClient={handleClientSelection} />
