@@ -49,7 +49,7 @@ const Clients = () => {
             Client(s):*{" "}
           </label>
           <select id="client">
-            <option value=""></option>
+            <option value="">{clientData.denomination}</option>
           </select>
           <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />

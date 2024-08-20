@@ -126,7 +126,7 @@ const Collaborateurs = () => {
 
         <div style={{ margin: "10px" }}>
           <input type="checkbox" id="societe" name="societe" value="societe" />
-          <label for="societe">
+          <label htmlFor="societe">
             {" "}
             <strong style={{ color: "#595b69", fontSize: "18px" }}>
               Inscrit

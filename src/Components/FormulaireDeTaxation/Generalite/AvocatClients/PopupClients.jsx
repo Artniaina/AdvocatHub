@@ -5,9 +5,8 @@ import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { useSelector } from "react-redux";
 
-const PopupClients = ({ onClose,onSelectClient  }) => {
+const PopupClients = ({ onClose, onSelectClient }) => {
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
-
   const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
   const [name, setName] = useState("");
@@ -29,6 +28,7 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
   const [filterActive, setFilterActive] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
 
+
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
@@ -49,19 +49,14 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
   };
 
   const handleSubmitData = () => {
-    if (onSelectClient) {
-      onSelectClient(clients); 
-      console.log(clients);
-      
-    }
+    console.log("Données à envoyer:", clients);
   };
-  
+
   const handleSubmitTable = (e) => {
     e.preventDefault();
     setClients([
       ...clients,
       {
-        id: Date.now(),
         selectedOption,
         denomination,
         name,
@@ -92,7 +87,6 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
     setSelectedCountry(selectedCountry);
     setPhoneNumber("");
     setEmail("");
-  
   };
   const sortedClients = React.useMemo(() => {
     let sortableClients = [...clients];
@@ -136,6 +130,7 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
   const handleFilterClick = (key) => {
     setFilterActive(key);
   };
+  console.log("helloooooooooo" + name);
 
   return (
     <div className="overlay">
@@ -302,8 +297,8 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
                 value={selectedCountry}
                 onChange={handleCountryCodeChange}
               >
-                {countryCodes.map((country) => (
-                  <option key={country.code} value={country.code}>
+                {countryCodes.map((country, index) => (
+                  <option key={`${country.code}-${index}`} value={country.code}>
                     {country.name} ({country.code})
                   </option>
                 ))}
@@ -327,10 +322,14 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
                 placeholder="Numéro de téléphone"
                 className="modifInput"
                 onKeyDown={(e) => {
-                  if (!/^[0-9]$/.test(e.key) && e.key !== "Backspace" && e.key !== " ") {
+                  if (
+                    !/^[0-9]$/.test(e.key) &&
+                    e.key !== "Backspace" &&
+                    e.key !== " "
+                  ) {
                     e.preventDefault();
-                  }}
-                }
+                  }
+                }}
               />
             </div>
             <div
@@ -356,82 +355,81 @@ const PopupClients = ({ onClose,onSelectClient  }) => {
           </button>
         </form>
         <div className="table-container">
-  <table className="tavleInfo">
-    <thead>
-      <tr>
-        {[
-          "selectedOption",
-          "denomination",
-          "name",
-          "prenom",
-          "numVoie",
-          "rue",
-          "cp",
-          "localite",
-          "bp",
-          "localitebp",
-          "pays",
-          "telephone",
-          "email",
-        ].map((key) => (
-          <th key={key} onClick={() => requestSort(key)}>
-            <span className="sort-icon">
-              <PiCaretUpDownFill />
-            </span>
-            {key.charAt(0).toUpperCase() + key.slice(1)}
-            <span
-              className="filter-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFilterClick(key);
-              }}
-            >
-              <FaFilter />
-            </span>
-            {filterActive === key && (
-              <input
-                type="text"
-                placeholder={`Filter by ${key}`}
-                value={filters[key] || ""}
-                onChange={(e) => handleFilterChange(e, key)}
-              />
-            )}
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {sortedClients.map((client, index) => (
-        <tr key={index}>
-          <td>{client.selectedOption}</td>
-          <td>{client.denomination}</td>
-          <td>{client.name}</td>
-          <td>{client.prenom}</td>
-          <td>{client.numVoie}</td>
-          <td>{client.rue}</td>
-          <td>{client.cp}</td>
-          <td>{client.localite}</td>
-          <td>{client.bp}</td>
-          <td>{client.localitebp}</td>
-          <td>{client.pays}</td>
-          <td>{client.selectedCountry + client.phoneNumber}</td>
-          <td>{client.email}</td>
-        </tr>
-      ))}
-      <tr>
-        <td colSpan="13"></td>
-      </tr>
-      <tr>
-        <td colSpan="13"></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <button onClick={handleSubmitData} className="submit-btn">
-    Submit
-  </button>
-</div>
+          <table className="tavleInfo">
+            <thead>
+              <tr>
+                {[
+                  "selectedOption",
+                  "denomination",
+                  "name",
+                  "prenom",
+                  "numVoie",
+                  "rue",
+                  "cp",
+                  "localite",
+                  "bp",
+                  "localitebp",
+                  "pays",
+                  "telephone",
+                  "email",
+                ].map((key) => (
+                  <th key={key} onClick={() => requestSort(key)}>
+                    <span className="sort-icon">
+                      <PiCaretUpDownFill />
+                    </span>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                    <span
+                      className="filter-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFilterClick(key);
+                      }}
+                    >
+                      <FaFilter />
+                    </span>
+                    {filterActive === key && (
+                      <input
+                        type="text"
+                        placeholder={`Filter by ${key}`}
+                        value={filters[key] || ""}
+                        onChange={(e) => handleFilterChange(e, key)}
+                      />
+                    )}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sortedClients.map((client, index) => (
+                <tr key={index}>
+                  <td>{client.selectedOption}</td>
+                  <td>{client.denomination}</td>
+                  <td>{client.name}</td>
+                  <td>{client.prenom}</td>
+                  <td>{client.numVoie}</td>
+                  <td>{client.rue}</td>
+                  <td>{client.cp}</td>
+                  <td>{client.localite}</td>
+                  <td>{client.bp}</td>
+                  <td>{client.localitebp}</td>
+                  <td>{client.pays}</td>
+                  <td>{client.selectedCountry + client.phoneNumber}</td>
+                  <td>{client.email}</td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan="13"></td>
+              </tr>
+              <tr>
+                <td colSpan="13"></td>
+              </tr>
+            </tbody>
+          </table>
 
+          <button onClick={handleSubmitData} className="submit-btn">
+                        Submit
+          </button>
+        </div>
       </div>
     </div>
   );
