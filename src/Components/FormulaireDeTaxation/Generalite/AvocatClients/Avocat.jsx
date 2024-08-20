@@ -10,28 +10,44 @@ const Avocat = () => {
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
+  const [isSocieteChecked, setIsSocieteChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsSocieteChecked(e.target.checked);
+  };
 
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchAvocatInfo(user.email));
-      dispatch(fetchEtudeInfo(avocatInfo?.m_nidetude || ""));
-    } else {
-      console.log("User or User Email is not available.");
     }
   }, [dispatch, user]);
 
-  const [name, setName] = useState(avocatInfo?.m_sNom || "");
+  const [id, setId] = useState(avocatInfo?.m_nidetude);
+
+  useEffect(() => {
+    if (avocatInfo?.m_nidetude) {
+      dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
+    }
+  }, [dispatch, avocatInfo]);
+
+  useEffect(() => {
+    if (avocatInfo) {
+      setId(avocatInfo.m_nidetude);
+    }
+  }, [avocatInfo]);
+
+  const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
   const [prenom, setPrenom] = useState(avocatInfo?.m_sPrenom || "");
-  const [etude, setEtude] = useState(etudeInfo?.m_sDénominationEtude||"");
+  const [etude, setEtude] = useState(etudeInfo?.m_sDénominationEtude || "");
   const [adresseEtude, setAdresseEtude] = useState(
-    etudeInfo?.m_sadressecomplet||""
+    etudeInfo?.m_sadressecomplet || ""
   );
   const [dateAssermentation, setDateAssermentation] = useState(
     avocatInfo?.m_dDateAssermentation || ""
   );
   const [telephone, setTelephone] = useState(avocatInfo?.m_stelephonetri || "");
   const [email, setEmail] = useState(avocatInfo?.m_emailbarreau || "");
-  
+
   useEffect(() => {
     if (etudeInfo) {
       setEtude(etudeInfo.m_sDénominationEtude);
@@ -43,10 +59,9 @@ const Avocat = () => {
     }
   }, [etudeInfo]);
 
-
   useEffect(() => {
     if (avocatInfo) {
-      setName(avocatInfo.m_sNom);
+      setNom(avocatInfo.m_sNom);
     }
   }, [avocatInfo]);
 
@@ -72,10 +87,20 @@ const Avocat = () => {
       setEmail(avocatInfo.m_emailbarreau);
     }
   }, [avocatInfo]);
-
+  const dataToSend = {
+    nom,
+    prenom,
+    etude,
+    adresseEtude,
+    dateAssermentation,
+    telephone,
+    email,
+    isSocieteChecked
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+
+    console.log("Form submitted" + dataToSend);
   };
 
   return (
@@ -96,8 +121,8 @@ const Avocat = () => {
 
       <form onSubmit={handleSubmit} className="avocatForm">
         <div className="formGroup">
-          <label htmlFor="name">Nom:</label>
-          <input type="text" id="name" value={name} readOnly />
+          <label htmlFor="nom">Nom:</label>
+          <input type="text" id="nom" value={nom} readOnly />
         </div>
 
         <div className="formGroup">
@@ -136,7 +161,14 @@ const Avocat = () => {
         </div>
 
         <div style={{ margin: "10px" }}>
-          <input type="checkbox" id="societe" name="societe" value="societe" />
+        <input
+            type="checkbox"
+            id="societe"
+            name="societe"
+            value="societe"
+            checked={isSocieteChecked}
+            onChange={handleCheckboxChange}
+          />
           <label htmlFor="societe">
             <strong style={{ color: "#595b69", fontSize: "18px" }}>
               Société d'avocats
