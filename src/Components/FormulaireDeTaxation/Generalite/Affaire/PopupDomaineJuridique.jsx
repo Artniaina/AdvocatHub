@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../../../Styles/TaxationForm/Popup.css'; 
 
-const PopupDomaineJuridique = ({ onClose }) => {
+const PopupDomaineJuridique = ({ onClose, onSubmit }) => {
   const [selectedDomains, setSelectedDomains] = useState([]);
 
   const domains = [
@@ -27,11 +27,17 @@ const PopupDomaineJuridique = ({ onClose }) => {
     );
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(selectedDomains);
+    onClose();
+  };
+
   return (
     <div className="overlay" onClick={onClose}>
       <div className="popupDomaineJuridique" onClick={(e) => e.stopPropagation()}>
         <h2>Domaines Juridiques</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           {domains.map((domain) => (
             <div key={domain} className="domainItem">
               <label>
@@ -44,6 +50,7 @@ const PopupDomaineJuridique = ({ onClose }) => {
               </label>
             </div>
           ))}
+          <button type="submit" className="submitButton">Submit</button>
         </form>
         <button onClick={onClose} className="closeButton">Close</button>
       </div>

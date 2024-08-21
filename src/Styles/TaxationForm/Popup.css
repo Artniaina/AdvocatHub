@@ -21,20 +21,19 @@
   overflow-y: auto;
   max-height: 90vh;
 }
-.popupTax select{
- border: 1px solid  gray;
- margin: 0 0 -8px 0;
- border-radius: 8px;
-padding: 12px;
-width: 15vw;
-color: grey
-
+.popupTax select {
+  border: 1px solid gray;
+  margin: 0 0 -8px 0;
+  border-radius: 8px;
+  padding: 12px;
+  width: 15vw;
+  color: grey;
 }
-.popupTax .titleCard{
+.popupTax .titleCard {
   font-size: 25px;
   font-weight: 700;
   border-bottom: 2px solid #000000;
-  background-color: #5E1675;
+  background-color: #5e1675;
   color: #fff;
   height: 45px;
   margin: -20px 15px 23px -20px;
@@ -64,7 +63,8 @@ color: grey
   width: 43.7vw;
   margin: 2px;
 }
-.popupTax .three .formGroup input ,.popupTax .three .formGroup select{
+.popupTax .three .formGroup input,
+.popupTax .three .formGroup select {
   width: 96%;
 }
 .close-button {
@@ -95,10 +95,9 @@ color: grey
   margin-left: 90%;
   margin-top: 16px;
 }
-.clientLink{
+.clientLink {
   display: flex;
   gap: 20px;
-  
 }
 
 .table-container {
@@ -117,7 +116,7 @@ color: grey
   border: 2px solid #dddddd;
   padding: 10px;
   text-align: center;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .tavleInfo th {
@@ -147,9 +146,24 @@ color: grey
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  width: 56vw;
+  min-width: 12vw;
   z-index: 1001;
   min-height: 52vh;
 }
 
+.domainItem input[type="checkbox"] {
+  margin: 0 -286px;
+}
+.submitButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
+.submitButton:hover {
+  background-color: #0056b3;
+}

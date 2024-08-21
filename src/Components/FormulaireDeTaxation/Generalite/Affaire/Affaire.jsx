@@ -23,7 +23,15 @@ const Affaire = () => {
       setIsPopupVisible(false);
     }
   };
+  const [selectedDomains, setSelectedDomains] = useState('');
 
+  const handlePopupClose = () => {
+    setIsPopupVisible(false);
+  };
+
+  const handlePopupSubmit = (domains) => {
+    setSelectedDomains(domains.join(', '));
+  };
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -42,12 +50,15 @@ const Affaire = () => {
         onClick={() => setIsPopupVisible(!isPopupVisible)} 
         style={{ cursor: 'pointer', fontSize: '24px' }} 
       />
-      <input type="text" id="formation" />
+      <input type="text" id="formation" value={selectedDomains} readOnly />
 
       {isPopupVisible && (
         <div className="popupContainer" ref={popupRef}>
-          <PopupDomaineJuridique />
-          <button onClick={() => setIsPopupVisible(false)}>Close</button>
+          <PopupDomaineJuridique 
+            onClose={handlePopupClose} 
+            onSubmit={handlePopupSubmit} 
+          />
+          <button onClick={handlePopupClose}>Close</button>
         </div>
       )}
     </div>
