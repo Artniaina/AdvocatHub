@@ -94,6 +94,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
   const handleSubmit = () => {
     console.log("Selected Collaborator IDs to send:", selectedCollaborators);
     console.log("Selected Avocats data:", selectedAvocats);
+    onSelectCollaborators(selectedCollaborators, selectedAvocats);
     onClose();
   };
 

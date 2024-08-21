@@ -14,8 +14,6 @@ const Collaborateurs = () => {
   const [email, setEmail] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
-  const [selectedAvocats, setSelectedAvocats] = useState({});
-  const [avocats, setAvocats] = useState([]);
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -25,17 +23,17 @@ const Collaborateurs = () => {
     setShowPopup(false);
   };
 
-  const handleSelectCollaborators = (collaborators) => {
-    setSelectedCollaborators(collaborators);
 
-    setSelectedAvocats(
-      avocats.filter((avocat) => collaborators.includes(avocat.m_nIDAvocat_PP))
-    );
+  const [selectedAvocats, setSelectedAvocats] = useState([]);
+
+  const handleSelectCollaborators = (collaborators, avocatsData) => {
+    setSelectedCollaborators(collaborators);
+    setSelectedAvocats(avocatsData);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Selected IDs:", selectedCollaborators);
+    console.log("Selected Collaborator IDs:", selectedCollaborators);
     console.log("Selected Collaborators data:", selectedAvocats);
   };
 
@@ -141,7 +139,6 @@ const Collaborateurs = () => {
         <PopupCollaborateurs
           onClose={handleClosePopup}
           selectedCollaborators={selectedCollaborators}
-          selectedAvocats={selectedAvocats}
           onSelectCollaborators={handleSelectCollaborators}
         />
       )}
