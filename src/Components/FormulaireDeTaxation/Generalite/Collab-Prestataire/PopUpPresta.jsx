@@ -8,32 +8,33 @@ const PopupPrestataires = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [etude, setEtude] = useState("");
   const [titrePro, setTitrePro] = useState("");
-  const [choix, setChoix] = useState("");
+  const [choix, setChoix] = useState(""); // Added this field
   const [autresInfo, setAutresInfo] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [Prestataires, setPrestataires] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmitTable = (e) => {
     e.preventDefault();
     setPrestataires([
       ...Prestataires,
       {
-        name,
+        name, 
         prenom,
         email,
         etude,
         titrePro,
-        choix,
+        choix, // Make sure to include this field
         autresInfo,
         formationExp,
       },
     ]);
+    // Clear form fields
     setName("");
     setPrenom("");
     setEmail("");
     setEtude("");
     setTitrePro("");
-    setChoix("");
+    setChoix(""); // Clear this field
     setAutresInfo("");
     setFormationExp("");
   };
@@ -52,7 +53,7 @@ const PopupPrestataires = ({ onClose }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmitTable}>
           <div className="avocatForm2">
             <div className="prestataire">
               <div className="formGroup">
@@ -132,6 +133,16 @@ const PopupPrestataires = ({ onClose }) => {
                   onChange={(e) => setAutresInfo(e.target.value)}
                 />
               </div>
+              
+              <div className="formGroup">
+                <label htmlFor="choix">Choix:</label>
+                <input
+                  type="text"
+                  id="choix"
+                  value={choix}
+                  onChange={(e) => setChoix(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -139,6 +150,7 @@ const PopupPrestataires = ({ onClose }) => {
             Ajouter
           </button>
         </form>
+
         <div className="tablediv">
           <table className="tavleInfo">
             <thead>

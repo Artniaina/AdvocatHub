@@ -47,10 +47,6 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     cursor: "not-allowed",
   };
 
-  const handleSubmitData = () => {
-    console.log("Données à envoyer:", clients);
-    onSelectClient(clients);
-  };
 
   const handleSubmitTable = (e) => {
     e.preventDefault();
@@ -402,7 +398,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
                     )}
                   </th>
                 ))}
-              </tr>
+              </tr> 
             </thead>
             <tbody>
               {sortedClients.map((client, index) => (
