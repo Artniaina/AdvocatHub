@@ -140,3 +140,16 @@ color: grey
 .tavleInfo td {
   background-color: white;
 }
+
+.popupDomaineJuridique {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 56vw;
+  z-index: 1001;
+  min-height: 52vh;
+}
+
+

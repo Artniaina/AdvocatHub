@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState , useEffect, useRef} from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import ToggleButton from "./ToggleButton";
+import PopupDomaineJuridique from './PopupDomaineJuridique'; 
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -14,7 +15,19 @@ const Affaire = () => {
     mediation: "non",
     mediationChoix: "non",
   });
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const popupRef = useRef(null);
 
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setIsPopupVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
   };
@@ -23,10 +36,21 @@ const Affaire = () => {
 
   return (
     <div>
-      <div className="formGroup">
-        <label htmlFor="formation">Domaine(s) juridique(s) * : </label>
-        <input type="text" id="formation" />
-      </div>
+  <div className="formGroup">
+      <label htmlFor="formation">Domaine(s) juridique(s) * : </label>
+      <IoAddCircle 
+        onClick={() => setIsPopupVisible(!isPopupVisible)} 
+        style={{ cursor: 'pointer', fontSize: '24px' }} 
+      />
+      <input type="text" id="formation" />
+
+      {isPopupVisible && (
+        <div className="popupContainer" ref={popupRef}>
+          <PopupDomaineJuridique />
+          <button onClick={() => setIsPopupVisible(false)}>Close</button>
+        </div>
+      )}
+    </div>
 
       <div className="formGroup">
         <label htmlFor="nomAffaire">Nom de l'affaire * : </label>
