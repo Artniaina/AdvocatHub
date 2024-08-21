@@ -14,27 +14,46 @@ const Collaborateurs = () => {
   const [email, setEmail] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
-
-  const handleShowPopup = () => {
-    setShowPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
-
-
   const [selectedAvocats, setSelectedAvocats] = useState([]);
+
+  const handleShowPopup = () => setShowPopup(true);
+
+  const handleClosePopup = () => setShowPopup(false);
 
   const handleSelectCollaborators = (collaborators, avocatsData) => {
     setSelectedCollaborators(collaborators);
     setSelectedAvocats(avocatsData);
   };
 
+  const handleSelectCollaborator = (e) => {
+    const selectedID = parseInt(e.target.value, 10);
+
+    const selectedAvocat = (selectedAvocats || []).find(
+      (collaborator) => collaborator.m_nIDAvocat_PP === selectedID
+    );
+
+    if (selectedAvocat) {
+      setName(selectedAvocat.m_sNom);
+      setPrenom(selectedAvocat.m_sPrenom);
+      setEtude(selectedAvocat.m_nidetude || "");
+      setAdresseEtude(selectedAvocat.m_sadressecomplet || "");
+      setDateAssermentation(selectedAvocat.m_dDateAssermentation || "");
+      setTelephone(selectedAvocat.m_stelephone || "");
+      setEmail(selectedAvocat.m_emailbarreau || "");
+    } else {
+      setName("");
+      setPrenom("");
+      setEtude("");
+      setAdresseEtude("");
+      setDateAssermentation("");
+      setTelephone("");
+      setEmail("");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Selected Collaborator IDs:", selectedCollaborators);
-    console.log("Selected Collaborators data:", selectedAvocats);
   };
 
   return (
@@ -43,20 +62,27 @@ const Collaborateurs = () => {
         <FaUsers style={{ fontSize: "30px", marginRight: "7px" }} />
         COLLABORATEUR(S) INSCRIT(S) OU NON INSCRIT(S)
       </div>
-
       <form onSubmit={handleSubmit} className="avocatForm">
         <div className="clientsForm">
           <label style={{ display: "inline" }} htmlFor="client">
             Liste Collaborateur(s):*{" "}
           </label>
-          <select id="client" style={{ width: "24vw" }}>
+          <select
+            id="client"
+            style={{ width: "24vw" }}
+            onChange={handleSelectCollaborator}
+          >
             <option value=""></option>
-            {selectedCollaborators.map((collaborator) => (
-              <option key={collaborator.m_nIDAvocat_PP} value={collaborator.m_nIDAvocat_PP}>
-                {`${collaborator.m_sNom} ${collaborator.m_sPrenom}`}
+            {(selectedAvocats || []).map((collaborator) => (
+              <option
+                key={collaborator.m_nIDAvocat_PP}
+                value={collaborator.m_nIDAvocat_PP}
+              >
+                {`${collaborator.m_sNom || ""} ${collaborator.m_sPrenom || ""}`}
               </option>
             ))}
           </select>
+
           <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
