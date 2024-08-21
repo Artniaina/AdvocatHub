@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
-
 
 const PopupCollaborateurs = ({ onClose }) => {
   const [clients, setClients] = useState([]);
@@ -14,9 +13,26 @@ const PopupCollaborateurs = ({ onClose }) => {
     direction: "ascending",
   });
 
+  // Fetch data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://192.168.10.5/Utilisateur/AllAvocat/ListeAvocat");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setClients(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const sortedClients = React.useMemo(() => {
     let sortableClients = [...clients];
-    if (sortConfig !== null) {
+    if (sortConfig.key !== null) {
       sortableClients.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === "ascending" ? -1 : 1;
@@ -36,11 +52,7 @@ const PopupCollaborateurs = ({ onClose }) => {
 
   const requestSort = (key) => {
     let direction = "ascending";
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "ascending"
-    ) {
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
     }
     setSortConfig({ key, direction });
@@ -61,7 +73,7 @@ const PopupCollaborateurs = ({ onClose }) => {
     <div className="overlay">
       <div className="popupTax">
         <div className="titleCard">
-        LISTE DES AVOCATS
+          LISTE DES AVOCATS
           <button className="close-button" style={{marginTop:"-5px"}} onClick={onClose}>
             &times;
           </button>
@@ -72,9 +84,8 @@ const PopupCollaborateurs = ({ onClose }) => {
             <thead>
               <tr>
                 {[
-                 
                   "Nom",
-                  "prenom",
+                  "Prenom",
                   "Etude",
                   "Adresse",
                   "Sélection",
@@ -106,12 +117,21 @@ const PopupCollaborateurs = ({ onClose }) => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colSpan="5"></td>
-              </tr>
-              <tr>
-                <td colSpan="5"></td>
-              </tr>
+              {sortedClients.length > 0 ? (
+                sortedClients.map((client) => (
+                  <tr key={client.m_nIDAvocat_PP}>
+                    <td>{client.m_sNom}</td>
+                    <td>{client.m_sPrenom}</td>
+                    <td>{client.m_sDénominationEtude}</td>
+                    <td>{client.m_sAdresse}</td>
+                    <td>{client.m_Liste}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">No data available</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
