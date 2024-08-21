@@ -151,11 +151,20 @@
   min-height: 52vh;
 }
 
-.domainItem input[type="checkbox"] {
-  margin: 0 -286px;
+.domainTable input[type="checkbox"] {
+  width: 25px;;
+}
+.domainTable th {
+  background-color: #5E1675;
+  color: #fff;
+  font-size: 17px;
+  padding: 18px;
+}
+.domainTable .td {
+  width: 392px;
 }
 .submitButton {
-  background-color: #007bff;
+  background-color: #5E1675;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -164,6 +173,9 @@
   border-radius: 5px;
 }
 
-.submitButton:hover {
-  background-color: #0056b3;
+
+.closeButton{
+  display: flex;
+  align-items: end;
 }
+

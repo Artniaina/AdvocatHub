@@ -1,8 +1,8 @@
-import React, { useState , useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import ToggleButton from "./ToggleButton";
-import PopupDomaineJuridique from './PopupDomaineJuridique'; 
+import PopupDomaineJuridique from "./PopupDomaineJuridique";
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -25,7 +25,6 @@ const Affaire = () => {
   };
   const [selectedDomains, setSelectedDomains] = useState([]);
 
-
   const handlePopupClose = () => {
     setIsPopupVisible(false);
   };
@@ -35,8 +34,8 @@ const Affaire = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
@@ -46,25 +45,29 @@ const Affaire = () => {
 
   return (
     <div>
-     <div className="formGroup">
-      <label htmlFor="formation">Domaine(s) juridique(s) * : </label>
-      <IoAddCircle 
-        onClick={() => setIsPopupVisible(!isPopupVisible)} 
-        style={{ cursor: 'pointer', fontSize: '24px' }} 
+      <div className="formGroup">
+        <label htmlFor="formation">Domaine(s) juridique(s) * : </label>
+        <input
+          type="text"
+          id="formation"
+          value={selectedDomains.join(", ")}
+          readOnly
+        />{" "}
+      <IoAddCircle
+        onClick={() => setIsPopupVisible(!isPopupVisible)}
+        style={{ color: "green", fontSize: "40px", margin:"0px 0px -13px 2px" }}
       />
-      <input type="text" id="formation" value={selectedDomains.join(', ')} readOnly />
-
-      {isPopupVisible && (
-        <div className="popupContainer" ref={popupRef}>
-          <PopupDomaineJuridique 
-            onClose={handlePopupClose} 
-            onSubmit={handlePopupSubmit}
-            selectedDomains={selectedDomains}
-          />
-          <button onClick={handlePopupClose}>Close</button>
-        </div>
-      )}
-    </div>
+        {isPopupVisible && (
+          <div className="popupContainer" ref={popupRef}>
+            <PopupDomaineJuridique
+              onClose={handlePopupClose}
+              onSubmit={handlePopupSubmit}
+              selectedDomains={selectedDomains}
+            />
+          </div>
+        )}
+      
+      </div>
 
       <div className="formGroup">
         <label htmlFor="nomAffaire">Nom de l'affaire * : </label>
@@ -96,7 +99,8 @@ const Affaire = () => {
       <div className="formGroupbtn">
         <div className="toggleButtons">
           <p>
-            Une convention d’honoraires/lettre d’engagement a-t-elle été signée ?
+            Une convention d’honoraires/lettre d’engagement a-t-elle été signée
+            ?
           </p>
           <div className="box">
             <label
@@ -149,11 +153,8 @@ const Affaire = () => {
           et due forme, un budget ou un taux horaire a-t'il été annoncé au
           client ?
         </label>
-        <textarea
-          className={`textarea`}
-          id="nomAffaire"
-        />
-      </div> 
+        <textarea className={`textarea`} id="nomAffaire" />
+      </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
@@ -190,7 +191,7 @@ const Affaire = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="formGroup">
         <label htmlFor="nomAffaire">
           Etat d’avancement hors recouvrement des honoraires (Juridiction,
@@ -215,22 +216,34 @@ const Affaire = () => {
       </div>
 
       <div className="formGroup">
-        <p>Date, référence et montant TTC de la/des note(s) d'honoraires contestée(s) * :</p>
-        <div className="btnAdd" style={{ textAlign: "center", marginRight: "900px" }}>
+        <p>
+          Date, référence et montant TTC de la/des note(s) d'honoraires
+          contestée(s) * :
+        </p>
+        <div
+          className="btnAdd"
+          style={{ textAlign: "center", marginRight: "900px" }}
+        >
           <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
         </div>
       </div>
 
       <div className="formGroup">
         <p>Date, référence et montant TTC de la/des note(s) de provision :</p>
-        <div className="btnAdd" style={{ textAlign: "center", marginRight: "900px" }}>
+        <div
+          className="btnAdd"
+          style={{ textAlign: "center", marginRight: "900px" }}
+        >
           <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
         </div>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>D’autres notes dans le cadre de la même affaire ont-elles été payées ? (Factures...)</p>
+          <p>
+            D’autres notes dans le cadre de la même affaire ont-elles été payées
+            ? (Factures...)
+          </p>
           <ToggleButton
             name="notes"
             checkedValue={showOptions.notes}
@@ -249,7 +262,9 @@ const Affaire = () => {
           </select>
           <textarea style={{ width: "30vw", height: "12px" }} />
           <div className="btnAdd">
-            <IoAddCircle style={{ color: "green", fontSize: "40px", marginTop: "-2px" }} />
+            <IoAddCircle
+              style={{ color: "green", fontSize: "40px", marginTop: "-2px" }}
+            />
           </div>
         </div>
       </div>
@@ -273,7 +288,11 @@ const Affaire = () => {
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Une procédure relative au recouvrement des honoraires a-t-elle été introduite ? (date, action judiciaire, procédure et stade de la procédure)</p>
+          <p>
+            Une procédure relative au recouvrement des honoraires a-t-elle été
+            introduite ? (date, action judiciaire, procédure et stade de la
+            procédure)
+          </p>
           <ToggleButton
             name="relative"
             checkedValue={showOptions.relative}
@@ -307,7 +326,10 @@ const Affaire = () => {
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Une procédure de médiation a-t-elle été introduite ? (date, médiateur et résultat)</p>
+          <p>
+            Une procédure de médiation a-t-elle été introduite ? (date,
+            médiateur et résultat)
+          </p>
           <ToggleButton
             name="mediation"
             checkedValue={showOptions.mediation}
@@ -332,7 +354,9 @@ const Affaire = () => {
           />
         </div>
         <textarea
-          className={`textarea ${isDisabled("mediationChoix") ? "disabled" : ""}`}
+          className={`textarea ${
+            isDisabled("mediationChoix") ? "disabled" : ""
+          }`}
           name="mediationChoix"
           id="mediationChoix"
           disabled={isDisabled("mediationChoix")}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../../../Styles/TaxationForm/Popup.css'; 
+import { IoCloseCircle } from "react-icons/io5";
 
 const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
   const [checkedDomains, setCheckedDomains] = useState(selectedDomains);
@@ -40,23 +41,32 @@ const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
   return (
     <div className="overlay" onClick={onClose}>
       <div className="popupDomaineJuridique" onClick={(e) => e.stopPropagation()}>
-        <h2>Domaines Juridiques</h2>
+        <button onClick={onClose} className="closeButton"><IoCloseCircle /></button>
         <form onSubmit={handleSubmit}>
-          {domains.map((domain) => (
-            <div key={domain} className="domainItem">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={checkedDomains.includes(domain)}
-                  onChange={() => handleCheckboxChange(domain)}
-                />
-                {domain}
-              </label>
-            </div>
-          ))}
-          <button type="submit" className="submitButton">Submit</button>
+          <table className="domainTable">
+            <thead>
+              <tr>
+                <th>Domaine Juridique</th>
+                <th>Choix</th>
+              </tr>
+            </thead>
+            <tbody>
+              {domains.map((domain) => (
+                <tr key={domain}>
+                  <td className='td'>{domain}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={checkedDomains.includes(domain)}
+                      onChange={() => handleCheckboxChange(domain)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button type="submit" className="submitButton">Valider</button>
         </form>
-        <button onClick={onClose} className="closeButton">Close</button>
       </div>
     </div>
   );
