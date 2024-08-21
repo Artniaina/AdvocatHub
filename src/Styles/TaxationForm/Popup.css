@@ -56,7 +56,10 @@ color: grey
   width: 50%;
   justify-content: space-between;
 }
-
+.popupTax .formGroup input {
+  font-size: 15px;
+  color: #645e5e;
+}
 .popupTax .two .formGroup input {
   width: 43.7vw;
   margin: 2px;

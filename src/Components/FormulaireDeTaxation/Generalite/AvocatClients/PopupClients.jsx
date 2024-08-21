@@ -434,7 +434,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
         </div>
       </div>
     </div>
-  );
+  ); 
 };
 
 export default PopupClients;
