@@ -19,6 +19,8 @@ const Affaire = () => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
   };
 
+  const isDisabled = (field) => showOptions[field] === "non";
+
   return (
     <div>
       <div className="formGroup">
@@ -96,7 +98,11 @@ const Affaire = () => {
           Si oui, quels en étaient les termes ? (merci de joindre la convention
           d’honoraires au dossier de taxation):{" "}
         </label>
-        <textarea className="textarea" id="nomAffaire" />
+        <textarea
+          className={`textarea ${isDisabled("honoraires") ? "disabled" : ""}`}
+          id="nomAffaire"
+          disabled={isDisabled("honoraires")}
+        />
       </div>
 
       <div className="formGroup">
@@ -105,7 +111,10 @@ const Affaire = () => {
           et due forme, un budget ou un taux horaire a-t'il été annoncé au
           client ?
         </label>
-        <textarea className="textarea" id="nomAffaire" />
+        <textarea
+          className={`textarea`}
+          id="nomAffaire"
+        />
       </div> 
 
       <div className="formGroupbtn">
@@ -149,7 +158,11 @@ const Affaire = () => {
           Etat d’avancement hors recouvrement des honoraires (Juridiction,
           décisions rendues, expertise, plaidoiries…)
         </label>
-        <textarea className="textarea" id="nomAffaire" />
+        <textarea
+          className={`textarea ${isDisabled("affaire") ? "disabled" : ""}`}
+          id="nomAffaire"
+          disabled={isDisabled("affaire")}
+        />
       </div>
 
       <div className="formGroup">
@@ -212,7 +225,12 @@ const Affaire = () => {
             onChange={(value) => handleToggle("conciliation", value)}
           />
         </div>
-          <textarea className="textarea" name="conciliation" id="conciliation"></textarea>
+        <textarea
+          className={`textarea ${isDisabled("conciliation") ? "disabled" : ""}`}
+          name="conciliation"
+          id="conciliation"
+          disabled={isDisabled("conciliation")}
+        ></textarea>
       </div>
 
       <div className="formGroupbtn">
@@ -224,43 +242,63 @@ const Affaire = () => {
             onChange={(value) => handleToggle("relative", value)}
           />
         </div>
-          <textarea className="textarea" name="relative" id="relative"></textarea>
+        <textarea
+          className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
+          name="relative"
+          id="relative"
+          disabled={isDisabled("relative")}
+        ></textarea>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Des mesures conservatoires ont-elles été introduites ? (date, action judiciaire, procédure et stade de la procédure)</p>
+          <p>Une procédure conservatoire a-t-elle été introduite ?</p>
           <ToggleButton
             name="conserv"
             checkedValue={showOptions.conserv}
             onChange={(value) => handleToggle("conserv", value)}
           />
         </div>
-          <textarea className="textarea" name="conserv" id="conserv"></textarea>
+        <textarea
+          className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
+          name="conserv"
+          id="conserv"
+          disabled={isDisabled("conserv")}
+        ></textarea>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Une médiation est-elle en cours ?</p>
+          <p>Une procédure de médiation a-t-elle été introduite ? (date, médiateur et résultat)</p>
           <ToggleButton
             name="mediation"
             checkedValue={showOptions.mediation}
             onChange={(value) => handleToggle("mediation", value)}
           />
         </div>
-        <textarea className="textarea" name="mediation" id="mediation"></textarea>
-
+        <textarea
+          className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
+          name="mediation"
+          id="mediation"
+          disabled={isDisabled("mediation")}
+        ></textarea>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p> Si non, est-elle souhaitée ? </p>
+          <p>Médiation sur choix :</p>
           <ToggleButton
             name="mediationChoix"
             checkedValue={showOptions.mediationChoix}
             onChange={(value) => handleToggle("mediationChoix", value)}
           />
         </div>
+        <textarea
+          className={`textarea ${isDisabled("mediationChoix") ? "disabled" : ""}`}
+          name="mediationChoix"
+          id="mediationChoix"
+          disabled={isDisabled("mediationChoix")}
+        ></textarea>
       </div>
     </div>
   );
