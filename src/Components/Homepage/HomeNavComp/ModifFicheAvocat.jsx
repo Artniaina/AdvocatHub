@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuth } from '../../../Hooks/AuthContext';
-import { fetchAvocatInfo, fetchEtudeInfo } from '../../../Store/AvocatSlice';
+import { fetchAvocatInfo } from '../../../Store/AvocatSlice';
 import { useNavigate } from "react-router-dom";
 import { fetchLangues } from "../../../Store/LanguagesSlice";
 import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
