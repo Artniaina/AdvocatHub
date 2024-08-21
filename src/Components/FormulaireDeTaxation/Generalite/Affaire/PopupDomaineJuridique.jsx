@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../../Styles/TaxationForm/Popup.css'; 
 
-const PopupDomaineJuridique = ({ onClose, onSubmit }) => {
-  const [selectedDomains, setSelectedDomains] = useState([]);
+const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
+  const [checkedDomains, setCheckedDomains] = useState(selectedDomains);
 
   const domains = [
     'Droit fiscal',
@@ -19,8 +19,12 @@ const PopupDomaineJuridique = ({ onClose, onSubmit }) => {
     'Tutelles/curatelles'
   ];
 
+  useEffect(() => {
+    setCheckedDomains(selectedDomains);
+  }, [selectedDomains]);
+
   const handleCheckboxChange = (domain) => {
-    setSelectedDomains((prev) => 
+    setCheckedDomains((prev) => 
       prev.includes(domain) 
         ? prev.filter((item) => item !== domain) 
         : [...prev, domain]
@@ -29,7 +33,7 @@ const PopupDomaineJuridique = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(selectedDomains);
+    onSubmit(checkedDomains);
     onClose();
   };
 
@@ -43,7 +47,7 @@ const PopupDomaineJuridique = ({ onClose, onSubmit }) => {
               <label>
                 <input
                   type="checkbox"
-                  checked={selectedDomains.includes(domain)}
+                  checked={checkedDomains.includes(domain)}
                   onChange={() => handleCheckboxChange(domain)}
                 />
                 {domain}

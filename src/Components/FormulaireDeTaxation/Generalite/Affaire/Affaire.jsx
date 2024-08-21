@@ -23,15 +23,17 @@ const Affaire = () => {
       setIsPopupVisible(false);
     }
   };
-  const [selectedDomains, setSelectedDomains] = useState('');
+  const [selectedDomains, setSelectedDomains] = useState([]);
+
 
   const handlePopupClose = () => {
     setIsPopupVisible(false);
   };
 
   const handlePopupSubmit = (domains) => {
-    setSelectedDomains(domains.join(', '));
+    setSelectedDomains(domains);
   };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -44,19 +46,20 @@ const Affaire = () => {
 
   return (
     <div>
-  <div className="formGroup">
+     <div className="formGroup">
       <label htmlFor="formation">Domaine(s) juridique(s) * : </label>
       <IoAddCircle 
         onClick={() => setIsPopupVisible(!isPopupVisible)} 
         style={{ cursor: 'pointer', fontSize: '24px' }} 
       />
-      <input type="text" id="formation" value={selectedDomains} readOnly />
+      <input type="text" id="formation" value={selectedDomains.join(', ')} readOnly />
 
       {isPopupVisible && (
         <div className="popupContainer" ref={popupRef}>
           <PopupDomaineJuridique 
             onClose={handlePopupClose} 
-            onSubmit={handlePopupSubmit} 
+            onSubmit={handlePopupSubmit}
+            selectedDomains={selectedDomains}
           />
           <button onClick={handlePopupClose}>Close</button>
         </div>
