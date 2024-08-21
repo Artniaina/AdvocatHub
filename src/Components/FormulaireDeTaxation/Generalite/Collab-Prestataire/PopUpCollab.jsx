@@ -20,7 +20,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
           "http://192.168.10.5/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
-          throw new Error("not ok");
+          throw new Error("Failed to fetch data");
         }
         const data = await response.json();
         setAvocat(data);
@@ -45,15 +45,11 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
       sortableAvocat.sort((a, b) => {
         const aValue = a[keyMapping[sortConfig.key]] || "";
         const bValue = b[keyMapping[sortConfig.key]] || "";
-        const aLower =
-          typeof aValue === "string" ? aValue.toLowerCase() : aValue;
-        const bLower =
-          typeof bValue === "string" ? bValue.toLowerCase() : bValue;
+        const aLower = aValue.toLowerCase();
+        const bLower = bValue.toLowerCase();
 
-        if (aLower < bLower)
-          return sortConfig.direction === "ascending" ? -1 : 1;
-        if (aLower > bLower)
-          return sortConfig.direction === "ascending" ? 1 : -1;
+        if (aLower < bLower) return sortConfig.direction === "ascending" ? -1 : 1;
+        if (aLower > bLower) return sortConfig.direction === "ascending" ? 1 : -1;
         return 0;
       });
     }
@@ -61,9 +57,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     return sortableAvocat.filter((client) =>
       Object.keys(filters).every((key) =>
         client[keyMapping[key]]
-          ? client[keyMapping[key]]
-              .toLowerCase()
-              .includes(filters[key].toLowerCase())
+          ? client[keyMapping[key]].toLowerCase().includes(filters[key].toLowerCase())
           : false
       )
     );
@@ -93,8 +87,14 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     onSelectCollaborators(updatedSelection);
   };
 
+  const selectedAvocats = useMemo(() => {
+    return avocat.filter((item) => selectedCollaborators.includes(item.m_nIDAvocat_PP));
+  }, [avocat, selectedCollaborators]);
+
   const handleSubmit = () => {
-    console.log("Selected Collaborators dans le popup Tompoko:", selectedCollaborators);
+    console.log("Selected Collaborator IDs to send:", selectedCollaborators);
+    console.log("Selected Avocats data:", selectedAvocats);
+    onClose();
   };
 
   return (
@@ -114,36 +114,34 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
           <table className="tavleInfo">
             <thead>
               <tr>
-                {["Nom", "Prenom", "Etude", "Adresse", "Sélection"].map(
-                  (key) => (
-                    <th key={key}>
-                      <span
-                        className="sort-icon"
-                        onClick={() => requestSort(key)}
-                      >
-                        <PiCaretUpDownFill />
-                      </span>
-                      {key}
-                      <span
-                        className="filter-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleFilterClick(key);
-                        }}
-                      >
-                        <FaFilter />
-                      </span>
-                      {filterActive === key && (
-                        <input
-                          type="text"
-                          placeholder={`Filter by ${key}`}
-                          value={filters[key] || ""}
-                          onChange={(e) => handleFilterChange(e, key)}
-                        />
-                      )}
-                    </th>
-                  )
-                )}
+                {["Nom", "Prenom", "Etude", "Adresse", "Sélection"].map((key) => (
+                  <th key={key}>
+                    <span
+                      className="sort-icon"
+                      onClick={() => requestSort(key)}
+                    >
+                      <PiCaretUpDownFill />
+                    </span>
+                    {key}
+                    <span
+                      className="filter-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFilterClick(key);
+                      }}
+                    >
+                      <FaFilter />
+                    </span>
+                    {filterActive === key && (
+                      <input
+                        type="text"
+                        placeholder={`Filter by ${key}`}
+                        value={filters[key] || ""}
+                        onChange={(e) => handleFilterChange(e, key)}
+                      />
+                    )}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -158,24 +156,20 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
                       <input
                         type="checkbox"
                         value={avocat.m_nIDAvocat_PP}
-                        checked={selectedCollaborators.includes(
-                          avocat.m_nIDAvocat_PP
-                        )}
-                        onChange={() =>
-                          handleCheckboxChange(avocat.m_nIDAvocat_PP)
-                        }
+                        checked={selectedCollaborators.includes(avocat.m_nIDAvocat_PP)}
+                        onChange={() => handleCheckboxChange(avocat.m_nIDAvocat_PP)}
                       />
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">Pas de donnée correspondante</td>
+                  <td colSpan="5">Aucune donnée correspondante</td>
                 </tr>
               )}
             </tbody>
           </table>
-        </div>{" "}
+        </div>
         <div className="footerListe">
           <div>
             <p>Nombre d'avocats: <br />{avocat.length}</p>

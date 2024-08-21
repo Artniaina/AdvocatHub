@@ -14,6 +14,8 @@ const Collaborateurs = () => {
   const [email, setEmail] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
+  const [selectedAvocats, setSelectedAvocats] = useState({});
+  const [avocats, setAvocats] = useState([]);
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -25,18 +27,22 @@ const Collaborateurs = () => {
 
   const handleSelectCollaborators = (collaborators) => {
     setSelectedCollaborators(collaborators);
+
+    setSelectedAvocats(
+      avocats.filter((avocat) => collaborators.includes(avocat.m_nIDAvocat_PP))
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Hello");
-    console.log("Selected Collaborators dans collaborateur tompoko:", selectedCollaborators);
-  }; 
+    console.log("Selected IDs:", selectedCollaborators);
+    console.log("Selected Collaborators data:", selectedAvocats);
+  };
 
   return (
     <div>
       <div className="titleCard">
-        <FaUsers style={{fontSize:"30px", marginRight:"7px"}}/>
+        <FaUsers style={{ fontSize: "30px", marginRight: "7px" }} />
         COLLABORATEUR(S) INSCRIT(S) OU NON INSCRIT(S)
       </div>
 
@@ -48,8 +54,8 @@ const Collaborateurs = () => {
           <select id="client" style={{ width: "24vw" }}>
             <option value=""></option>
             {selectedCollaborators.map((collaborator) => (
-              <option key={collaborator} value={collaborator}>
-                {collaborator}
+              <option key={collaborator.m_nIDAvocat_PP} value={collaborator.m_nIDAvocat_PP}>
+                {`${collaborator.m_sNom} ${collaborator.m_sPrenom}`}
               </option>
             ))}
           </select>
@@ -135,6 +141,7 @@ const Collaborateurs = () => {
         <PopupCollaborateurs
           onClose={handleClosePopup}
           selectedCollaborators={selectedCollaborators}
+          selectedAvocats={selectedAvocats}
           onSelectCollaborators={handleSelectCollaborators}
         />
       )}
