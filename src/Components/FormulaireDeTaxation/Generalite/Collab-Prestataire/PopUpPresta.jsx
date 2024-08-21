@@ -23,18 +23,17 @@ const PopupPrestataires = ({ onClose }) => {
         email,
         etude,
         titrePro,
-        choix, // Make sure to include this field
+        choix, 
         autresInfo,
         formationExp,
       },
     ]);
-    // Clear form fields
     setName("");
     setPrenom("");
     setEmail("");
     setEtude("");
     setTitrePro("");
-    setChoix(""); // Clear this field
+    setChoix(""); 
     setAutresInfo("");
     setFormationExp("");
   };
@@ -43,7 +42,7 @@ const PopupPrestataires = ({ onClose }) => {
     <div className="overlay">
       <div className="popupTax">
         <div className="titleCard">
-          PRESTATAIRE(S) EXTERIEUR(S)
+          PRESTATAIRE(S) EXTERIEUR
           <button
             className="close-button"
             style={{ marginTop: "-5px" }}

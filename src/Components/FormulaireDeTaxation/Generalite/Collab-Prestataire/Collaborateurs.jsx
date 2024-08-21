@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
@@ -15,6 +15,7 @@ const Collaborateurs = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
+  const [isInscrit, setIsInscrit] = useState(false);
 
   const handleShowPopup = () => setShowPopup(true);
 
@@ -41,9 +42,8 @@ const Collaborateurs = () => {
     
       return `${day}/${month}/${year}`;
     };
-    
-    if (selectedAvocats && selectedAvocats.length > 0) {
-      const selectedAvocat = selectedAvocats[0];
+
+    if (selectedAvocat) {
       setName(selectedAvocat.m_sNom || "");
       setPrenom(selectedAvocat.m_sPrenom || "");
       setEtude(selectedAvocat.m_nidetude || "");
@@ -51,14 +51,7 @@ const Collaborateurs = () => {
       setDateAssermentation(formatDate(selectedAvocat.m_dDateAssermentation));
       setTelephone(selectedAvocat.m_stelephone || "");
       setEmail(selectedAvocat.m_emailbarreau || "");
-    } else if (selectedAvocat) {
-      setName(selectedAvocat.m_sNom || "");
-      setPrenom(selectedAvocat.m_sPrenom || "");
-      setEtude(selectedAvocat.m_nidetude || "");
-      setAdresseEtude(selectedAvocat.m_sadressecomplet || "");
-      setDateAssermentation(formatDate(selectedAvocat.m_dDateAssermentation));
-      setTelephone(selectedAvocat.m_stelephone || "");
-      setEmail(selectedAvocat.m_emailbarreau || "");
+      setIsInscrit(selectedAvocat.m_sStatut==="Inscrit");
     } else {
       setName("");
       setPrenom("");
@@ -67,10 +60,9 @@ const Collaborateurs = () => {
       setDateAssermentation("");
       setTelephone("");
       setEmail("");
+      setIsInscrit(false);
     }
-    }
-    
-
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Selected Collaborator IDs:", selectedCollaborators);
@@ -176,6 +168,15 @@ const Collaborateurs = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            readOnly
+          />
+        </div>
+        <div className="formGroup">
+          <label htmlFor="isInscrit">Inscrit:</label>
+          <input
+            type="checkbox"
+            id="isInscrit"
+            checked={isInscrit}
             readOnly
           />
         </div>
