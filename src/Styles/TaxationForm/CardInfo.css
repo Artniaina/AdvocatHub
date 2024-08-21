@@ -102,12 +102,12 @@
 }
 .clientsForm select {
   width: 30vw;
-  padding: 10px;
   outline: none;
   height: 30px;
   border-radius: 5px;
   border: 1px solid #808080;
   margin: 0 20px;
+  color: #808080;
 }
 .radio-group {
   margin-bottom: 10px;

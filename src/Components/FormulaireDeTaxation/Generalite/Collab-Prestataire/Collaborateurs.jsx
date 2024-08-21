@@ -32,12 +32,31 @@ const Collaborateurs = () => {
       (collaborator) => collaborator.m_nIDAvocat_PP === selectedID
     );
 
-    if (selectedAvocat) {
-      setName(selectedAvocat.m_sNom);
-      setPrenom(selectedAvocat.m_sPrenom);
+    const formatDate = (dateString) => {
+      if (!dateString) return "";
+    
+      const year = dateString.substring(0, 4);
+      const month = dateString.substring(4, 6);
+      const day = dateString.substring(6, 8);
+    
+      return `${day}/${month}/${year}`;
+    };
+    
+    if (selectedAvocats && selectedAvocats.length > 0) {
+      const selectedAvocat = selectedAvocats[0];
+      setName(selectedAvocat.m_sNom || "");
+      setPrenom(selectedAvocat.m_sPrenom || "");
       setEtude(selectedAvocat.m_nidetude || "");
       setAdresseEtude(selectedAvocat.m_sadressecomplet || "");
-      setDateAssermentation(selectedAvocat.m_dDateAssermentation || "");
+      setDateAssermentation(formatDate(selectedAvocat.m_dDateAssermentation));
+      setTelephone(selectedAvocat.m_stelephone || "");
+      setEmail(selectedAvocat.m_emailbarreau || "");
+    } else if (selectedAvocat) {
+      setName(selectedAvocat.m_sNom || "");
+      setPrenom(selectedAvocat.m_sPrenom || "");
+      setEtude(selectedAvocat.m_nidetude || "");
+      setAdresseEtude(selectedAvocat.m_sadressecomplet || "");
+      setDateAssermentation(formatDate(selectedAvocat.m_dDateAssermentation));
       setTelephone(selectedAvocat.m_stelephone || "");
       setEmail(selectedAvocat.m_emailbarreau || "");
     } else {
@@ -49,7 +68,8 @@ const Collaborateurs = () => {
       setTelephone("");
       setEmail("");
     }
-  };
+    }
+    
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,10 +89,11 @@ const Collaborateurs = () => {
           </label>
           <select
             id="client"
-            style={{ width: "24vw" }}
+            style={{ width: "24vw"}}
             onChange={handleSelectCollaborator}
+            aria-label="Select Collaborator"
           >
-            <option value=""></option>
+            <option value="">Selectionner un Collaborateur</option>
             {(selectedAvocats || []).map((collaborator) => (
               <option
                 key={collaborator.m_nIDAvocat_PP}
@@ -131,7 +152,7 @@ const Collaborateurs = () => {
         <div className="formGroup">
           <label htmlFor="dateAssermentation">Date Assermentation:</label>
           <input
-            type="date"
+            type="text"
             id="dateAssermentation"
             value={dateAssermentation}
             onChange={(e) => setDateAssermentation(e.target.value)}
@@ -158,7 +179,6 @@ const Collaborateurs = () => {
             readOnly
           />
         </div>
-        <button type="submit">Enregistrer</button>
       </form>
 
       {showPopup && (
