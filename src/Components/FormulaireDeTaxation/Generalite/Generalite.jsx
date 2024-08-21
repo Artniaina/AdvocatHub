@@ -11,12 +11,13 @@ import Guide from "./Guide";
 import GuideAffaire from "./Affaire/GuideAffaire";
 const Generalite = () => {
   return (
-    <>    <div>
-          <Guide></Guide>
-          <GuideAffaire/>
-        </div>
+    <>
+      {" "}
+      <div>
+        <Guide/>
+        <GuideAffaire />
+      </div>
       <div className="cardGeneralité">
-    
         <div className="mainTitle">GENERALITES</div>
         <Avocat />
         <Clients />

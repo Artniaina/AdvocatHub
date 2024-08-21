@@ -4,7 +4,6 @@ import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
 
-
 const Collaborateurs = () => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -14,6 +13,7 @@ const Collaborateurs = () => {
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedCollaborators, setSelectedCollaborators] = useState([]);
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -23,25 +23,35 @@ const Collaborateurs = () => {
     setShowPopup(false);
   };
 
+  const handleSelectCollaborators = (collaborators) => {
+    setSelectedCollaborators(collaborators);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Hello");
+    console.log("Selected Collaborators dans collaborateur tompoko:", selectedCollaborators);
   }; 
 
   return (
     <div>
       <div className="titleCard">
-      <FaUsers style={{fontSize:"30px", marginRight:"7px"}}/>
-       COLLABORATEUR(S) INSCRIT(S) OU NON INSCRIT(S)
+        <FaUsers style={{fontSize:"30px", marginRight:"7px"}}/>
+        COLLABORATEUR(S) INSCRIT(S) OU NON INSCRIT(S)
       </div>
 
       <form onSubmit={handleSubmit} className="avocatForm">
         <div className="clientsForm">
           <label style={{ display: "inline" }} htmlFor="client">
-           Liste Collaborateur(s):*{" "}
+            Liste Collaborateur(s):*{" "}
           </label>
           <select id="client" style={{ width: "24vw" }}>
             <option value=""></option>
+            {selectedCollaborators.map((collaborator) => (
+              <option key={collaborator} value={collaborator}>
+                {collaborator}
+              </option>
+            ))}
           </select>
           <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
@@ -68,7 +78,6 @@ const Collaborateurs = () => {
             readOnly
           />
         </div>
-
         <div className="formGroup">
           <label htmlFor="etude">Etude:</label>
           <input
@@ -79,9 +88,8 @@ const Collaborateurs = () => {
             readOnly
           />
         </div>
-
         <div className="formGroup">
-          <label htmlFor="adresseEtude">Adresse de l'étude:</label>
+          <label htmlFor="adresseEtude">Adresse Etude:</label>
           <input
             type="text"
             id="adresseEtude"
@@ -90,18 +98,16 @@ const Collaborateurs = () => {
             readOnly
           />
         </div>
-
         <div className="formGroup">
-          <label htmlFor="dateAssermentation">Date d'assermentation:</label>
+          <label htmlFor="dateAssermentation">Date Assermentation:</label>
           <input
-            type="text"
+            type="date"
             id="dateAssermentation"
             value={dateAssermentation}
             onChange={(e) => setDateAssermentation(e.target.value)}
             readOnly
           />
         </div>
-
         <div className="formGroup">
           <label htmlFor="telephone">Téléphone:</label>
           <input
@@ -112,30 +118,26 @@ const Collaborateurs = () => {
             readOnly
           />
         </div>
-
         <div className="formGroup">
           <label htmlFor="email">Email:</label>
           <input
-            type="text"
+            type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             readOnly
           />
         </div>
-
-        <div style={{ margin: "10px" }}>
-          <input type="checkbox" id="societe" name="societe" value="societe" />
-          <label htmlFor="societe">
-            {" "}
-            <strong style={{ color: "#595b69", fontSize: "18px" }}>
-              Inscrit
-            </strong>
-          </label>
-        </div>
+        <button type="submit">Enregistrer</button>
       </form>
-      {showPopup && <PopupCollaborateurs onClose={handleClosePopup} />}
 
+      {showPopup && (
+        <PopupCollaborateurs
+          onClose={handleClosePopup}
+          selectedCollaborators={selectedCollaborators}
+          onSelectCollaborators={handleSelectCollaborators}
+        />
+      )}
     </div>
   );
 };

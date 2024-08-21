@@ -26,13 +26,13 @@ const Prestataires = () => {
   return (
     <div>
       <div className="titleCard">
-      <HiUsers style={{fontSize:"30px", marginRight:"7px"}}/>
-       PRESTATAIRE(S) EXTERIEUR(S)
+        <HiUsers style={{ fontSize: "30px", marginRight: "7px" }} />
+        PRESTATAIRE(S) EXTERIEUR(S)
       </div>
       <form onSubmit={handleSubmit} className="avocatForm">
         <div className="clientsForm">
           <label style={{ display: "inline" }} htmlFor="client">
-           Prestataire(s) extérieur(s):*{" "}
+            Prestataire(s) extérieur(s):*{" "}
           </label>
           <select id="client" style={{ width: "23vw" }}>
             <option value=""></option>
@@ -71,15 +71,14 @@ const Prestataires = () => {
             value={etude}
             onChange={(e) => setEtude(e.target.value)}
             readOnly
-          /> 
+          />
         </div>
 
         <div className="formGroup">
-          <label htmlFor="formation">Formation et expérience professionnelle</label>
-          <textarea
-            id="autreInfo"
-            readOnly
-          />
+          <label htmlFor="formation">
+            Formation et expérience professionnelle
+          </label>
+          <textarea id="autreInfo" readOnly />
         </div>
 
         <div className="formGroup">
@@ -95,23 +94,15 @@ const Prestataires = () => {
 
         <div className="formGroup">
           <label htmlFor="titrePro">Titre Professionnel:</label>
-          <input
-            type="text"
-            id="titrePro"
-            readOnly
-          />
+          <input type="text" id="titrePro" readOnly />
         </div>
 
         <div className="formGroup">
           <label htmlFor="autreInfo">Autre informations:</label>
-          <textarea
-            id="autreInfo"
-            readOnly
-          />
+          <textarea id="autreInfo" readOnly />
         </div>
       </form>
       {showPopup && <PopupPrestataires onClose={handleClosePopup} />}
-
     </div>
   );
 };
