@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/Popup.css";
 import ToggleButton from "./ToggleButton";
 import "../../../../Styles/TaxationForm/CardInfo.css";
@@ -6,14 +6,37 @@ import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 
 const PopupHonoraire = ({ onClose, onSubmit }) => {
-  const [rowsData, setRowsData] = useState(
-    Array.from({ length: 10 }, () => ({
-      date: "",
-      reference: "",
-      amount: "",
-      paye: "non",
-    }))
-  );
+  const initialData = Array.from({ length: 10 }, () => ({
+    date: "",
+    reference: "",
+    amount: "",
+    paye: "non",
+  }));
+
+  const [rowsData, setRowsData] = useState(initialData);
+  const [initialRowsData, setInitialRowsData] = useState(initialData);
+  const [isModified, setIsModified] = useState(false); 
+
+ 
+  useEffect(() => {
+    setInitialRowsData(rowsData);
+  }, []);
+
+  const checkIfModified = () => {
+    return rowsData.some((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
+  };
+
+  useEffect(() => {
+    setIsModified(checkIfModified());
+  }, [rowsData]); 
 
   const handleInputChange = (index, field, value) => {
     setRowsData((prevState) =>
@@ -37,11 +60,23 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     );
   };
 
+  const getModifiedData = () => {
+    return rowsData.filter((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = rowsData;
-    onSubmit(data)
-    console.log(data);
+    const modifiedData = getModifiedData();
+    onSubmit(modifiedData); 
+    console.log(modifiedData);
     onClose();
   };
 
@@ -56,7 +91,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
           Cliquer sur le bouton “ Enregistrer” <span> Enregistrer </span>
         </p>
       </div>
-      <div className="popupAffaire" onClick={(e) => e.stopPropagation()}>
+      <div className="popupAffaire" style={{ top: "10px" }} onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="closeButton">
           <IoCloseCircle />
         </button>
@@ -119,7 +154,15 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
               ))}
             </tbody>
           </table>
-          <button type="submit" className="submitButton">
+          <button
+            type="submit"
+            className="submitButton"
+            style={{
+              pointerEvents: isModified ? "auto" : "none",
+              opacity: isModified ? 1 : 0.5, 
+            }}
+            disabled={!isModified}
+          >
             Valider
           </button>
         </form>
