@@ -164,6 +164,10 @@
   width: 392px;
   text-align: start;
 }
+.domainTable input{
+  width: 250px;
+}
+
 .submitButton {
   background-color: #5E1675;
   color: white;

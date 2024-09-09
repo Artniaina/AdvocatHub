@@ -3,6 +3,7 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import ToggleButton from "./ToggleButton";
 import PopupDomaineJuridique from "./PopupDomaineJuridique";
+import PopupProvision from './PopupProvision'
 import PopupHonoraire from "./PopupHonoraire";
 
 const Affaire = () => {
@@ -17,13 +18,15 @@ const Affaire = () => {
     mediationChoix: "non",
   });
   const popupRef = useRef(null);
-  const [isPopupHonoraireVisible, setiIsPopupHonoraireVisible] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupHonoraireVisible, setiIsPopupHonoraireVisible] = useState(false);
+  const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
       setiIsPopupHonoraireVisible(false);
+      setIsPopupProvisionVisible(false);
     }
   };
   const [selectedDomains, setSelectedDomains] = useState([]);
@@ -31,6 +34,7 @@ const Affaire = () => {
   const handlePopupClose = () => {
     setIsPopupVisible(false);      
     setiIsPopupHonoraireVisible(false);
+    setIsPopupProvisionVisible(false);
 
   };
 
@@ -234,7 +238,7 @@ const Affaire = () => {
         >
           <IoAddCircle
             style={{ color: "green", fontSize: "40px" }}
-            onClick={() => setiIsPopupHonoraireVisible(true)}
+            onClick={() => setiIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
           />
           {isPopupHonoraireVisible && (
             <div className="popupContainer" ref={popupRef}>
@@ -253,7 +257,18 @@ const Affaire = () => {
           className="btnAdd"
           style={{ textAlign: "center", marginRight: "900px" }}
         >
-          <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
+           <IoAddCircle
+            style={{ color: "green", fontSize: "40px" }}
+            onClick={() => setIsPopupProvisionVisible(!isPopupProvisionVisible)}
+          />
+          {isPopupProvisionVisible && (
+            <div className="popupContainer" ref={popupRef}>
+              <PopupProvision
+                onClose={handlePopupClose}
+                onSubmit={handlePopupSubmit}
+              />
+            </div>
+          )}
         </div>
       </div>
 
