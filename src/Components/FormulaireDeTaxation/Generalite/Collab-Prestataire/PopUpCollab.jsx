@@ -165,7 +165,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">Aucune donnée correspondante</td>
+                  <td colSpan="5">Aucune donnée </td>
                 </tr>
               )}
             </tbody>

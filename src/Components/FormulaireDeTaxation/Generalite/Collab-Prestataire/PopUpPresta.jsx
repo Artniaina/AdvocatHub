@@ -8,7 +8,7 @@ const PopupPrestataires = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [etude, setEtude] = useState("");
   const [titrePro, setTitrePro] = useState("");
-  const [choix, setChoix] = useState(""); // Added this field
+  const [choix, setChoix] = useState(""); 
   const [autresInfo, setAutresInfo] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [Prestataires, setPrestataires] = useState([]);
@@ -18,12 +18,12 @@ const PopupPrestataires = ({ onClose }) => {
     setPrestataires([
       ...Prestataires,
       {
-        name, 
+        name,
         prenom,
         email,
         etude,
         titrePro,
-        choix, 
+        choix,
         autresInfo,
         formationExp,
       },
@@ -33,7 +33,7 @@ const PopupPrestataires = ({ onClose }) => {
     setEmail("");
     setEtude("");
     setTitrePro("");
-    setChoix(""); 
+    setChoix("");
     setAutresInfo("");
     setFormationExp("");
   };
@@ -116,30 +116,21 @@ const PopupPrestataires = ({ onClose }) => {
                 <label htmlFor="formationExp">
                   Formation et expérience professionnelle:
                 </label>
-                <input
-                  type="text"
-                  id="formationExp"
+                 <textarea
+                  id="autreInfo"
                   value={formationExp}
                   onChange={(e) => setFormationExp(e.target.value)}
+                  style={{height:"50px"}}
                 />
               </div>
 
               <div className="formGroup">
-                <label htmlFor="autreInfo">Autre informations:</label>
+                <label htmlFor="autreInfo">Autre informatisons:</label>
                 <textarea
                   id="autreInfo"
                   value={autresInfo}
                   onChange={(e) => setAutresInfo(e.target.value)}
-                />
-              </div>
-              
-              <div className="formGroup">
-                <label htmlFor="choix">Choix:</label>
-                <input
-                  type="text"
-                  id="choix"
-                  value={choix}
-                  onChange={(e) => setChoix(e.target.value)}
+                  style={{height:"50px"}}
                 />
               </div>
             </div>
@@ -174,7 +165,7 @@ const PopupPrestataires = ({ onClose }) => {
                   <td>{Prestataire.titrePro}</td>
                   <td>{Prestataire.formationExp}</td>
                   <td>{Prestataire.autresInfo}</td>
-                  <td>{Prestataire.choix}</td>
+                  <td><input type="checkbox" /></td>
                 </tr>
               ))}
             </tbody>

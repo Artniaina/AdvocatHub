@@ -47,16 +47,20 @@ const Affaire = () => {
     <div>
       <div className="formGroup">
         <label htmlFor="formation">Domaine(s) juridique(s) * : </label>
-        <input
-          type="text"
+        <textarea
           id="formation"
-          value={selectedDomains.join(", ")}
+          value={selectedDomains.join("\n")}
           readOnly
-        />{" "}
-      <IoAddCircle
-        onClick={() => setIsPopupVisible(!isPopupVisible)}
-        style={{ color: "green", fontSize: "40px", margin:"0px 0px -13px 2px" }}
-      />
+          rows={selectedDomains.length}
+        />
+        <IoAddCircle
+          onClick={() => setIsPopupVisible(!isPopupVisible)}
+          style={{
+            color: "green",
+            fontSize: "40px",
+            margin: "0px 0px 25px 20px",
+          }}
+        />
         {isPopupVisible && (
           <div className="popupContainer" ref={popupRef}>
             <PopupDomaineJuridique
@@ -66,7 +70,6 @@ const Affaire = () => {
             />
           </div>
         )}
-      
       </div>
 
       <div className="formGroup">
