@@ -102,7 +102,7 @@
 
 .table-container {
   width: 96%;
-  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .tavleInfo {
@@ -140,7 +140,7 @@
   background-color: white;
 }
 
-.popupDomaineJuridique {
+.popupAffaire {
   position: relative;
   background: white;
   border-radius: 8px;
@@ -162,6 +162,7 @@
 }
 .domainTable .td {
   width: 392px;
+  text-align: start;
 }
 .submitButton {
   background-color: #5E1675;

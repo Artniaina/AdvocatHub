@@ -3,6 +3,7 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import ToggleButton from "./ToggleButton";
 import PopupDomaineJuridique from "./PopupDomaineJuridique";
+import PopupHonoraire from "./PopupHonoraire";
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -15,18 +16,22 @@ const Affaire = () => {
     mediation: "non",
     mediationChoix: "non",
   });
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef(null);
+  const [isPopupHonoraireVisible, setiIsPopupHonoraireVisible] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
+      setiIsPopupHonoraireVisible(false);
     }
   };
   const [selectedDomains, setSelectedDomains] = useState([]);
 
   const handlePopupClose = () => {
-    setIsPopupVisible(false);
+    setIsPopupVisible(false);      
+    setiIsPopupHonoraireVisible(false);
+
   };
 
   const handlePopupSubmit = (domains) => {
@@ -227,7 +232,18 @@ const Affaire = () => {
           className="btnAdd"
           style={{ textAlign: "center", marginRight: "900px" }}
         >
-          <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
+          <IoAddCircle
+            style={{ color: "green", fontSize: "40px" }}
+            onClick={() => setiIsPopupHonoraireVisible(true)}
+          />
+          {isPopupHonoraireVisible && (
+            <div className="popupContainer" ref={popupRef}>
+              <PopupHonoraire
+                onClose={handlePopupClose}
+                onSubmit={handlePopupSubmit}
+              />
+            </div>
+          )}
         </div>
       </div>
 

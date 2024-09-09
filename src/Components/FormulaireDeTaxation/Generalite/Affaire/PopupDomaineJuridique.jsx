@@ -40,10 +40,10 @@ const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="popupDomaineJuridique" onClick={(e) => e.stopPropagation()}>
+      <div className="popupAffaire" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="closeButton"><IoCloseCircle /></button>
         <form onSubmit={handleSubmit}>
-          <table className="domainTable">
+          <table className="domainTable" >
             <thead>
               <tr>
                 <th>Domaine Juridique</th>
