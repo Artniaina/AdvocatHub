@@ -6,6 +6,7 @@ import PopupDomaineJuridique from "./PopupDomaineJuridique";
 import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
 
+
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
     affaire: "non",
@@ -335,7 +336,7 @@ const Affaire = () => {
                 ))}
               </select>
 
-              <div className="honoraireData">
+              <div className="honoraireData" >
                 {selectedProvisionDate && filteredProvisionData.length > 0 && (
                   <div className="honoraireData">
                     {filteredProvisionData.map((item, index) => (
