@@ -6,7 +6,6 @@ import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 
 const PopupHonoraire = ({ onClose, onSubmit }) => {
-
   const [rowsData, setRowsData] = useState(
     Array.from({ length: 10 }, () => ({
       date: "",
@@ -28,6 +27,16 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     setRowsData((prevState) =>
       prevState.map((row, i) =>
         i === index ? { ...row, paye: value } : row
+      )
+    );
+  };
+
+  const handleReset = (index) => {
+    setRowsData((prevState) =>
+      prevState.map((row, i) =>
+        i === index
+          ? { date: "", reference: "", amount: "", paye: "non" }
+          : row
       )
     );
   };
@@ -81,13 +90,16 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                       onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                     />
                   </td>
-                  <td>
+                  <td style={{ display: "flex", alignItems: "center" }}>
                     <ToggleButton
                       name={`paye-${index}`}
                       checkedValue={rowsData[index].paye}
                       onChange={(value) => handleToggle(index, value)}
                     />
-                    <TiDelete style={{color:"red"}}/>
+                    <TiDelete
+                      style={{ color: "red", fontSize: "50px", cursor: "pointer" }}
+                      onClick={() => handleReset(index)}
+                    />
                   </td>
                 </tr>
               ))}

@@ -30,7 +30,15 @@ const PopupProvision = ({ onClose, onSubmit }) => {
         )
       );
     };
-  
+    const handleReset = (index) => {
+      setRowsData((prevState) =>
+        prevState.map((row, i) =>
+          i === index
+            ? { date: "", reference: "", amount: "", paye: "non" }
+            : row
+        )
+      );
+    };
     const handleSubmit = (e) => {
       e.preventDefault();
       const data = rowsData; 
@@ -47,7 +55,7 @@ const PopupProvision = ({ onClose, onSubmit }) => {
             <IoCloseCircle />
           </button>
           <form onSubmit={handleSubmit}>
-            <table className="domainTable">
+            <table className="domainTable" >
               <thead>
                 <tr>
                   <th>Date*</th>
@@ -80,13 +88,16 @@ const PopupProvision = ({ onClose, onSubmit }) => {
                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                       />
                     </td>
-                    <td>
+                    <td style={{display:"flex"}}>
                       <ToggleButton
                         name={`paye-${index}`}
                         checkedValue={rowsData[index].paye}
                         onChange={(value) => handleToggle(index, value)}
                       />
-                      <TiDelete style={{color:"red"}}/>
+                       <TiDelete
+                      style={{ color: "red", fontSize: "50px", cursor: "pointer" }}
+                      onClick={() => handleReset(index)}
+                    />
                     </td>
                   </tr>
                 ))}
