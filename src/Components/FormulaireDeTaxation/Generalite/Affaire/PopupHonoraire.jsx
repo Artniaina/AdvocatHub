@@ -11,7 +11,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
       date: "",
       reference: "",
       amount: "",
-      paye: "non"
+      paye: "non",
     }))
   );
 
@@ -25,25 +25,22 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
 
   const handleToggle = (index, value) => {
     setRowsData((prevState) =>
-      prevState.map((row, i) =>
-        i === index ? { ...row, paye: value } : row
-      )
+      prevState.map((row, i) => (i === index ? { ...row, paye: value } : row))
     );
   };
 
   const handleReset = (index) => {
     setRowsData((prevState) =>
       prevState.map((row, i) =>
-        i === index
-          ? { date: "", reference: "", amount: "", paye: "non" }
-          : row
+        i === index ? { date: "", reference: "", amount: "", paye: "non" } : row
       )
     );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = rowsData; 
+    const data = rowsData;
+    onSubmit(data)
     console.log(data);
     onClose();
   };
@@ -52,6 +49,13 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
 
   return (
     <div className="overlay" onClick={onClose}>
+      <div className="guide">
+        <p>
+          {" "}
+          Insérer date, référence et montant déjà ou pas payée <br /> <br /> 
+          Cliquer sur le bouton “ Enregistrer” <span> Enregistrer </span>
+        </p>
+      </div>
       <div className="popupAffaire" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="closeButton">
           <IoCloseCircle />
@@ -73,21 +77,27 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                     <input
                       type="date"
                       value={rowsData[index].date}
-                      onChange={(e) => handleInputChange(index, "date", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "date", e.target.value)
+                      }
                     />
                   </td>
                   <td>
                     <input
                       type="text"
                       value={rowsData[index].reference}
-                      onChange={(e) => handleInputChange(index, "reference", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "reference", e.target.value)
+                      }
                     />
                   </td>
                   <td>
                     <input
                       type="text"
                       value={rowsData[index].amount}
-                      onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "amount", e.target.value)
+                      }
                     />
                   </td>
                   <td style={{ display: "flex", alignItems: "center" }}>
@@ -97,7 +107,11 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                       onChange={(value) => handleToggle(index, value)}
                     />
                     <TiDelete
-                      style={{ color: "red", fontSize: "50px", cursor: "pointer" }}
+                      style={{
+                        color: "red",
+                        fontSize: "50px",
+                        cursor: "pointer",
+                      }}
                       onClick={() => handleReset(index)}
                     />
                   </td>

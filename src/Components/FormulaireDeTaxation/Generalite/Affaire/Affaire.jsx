@@ -19,13 +19,13 @@ const Affaire = () => {
   });
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [isPopupHonoraireVisible, setiIsPopupHonoraireVisible] = useState(false);
+  const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-
+  const [honoraireData, setHonoraireData] = useState([]); 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
-      setiIsPopupHonoraireVisible(false);
+      setIsPopupHonoraireVisible(false);
       setIsPopupProvisionVisible(false);
     }
   };
@@ -33,14 +33,16 @@ const Affaire = () => {
 
   const handlePopupClose = () => {
     setIsPopupVisible(false);      
-    setiIsPopupHonoraireVisible(false);
+    setIsPopupHonoraireVisible(false);
     setIsPopupProvisionVisible(false);
 
   };
-
-  const handlePopupSubmit = (domains) => {
-    setSelectedDomains(domains);
+  const handlePopupSubmit = (data) => {
+    console.log('Données reçues :', data); 
+    setHonoraireData(data); 
+    setIsPopupHonoraireVisible(false); 
   };
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -238,7 +240,7 @@ const Affaire = () => {
         >
           <IoAddCircle
             style={{ color: "green", fontSize: "40px" }}
-            onClick={() => setiIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
+            onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
           />
           {isPopupHonoraireVisible && (
             <div className="popupContainer" ref={popupRef}>

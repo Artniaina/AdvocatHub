@@ -286,3 +286,24 @@ PiCaretUpDownFill{
   border-radius: 4px;
   box-sizing: border-box;
 }
+.guide{
+  background-color: red;
+  width: 40vw;
+  z-index: 2000;
+  position: absolute;
+  padding: 5px 20px;
+  top: 5px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.guide p {
+  font-size: 20px;
+  color: #ffff;
+}
+.guide p span{
+  background-color: #611c61;
+  padding: 12px 25px;
+}
+.guide2{
+  top: 160px;
+}

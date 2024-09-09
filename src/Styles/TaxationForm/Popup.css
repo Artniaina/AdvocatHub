@@ -148,14 +148,13 @@
   padding: 20px;
   min-width: 12vw;
   z-index: 1001;
-  min-height: 52vh;
+  max-height: 60vh;
+  top: 110px;
+  overflow: auto;
 }
-.domainTable{
-  overflow-x: auto;
-  overflow-y: auto;
-}
+
 .domainTable input[type="checkbox"] {
-  width: 25px;;
+  width: 25px;
 }
 .domainTable th {
   background-color: #5E1675;
@@ -165,7 +164,7 @@
 }
 .domainTable .td {
   width: 392px;
-  text-align: start;
+ 
 }
 .domainTable input{
   width: 250px;

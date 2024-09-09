@@ -50,6 +50,13 @@ const PopupProvision = ({ onClose, onSubmit }) => {
   
     return (
       <div className="overlay" onClick={onClose}>
+         <div className="guide guide2" >
+        <p>
+          {" "}
+          Insérer date, référence et montant déjà ou pas payée <br /> <br /> 
+          Cliquer sur le bouton “ Enregistrer” <span> Enregistrer </span>
+        </p>
+      </div>
         <div className="popupAffaire" onClick={(e) => e.stopPropagation()}>
           <button onClick={onClose} className="closeButton">
             <IoCloseCircle />
