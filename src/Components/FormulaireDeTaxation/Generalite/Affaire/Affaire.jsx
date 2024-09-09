@@ -3,7 +3,7 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import ToggleButton from "./ToggleButton";
 import PopupDomaineJuridique from "./PopupDomaineJuridique";
-import PopupProvision from './PopupProvision'
+import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
 
 const Affaire = () => {
@@ -21,8 +21,9 @@ const Affaire = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-  const [honoraireData, setHonoraireData] = useState([]); 
-  const [provisionData, setProvisionData] = useState([]); 
+  const [selectedDate, setSelectedDate] = useState("");
+  const [honoraireData, setHonoraireData] = useState([]);
+  const [provisionData, setProvisionData] = useState([]);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
@@ -31,27 +32,36 @@ const Affaire = () => {
     }
   };
   const [selectedDomains, setSelectedDomains] = useState([]);
+    
+  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState('');
+  const [selectedProvisionDate, setSelectedProvisionDate] = useState('');
+    
+  const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
+  const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
+
+  const filteredHonoraireData = honoraireData.filter(item => item.date === selectedHonoraireDate);
+  const filteredProvisionData = provisionData.filter(item => item.date === selectedProvisionDate);
+  
 
   const handlePopupClose = () => {
-    setIsPopupVisible(false);      
+    setIsPopupVisible(false);
     setIsPopupHonoraireVisible(false);
     setIsPopupProvisionVisible(false);
-
   };
-  const handlePopupSubmit = (data,) => {
-    setIsPopupVisible(false); 
-  };
-
-  const handlePopupHonoraireSubmit = (data,) => {
-    console.log('Données reçues Honoraires :', data); 
-    setHonoraireData(data); 
-    setIsPopupHonoraireVisible(false); 
+  const handlePopupSubmit = (data) => {
+    setIsPopupVisible(false);
   };
 
-  const handlePopupProvisionSubmit = (data,) => {
-    console.log('Données reçues Provision :', data); 
-    setHonoraireData(data); 
-    setIsPopupProvisionVisible(false); 
+  const handlePopupHonoraireSubmit = (data) => {
+    setHonoraireData(data);
+    setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
+    setIsPopupHonoraireVisible(false);
+  };
+
+  const handlePopupProvisionSubmit = (data) => {
+    setProvisionData(data);
+    setUniqueProvisionDates([...new Set(data.map(item => item.date))]);
+    setIsPopupProvisionVisible(false);
   };
 
   useEffect(() => {
@@ -239,19 +249,58 @@ const Affaire = () => {
         />
       </div>
 
-      <div className="formGroup">
-        <p>
-          Date, référence et montant TTC de la/des note(s) d'honoraires
-          contestée(s) * :
-        </p>
-        <div
-          className="btnAdd"
-          style={{ textAlign: "center", marginRight: "900px" }}
-        >
-          <IoAddCircle
-            style={{ color: "green", fontSize: "40px" }}
-            onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
-          />
+    <div className="formGroup">
+        <p>Date, référence et montant TTC de la/des note(s) d'honoraires contestée(s) * :</p>
+        <div className="btnAdd" style={{ textAlign: 'center', marginRight: '900px' }}>
+          {honoraireData.length === 0 ? (
+            <IoAddCircle
+              style={{ color: 'green', fontSize: '40px' }}
+              onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
+            />
+          ) : (
+            <>
+              <select
+                value={selectedHonoraireDate}
+                onChange={(e) => setSelectedHonoraireDate(e.target.value)}
+                style={{ marginBottom: '20px' }}
+              >
+                <option value="">Select Date</option>
+                {uniqueHonoraireDates.map((date, index) => (
+                  <option key={index} value={date}>
+                    {date}
+                  </option>
+                ))}
+              </select>
+
+              <div className="honoraireData">
+                {selectedHonoraireDate && filteredHonoraireData.length > 0 && (
+                  <div className="honoraireData">
+                    {filteredHonoraireData.map((item, index) => (
+                      <div key={index} style={{ marginBottom: '10px' }}>
+                        <label>
+                          <strong>Date :</strong>
+                          <input type="text" value={item.date} readOnly />
+                        </label>
+                        <label>
+                          <strong>Référence :</strong>
+                          <input type="text" value={item.reference || ''} readOnly />
+                        </label>
+                        <label>
+                          <strong>Montant TTC :</strong>
+                          <input type="text" value={item.amount || ''} readOnly />
+                        </label>
+                        <label>
+                          <strong>Payée :</strong>
+                          <input type="text" value={item.paye} readOnly />
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
           {isPopupHonoraireVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupHonoraire
@@ -265,14 +314,56 @@ const Affaire = () => {
 
       <div className="formGroup">
         <p>Date, référence et montant TTC de la/des note(s) de provision :</p>
-        <div
-          className="btnAdd"
-          style={{ textAlign: "center", marginRight: "900px" }}
-        >
-           <IoAddCircle
-            style={{ color: "green", fontSize: "40px" }}
-            onClick={() => setIsPopupProvisionVisible(!isPopupProvisionVisible)}
-          />
+        <div className="btnAdd" style={{ textAlign: 'center', marginRight: '900px' }}>
+          {provisionData.length === 0 ? (
+            <IoAddCircle
+              style={{ color: 'green', fontSize: '40px' }}
+              onClick={() => setIsPopupProvisionVisible(!isPopupProvisionVisible)}
+            />
+          ) : (
+            <>
+              <select
+                value={selectedProvisionDate}
+                onChange={(e) => setSelectedProvisionDate(e.target.value)}
+                style={{ marginBottom: '20px' }}
+              >
+                <option value="">Select Date</option>
+                {uniqueProvisionDates.map((date, index) => (
+                  <option key={index} value={date}>
+                    {date}
+                  </option>
+                ))}
+              </select>
+
+              <div className="honoraireData">
+                {selectedProvisionDate && filteredProvisionData.length > 0 && (
+                  <div className="honoraireData">
+                    {filteredProvisionData.map((item, index) => (
+                      <div key={index} style={{ marginBottom: '10px' }}>
+                        <label>
+                          <strong>Date :</strong>
+                          <input type="text" value={item.date} readOnly />
+                        </label>
+                        <label>
+                          <strong>Référence :</strong>
+                          <input type="text" value={item.reference || ''} readOnly />
+                        </label>
+                        <label>
+                          <strong>Montant :</strong>
+                          <input type="text" value={item.amount || ''} readOnly />
+                        </label>
+                        <label>
+                          <strong>Payée :</strong>
+                          <input type="text" value={item.paye} readOnly />
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
           {isPopupProvisionVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupProvision
