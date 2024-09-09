@@ -22,6 +22,7 @@ const Affaire = () => {
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
   const [honoraireData, setHonoraireData] = useState([]); 
+  const [provisionData, setProvisionData] = useState([]); 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
@@ -37,12 +38,21 @@ const Affaire = () => {
     setIsPopupProvisionVisible(false);
 
   };
-  const handlePopupSubmit = (data) => {
-    console.log('Données reçues :', data); 
+  const handlePopupSubmit = (data,) => {
+    setIsPopupVisible(false); 
+  };
+
+  const handlePopupHonoraireSubmit = (data,) => {
+    console.log('Données reçues Honoraires :', data); 
     setHonoraireData(data); 
     setIsPopupHonoraireVisible(false); 
   };
 
+  const handlePopupProvisionSubmit = (data,) => {
+    console.log('Données reçues Provision :', data); 
+    setHonoraireData(data); 
+    setIsPopupProvisionVisible(false); 
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -246,7 +256,7 @@ const Affaire = () => {
             <div className="popupContainer" ref={popupRef}>
               <PopupHonoraire
                 onClose={handlePopupClose}
-                onSubmit={handlePopupSubmit}
+                onSubmit={handlePopupHonoraireSubmit}
               />
             </div>
           )}
@@ -267,7 +277,7 @@ const Affaire = () => {
             <div className="popupContainer" ref={popupRef}>
               <PopupProvision
                 onClose={handlePopupClose}
-                onSubmit={handlePopupSubmit}
+                onSubmit={handlePopupProvisionSubmit}
               />
             </div>
           )}

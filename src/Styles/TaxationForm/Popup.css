@@ -168,6 +168,15 @@
 }
 .domainTable input{
   width: 250px;
+  border: none;
+  background-color: #45157200;
+}
+.domainTable tbody tr:nth-child(even) {
+  background-color: #f2e6ff;
+}
+
+.domainTable tbody tr:nth-child(odd) {
+  background-color: #d1b3ff;
 }
 
 .submitButton {

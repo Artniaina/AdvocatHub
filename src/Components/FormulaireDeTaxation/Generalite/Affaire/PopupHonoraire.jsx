@@ -107,7 +107,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
             </thead>
             <tbody>
               {rows.map((_, index) => (
-                <tr key={index}>
+                <tr key={index} >
                   <td>
                     <input
                       type="date"

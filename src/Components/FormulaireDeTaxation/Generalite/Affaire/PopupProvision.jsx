@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/Popup.css";
 import ToggleButton from "./ToggleButton";
 import "../../../../Styles/TaxationForm/CardInfo.css";
@@ -6,48 +6,80 @@ import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 
 const PopupProvision = ({ onClose, onSubmit }) => {
-    const [rowsData, setRowsData] = useState(
-      Array.from({ length: 5 }, () => ({
-        date: "",
-        reference: "",
-        amount: "",
-        paye: "non"
-      }))
+  const initialData = Array.from({ length: 5 }, () => ({
+    date: "",
+    reference: "",
+    amount: "",
+    paye: "non",
+  }));
+
+  const [rowsData, setRowsData] = useState(initialData);
+  const [initialRowsData, setInitialRowsData] = useState(initialData);
+  const [isModified, setIsModified] = useState(false); 
+
+  useEffect(() => {
+    setInitialRowsData(rowsData);
+  }, []);
+
+  const checkIfModified = () => {
+    return rowsData.some((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
+  };
+
+  useEffect(() => {
+    setIsModified(checkIfModified());
+  }, [rowsData]); 
+
+  const handleInputChange = (index, field, value) => {
+    setRowsData((prevState) =>
+      prevState.map((row, i) =>
+        i === index ? { ...row, [field]: value } : row
+      )
     );
-  
-    const handleInputChange = (index, field, value) => {
-      setRowsData((prevState) =>
-        prevState.map((row, i) =>
-          i === index ? { ...row, [field]: value } : row
-        )
+  };
+
+  const handleToggle = (index, value) => {
+    setRowsData((prevState) =>
+      prevState.map((row, i) => (i === index ? { ...row, paye: value } : row))
+    );
+  };
+
+  const handleReset = (index) => {
+    setRowsData((prevState) =>
+      prevState.map((row, i) =>
+        i === index ? { date: "", reference: "", amount: "", paye: "non" } : row
+      )
+    );
+  };
+  const getModifiedData = () => {
+    return rowsData.filter((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
       );
-    };
-  
-    const handleToggle = (index, value) => {
-      setRowsData((prevState) =>
-        prevState.map((row, i) =>
-          i === index ? { ...row, paye: value } : row
-        )
-      );
-    };
-    const handleReset = (index) => {
-      setRowsData((prevState) =>
-        prevState.map((row, i) =>
-          i === index
-            ? { date: "", reference: "", amount: "", paye: "non" }
-            : row
-        )
-      );
-    };
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const data = rowsData; 
-      console.log(data);
-      onClose();
-    };
-  
-    const rows = Array.from({ length: 5 });
-  
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const modifiedData = getModifiedData();
+    onSubmit(modifiedData); 
+    console.log(modifiedData);
+    onClose();
+  };
+
+  const rows = Array.from({ length: 5 });
+
     return (
       <div className="overlay" onClick={onClose}>
          <div className="guide guide2" >
