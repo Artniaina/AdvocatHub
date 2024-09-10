@@ -260,6 +260,10 @@ const Affaire = () => {
             />
           ) : (
             <>
+             <IoAddCircle
+              style={{ color: 'green', fontSize: '40px' }}
+              onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
+            />
               <select
                 value={selectedHonoraireDate}
                 onChange={(e) => setSelectedHonoraireDate(e.target.value)}
@@ -323,6 +327,10 @@ const Affaire = () => {
             />
           ) : (
             <>
+             <IoAddCircle
+              style={{ color: 'green', fontSize: '40px' }}
+              onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
+            />
               <select
                 value={selectedProvisionDate}
                 onChange={(e) => setSelectedProvisionDate(e.target.value)}

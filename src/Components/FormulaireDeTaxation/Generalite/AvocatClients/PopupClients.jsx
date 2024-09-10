@@ -414,8 +414,9 @@ const PopupClients = ({ onClose, onSelectClient }) => {
                   <td>{client.bp}</td>
                   <td>{client.localitebp}</td>
                   <td>{client.pays}</td>
-                  <td>{client.selectedCountry + client.phoneNumber}</td>
+                  <td>{client.contactInfo}</td>
                   <td>{client.email}</td>
+                  <td>Modifier</td>
                 </tr>
               ))}
               <tr>
