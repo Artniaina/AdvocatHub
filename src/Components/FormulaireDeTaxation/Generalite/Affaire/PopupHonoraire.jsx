@@ -35,7 +35,7 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData}) => {
     setInitialRowsData(rowsData);
   }, [honoraireData]);
   
-
+ 
   const checkIfModified = () => {
     return rowsData.some((row, index) => {
       const initialRow = initialRowsData[index];
@@ -99,8 +99,6 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData}) => {
     onClose();
   };
  
-  
-  
   const rows = Array.from({ length: 10 });
 
   return (

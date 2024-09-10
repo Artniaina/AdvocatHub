@@ -20,8 +20,19 @@ const PopupProvision = ({ onClose, onSubmit, provisionData }) => {
   const [isModified, setIsModified] = useState(false); 
 
   useEffect(() => {
+    if (provisionData && provisionData.length > 0) {
+      setRowsData((prevRowsData) => {
+        const updatedData = [...prevRowsData];
+        provisionData.forEach((provision, index) => {
+          if (updatedData[index]) {
+            updatedData[index] = { ...updatedData[index], ...provision };
+          }
+        });
+        return updatedData;
+      });
+    }
     setInitialRowsData(rowsData);
-  }, []);
+  }, [provisionData]);
 
   const checkIfModified = () => {
     return rowsData.some((row, index) => {
@@ -74,10 +85,14 @@ const PopupProvision = ({ onClose, onSubmit, provisionData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Dataaaaaa",provisionData);
+  
     const modifiedData = getModifiedData();
-    onSubmit(modifiedData); 
-    console.log(modifiedData);
+  
+   
+    const updateProvisionData = [...modifiedData];
+  
+    onSubmit(updateProvisionData); 
+    console.log("Données mises à jour", updateProvisionData);
     onClose();
   };
 

@@ -332,7 +332,7 @@ const Affaire = () => {
             <>
              <IoAddCircle
               style={{ color: 'green', fontSize: '40px' }}
-              onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
+              onClick={() => setIsPopupProvisionVisible(!isPopupProvisionVisible)}
             />
               <select
                 value={selectedProvisionDate}
