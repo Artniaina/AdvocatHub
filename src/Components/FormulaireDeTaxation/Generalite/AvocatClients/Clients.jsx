@@ -6,7 +6,7 @@ import PopupClients from "./PopupClients";
 
 const Clients = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [clientData, setClientData] = useState([[]]);
+  const [clientData, setClientData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
   const handleOptionChange = (event) => {
@@ -22,13 +22,15 @@ const Clients = () => {
   };
 
   const handleClientSelection = (data) => {
-    setClientData(data); 
-    handleClosePopup(); 
+    setClientData(data);
+    setSelectedOption(data[0]?.id || "");
+    handleClosePopup();
   };
 
-
   const flattenedClients = clientData.flat();
-  const firstClient = flattenedClients.length > 0 ? flattenedClients[0] : {};
+  const selectedClient =
+    flattenedClients.find((client) => client.id === selectedOption) || {};
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -49,175 +51,189 @@ const Clients = () => {
         CLIENT(S)
       </div>
 
-        <form onSubmit={handleSubmit} className="avocatForm">
-          <div className="clientsForm">
-            <label style={{ display: "inline" }} htmlFor="client">
-              Client(s):*{" "}
-            </label>
-            <select id="client">
-              <option value="">{firstClient.name +' '+ firstClient.prenom || ''}</option>
-            </select>
-            <div className="btnAdd" onClick={handleShowPopup}>
-              <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
-            </div>
+      <form onSubmit={handleSubmit} className="avocatForm">
+        <div className="clientsForm">
+          <label style={{ display: "inline" }} htmlFor="client">
+            Client(s):*{" "}
+          </label>
+          <select
+            id="client"
+            value={selectedOption}
+            onChange={handleOptionChange}
+          >
+            <option value="">-- Sélectionner un client --</option>
+            {flattenedClients.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.name + " " + client.prenom}
+              </option>
+            ))}
+          </select>
+
+          <div className="btnAdd" onClick={handleShowPopup}>
+            <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
+        </div>
 
-          <div className="radio-group">
-            <label>
-              <input
-                type="radio"
-                value="Particulier"
-                checked={selectedOption === "Particulier"}
-                onChange={handleOptionChange}
-              />
-              Particulier
-            </label>
+        <div className="radio-group">
+          <label>
+            <input
+              type="radio"
+              value="Particulier"
+              checked={selectedOption === "Particulier"}
+              onChange={handleOptionChange}
+            />
+            Particulier
+          </label>
 
-            <label>
-              <input
-                type="radio"
-                value="Société/Entité"
-                checked={selectedOption === "Société/Entité"}
-                onChange={handleOptionChange}
-              />
-              Société/Entité
-            </label>
-          </div>
+          <label>
+            <input
+              type="radio"
+              value="Société/Entité"
+              checked={selectedOption === "Société/Entité"}
+              onChange={handleOptionChange}
+            />
+            Société/Entité
+          </label>
+        </div>
 
+        <div className="formGroup">
+          <label htmlFor="denomination">
+            Denomination Sociale / Organe représentatif:
+          </label>
+          <input
+            type="text"
+            id="denomination"
+            value={selectedClient.denomination || ""}
+            readOnly
+          />
+        </div>
+
+        <div className="formGroup">
+          <label htmlFor="name">Nom:</label>
+          <input
+            type="text"
+            id="name"
+            value={selectedClient.name || ""}
+            readOnly
+          />
+        </div>
+
+        <div className="formGroup">
+          <label htmlFor="prenom">Prénom:</label>
+          <input
+            type="text"
+            id="prenom"
+            value={selectedClient.prenom || ""}
+            readOnly
+          />
+        </div>
+
+        <div className="three">
           <div className="formGroup">
-            <label htmlFor="denomination">
-              Denomination Sociale / Organe représentatif:
-            </label>
+            <label htmlFor="numVoie"> Numéro voie:</label>
             <input
               type="text"
-              id="denomination"
-              value={firstClient.denomination || ''}
+              id="numVoie"
+              value={selectedClient.numVoie || ""}
               readOnly
             />
           </div>
 
           <div className="formGroup">
-            <label htmlFor="name">Nom:</label>
+            <label htmlFor="rue"> Rue:</label>
             <input
+              className="two"
               type="text"
-              id="name"
-              value={firstClient.name || ''}
+              id="rue"
+              value={selectedClient.rue || ""}
               readOnly
             />
           </div>
 
           <div className="formGroup">
-            <label htmlFor="prenom">Prénom:</label>
+            <label htmlFor="cp"> CP:</label>
             <input
               type="text"
-              id="prenom"
-              value={firstClient.prenom || ''}
+              id="cp"
+              value={selectedClient.cp || ""}
+              readOnly
+            />
+          </div>
+        </div>
+
+        <div className="two">
+          <div className="formGroup ">
+            <label htmlFor="localite">Localité:</label>
+            <input
+              type="text"
+              id="localite"
+              value={selectedClient.localite || ""}
               readOnly
             />
           </div>
 
-          <div className="three">
-            <div className="formGroup">
-              <label htmlFor="numVoie"> Numéro voie:</label>
-              <input
-                type="text"
-                id="numVoie"
-                value={firstClient.numVoie || ''}
-                readOnly
-              />
-            </div>
+          <div className="formGroup">
+            <label htmlFor="bp">BP:</label>
+            <input
+              type="text"
+              id="bp"
+              value={selectedClient.bp || ""}
+              readOnly
+            />
+          </div>
+        </div>
 
-            <div className="formGroup">
-              <label htmlFor="rue"> Rue:</label>
-              <input
-                className="two"
-                type="text"
-                id="rue"
-                value={firstClient.rue || ''}
-                readOnly
-              />
-            </div>
-
-            <div className="formGroup">
-              <label htmlFor="cp"> CP:</label>
-              <input
-                type="text"
-                id="cp"
-                value={firstClient.cp || ''}
-                readOnly
-              />
-            </div>
+        <div className="two">
+          <div className="formGroup ">
+            <label htmlFor="localitebp">Localité BP:</label>
+            <input
+              type="text"
+              id="localitebp"
+              value={selectedClient.localitebp || ""}
+              readOnly
+            />
           </div>
 
-          <div className="two">
-            <div className="formGroup ">
-              <label htmlFor="localite">Localité:</label>
-              <input
-                type="text"
-                id="localite"
-                value={firstClient.localite || ''}
-                readOnly
-              />
-            </div>
+          <div className="formGroup">
+            <label htmlFor="pays">Pays:</label>
+            <input
+              type="text"
+              id="pays"
+              value={selectedClient.pays || ""}
+              readOnly
+            />
+          </div>
+        </div>
 
-            <div className="formGroup">
-              <label htmlFor="bp">BP:</label>
-              <input
-                type="text"
-                id="bp"
-                value={firstClient.bp || ''}
-                readOnly
-              />
-            </div>
+        <div className="two">
+          <div className="formGroup ">
+            <label htmlFor="telephone">Téléphone:</label>
+            <input
+              type="text"
+              id="telephone"
+              value={selectedClient.contactInfo || ""}
+              readOnly
+            />
           </div>
 
-          <div className="two">
-            <div className="formGroup ">
-              <label htmlFor="localitebp">Localité BP:</label>
-              <input
-                type="text"
-                id="localitebp"
-                value={firstClient.localitebp || ''}
-                readOnly
-              />
-            </div>
-
-            <div className="formGroup">
-              <label htmlFor="pays">Pays:</label>
-              <input
-                type="text"
-                id="pays"
-                value={firstClient.pays || ''}
-                readOnly
-              />
-            </div>
+          <div className="formGroup">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="text"
+              id="email"
+              value={selectedClient.email || ""}
+              readOnly
+            />
           </div>
-
-          <div className="two">
-            <div className="formGroup ">
-              <label htmlFor="telephone">Téléphone:</label>
-              <input
-                type="text"
-                id="telephone"
-                value={firstClient.contactInfo || ''}
-                readOnly
-              />
-            </div>
-
-            <div className="formGroup">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                id="email"
-                value={firstClient.email || ''}
-                readOnly
-              />
-            </div>
-          </div>
-        </form>
+        </div>
+      </form>
 
       {showPopup && (
-        <PopupClients onClose={handleClosePopup} onSelectClient={handleClientSelection} />
+        <PopupClients
+          onClose={handleClosePopup}
+          onSelectClient={handleClientSelection}
+          clientData={clientData}
+        />
       )}
     </div>
   );

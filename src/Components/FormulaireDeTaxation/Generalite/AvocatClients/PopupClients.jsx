@@ -3,9 +3,9 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"; 
 
-const PopupClients = ({ onClose, onSelectClient }) => {
+const PopupClients = ({ onClose, onSelectClient, clientData }) => {
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
   const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
@@ -48,11 +48,14 @@ const PopupClients = ({ onClose, onSelectClient }) => {
   };
 
 
+  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
   const handleSubmitTable = (e) => {
     e.preventDefault();
     setClients([
       ...clients,
       {
+        id: generateId(),
         selectedOption,
         denomination,
         name,
@@ -83,11 +86,15 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     setPhoneNumber("");
     setEmail("");
   };
+  
 
   const handleClientSelection = () => {
     const selectedClients = [clients];
 
     onSelectClient(selectedClients);
+    console.log(clientData);
+    console.log(selectedClients);
+    
   };
 
   const sortedClients = React.useMemo(() => {
@@ -416,7 +423,6 @@ const PopupClients = ({ onClose, onSelectClient }) => {
                   <td>{client.pays}</td>
                   <td>{client.contactInfo}</td>
                   <td>{client.email}</td>
-                  <td>Modifier</td>
                 </tr>
               ))}
               <tr>
@@ -427,7 +433,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
               </tr>
             </tbody>
           </table>
-          <button onClick={handleClientSelection}>Select Client</button>
+          <button onClick={handleClientSelection}>ENREGISTRER</button>
         </div>
       </div>
     </div>
