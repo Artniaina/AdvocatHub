@@ -424,7 +424,7 @@ const Affaire = () => {
           </div>
           {isPopupMontantVisible && (
             <div className="popupContainer" ref={popupRef}>
-              <PopupProvision
+              <PopupMontant
                 provisionData={provisionData}
                 onClose={handlePopupClose}
                 onSubmit={handlePopupMontantSubmit}
