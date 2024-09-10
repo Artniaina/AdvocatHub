@@ -25,6 +25,7 @@ const Affaire = () => {
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
   const [honoraireData, setHonoraireData] = useState([]);
   const [provisionData, setProvisionData] = useState([]);
+  const [montantData, setMontantData] = useState([]);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
@@ -33,7 +34,7 @@ const Affaire = () => {
     }
   };
   const [selectedDomains, setSelectedDomains] = useState([]);
-  const [selectedMontant, setSelectedMontant] = useState([]);
+  const [selectedMontantData, setSelectedMontantData] = useState([]);
   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState('');
   const [selectedProvisionDate, setSelectedProvisionDate] = useState('');
     
@@ -41,6 +42,7 @@ const Affaire = () => {
   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
 
   const filteredHonoraireData = honoraireData.filter(item => item.date === selectedHonoraireDate);
+  const filteredMontant = montantData.filter(item => item.date === selectedMontantData);
   const filteredProvisionData = provisionData.filter(item => item.date === selectedProvisionDate);
   
 
@@ -58,8 +60,9 @@ const Affaire = () => {
   };
 
   const handlePopupMontantSubmit = (data) => {
-    setSelectedMontant(data);
+    setSelectedMontantData(data);
     setIsPopupMontantVisible(false);
+    console.log("Ito eeeeeeee", selectedMontantData);
   };
 
   const handlePopupHonoraireSubmit = (data) => {
@@ -82,6 +85,8 @@ const Affaire = () => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
   };
   const isDisabled = (field) => showOptions[field] === "non";
+//Creation et gestion des rendus du popup des autres notes de la partie affaire
+//Gestion des "textarea" : gestion des rendus et desactivation selon l'etat du bouton oui/non
 
   return (
     <div>
@@ -425,7 +430,7 @@ const Affaire = () => {
           {isPopupMontantVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupMontant
-                provisionData={provisionData}
+                provisionData={montantData}
                 onClose={handlePopupClose}
                 onSubmit={handlePopupMontantSubmit}
               />

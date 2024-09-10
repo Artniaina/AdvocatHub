@@ -72,10 +72,10 @@ const PopupMontant = ({ onClose, onSubmit, provisionData }) => {
 
     const modifiedData = getModifiedData();
 
-    const updateProvisionData = [...modifiedData];
+    const updateMontant = [...modifiedData];
 
-    onSubmit(updateProvisionData);
-    console.log("Données mises à jour", updateProvisionData);
+    onSubmit(updateMontant);
+    console.log("Données mises à jour", updateMontant);
     onClose();
   };
 
