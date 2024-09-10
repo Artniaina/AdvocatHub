@@ -5,7 +5,7 @@ import ToggleButton from "./ToggleButton";
 import PopupDomaineJuridique from "./PopupDomaineJuridique";
 import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
-
+import PopupMontant from "./PopupMontant";
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -20,6 +20,7 @@ const Affaire = () => {
   });
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
   const [honoraireData, setHonoraireData] = useState([]);
@@ -32,7 +33,7 @@ const Affaire = () => {
     }
   };
   const [selectedDomains, setSelectedDomains] = useState([]);
-    
+  const [selectedMontant, setSelectedMontant] = useState([]);
   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState('');
   const [selectedProvisionDate, setSelectedProvisionDate] = useState('');
     
@@ -47,12 +48,18 @@ const Affaire = () => {
   const handlePopupClose = () => {
     setIsPopupVisible(false);
     setIsPopupHonoraireVisible(false);
+    setIsPopupMontantVisible(false);
     setIsPopupProvisionVisible(false);
   };
 
   const handlePopupDomaineSubmit = (data) => {
     setSelectedDomains(data);
     setIsPopupVisible(false);
+  };
+
+  const handlePopupMontantSubmit = (data) => {
+    setSelectedMontant(data);
+    setIsPopupMontantVisible(false);
   };
 
   const handlePopupHonoraireSubmit = (data) => {
@@ -74,7 +81,6 @@ const Affaire = () => {
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
   };
-
   const isDisabled = (field) => showOptions[field] === "non";
 
   return (
@@ -400,9 +406,8 @@ const Affaire = () => {
             onChange={(value) => handleToggle("notes", value)}
           />
         </div>
-      </div>
 
-      <div className="formGroup">
+      <div className="formGroup" >
         <label style={{ display: "inline" }} htmlFor="client">
           Merci de bien vouloir indiquer les montants TTC :
         </label>
@@ -414,10 +419,22 @@ const Affaire = () => {
           <div className="btnAdd">
             <IoAddCircle
               style={{ color: "green", fontSize: "40px", marginTop: "-2px" }}
+              onClick={() => setIsPopupMontantVisible(!isPopupMontantVisible)}
             />
           </div>
+          {isPopupMontantVisible && (
+            <div className="popupContainer" ref={popupRef}>
+              <PopupProvision
+                provisionData={provisionData}
+                onClose={handlePopupClose}
+                onSubmit={handlePopupMontantSubmit}
+              />
+            </div>
+          )}
         </div>
       </div>
+      </div>
+
 
       <div className="formGroupbtn">
         <div className="toggleButtons">

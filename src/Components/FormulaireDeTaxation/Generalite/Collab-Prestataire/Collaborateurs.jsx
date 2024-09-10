@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
@@ -16,7 +17,8 @@ const Collaborateurs = () => {
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
   const [isInscrit, setIsInscrit] = useState(false);
-
+  
+  
   const handleShowPopup = () => setShowPopup(true);
 
   const handleClosePopup = () => setShowPopup(false);
@@ -68,6 +70,7 @@ const Collaborateurs = () => {
     console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
 
+  
   return (
     <div>
       <div className="titleCard">
@@ -85,7 +88,7 @@ const Collaborateurs = () => {
             onChange={handleSelectCollaborator}
             aria-label="Select Collaborator"
           >
-            <option value="">Selectionner un Collaborateur</option>
+          
             {(selectedAvocats || []).map((collaborator) => (
               <option
                 key={collaborator.m_nIDAvocat_PP}
@@ -100,7 +103,6 @@ const Collaborateurs = () => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
         </div>
-
         <div className="formGroup">
           <label htmlFor="name">Nom:</label>
           <input
