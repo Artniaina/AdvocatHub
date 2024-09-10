@@ -88,17 +88,16 @@ const PopupClients = ({ onClose, onSelectClient, clientData }) => {
   };
   
 
-  const handleClientSelection = () => {
-    const selectedClients = [clients];
 
+  const handleClientSelection = () => {
+    const selectedClients = [...clients, ...clientData];
     onSelectClient(selectedClients);
     console.log(clientData);
     console.log(selectedClients);
-    
   };
 
   const sortedClients = React.useMemo(() => {
-    let sortableClients = [...clients];
+    let sortableClients = [...clients, ...clientData]; 
     if (sortConfig !== null) {
       sortableClients.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -115,7 +114,7 @@ const PopupClients = ({ onClose, onSelectClient, clientData }) => {
         return client[key]?.toLowerCase().includes(filters[key].toLowerCase());
       });
     });
-  }, [clients, sortConfig, filters]);
+  }, [clients, clientData, sortConfig, filters]);
 
   const requestSort = (key) => {
     let direction = "ascending";
@@ -408,9 +407,9 @@ const PopupClients = ({ onClose, onSelectClient, clientData }) => {
               </tr> 
             </thead>
             <tbody>
-              {sortedClients.map((client, index) => (
-                <tr key={index}>
-                  <td>{client.selectedOption}</td>
+            {sortedClients.map((client) => (
+              <tr key={client.id}>
+               <td>{client.selectedOption}</td>
                   <td>{client.denomination}</td>
                   <td>{client.name}</td>
                   <td>{client.prenom}</td>
@@ -423,20 +422,16 @@ const PopupClients = ({ onClose, onSelectClient, clientData }) => {
                   <td>{client.pays}</td>
                   <td>{client.contactInfo}</td>
                   <td>{client.email}</td>
-                </tr>
-              ))}
-              <tr>
-                <td colSpan="13"></td>
               </tr>
-              <tr>
-                <td colSpan="13"></td>
-              </tr>
+            ))}
+
             </tbody>
           </table>
           <button onClick={handleClientSelection}>ENREGISTRER</button>
         </div>
       </div>
     </div>
+    
   ); 
 };
 

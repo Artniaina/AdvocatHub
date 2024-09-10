@@ -61,7 +61,7 @@ const Clients = () => {
             value={selectedOption}
             onChange={handleOptionChange}
           >
-            <option value="">-- Sélectionner un client --</option>
+           
             {flattenedClients.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name + " " + client.prenom}
