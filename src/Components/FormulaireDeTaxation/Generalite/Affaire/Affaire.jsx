@@ -22,7 +22,6 @@ const Affaire = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
   const [honoraireData, setHonoraireData] = useState([]);
   const [provisionData, setProvisionData] = useState([]);
   const handleClickOutside = (event) => {
@@ -44,12 +43,15 @@ const Affaire = () => {
   const filteredProvisionData = provisionData.filter(item => item.date === selectedProvisionDate);
   
 
+  
   const handlePopupClose = () => {
     setIsPopupVisible(false);
     setIsPopupHonoraireVisible(false);
     setIsPopupProvisionVisible(false);
   };
-  const handlePopupSubmit = (data) => {
+
+  const handlePopupDomaineSubmit = (data) => {
+    setSelectedDomains(data);
     setIsPopupVisible(false);
   };
 
@@ -97,7 +99,7 @@ const Affaire = () => {
           <div className="popupContainer" ref={popupRef}>
             <PopupDomaineJuridique
               onClose={handlePopupClose}
-              onSubmit={handlePopupSubmit}
+              onSubmit={handlePopupDomaineSubmit}
               selectedDomains={selectedDomains}
             />
           </div>
@@ -309,6 +311,7 @@ const Affaire = () => {
           {isPopupHonoraireVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupHonoraire
+                honoraireData={honoraireData}
                 onClose={handlePopupClose}
                 onSubmit={handlePopupHonoraireSubmit}
               />
@@ -376,6 +379,7 @@ const Affaire = () => {
           {isPopupProvisionVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupProvision
+                provisionData={provisionData}
                 onClose={handlePopupClose}
                 onSubmit={handlePopupProvisionSubmit}
               />

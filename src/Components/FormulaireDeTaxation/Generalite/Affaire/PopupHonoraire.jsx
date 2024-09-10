@@ -4,8 +4,10 @@ import ToggleButton from "./ToggleButton";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
+import { update } from "lodash";
 
-const PopupHonoraire = ({ onClose, onSubmit }) => {
+const PopupHonoraire = ({ onClose, onSubmit, honoraireData}) => {
+
   const initialData = Array.from({ length: 10 }, () => ({
     date: "",
     reference: "",
@@ -17,10 +19,22 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
   const [initialRowsData, setInitialRowsData] = useState(initialData);
   const [isModified, setIsModified] = useState(false); 
 
- 
+
   useEffect(() => {
+    if (honoraireData && honoraireData.length > 0) {
+      setRowsData((prevRowsData) => {
+        const updatedData = [...prevRowsData];
+        honoraireData.forEach((honoraire, index) => {
+          if (updatedData[index]) {
+            updatedData[index] = { ...updatedData[index], ...honoraire };
+          }
+        });
+        return updatedData;
+      });
+    }
     setInitialRowsData(rowsData);
-  }, []);
+  }, [honoraireData]);
+  
 
   const checkIfModified = () => {
     return rowsData.some((row, index) => {
@@ -74,12 +88,19 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
     const modifiedData = getModifiedData();
-    onSubmit(modifiedData); 
-    console.log(modifiedData);
+  
+   
+    const updatedHonoraireData = [...modifiedData];
+  
+    onSubmit(updatedHonoraireData); 
+    console.log("Données mises à jour", updatedHonoraireData);
     onClose();
   };
-
+ 
+  
+  
   const rows = Array.from({ length: 10 });
 
   return (

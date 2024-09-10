@@ -5,7 +5,9 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 
-const PopupProvision = ({ onClose, onSubmit }) => {
+const PopupProvision = ({ onClose, onSubmit, provisionData }) => {
+ 
+  
   const initialData = Array.from({ length: 5 }, () => ({
     date: "",
     reference: "",
@@ -72,6 +74,7 @@ const PopupProvision = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Dataaaaaa",provisionData);
     const modifiedData = getModifiedData();
     onSubmit(modifiedData); 
     console.log(modifiedData);
