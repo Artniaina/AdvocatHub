@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 
-const PopupPrestataires = ({ onClose }) => {
+const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
   const [etude, setEtude] = useState("");
   const [titrePro, setTitrePro] = useState("");
-  const [choix, setChoix] = useState(""); 
-  const [autresInfo, setAutresInfo] = useState("");
   const [formationExp, setFormationExp] = useState("");
+  const [autresInfo, setAutresInfo] = useState("");
   const [Prestataires, setPrestataires] = useState([]);
 
+  // Handle form submission to add a new prestataire to the table
   const handleSubmitTable = (e) => {
     e.preventDefault();
     setPrestataires([
@@ -23,19 +23,39 @@ const PopupPrestataires = ({ onClose }) => {
         email,
         etude,
         titrePro,
-        choix,
-        autresInfo,
         formationExp,
+        autresInfo,
+        checked: false, // Add a 'checked' field to track selection
       },
     ]);
+    // Clear form fields after adding
     setName("");
     setPrenom("");
     setEmail("");
     setEtude("");
     setTitrePro("");
-    setChoix("");
-    setAutresInfo("");
     setFormationExp("");
+    setAutresInfo("");
+  };
+
+  // Handle checkbox toggle to update the selected prestataire
+  const handleCheckboxChange = (index) => {
+    const updatedPrestataires = Prestataires.map((Prestataire, i) => {
+      if (i === index) {
+        return { ...Prestataire, checked: !Prestataire.checked };
+      }
+      return Prestataire;
+    });
+    setPrestataires(updatedPrestataires);
+  };
+
+  // Send only the selected (checked) prestataires
+  const handleSendData = () => {
+    const selectedPrestataires = Prestataires.filter(
+      (Prestataire) => Prestataire.checked
+    );
+    onSubmitData(selectedPrestataires); // Send the selected prestataires to the parent
+    onClose(); // Close the popup
   };
 
   return (
@@ -67,7 +87,7 @@ const PopupPrestataires = ({ onClose }) => {
               </div>
 
               <div className="formGroup">
-                <label htmlFor="prenom">Prénom*:</label>
+                <label htmlFor="prenom">Prénom* :</label>
                 <input
                   type="text"
                   id="prenom"
@@ -116,21 +136,21 @@ const PopupPrestataires = ({ onClose }) => {
                 <label htmlFor="formationExp">
                   Formation et expérience professionnelle:
                 </label>
-                 <textarea
-                  id="autreInfo"
+                <textarea
+                  id="formationExp"
                   value={formationExp}
                   onChange={(e) => setFormationExp(e.target.value)}
-                  style={{height:"50px"}}
+                  style={{ height: "50px" }}
                 />
               </div>
 
               <div className="formGroup">
-                <label htmlFor="autreInfo">Autre informatisons:</label>
+                <label htmlFor="autreInfo">Autre informations:</label>
                 <textarea
                   id="autreInfo"
                   value={autresInfo}
                   onChange={(e) => setAutresInfo(e.target.value)}
-                  style={{height:"50px"}}
+                  style={{ height: "50px" }}
                 />
               </div>
             </div>
@@ -165,12 +185,22 @@ const PopupPrestataires = ({ onClose }) => {
                   <td>{Prestataire.titrePro}</td>
                   <td>{Prestataire.formationExp}</td>
                   <td>{Prestataire.autresInfo}</td>
-                  <td><input type="checkbox" /></td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={Prestataire.checked}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        <button className="sendButton" onClick={handleSendData}>
+          Envoyer les données
+        </button>
       </div>
     </div>
   );

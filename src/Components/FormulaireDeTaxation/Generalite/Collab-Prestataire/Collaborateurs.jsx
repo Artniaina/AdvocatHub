@@ -4,7 +4,7 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
-
+ 
 const Collaborateurs = () => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");

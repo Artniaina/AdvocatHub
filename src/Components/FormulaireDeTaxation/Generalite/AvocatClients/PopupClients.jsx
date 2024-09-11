@@ -296,7 +296,7 @@ const PopupClients = ({ onClose, onSelectClient, clientData }) => {
                 width: "100%",
                 padding: "8px 0px 8px 10px",
               }}
-            >
+            > 
               <label htmlFor="countrySelect">Téléphone :</label>
               <select
                 id="countrySelect"

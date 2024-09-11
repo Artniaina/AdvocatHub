@@ -71,13 +71,13 @@ const Affaire = () => {
   };
   const handlePopupDomaineSubmit = async (data) => {
     setSelectedDomains(data);
-    await addData({ type: 'domaines', data }); // Ajouter des données à IndexedDB
+    await addData({ type: 'domaines', data });
     setIsPopupVisible(false);
   };
 
   const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
-    await addData({ type: 'montants', data }); // Ajouter des données à IndexedDB
+    await addData({ type: 'montants', data });
     console.log("Ito eeeeeeee", montantData);
     setIsPopupMontantVisible(false);
   };
@@ -85,14 +85,14 @@ const Affaire = () => {
   const handlePopupHonoraireSubmit = async (data) => {
     setHonoraireData(data);
     setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
-    await addData({ type: 'honoraires', data }); // Ajouter des données à IndexedDB
+    await addData({ type: 'honoraires', data });
     setIsPopupHonoraireVisible(false);
   };
 
   const handlePopupProvisionSubmit = async (data) => {
     setProvisionData(data);
     setUniqueProvisionDates([...new Set(data.map(item => item.date))]);
-    await addData({ type: 'provisions', data }); // Ajouter des données à IndexedDB
+    await addData({ type: 'provisions', data }); 
     setIsPopupProvisionVisible(false);
   };
 

@@ -26,7 +26,7 @@ const Clients = () => {
     setSelectedOption(data[0]?.id || "");
     handleClosePopup();
   };
-
+ 
   const flattenedClients = clientData.flat();
   const selectedClient =
     flattenedClients.find((client) => client.id === selectedOption) || {};

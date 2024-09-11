@@ -70,7 +70,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     }
     setSortConfig({ key, direction });
   };
-
+ 
   const handleFilterChange = (e, key) => {
     setFilters((prev) => ({ ...prev, [key]: e.target.value }));
   };

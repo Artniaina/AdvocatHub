@@ -3,7 +3,6 @@ import avocatReducer from './AvocatSlice';
 import activityReducer from './ActivtesPreferentiellesSlice';
 import languesReducer from './LanguagesSlice'
 import countryCodesReducer from './countryCodesSlice';
-import affaireReducer from './Taxation/affaireSlice';
 
 const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ const store = configureStore({
     countryCodes: countryCodesReducer,
     activities: activityReducer,
     langues: languesReducer,
-    affaire: affaireReducer,
   }
 });
 

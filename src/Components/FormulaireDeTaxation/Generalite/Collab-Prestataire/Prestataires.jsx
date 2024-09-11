@@ -8,7 +8,11 @@ const Prestataires = () => {
   const [prenom, setPrenom] = useState("");
   const [etude, setEtude] = useState("");
   const [email, setEmail] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
+  const [choix, setChoix ]= useState("");
+  const [formationExp, setFormationExp] = useState("");
+  const [autresInfo, setAutresInfo] = useState("");
+  const [titrePro, setTitrePro] = useState("")
+  const [showPopup, setShowPopup] = useState(false)
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -20,9 +24,26 @@ const Prestataires = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Hello");
+    
   };
+  const handleDataFromPopup = (prestataireData) => {
+    if (Array.isArray(prestataireData) && prestataireData.length > 0) {
+      const firstPrestataire = prestataireData[0]; 
+      setName(firstPrestataire.name);
+      setPrenom(firstPrestataire.prenom);
+      setEtude(firstPrestataire.etude);
+      setEmail(firstPrestataire.email);
+      setTitrePro(firstPrestataire.titrePro);
+      setChoix(firstPrestataire.choix);
+      setAutresInfo(firstPrestataire.autresInfo);
+      setFormationExp(firstPrestataire.formationExp);
 
+    } else {
+      console.error("Invalid data format");
+    }
+    setShowPopup(false); 
+  };
+  
   return (
     <div>
       <div className="titleCard">
@@ -54,7 +75,7 @@ const Prestataires = () => {
         </div>
         <div className="formGroup">
           <label htmlFor="prenom">Prénom:</label>
-          <input
+          <input 
             type="text"
             id="prenom"
             value={prenom}
@@ -78,7 +99,7 @@ const Prestataires = () => {
           <label htmlFor="formation">
             Formation et expérience professionnelle
           </label>
-          <textarea id="autreInfo" readOnly />
+          <textarea id="autreInfo" value={formationExp} readOnly />
         </div>
 
         <div className="formGroup">
@@ -94,15 +115,18 @@ const Prestataires = () => {
 
         <div className="formGroup">
           <label htmlFor="titrePro">Titre Professionnel:</label>
-          <input type="text" id="titrePro" readOnly />
+          <input type="text" id="titrePro" value={titrePro} readOnly />
         </div>
 
         <div className="formGroup">
           <label htmlFor="autreInfo">Autre informations:</label>
-          <textarea id="autreInfo" readOnly />
+          <textarea id="autreInfo" value={autresInfo} readOnly />
         </div>
       </form>
-      {showPopup && <PopupPrestataires onClose={handleClosePopup} />}
+      {showPopup && <PopupPrestataires
+          onClose={handleClosePopup}
+          onSubmitData={handleDataFromPopup} 
+        />}
     </div>
   );
 };
