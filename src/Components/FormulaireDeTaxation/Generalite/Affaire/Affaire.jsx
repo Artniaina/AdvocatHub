@@ -23,9 +23,9 @@ const Affaire = () => {
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
+  const [montantData, setMontantData] = useState([]); 
   const [honoraireData, setHonoraireData] = useState([]);
   const [provisionData, setProvisionData] = useState([]);
-  const [montantData, setMontantData] = useState([]);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
@@ -44,9 +44,25 @@ const Affaire = () => {
   const filteredHonoraireData = honoraireData.filter(item => item.date === selectedHonoraireDate);
   const filteredMontant = montantData.filter(item => item.date === selectedMontantData);
   const filteredProvisionData = provisionData.filter(item => item.date === selectedProvisionDate);
-  
+  const [selectedAmount, setSelectedAmount] = useState(""); 
+  const [selectedComment, setSelectedComment] = useState(""); 
+  useEffect(() => {
+    if (montantData.length > 0) {
+      setSelectedAmount(montantData[0].amount);
+      setSelectedComment(montantData[0].comment);
+    }
+  }, [montantData]);
 
-  
+
+
+  const handleAmountChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedAmount(selectedValue);
+
+    const selectedData = montantData.find((item) => item.amount === selectedValue);
+    setSelectedComment(selectedData ? selectedData.comment : "");
+  };
+
   const handlePopupClose = () => {
     setIsPopupVisible(false);
     setIsPopupHonoraireVisible(false);
@@ -60,10 +76,11 @@ const Affaire = () => {
   };
 
   const handlePopupMontantSubmit = (data) => {
-    setSelectedMontantData(data);
+    setMontantData(data);
     setIsPopupMontantVisible(false);
-    console.log("Ito eeeeeeee", selectedMontantData);
+    console.log("Ito eeeeeeee", montantData);
   };
+
 
   const handlePopupHonoraireSubmit = (data) => {
     setHonoraireData(data);
@@ -85,8 +102,6 @@ const Affaire = () => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
   };
   const isDisabled = (field) => showOptions[field] === "non";
-//Creation et gestion des rendus du popup des autres notes de la partie affaire
-//Gestion des "textarea" : gestion des rendus et desactivation selon l'etat du bouton oui/non
 
   return (
     <div>
@@ -398,35 +413,45 @@ const Affaire = () => {
           )}
         </div>
       </div>
-
       <div className="formGroupbtn">
-        <div className="toggleButtons">
-          <p>
-            D’autres notes dans le cadre de la même affaire ont-elles été payées
-            ? (Factures...)
-          </p>
-          <ToggleButton
-            name="notes"
-            checkedValue={showOptions.notes}
-            onChange={(value) => handleToggle("notes", value)}
-          />
-        </div>
+      <div className="toggleButtons">
+        <p>
+          D’autres notes dans le cadre de la même affaire ont-elles été payées ?
+          (Factures...)
+        </p>
+        <ToggleButton
+          name="notes"
+          checkedValue={showOptions.notes}
+          onChange={(value) => handleToggle("notes", value)}
+        />
+      </div>
 
-      <div className="formGroup" >
+      <div className="formGroup">
         <label style={{ display: "inline" }} htmlFor="client">
           Merci de bien vouloir indiquer les montants TTC :
         </label>
         <div className="divflex" style={{ display: "flex" }}>
-          <select id="client">
-            <option value=""></option>
+          <select id="client" value={selectedAmount} onChange={handleAmountChange}>
+            {montantData.map((item, index) => (
+              <option key={index} value={item.amount}>
+                {item.amount} TTC
+              </option>
+            ))}
           </select>
-          <textarea style={{ width: "30vw", height: "12px" }} />
+
+          <textarea
+            style={{ width: "30vw", height: "12px" }}
+            value={selectedComment}
+            readOnly
+          />
+
           <div className="btnAdd">
             <IoAddCircle
               style={{ color: "green", fontSize: "40px", marginTop: "-2px" }}
               onClick={() => setIsPopupMontantVisible(!isPopupMontantVisible)}
             />
           </div>
+
           {isPopupMontantVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupMontant
@@ -438,7 +463,8 @@ const Affaire = () => {
           )}
         </div>
       </div>
-      </div>
+    </div>
+
 
 
       <div className="formGroupbtn">

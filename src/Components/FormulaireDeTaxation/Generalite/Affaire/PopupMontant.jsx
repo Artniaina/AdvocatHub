@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/Popup.css";
-import ToggleButton from "./ToggleButton";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
