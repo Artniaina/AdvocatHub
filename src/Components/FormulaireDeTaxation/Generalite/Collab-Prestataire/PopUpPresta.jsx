@@ -1,8 +1,9 @@
+//HERE I WANT ALL OF THE DATA TO BE SENT EVEN NOT CHCECKED
 import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 
-const PopupPrestataires = ({ onClose, onSubmitData }) => {
+const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
@@ -10,9 +11,8 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const [titrePro, setTitrePro] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
-  const [Prestataires, setPrestataires] = useState([]);
+  const [Prestataires, setPrestataires] = useState(prestataireData);
 
-  // Handle form submission to add a new prestataire to the table
   const handleSubmitTable = (e) => {
     e.preventDefault();
     setPrestataires([
@@ -50,10 +50,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   };
 
   const handleSendData = () => {
-    const selectedPrestataires = Prestataires.filter(
-      (Prestataire) => Prestataire.checked
-    );
-    onSubmitData(selectedPrestataires); 
+    onSubmitData(Prestataires);
     onClose();
   };
 

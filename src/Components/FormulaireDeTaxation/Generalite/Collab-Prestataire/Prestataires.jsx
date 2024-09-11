@@ -9,7 +9,6 @@ const Prestataires = () => {
   const [prenom, setPrenom] = useState("");
   const [etude, setEtude] = useState("");
   const [email, setEmail] = useState("");
-  const [choix, setChoix] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
   const [titrePro, setTitrePro] = useState("");
@@ -33,17 +32,27 @@ const Prestataires = () => {
     if (prestataireData.length > 0) {
       setPrestataires(prestataireData);
 
-      // Automatically set the first prestataire in the list
-      const firstPrestataire = prestataireData[0];
-      setSelectedPrestataire(0);
-      setName(firstPrestataire.name);
-      setPrenom(firstPrestataire.prenom);
-      setEtude(firstPrestataire.etude);
-      setEmail(firstPrestataire.email);
-      setTitrePro(firstPrestataire.titrePro);
-      setChoix(firstPrestataire.choix);
-      setAutresInfo(firstPrestataire.autresInfo);
-      setFormationExp(firstPrestataire.formationExp);
+      const firstChecked = prestataireData.find((p) => p.checked);
+      if (firstChecked) {
+        setSelectedPrestataire(prestataireData.indexOf(firstChecked));
+        setName(firstChecked.name);
+        setPrenom(firstChecked.prenom);
+        setEtude(firstChecked.etude);
+        setEmail(firstChecked.email);
+        setTitrePro(firstChecked.titrePro);
+        setAutresInfo(firstChecked.autresInfo);
+        setFormationExp(firstChecked.formationExp);
+      } else {
+       
+        setSelectedPrestataire(null);
+        setName("");
+        setPrenom("");
+        setEtude("");
+        setEmail("");
+        setTitrePro("");
+        setAutresInfo("");
+        setFormationExp("");
+      }
     }
     setShowPopup(false);
   };
@@ -57,12 +66,12 @@ const Prestataires = () => {
       setEtude(selected.etude);
       setEmail(selected.email);
       setTitrePro(selected.titrePro);
-      setChoix(selected.choix);
       setAutresInfo(selected.autresInfo);
       setFormationExp(selected.formationExp);
       setSelectedPrestataire(selectedIndex);
     }
   };
+  const checkedPrestataires = prestataires.filter(p => p.checked);
 
   return (
     <div>
@@ -81,13 +90,13 @@ const Prestataires = () => {
             onChange={handlePrestataireChange}
             value={selectedPrestataire || ""}
           >
-            {prestataires.length > 0 && selectedPrestataire === "" ? (
+            {checkedPrestataires.length > 0 && selectedPrestataire === "" ? (
               <option value="">
-                {prestataires[0].name} {prestataires[0].prenom}
+                {checkedPrestataires[0].name} {checkedPrestataires[0].prenom}
               </option>
             ) : (
-              prestataires.map((prestataire) => (
-                <option key={prestataire.id} value={prestataire.id}>
+              checkedPrestataires.map((prestataire, index) => (
+                <option key={index} value={index}>
                   {prestataire.name} {prestataire.prenom}
                 </option>
               ))
@@ -140,6 +149,7 @@ const Prestataires = () => {
         <PopupPrestataires
           onClose={handleClosePopup}
           onSubmitData={handleDataFromPopup}
+          prestataireData={prestataires}
         />
       )}
     </div>
