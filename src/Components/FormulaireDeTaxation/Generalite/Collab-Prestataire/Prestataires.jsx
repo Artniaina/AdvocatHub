@@ -3,16 +3,19 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
 import PopupPrestataires from "./PopUpPresta";
+
 const Prestataires = () => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [etude, setEtude] = useState("");
   const [email, setEmail] = useState("");
-  const [choix, setChoix ]= useState("");
+  const [choix, setChoix] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
-  const [titrePro, setTitrePro] = useState("")
-  const [showPopup, setShowPopup] = useState(false)
+  const [titrePro, setTitrePro] = useState("");
+  const [prestataires, setPrestataires] = useState([]);
+  const [selectedPrestataire, setSelectedPrestataire] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -24,11 +27,15 @@ const Prestataires = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
   };
+
   const handleDataFromPopup = (prestataireData) => {
-    if (Array.isArray(prestataireData) && prestataireData.length > 0) {
-      const firstPrestataire = prestataireData[0]; 
+    if (prestataireData.length > 0) {
+      setPrestataires(prestataireData);
+
+      // Automatically set the first prestataire in the list
+      const firstPrestataire = prestataireData[0];
+      setSelectedPrestataire(0);
       setName(firstPrestataire.name);
       setPrenom(firstPrestataire.prenom);
       setEtude(firstPrestataire.etude);
@@ -37,13 +44,26 @@ const Prestataires = () => {
       setChoix(firstPrestataire.choix);
       setAutresInfo(firstPrestataire.autresInfo);
       setFormationExp(firstPrestataire.formationExp);
-
-    } else {
-      console.error("Invalid data format");
     }
-    setShowPopup(false); 
+    setShowPopup(false);
   };
-  
+
+  const handlePrestataireChange = (e) => {
+    const selectedIndex = e.target.value;
+    if (selectedIndex !== "") {
+      const selected = prestataires[selectedIndex];
+      setName(selected.name);
+      setPrenom(selected.prenom);
+      setEtude(selected.etude);
+      setEmail(selected.email);
+      setTitrePro(selected.titrePro);
+      setChoix(selected.choix);
+      setAutresInfo(selected.autresInfo);
+      setFormationExp(selected.formationExp);
+      setSelectedPrestataire(selectedIndex);
+    }
+  };
+
   return (
     <div>
       <div className="titleCard">
@@ -55,9 +75,25 @@ const Prestataires = () => {
           <label style={{ display: "inline" }} htmlFor="client">
             Prestataire(s) extérieur(s):*{" "}
           </label>
-          <select id="client" style={{ width: "23vw" }}>
-            <option value=""></option>
+          <select
+            id="client"
+            style={{ width: "23vw" }}
+            onChange={handlePrestataireChange}
+            value={selectedPrestataire || ""}
+          >
+            {prestataires.length > 0 && selectedPrestataire === "" ? (
+              <option value="">
+                {prestataires[0].name} {prestataires[0].prenom}
+              </option>
+            ) : (
+              prestataires.map((prestataire) => (
+                <option key={prestataire.id} value={prestataire.id}>
+                  {prestataire.name} {prestataire.prenom}
+                </option>
+              ))
+            )}
           </select>
+
           <div className="btnAdd" onClick={handleShowPopup}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
@@ -65,52 +101,28 @@ const Prestataires = () => {
 
         <div className="formGroup">
           <label htmlFor="name">Nom:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            readOnly
-          />
+          <input type="text" id="name" value={name} readOnly />
         </div>
         <div className="formGroup">
           <label htmlFor="prenom">Prénom:</label>
-          <input 
-            type="text"
-            id="prenom"
-            value={prenom}
-            onChange={(e) => setPrenom(e.target.value)}
-            readOnly
-          />
+          <input type="text" id="prenom" value={prenom} readOnly />
         </div>
 
         <div className="formGroup">
           <label htmlFor="etude">Etude/Société tierce:</label>
-          <input
-            type="text"
-            id="etude"
-            value={etude}
-            onChange={(e) => setEtude(e.target.value)}
-            readOnly
-          />
+          <input type="text" id="etude" value={etude} readOnly />
         </div>
 
         <div className="formGroup">
           <label htmlFor="formation">
-            Formation et expérience professionnelle
+            Formation et expérience professionnelle:
           </label>
-          <textarea id="autreInfo" value={formationExp} readOnly />
+          <textarea id="formation" value={formationExp} readOnly />
         </div>
 
         <div className="formGroup">
           <label htmlFor="email">Email:</label>
-          <input
-            type="text"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            readOnly
-          />
+          <input type="text" id="email" value={email} readOnly />
         </div>
 
         <div className="formGroup">
@@ -119,14 +131,17 @@ const Prestataires = () => {
         </div>
 
         <div className="formGroup">
-          <label htmlFor="autreInfo">Autre informations:</label>
+          <label htmlFor="autreInfo">Autres informations:</label>
           <textarea id="autreInfo" value={autresInfo} readOnly />
         </div>
       </form>
-      {showPopup && <PopupPrestataires
+
+      {showPopup && (
+        <PopupPrestataires
           onClose={handleClosePopup}
-          onSubmitData={handleDataFromPopup} 
-        />}
+          onSubmitData={handleDataFromPopup}
+        />
+      )}
     </div>
   );
 };

@@ -25,10 +25,10 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
         titrePro,
         formationExp,
         autresInfo,
-        checked: false, // Add a 'checked' field to track selection
+        checked: false, 
       },
     ]);
-    // Clear form fields after adding
+  
     setName("");
     setPrenom("");
     setEmail("");
@@ -38,7 +38,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
     setAutresInfo("");
   };
 
-  // Handle checkbox toggle to update the selected prestataire
+
   const handleCheckboxChange = (index) => {
     const updatedPrestataires = Prestataires.map((Prestataire, i) => {
       if (i === index) {
@@ -49,13 +49,12 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
     setPrestataires(updatedPrestataires);
   };
 
-  // Send only the selected (checked) prestataires
   const handleSendData = () => {
     const selectedPrestataires = Prestataires.filter(
       (Prestataire) => Prestataire.checked
     );
-    onSubmitData(selectedPrestataires); // Send the selected prestataires to the parent
-    onClose(); // Close the popup
+    onSubmitData(selectedPrestataires); 
+    onClose();
   };
 
   return (
