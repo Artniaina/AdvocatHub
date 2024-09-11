@@ -69,7 +69,6 @@ const Affaire = () => {
     setIsPopupMontantVisible(false);
     setIsPopupProvisionVisible(false);
   };
-
   const handlePopupDomaineSubmit = (data) => {
     setSelectedDomains(data);
     setIsPopupVisible(false);
@@ -81,7 +80,7 @@ const Affaire = () => {
     console.log("Ito eeeeeeee", montantData);
   };
 
-
+ 
   const handlePopupHonoraireSubmit = (data) => {
     setHonoraireData(data);
     setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
