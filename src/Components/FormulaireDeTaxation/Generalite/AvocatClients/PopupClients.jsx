@@ -86,8 +86,6 @@ const PopupClients = ({ onClose, onSelectClient, clientData }) => {
     setPhoneNumber("");
     setEmail("");
   };
-  
-
 
   const handleClientSelection = () => {
     const selectedClients = [...clients, ...clientData];

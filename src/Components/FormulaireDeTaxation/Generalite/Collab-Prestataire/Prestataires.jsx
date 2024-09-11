@@ -43,7 +43,6 @@ const Prestataires = () => {
         setAutresInfo(firstChecked.autresInfo);
         setFormationExp(firstChecked.formationExp);
       } else {
-       
         setSelectedPrestataire(null);
         setName("");
         setPrenom("");
@@ -152,7 +151,7 @@ const Prestataires = () => {
           prestataireData={prestataires}
         />
       )}
-    </div>
+    </div> 
   );
 };
 

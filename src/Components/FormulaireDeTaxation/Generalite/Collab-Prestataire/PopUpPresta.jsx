@@ -1,7 +1,8 @@
-//HERE I WANT ALL OF THE DATA TO BE SENT EVEN NOT CHCECKED
 import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
+import { PiCaretUpDownFill } from "react-icons/pi";
+import { FaFilter } from "react-icons/fa";
 
 const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
   const [name, setName] = useState("");
@@ -12,6 +13,10 @@ const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
   const [Prestataires, setPrestataires] = useState(prestataireData);
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [filterActive, setFilterActive] = useState(null);
+  const [filters, setFilters] = useState({});
 
   const handleSubmitTable = (e) => {
     e.preventDefault();
@@ -38,7 +43,6 @@ const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
     setAutresInfo("");
   };
 
-
   const handleCheckboxChange = (index) => {
     const updatedPrestataires = Prestataires.map((Prestataire, i) => {
       if (i === index) {
@@ -53,6 +57,37 @@ const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
     onSubmitData(Prestataires);
     onClose();
   };
+
+  const requestSort = (key) => {
+    const order = sortKey === key && sortOrder === 'asc' ? 'desc' : 'asc';
+    const sortedPrestataires = [...Prestataires].sort((a, b) => {
+      if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
+      if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+    setSortKey(key);
+    setSortOrder(order);
+    setPrestataires(sortedPrestataires);
+  };
+
+  const handleFilterChange = (e, key) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: e.target.value,
+    }));
+  };
+
+  const handleFilterClick = (key) => {
+    setFilterActive(key);
+  };
+
+  const filteredPrestataires = Prestataires.filter((Prestataire) =>
+    Object.keys(filters).every((key) =>
+      Prestataire[key]
+        ? Prestataire[key].toLowerCase().includes(filters[key].toLowerCase())
+        : false
+    )
+  );
 
   return (
     <div className="overlay">
@@ -161,18 +196,44 @@ const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
           <table className="tavleInfo">
             <thead>
               <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Etude/Société</th>
-                <th>Titre Professionnel</th>
-                <th>Formation et expérience</th>
-                <th>Autres informations</th>
-                <th>Choix</th>
+                {[
+                  "name",
+                  "prenom",
+                  "email",
+                  "etude",
+                  "titrePro",
+                  "formationExp",
+                  "autresInfo",
+                  "choix"
+                ].map((key) => (
+                  <th key={key} onClick={() => requestSort(key)}>
+                    <span className="sort-icon">
+                      <PiCaretUpDownFill />
+                    </span>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                    <span
+                      className="filter-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFilterClick(key);
+                      }}
+                    >
+                      <FaFilter />
+                    </span>
+                    {filterActive === key && (
+                      <input
+                        type="text"
+                        placeholder={`Filter by ${key}`}
+                        value={filters[key] || ""}
+                        onChange={(e) => handleFilterChange(e, key)}
+                      />
+                    )}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {Prestataires.map((Prestataire, index) => (
+              {filteredPrestataires.map((Prestataire, index) => (
                 <tr key={index}>
                   <td>{Prestataire.name}</td>
                   <td>{Prestataire.prenom}</td>
