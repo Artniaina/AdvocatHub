@@ -6,6 +6,7 @@ import PopupDomaineJuridique from "./PopupDomaineJuridique";
 import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
 import PopupMontant from "./PopupMontant";
+import { getAllData, addData, updateData, deleteData } from '../../../../db'; 
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -18,6 +19,7 @@ const Affaire = () => {
     mediation: "non",
     mediationChoix: "non",
   });
+ 
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
@@ -53,8 +55,6 @@ const Affaire = () => {
     }
   }, [montantData]);
 
-
-
   const handleAmountChange = (e) => {
     const selectedValue = e.target.value;
     setSelectedAmount(selectedValue);
@@ -69,27 +69,30 @@ const Affaire = () => {
     setIsPopupMontantVisible(false);
     setIsPopupProvisionVisible(false);
   };
-  const handlePopupDomaineSubmit = (data) => {
+  const handlePopupDomaineSubmit = async (data) => {
     setSelectedDomains(data);
+    await addData({ type: 'domaines', data }); // Ajouter des données à IndexedDB
     setIsPopupVisible(false);
   };
 
-  const handlePopupMontantSubmit = (data) => {
+  const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
-    setIsPopupMontantVisible(false);
+    await addData({ type: 'montants', data }); // Ajouter des données à IndexedDB
     console.log("Ito eeeeeeee", montantData);
+    setIsPopupMontantVisible(false);
   };
 
- 
-  const handlePopupHonoraireSubmit = (data) => {
+  const handlePopupHonoraireSubmit = async (data) => {
     setHonoraireData(data);
     setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
+    await addData({ type: 'honoraires', data }); // Ajouter des données à IndexedDB
     setIsPopupHonoraireVisible(false);
   };
 
-  const handlePopupProvisionSubmit = (data) => {
+  const handlePopupProvisionSubmit = async (data) => {
     setProvisionData(data);
     setUniqueProvisionDates([...new Set(data.map(item => item.date))]);
+    await addData({ type: 'provisions', data }); // Ajouter des données à IndexedDB
     setIsPopupProvisionVisible(false);
   };
 
@@ -97,9 +100,22 @@ const Affaire = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await getAllData();
+      // Traitez les données selon leur type
+      // Par exemple : 
+      // const montants = data.filter(item => item.type === 'montants');
+      // setMontantData(montants.map(item => item.data));
+    };
+    loadData();
+  }, []);
+
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
   };
+
   const isDisabled = (field) => showOptions[field] === "non";
 
   return (
@@ -146,7 +162,6 @@ const Affaire = () => {
         <label htmlFor="dateDebut">Date de début du mandat * :</label>
         <input type="date" id="date" />
       </div>
-
       <div
         className="formGroup"
         style={{
