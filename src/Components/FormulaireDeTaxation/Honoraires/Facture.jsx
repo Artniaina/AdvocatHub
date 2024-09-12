@@ -3,12 +3,19 @@ import PopupNoteHonoraire from "./PopupNoteHonoraire";
 import { IoAddCircle } from "react-icons/io5";
 
 const Facture = () => {
+  const [honoraireData, setHonoraireData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const handleShowPopup = () => {
     setShowPopup(true);
   };
   const handleClosePopup = () => {
     setShowPopup(false);
+  };
+
+  const handleDataFromPopup = (data) => {
+    setHonoraireData(data);
+    console.log("Ito dray ary ny donnees azo ee",honoraireData);
+    handleClosePopup();
   };
 
   const handleSubmit = (e) => {
@@ -150,7 +157,7 @@ const Facture = () => {
             readOnly
           />
         </form>
-        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} />}
+        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} onSubmitData={handleDataFromPopup} />}
       </div>
     </>
   );

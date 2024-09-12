@@ -4,7 +4,7 @@ import "../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 
-const PopupNoteHonoraire = ({ onClose }) => {
+const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
   const tableHeaders = [
     { label: "Nombre de minutes facturées", key: "minutes" },
     { label: "Taux honoraires HTVA facturés", key: "tauxHoraires" },
@@ -62,6 +62,8 @@ const PopupNoteHonoraire = ({ onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+ 
+
   const requestSort = (key) => {
     const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
     const sortedData = [...tableData].sort((a, b) => {
@@ -85,15 +87,16 @@ const PopupNoteHonoraire = ({ onClose }) => {
     setFilterActive(key);
   };
 
- 
   const filteredData = tableData.filter((row) =>
     Object.keys(filters).every((key) =>
       filters[key]
-        ? row[key]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        ? row[key]
+            ?.toString()
+            .toLowerCase()
+            .includes(filters[key].toLowerCase())
         : true
     )
   );
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -116,6 +119,12 @@ const PopupNoteHonoraire = ({ onClose }) => {
       noteTTC: "",
       restantDu: "",
     });
+  };
+
+  const handleSendData = () => {
+    onSubmitData(tableData);
+    console.log("Donnees ao anaty popup",tableData);
+    onClose();
   };
 
   return (
@@ -384,31 +393,32 @@ const PopupNoteHonoraire = ({ onClose }) => {
                 ))}
               </tr>
             </thead>
-
             <tbody>
-  {filteredData.map((data, index) => (
-    <tr key={index}>
-      <td>{data.minutes}</td>
-      <td>{data.tauxHoraires}</td>
-      <td>{data.totalHonotraireHTVA}</td>
-      <td>{data.fraisDossier}</td>
-      <td>{data.totalHTVA}</td>
-      <td>{data.tauxTVA}</td>
-      <td>{data.montantTVA}</td>
-      <td>{data.totalTTC}</td>
-      <td>{data.fraisDivers}</td>
-      <td>{data.provisionsTTC}</td>
-      <td>{data.remise}</td>
-      <td>{data.noteTTC}</td>
-      <td>{data.restantDu}</td>
-    </tr>
-  ))}
-</tbody>
-
+              {filteredData.map((data, index) => (
+                <tr key={index}>
+                  <td>{data.date}</td>
+                  <td>{data.reference}</td>
+                  <td>{data.hours}</td>
+                  <td>{data.minutes}</td>
+                  <td>{data.tauxHoraires}</td>
+                  <td>{data.totalHonotraireHTVA}</td>
+                  <td>{data.fraisDossier}</td>
+                  <td>{data.totalHTVA}</td>
+                  <td>{data.tauxTVA}</td>
+                  <td>{data.montantTVA}</td>
+                  <td>{data.totalTTC}</td>
+                  <td>{data.fraisDivers}</td>
+                  <td>{data.provisionsTTC}</td>
+                  <td>{data.remise}</td>
+                  <td>{data.noteTTC}</td>
+                  <td>{data.restantDu}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
 
-        <button className="sendButton">Envoyer les données</button>
+        <button className="sendButton" onClick={handleSendData}>Envoyer les données</button>
       </div>
     </div>
   );
