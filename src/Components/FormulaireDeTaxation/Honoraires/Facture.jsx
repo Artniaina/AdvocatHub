@@ -5,25 +5,67 @@ import { IoAddCircle } from "react-icons/io5";
 const Facture = () => {
   const [honoraireData, setHonoraireData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedData, setSelectedData] = useState({
+    fraisDivers: "",
+    fraisDossier: "",
+    hours: "",
+    minutes: "",
+    montantTVA: "",
+    noteTTC: "",
+    provisionsTTC: "",
+    reference: "",
+    remise: "",
+    restantDu: "",
+    tauxHoraires: "",
+    tauxTVA: "",
+    totalHTVA: "",
+    totalHonoraireHTVA: "",
+    totalTTC: ""
+  });
+
   const handleShowPopup = () => {
     setShowPopup(true);
   };
+
   const handleClosePopup = () => {
     setShowPopup(false);
   };
 
   const handleDataFromPopup = (data) => {
     setHonoraireData(data);
-    console.log("Ito dray ary ny donnees azo ee",honoraireData);
     handleClosePopup();
+  };
+
+  const handleDateChange = (event) => {
+    const date = event.target.value;
+    setSelectedDate(date);
+    const data = honoraireData.find(item => item.date === date);
+    setSelectedData(data || {
+      fraisDivers: "",
+      fraisDossier: "",
+      hours: "",
+      minutes: "",
+      montantTVA: "",
+      noteTTC: "",
+      provisionsTTC: "",
+      reference: "",
+      remise: "",
+      restantDu: "",
+      tauxHoraires: "",
+      tauxTVA: "",
+      totalHTVA: "",
+      totalHonoraireHTVA: "",
+      totalTTC: ""
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
   return (
     <>
-    
       <p>
         L'intégralité des honoraires facturés doit être saisie. L'ensemble des
         montants sont exprimés en Euros.
@@ -47,18 +89,35 @@ const Facture = () => {
         <div style={{ display: "flex" }}>
           <p>Nombre d'heures facturées:</p>
           <div>
-            <input className="hour" type="text" placeholder="0h" readOnly />
-            <input className="hour" type="text" placeholder="0mn" readOnly />
+            <input className="hour" type="text" placeholder="0h" value={selectedData.hours} readOnly />
+            <input className="hour" type="text" placeholder="0mn" value={selectedData.minutes} readOnly />
           </div>
         </div>
       </div>
       <div className="honoraires ">
-        <form>
+        <form onSubmit={handleSubmit}>
+          {/* New Select Input */}
+          {honoraireData.length > 0 && (
+            <div>
+              <label htmlFor="dateSelect">Sélectionner une date:</label>
+              <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
+                <option value="">-- Choisissez une date --</option>
+                {honoraireData.map((data) => (
+                  <option key={data.date} value={data.date}>
+                    {data.date}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Existing Form Inputs */}
           <label htmlFor="honorairesHtva">Aux horaires HTVA facturés :</label>
           <input
             type="text"
             id="honorairesHtva"
             placeholder="0.00 €"
+            value={selectedData.totalHTVA}
             readOnly
           />
 
@@ -69,6 +128,7 @@ const Facture = () => {
             type="text"
             id="totalHonorairesHtva"
             placeholder="0.00 €"
+            value={selectedData.totalHonoraireHTVA}
             readOnly
           />
 
@@ -80,6 +140,7 @@ const Facture = () => {
             type="text"
             id="totalFraisDossierHtva"
             placeholder="0.00 €"
+            value={selectedData.fraisDossier}
             readOnly
           />
 
@@ -90,22 +151,36 @@ const Facture = () => {
             type="text"
             id="totalHonorairesFraisHtva"
             placeholder="0.00 €"
+            value={selectedData.totalHonotraireHTVA}
             readOnly
           />
 
           <label htmlFor="tauxTva">Taux de TVA :</label>
-          <input type="text" id="tauxTva" placeholder="0.00%" readOnly />
+          <input
+            type="text"
+            id="tauxTva"
+            placeholder="0.00%"
+            value={selectedData.tauxTVA}
+            readOnly
+          />
 
           <label htmlFor="montantTva">
             Montant de la TVA (honoraires et frais compris) :
           </label>
-          <input type="text" id="montantTva" placeholder="0.00 €" readOnly />
+          <input
+            type="text"
+            id="montantTva"
+            placeholder="0.00 €"
+            value={selectedData.montantTVA}
+            readOnly
+          />
 
           <label htmlFor="totalHonorairesTtc">Total des honoraires TTC :</label>
           <input
             type="text"
             id="totalHonorairesTtc"
             placeholder="0.00 €"
+            value={selectedData.noteTTC}
             readOnly
           />
 
@@ -116,6 +191,7 @@ const Facture = () => {
             type="text"
             id="fraisHuissiersTtc"
             placeholder="0.00 €"
+            value={selectedData.fraisDivers}
             readOnly
           />
 
@@ -126,6 +202,7 @@ const Facture = () => {
             type="text"
             id="totalProvisionsTtc"
             placeholder="0.00 €"
+            value={selectedData.provisionsTTC}
             readOnly
           />
 
@@ -134,6 +211,7 @@ const Facture = () => {
             type="text"
             id="remiseCreditNote"
             placeholder="0.00 €"
+            value={selectedData.remise}
             readOnly
           />
 
@@ -144,6 +222,7 @@ const Facture = () => {
             type="text"
             id="totalNoteHonorairesTtc"
             placeholder="0.00 €"
+            value={selectedData.noteTTC}
             readOnly
           />
 
@@ -154,6 +233,7 @@ const Facture = () => {
             type="text"
             id="totalMontantRestantTtc"
             placeholder="0.00 €"
+            value={selectedData.restantDu}
             readOnly
           />
         </form>

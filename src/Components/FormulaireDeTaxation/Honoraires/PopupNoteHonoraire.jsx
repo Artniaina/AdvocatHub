@@ -33,8 +33,10 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
     { label: "Total de la note d'honoraire TTC", key: "noteTTC" },
     { label: "Total du montant restant dû TTC", key: "restantDu" },
   ];
+  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
   const [formData, setFormData] = useState({
+    id: generateId(),
     date: "",
     reference: "",
     hours: "",
@@ -126,6 +128,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
     console.log("Donnees ao anaty popup",tableData);
     onClose();
   };
+  
 
   return (
     <div className="overlay">
@@ -240,7 +243,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
                   type="text"
                   id="totalHonorairesFraisDossierHtva"
                   name="totalHTVA"
-                  value={formData.totalHTVA}
+                  value={formData.totalTVA}
                   placeholder="0.00 €"
                   onChange={handleChange}
                 />
