@@ -1,3 +1,4 @@
+//Can youadjust the code et show all of the input value in the tableafter a submit
 import React, { useState } from "react";
 import "../../../Styles/TaxationForm/CardInfo.css";
 import "../../../Styles/TaxationForm/Popup.css";
@@ -14,7 +15,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
   const [autresInfo, setAutresInfo] = useState("");
   // const [Prestataires, setPrestataires] = useState(prestataireData);
   const [sortKey, setSortKey] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState("asc");
   const [filterActive, setFilterActive] = useState(null);
   const [filters, setFilters] = useState({});
 
@@ -30,10 +31,10 @@ const PopupNoteHonoraire = ({ onClose }) => {
   //       titrePro,
   //       formationExp,
   //       autresInfo,
-  //       checked: false, 
+  //       checked: false,
   //     },
   //   ]);
-  
+//
   //   setName("");
   //   setPrenom("");
   //   setEmail("");
@@ -60,7 +61,6 @@ const PopupNoteHonoraire = ({ onClose }) => {
   const handleSubmit = () => {
     // onSubmitData(Prestataires);
     console.log("Good bye world");
-    
   };
 
   // const requestSort = (key) => {
@@ -98,7 +98,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
     <div className="overlay">
       <div className="popupTax">
         <div className="titleCard">
-          PRESTATAIRE(S) EXTERIEUR
+          HONORAIRES
           <button
             className="close-button"
             style={{ marginTop: "-5px" }}
@@ -111,82 +111,159 @@ const PopupNoteHonoraire = ({ onClose }) => {
         <form onSubmit={handleSubmit}>
           <div className="avocatForm2">
             <div className="prestataire">
+              <div style={{display:"flex"}}>
+                <div >
+                  <label htmlFor="daterequ">Date*: </label>
+                  <input
+                    type="date"
+                    id="daterequ"
+                    value={etude}
+                    onChange={(e) => setEtude(e.target.value)}
+                    required
+                  />
+                </div>
+                <div style={{width:"395px", marginLeft:"30px"}}>
+                  <label htmlFor="reference">Référence: </label>
+                  <input
+                    type="text"
+                    id="reference"
+                    value={etude}
+                    onChange={(e) => setEtude(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <p>Nombre d'heures facturées *  :</p>
+                <div style={{ display: "flex" }}>
+                  <input className="hour" type="text" placeholder="0h" />
+                  <input className="hour" type="text" placeholder="0mn" />
+                </div>
+              </div>
               <div className="formGroup">
-                <label htmlFor="name">Nom*:</label>
+                <label htmlFor="fraisHuissiersTtc">
+                Taux horaires HTVA facturés * :
+                </label>
                 <input
                   type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
+                  id="fraisHuissiersTtc"
+                  placeholder="0.00 €"
                 />
               </div>
-
               <div className="formGroup">
-                <label htmlFor="prenom">Prénom* :</label>
+                <label htmlFor="totalFraisDossierHtva">
+                Total des frais de constitution de dossier et des frais de bureau HTVA facturés * :
+                </label>
                 <input
                   type="text"
-                  id="prenom"
-                  value={prenom}
-                  onChange={(e) => setPrenom(e.target.value)}
-                  required
+                  id="totalFraisDossierHtva"
+                  placeholder="0.00 €"
                 />
               </div>
-
               <div className="formGroup">
-                <label htmlFor="etude">Etude/Société tierce*:</label>
+                <label htmlFor="totalFraisDossierHtva">
+                  Total des frais de constitution de dossier et des frais de
+                  bureau HTVA facturés :
+                </label>
                 <input
                   type="text"
-                  id="etude"
-                  value={etude}
-                  onChange={(e) => setEtude(e.target.value)}
-                  required
+                  id="totalFraisDossierHtva"
+                  placeholder="0.00 €"
                 />
               </div>
-
               <div className="formGroup">
-                <label htmlFor="email">Email*:</label>
+                <label htmlFor="totalFraisDossierHtva">
+                Total des honoraires et frais de dossiers HTVA : 
+                </label>
                 <input
                   type="text"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
+                  id="totalFraisDossierHtva"
+                  placeholder="0.00 €"
                 />
               </div>
+              <div className="formGroup">
+                <label htmlFor="totalProvisionsTtc">
+                Taux de TVA : 
+                                </label>
+                <input
+                  type="text"
+                  id="totalProvisionsTtc"
+                  placeholder="0.00 €"
+                  
+                />
+              </div>{" "}
             </div>
 
             <div className="prestataire">
               <div className="formGroup">
-                <label htmlFor="titrePro">Titre Professionnel*:</label>
+                {" "}
+                <label htmlFor="totalHonorairesHtva">
+                Montant de la TVA (honoraires et frais compris) * :                </label>
                 <input
                   type="text"
-                  id="titrePro"
-                  value={titrePro}
-                  onChange={(e) => setTitrePro(e.target.value)}
-                  required
+                  id="totalHonorairesHtva"
+                  placeholder="0.00 €"
+                  
                 />
               </div>
-
               <div className="formGroup">
-                <label htmlFor="formationExp">
-                  Formation et expérience professionnelle:
+                <label htmlFor="totalFraisDossierHtva">
+                Total des honoraires TTC * :
                 </label>
-                <textarea
-                  id="formationExp"
-                  value={formationExp}
-                  onChange={(e) => setFormationExp(e.target.value)}
-                  style={{ height: "50px" }}
+                <input
+                  type="text"
+                  id="totalFraisDossierHtva"
+                  placeholder="0.00 €"
+                  
                 />
               </div>
-
               <div className="formGroup">
-                <label htmlFor="autreInfo">Autre informations:</label>
-                <textarea
-                  id="autreInfo"
-                  value={autresInfo}
-                  onChange={(e) => setAutresInfo(e.target.value)}
-                  style={{ height: "50px" }}
+                <label htmlFor="totalFraisDossierHtva">
+                Frais d’huissiers, d’expertise, de traduction, de RCS... (TTC) * : 
+                </label>
+                <input
+                  type="text"
+                  id="totalFraisDossierHtva"
+                  placeholder="0.00 €"
+                  
+                />
+              </div>
+              <div className="formGroup">
+                {" "}
+                <label htmlFor="totalHonorairesFraisHtva">
+                Total des provisions TTC payées * :
+                </label>
+                <input
+                  type="text"
+                  id="totalHonorairesFraisHtva"
+                  placeholder="0.00 €"
+                  
+                />
+              </div>
+              <div className="formGroup">
+                <label htmlFor="tauxTva">Remise/note de crédit:</label>
+                <input type="text" id="tauxTva" placeholder="0.00%"  />
+              </div>
+              <div className="formGroup">
+                <label htmlFor="montantTva">
+                  Total de la note honoraires TTC*:
+                </label>
+                <input
+                  type="text"
+                  id="montantTva"
+                  placeholder="0.00 €"
+                  readOnly
+                />
+              </div>
+              <div className="formGroup">
+                <label htmlFor="montantTva">
+                  Total du montant restant dû TTC*:
+                </label>
+                <input
+                  type="text"
+                  id="montantTva"
+                  placeholder="0.00 €"
+                  readOnly
                 />
               </div>
             </div>
@@ -202,17 +279,23 @@ const PopupNoteHonoraire = ({ onClose }) => {
             <thead>
               <tr>
                 {[
-                  "name",
-                  "prenom",
-                  "email",
-                  "etude",
-                  "titrePro",
-                  "formationExp",
-                  "autresInfo",
-                  "choix"
+                  "Nombre de minutes facturées",
+                  "Taux honoraires HTVA facturés",
+                  "Total des honoraires HTVA facturés",
+                  "Total des frais de constitution de dossier et des frais de bureau HTVA facturés",
+                  "Total des honoraires et des frais de dossier HTVA",
+                  "Taux de TVA",
+                  "Montant de la TVA (honoraire et frais compris)",
+                  "Total des honoraires TTC",
+                  "Frais d'huissiers, d'expertise, de traduction, de RCS...(TTC)",
+                  "Total des provisions TTC payées",
+                  "Remise/note de crédit",
+                  "Total de la note d'honoraire TTC",
+                  "Total du montant restant dû TTC",
                 ].map((key) => (
-                  <th key={key} 
-                  // onClick={() => requestSort(key)} 
+                  <th
+                    key={key}
+                    // onClick={() => requestSort(key)}
                   >
                     <span className="sort-icon">
                       <PiCaretUpDownFill />
@@ -228,12 +311,12 @@ const PopupNoteHonoraire = ({ onClose }) => {
                       <FaFilter />
                     </span>
                     {/* {filterActive === key && ( */}
-                      <input
-                        type="text"
-                        placeholder={`Filter by ${key}`}
-                        value={filters[key] || ""}
-                        // onChange={(e) => handleFilterChange(e, key)}
-                      />
+                    <input
+                      type="text"
+                      placeholder={`Filter by ${key}`}
+                      value={filters[key] || ""}
+                      // onChange={(e) => handleFilterChange(e, key)}
+                    />
                     {/* )} */}
                   </th>
                 ))}
@@ -241,7 +324,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
             </thead>
             <tbody>
               {/* {filteredPrestataires.map((Prestataire, index) => ( */}
-                {/* <tr key={index}>
+              {/* <tr key={index}>
                   <td>{Prestataire.name}</td>
                   <td>{Prestataire.prenom}</td>
                   <td>{Prestataire.email}</td>
@@ -256,7 +339,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
                       // onChange={() => handleCheckboxChange(index)}
                     />
                   </td> */}
-                {/* </tr> */}
+              {/* </tr> */}
               {/* ))} */}
             </tbody>
           </table>
