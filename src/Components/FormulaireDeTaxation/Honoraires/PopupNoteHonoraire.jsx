@@ -5,14 +5,42 @@ import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 
 const PopupNoteHonoraire = ({ onClose }) => {
-  const [filters, setFilters] = useState({});
+  const tableHeaders = [
+    { label: "Nombre de minutes facturées", key: "minutes" },
+    { label: "Taux honoraires HTVA facturés", key: "tauxHoraires" },
+    { label: "Total des honoraires HTVA facturés", key: "totalHonotraireHTVA" },
+    {
+      label:
+        "Total des frais de constitution de dossier et des frais de bureau HTVA facturés",
+      key: "fraisDossier",
+    },
+    {
+      label: "Total des honoraires et des frais de dossier HTVA",
+      key: "totalHTVA",
+    },
+    { label: "Taux de TVA", key: "tauxTVA" },
+    {
+      label: "Montant de la TVA (honoraire et frais compris)",
+      key: "montantTVA",
+    },
+    { label: "Total des honoraires TTC", key: "totalTTC" },
+    {
+      label: "Frais d'huissiers, d'expertise, de traduction, de RCS...(TTC)",
+      key: "fraisDivers",
+    },
+    { label: "Total des provisions TTC payées", key: "provisionsTTC" },
+    { label: "Remise/note de crédit", key: "remise" },
+    { label: "Total de la note d'honoraire TTC", key: "noteTTC" },
+    { label: "Total du montant restant dû TTC", key: "restantDu" },
+  ];
+
   const [formData, setFormData] = useState({
     date: "",
     reference: "",
     hours: "",
     minutes: "",
     tauxHoraires: "",
-    totalHonotraireHTVA:"",
+    totalHonotraireHTVA: "",
     fraisDossier: "",
     totalHTVA: "",
     tauxTVA: "",
@@ -24,44 +52,48 @@ const PopupNoteHonoraire = ({ onClose }) => {
     noteTTC: "",
     restantDu: "",
   });
-
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [filterActive, setFilterActive] = useState(null);
+  const [filters, setFilters] = useState({});
   const [tableData, setTableData] = useState([]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
   const requestSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
+    const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
+    const sortedData = [...tableData].sort((a, b) => {
+      if (a[key] < b[key]) return order === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return order === "asc" ? 1 : -1;
+      return 0;
+    });
+    setSortKey(key);
+    setSortOrder(order);
+    setTableData(sortedData);
   };
-
-  const sortedData = [...tableData].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
 
   const handleFilterChange = (e, key) => {
-    setFilters({ ...filters, [key]: e.target.value });
+    setFilters((prev) => ({
+      ...prev,
+      [key]: e.target.value,
+    }));
   };
 
-  const filteredData = sortedData.filter((row) => {
-    return Object.keys(filters).every((key) => {
-      return row[key]
-        .toString()
-        .toLowerCase()
-        .includes(filters[key].toLowerCase());
-    });
-  });
+  const handleFilterClick = (key) => {
+    setFilterActive(key);
+  };
+
+ 
+  const filteredData = tableData.filter((row) =>
+    Object.keys(filters).every((key) =>
+      filters[key]
+        ? row[key]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        : true
+    )
+  );
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +104,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
       hours: "",
       minutes: "",
       tauxHoraires: "",
-      totalHonotraireHTVA:"",
+      totalHonotraireHTVA: "",
       fraisDossier: "",
       totalHTVA: "",
       tauxTVA: "",
@@ -84,9 +116,6 @@ const PopupNoteHonoraire = ({ onClose }) => {
       noteTTC: "",
       restantDu: "",
     });
-  };
-  const handleSendData = () => {
-    onClose();
   };
 
   return (
@@ -105,7 +134,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="avocatForm2">
-          <div className="prestataire">
+            <div className="prestataire">
               <div style={{ display: "flex" }}>
                 <div>
                   <label htmlFor="date">Date*: </label>
@@ -221,9 +250,6 @@ const PopupNoteHonoraire = ({ onClose }) => {
               </div>
             </div>
 
-
-
-
             <div className="prestataire">
               <div className="formGroup">
                 <label htmlFor="montantTvaHonoraire">
@@ -297,9 +323,7 @@ const PopupNoteHonoraire = ({ onClose }) => {
               </div>
 
               <div className="formGroup">
-                <label htmlFor="noteTtc">
-                  Note TTC :
-                </label>
+                <label htmlFor="noteTtc">Note TTC :</label>
                 <input
                   type="text"
                   id="noteTtc"
@@ -333,68 +357,58 @@ const PopupNoteHonoraire = ({ onClose }) => {
           <table className="tavleInfo">
             <thead>
               <tr>
-                {[
-                  "Nombre de minutes facturées",
-                  "Taux honoraires HTVA facturés",
-                  "Total des honoraires HTVA facturés",
-                  "Total des frais de constitution de dossier et des frais de bureau HTVA facturés",
-                  "Total des honoraires et des frais de dossier HTVA",
-                  "Taux de TVA",
-                  "Montant de la TVA (honoraire et frais compris)",
-                  "Total des honoraires TTC",
-                  "Frais d'huissiers, d'expertise, de traduction, de RCS...(TTC)",
-                  "Total des provisions TTC payées",
-                  "Remise/note de crédit",
-                  "Total de la note d'honoraire TTC",
-                  "Total du montant restant dû TTC",
-                ].map((key) => (
+                {tableHeaders.map(({ label, key }) => (
                   <th key={key} onClick={() => requestSort(key)}>
                     <span className="sort-icon">
                       <PiCaretUpDownFill />
                     </span>
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                    <span className="filter-btn">
+                    {label}
+                    <span
+                      className="filter-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFilterClick(key);
+                      }}
+                    >
                       <FaFilter />
                     </span>
-                    <input
-                      type="text"
-                      placeholder={`Filter by ${key}`}
-                      value={filters[key] || ""}
-                      onChange={(e) => handleFilterChange(e, key)}
-                    />
+                    {filterActive === key && (
+                      <input
+                        type="text"
+                        placeholder={`Filter by ${label}`}
+                        value={filters[key] || ""}
+                        onChange={(e) => handleFilterChange(e, key)}
+                      />
+                    )}
                   </th>
                 ))}
               </tr>
             </thead>
 
             <tbody>
-            {filteredData.map((data, index) => (
-                <tr key={index}>
-                  <td>{data.date}</td>
-                  <td>{data.reference}</td>
-                  <td>{data.hours}</td>
-                  <td>{data.minutes}</td>
-                  <td>{data.tauxHoraires}</td>
-                  <td>{data.totalHonotraireHTVA}</td>
-                  <td>{data.fraisDossier}</td>
-                  <td>{data.totalHTVA}</td>
-                  <td>{data.tauxTVA}</td>
-                  <td>{data.montantTVA}</td>
-                  <td>{data.totalTTC}</td>
-                  <td>{data.fraisDivers}</td>
-                  <td>{data.provisionsTTC}</td>
-                  <td>{data.remise}</td>
-                  <td>{data.noteTTC}</td>
-                  <td>{data.restantDu}</td>
-                </tr>
-              ))}
-            </tbody>
+  {filteredData.map((data, index) => (
+    <tr key={index}>
+      <td>{data.minutes}</td>
+      <td>{data.tauxHoraires}</td>
+      <td>{data.totalHonotraireHTVA}</td>
+      <td>{data.fraisDossier}</td>
+      <td>{data.totalHTVA}</td>
+      <td>{data.tauxTVA}</td>
+      <td>{data.montantTVA}</td>
+      <td>{data.totalTTC}</td>
+      <td>{data.fraisDivers}</td>
+      <td>{data.provisionsTTC}</td>
+      <td>{data.remise}</td>
+      <td>{data.noteTTC}</td>
+      <td>{data.restantDu}</td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         </div>
 
-        <button className="sendButton" onClick={handleSendData}>
-          Envoyer les données
-        </button>
+        <button className="sendButton">Envoyer les données</button>
       </div>
     </div>
   );

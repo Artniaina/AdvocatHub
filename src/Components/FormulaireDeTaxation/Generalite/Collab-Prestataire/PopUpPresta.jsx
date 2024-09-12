@@ -79,7 +79,7 @@ const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
 
   const handleFilterClick = (key) => {
     setFilterActive(key);
-  };
+  }; 
 
   const filteredPrestataires = Prestataires.filter((Prestataire) =>
     Object.keys(filters).every((key) =>
