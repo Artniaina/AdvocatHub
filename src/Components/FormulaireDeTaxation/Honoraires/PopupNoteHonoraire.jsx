@@ -4,7 +4,7 @@ import "../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 
-const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
+const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
   const tableHeaders = [
     { label: "Nombre de minutes facturées", key: "minutes" },
     { label: "Taux honoraires HTVA facturés", key: "tauxHoraires" },
@@ -34,7 +34,6 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
     { label: "Total du montant restant dû TTC", key: "restantDu" },
   ];
   const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
   const [formData, setFormData] = useState({
     id: generateId(),
     date: "",
@@ -58,7 +57,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData}) => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [filterActive, setFilterActive] = useState(null);
   const [filters, setFilters] = useState({});
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState(honoraireData);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

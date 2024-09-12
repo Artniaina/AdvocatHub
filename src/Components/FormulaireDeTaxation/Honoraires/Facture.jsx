@@ -9,7 +9,7 @@ const Facture = () => {
   const [selectedData, setSelectedData] = useState({
     fraisDivers: "",
     fraisDossier: "",
-    hours: "",
+    hours: "", 
     minutes: "",
     montantTVA: "",
     noteTTC: "",
@@ -70,6 +70,19 @@ const Facture = () => {
         L'intégralité des honoraires facturés doit être saisie. L'ensemble des
         montants sont exprimés en Euros.
       </p>
+      {honoraireData.length > 0 && (
+            <div>
+              <label htmlFor="dateSelect">Sélectionner une date:</label>
+              <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
+                <option value="">-- Choisissez une date --</option>
+                {honoraireData.map((data) => (
+                  <option key={data.date} value={data.date}>
+                    {data.date}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
       <div>
         <p style={{ display: "flex" }}>
           Ajouter une note d'honoraire{" "}
@@ -96,22 +109,8 @@ const Facture = () => {
       </div>
       <div className="honoraires ">
         <form onSubmit={handleSubmit}>
-          {/* New Select Input */}
-          {honoraireData.length > 0 && (
-            <div>
-              <label htmlFor="dateSelect">Sélectionner une date:</label>
-              <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
-                <option value="">-- Choisissez une date --</option>
-                {honoraireData.map((data) => (
-                  <option key={data.date} value={data.date}>
-                    {data.date}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+       
 
-          {/* Existing Form Inputs */}
           <label htmlFor="honorairesHtva">Aux horaires HTVA facturés :</label>
           <input
             type="text"
@@ -237,7 +236,7 @@ const Facture = () => {
             readOnly
           />
         </form>
-        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} onSubmitData={handleDataFromPopup} />}
+        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} onSubmitData={handleDataFromPopup} honoraireData={honoraireData} />}
       </div>
     </>
   );
