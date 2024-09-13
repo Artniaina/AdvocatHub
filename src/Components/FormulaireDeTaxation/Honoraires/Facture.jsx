@@ -7,21 +7,22 @@ const Facture = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedData, setSelectedData] = useState({
-    fraisDivers: "",
-    fraisDossier: "",
-    hours: "", 
-    minutes: "",
-    montantTVA: "",
-    noteTTC: "",
-    provisionsTTC: "",
-    reference: "",
-    remise: "",
-    restantDu: "",
-    tauxHoraires: "",
-    tauxTVA: "",
-    totalHTVA: "",
-    totalHonoraireHTVA: "",
-    totalTTC: ""
+    date: "",
+      reference: "",
+      hours: "",
+      minutes: "",
+      tauxHorairesfacturés: "",
+      totalHonoraireHTVA: "",
+      fraisConstitutionDossier: "",
+      totalHonoraireFraisDossier: "",
+      tauxTVA: "",
+      montantTVA: "",
+      totalHonoraireTTC: "",
+      fraisDivers: "",
+      provisionsTTC: "",
+      remise: "",
+      noteTTC: "",
+      restantDu: "",
   });
 
   const handleShowPopup = () => {
@@ -42,21 +43,22 @@ const Facture = () => {
     setSelectedDate(date);
     const data = honoraireData.find(item => item.date === date);
     setSelectedData(data || {
-      fraisDivers: "",
-      fraisDossier: "",
+      date: "",
+      reference: "",
       hours: "",
       minutes: "",
-      montantTVA: "",
-      noteTTC: "",
-      provisionsTTC: "",
-      reference: "",
-      remise: "",
-      restantDu: "",
-      tauxHoraires: "",
-      tauxTVA: "",
-      totalHTVA: "",
+      tauxHorairesfacturés: "",
       totalHonoraireHTVA: "",
-      totalTTC: ""
+      fraisConstitutionDossier: "",
+      totalHonoraireFraisDossier: "",
+      tauxTVA: "",
+      montantTVA: "",
+      totalHonoraireTTC: "",
+      fraisDivers: "",
+      provisionsTTC: "",
+      remise: "",
+      noteTTC: "",
+      restantDu: "",
     });
   };
 
@@ -116,7 +118,7 @@ const Facture = () => {
             type="text"
             id="honorairesHtva"
             placeholder="0.00 €"
-            value={selectedData.totalHTVA}
+            value={selectedData.tauxHorairesfacturés}
             readOnly
           />
 
@@ -139,7 +141,7 @@ const Facture = () => {
             type="text"
             id="totalFraisDossierHtva"
             placeholder="0.00 €"
-            value={selectedData.fraisDossier}
+            value={selectedData.fraisConstitutionDossier}
             readOnly
           />
 
@@ -150,7 +152,7 @@ const Facture = () => {
             type="text"
             id="totalHonorairesFraisHtva"
             placeholder="0.00 €"
-            value={selectedData.totalHonotraireHTVA}
+            value={selectedData.totalHonoraireFraisDossier}
             readOnly
           />
 
@@ -179,7 +181,7 @@ const Facture = () => {
             type="text"
             id="totalHonorairesTtc"
             placeholder="0.00 €"
-            value={selectedData.noteTTC}
+            value={selectedData.totalHonoraireTTC}
             readOnly
           />
 
