@@ -12,10 +12,6 @@ const CaseDescription = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log(editorContent);
-  };
-
   return (
     <>
       <div className="cardGeneralité">
@@ -33,7 +29,13 @@ const CaseDescription = () => {
             />
           </div>
           <div>
-            <p> Enjeux de l'affaire:*</p>
+            <p>
+              {" "}
+              Enjeux de l'affaire:* <br />
+              (par exemple : l’enjeu financier de l’affaire, l’importance et le
+              degré de difficulté de l’affaire, reprise de mandat en cours de
+              procédure, etc.)
+            </p>
             <Editor
               key="editorC2"
               id="editorC2"
@@ -41,7 +43,12 @@ const CaseDescription = () => {
             />
           </div>
           <div>
-            <p>Le(s) resultat(s) obtenu(s):*</p>
+            <p>
+              Le(s) resultat(s) obtenu(s):* <br />
+              (par exemple : revirement jurisprudentiel ou jurisprudence
+              constante, résultat exceptionnel, autorisations ou agréments
+              obtenus…)
+            </p>
             <Editor
               key="editorC3"
               id="editorC3"
@@ -49,7 +56,13 @@ const CaseDescription = () => {
             />
           </div>
           <div>
-            <p>L'eperience et la notoriété de l'avocat:*</p>
+            <p>
+              L'eperience et la notoriété de l'avocat:*
+              <br />
+              (par exemple : spécialisation en lien avec la matière traitée,
+              expérience professionnelle, autre(s) activité(s) en lien avec la
+              profession,publications/ouvrages…)
+            </p>
             <Editor
               key="editorC4"
               id="editorC4"
@@ -57,7 +70,12 @@ const CaseDescription = () => {
             />
           </div>
           <div>
-            <p>La situation de fortune du client:*</p>
+            <p>
+              La situation de fortune du client:*
+              <br />
+              (assistance judiciaire abordée et/ou sollicitée, estimation des
+              revenus moyens du mandant, risque de faillite...)
+            </p>
             <Editor
               key="editorC5"
               id="editorC5"

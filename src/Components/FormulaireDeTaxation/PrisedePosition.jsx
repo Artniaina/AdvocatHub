@@ -11,9 +11,7 @@ const PrisedePosition = () => {
       [id]: content,
     }));
   };
-  const handleSubmit = () => {
-    console.log(editorContent);
-  };
+
   return (
     <>
       <div className="cardGeneralité" style={{ display: "block" }}>

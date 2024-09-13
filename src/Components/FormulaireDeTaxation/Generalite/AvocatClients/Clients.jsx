@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
+import { useClientContext } from "../../../../Hooks/ClientContext"; 
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
 
 const Clients = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [clientData, setClientData] = useState([]);
+  const { clientData, setClientData } = useClientContext();
   const [showPopup, setShowPopup] = useState(false);
 
   const handleOptionChange = (event) => {
@@ -232,7 +233,6 @@ const Clients = () => {
         <PopupClients
           onClose={handleClosePopup}
           onSelectClient={handleClientSelection}
-          clientData={clientData}
         />
       )}
     </div>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../../Styles/TaxationForm/Guide.css";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
-import { IoAddCircle } from "react-icons/io5";
-import { IoMdClose } from "react-icons/io";
 import { TfiPencilAlt } from "react-icons/tfi";const GuideHonoraires = () => {
   const [isHovered, setIsHovered] = useState(false);
   const popupRef = useRef(null);

@@ -6,12 +6,15 @@ import store from "./Store/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from './Hooks/AuthContext';
+import { ClientProvider } from "./Hooks/ClientContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <AuthProvider>
-      <App />
+    <ClientProvider>
+        <App />
+      </ClientProvider>
     </AuthProvider>
   </Provider>
 );

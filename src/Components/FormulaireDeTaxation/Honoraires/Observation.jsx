@@ -11,9 +11,6 @@ const Observation = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log(editorContent);
-  };
   return (
     <>
       <Editor
