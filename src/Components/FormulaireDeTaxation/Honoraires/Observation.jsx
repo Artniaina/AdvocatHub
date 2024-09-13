@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Editor from "../TextEditor/EditeurHTML";
+import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const Observation = () => {
-  const [editorContent, setEditorContent] = useState({});
+  const {editorContentObservation, setEditorContentObservation} = useGeneraliteContext();
 
   const handleEditorChange = (id, content) => {
-    setEditorContent((prevContent) => ({
+    setEditorContentObservation((prevContent) => ({
       ...prevContent,
       [id]: content,
     }));

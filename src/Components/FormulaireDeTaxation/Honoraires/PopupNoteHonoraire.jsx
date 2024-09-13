@@ -3,8 +3,10 @@ import "../../../Styles/TaxationForm/CardInfo.css";
 import "../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
+import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
-const PopupNoteHonoraire = ({ onClose, onSubmitData, honoraireData }) => {
+const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
+  const {noteHonoraire}= useGeneraliteContext()
   const tableHeaders = [
     { label: "Nombre d'heures facturées", key: "hours" },
     { label: "Nombre de minutes facturées", key: "minutes" },
@@ -49,7 +51,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData, honoraireData }) => {
     restantDu: "",
   });
 
-  const [tableData, setTableData] = useState(honoraireData);
+  const [tableData, setTableData] = useState(noteHonoraire);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});

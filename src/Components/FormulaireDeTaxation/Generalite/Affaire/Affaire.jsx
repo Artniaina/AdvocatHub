@@ -42,15 +42,14 @@ const Affaire = () => {
   const [selectedMontantData, setSelectedMontantData] = useState([]);
   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState('');
   const [selectedProvisionDate, setSelectedProvisionDate] = useState('');
-    
   const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
-
   const filteredHonoraireData = honoraireData.filter(item => item.date === selectedHonoraireDate);
   const filteredMontant = montantData.filter(item => item.date === selectedMontantData);
   const filteredProvisionData = provisionData.filter(item => item.date === selectedProvisionDate);
   const [selectedAmount, setSelectedAmount] = useState(""); 
   const [selectedComment, setSelectedComment] = useState(""); 
+  
   useEffect(() => {
     if (montantData.length > 0) {
       setSelectedAmount(montantData[0].amount);

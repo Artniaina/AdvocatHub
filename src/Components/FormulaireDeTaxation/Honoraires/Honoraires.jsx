@@ -7,6 +7,7 @@ import GuideHonoraires from './GuideHonoraires';
 
 
 const Honoraires = () => {
+  
   return ( 
     <>
     <div>

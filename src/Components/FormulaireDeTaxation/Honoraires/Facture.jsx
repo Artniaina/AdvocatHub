@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import PopupNoteHonoraire from "./PopupNoteHonoraire";
 import { IoAddCircle } from "react-icons/io5";
+import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const Facture = () => {
-  const [honoraireData, setHonoraireData] = useState([]);
+  const {noteHonoraire, setNoteHonoraire}= useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedData, setSelectedData] = useState({
@@ -41,7 +42,7 @@ const Facture = () => {
   const handleDateChange = (event) => {
     const date = event.target.value;
     setSelectedDate(date);
-    const data = honoraireData.find(item => item.date === date);
+    const data = noteHonoraire.find(item => item.date === date);
     setSelectedData(data || {
       date: "",
       reference: "",
@@ -72,12 +73,12 @@ const Facture = () => {
         L'intégralité des honoraires facturés doit être saisie. L'ensemble des
         montants sont exprimés en Euros.
       </p>
-      {honoraireData.length > 0 && (
+      {noteHonoraire.length > 0 && (
             <div>
               <label htmlFor="dateSelect">Sélectionner une date:</label>
               <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
                 <option value="">-- Choisissez une date --</option>
-                {honoraireData.map((data) => (
+                {noteHonoraire.map((data) => (
                   <option key={data.date} value={data.date}>
                     {data.date}
                   </option>
@@ -238,7 +239,7 @@ const Facture = () => {
             readOnly
           />
         </form>
-        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} onSubmitData={handleDataFromPopup} honoraireData={honoraireData} />}
+        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} onSubmitData={handleDataFromPopup} />}
       </div>
     </>
   );

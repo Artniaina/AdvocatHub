@@ -1,12 +1,48 @@
 import React, { useState } from "react";
 import Editor from "../TextEditor/EditeurHTML";
 import "../../../Styles/TaxationForm/CardInfo.css";
+import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const CaseDescription = () => {
-  const [editorContent, setEditorContent] = useState({});
+  const {editorContentC1, setEditorContentC1} = useGeneraliteContext();
+  const {editorContentC2, setEditorContentC2} = useGeneraliteContext();
+  const {editorContentC3, setEditorContentC3} = useGeneraliteContext();
+  const {editorContentC4, setEditorContentC4} = useGeneraliteContext();
+  const {editorContentC5, setEditorContentC5} = useGeneraliteContext();
+  const {editorContentC6, setEditorContentC6} = useGeneraliteContext();
 
-  const handleEditorChange = (id, content) => {
-    setEditorContent((prevContent) => ({
+  const handleEditorChangeC1 = (id, content) => {
+    setEditorContentC1((prevContent) => ({
+      ...prevContent,
+      [id]: content,
+    }));
+  };
+  const handleEditorChangeC2 = (id, content) => {
+    setEditorContentC2((prevContent) => ({
+      ...prevContent,
+      [id]: content,
+    }));
+  };
+  const handleEditorChangeC3 = (id, content) => {
+    setEditorContentC3((prevContent) => ({
+      ...prevContent,
+      [id]: content,
+    }));
+  };
+  const handleEditorChangeC4 = (id, content) => {
+    setEditorContentC4((prevContent) => ({
+      ...prevContent,
+      [id]: content,
+    }));
+  };
+  const handleEditorChangeC5 = (id, content) => {
+    setEditorContentC5((prevContent) => ({
+      ...prevContent,
+      [id]: content,
+    }));
+  };
+  const handleEditorChangeC6 = (id, content) => {
+    setEditorContentC6((prevContent) => ({
       ...prevContent,
       [id]: content,
     }));
@@ -25,7 +61,7 @@ const CaseDescription = () => {
             <Editor
               key="editorC1"
               id="editorC1"
-              onChange={(content) => handleEditorChange("editorC1", content)}
+              onChange={(content) => handleEditorChangeC1("editorC1", content)}
             />
           </div>
           <div>
@@ -39,7 +75,7 @@ const CaseDescription = () => {
             <Editor
               key="editorC2"
               id="editorC2"
-              onChange={(content) => handleEditorChange("editorC2", content)}
+              onChange={(content) => handleEditorChangeC2("editorC2", content)}
             />
           </div>
           <div>
@@ -52,7 +88,7 @@ const CaseDescription = () => {
             <Editor
               key="editorC3"
               id="editorC3"
-              onChange={(content) => handleEditorChange("editorC3", content)}
+              onChange={(content) => handleEditorChangeC3("editorC3", content)}
             />
           </div>
           <div>
@@ -66,7 +102,7 @@ const CaseDescription = () => {
             <Editor
               key="editorC4"
               id="editorC4"
-              onChange={(content) => handleEditorChange("editorC4", content)}
+              onChange={(content) => handleEditorChangeC4("editorC4", content)}
             />
           </div>
           <div>
@@ -79,7 +115,7 @@ const CaseDescription = () => {
             <Editor
               key="editorC5"
               id="editorC5"
-              onChange={(content) => handleEditorChange("editorC5", content)}
+              onChange={(content) => handleEditorChangeC5("editorC5", content)}
             />
           </div>
         </div>
@@ -98,7 +134,7 @@ const CaseDescription = () => {
           <Editor
             key="editorC6"
             id="editorC6"
-            onChange={(content) => handleEditorChange("editorC6", content)}
+            onChange={(content) => handleEditorChangeC6("editorC6", content)}
           />
         </div>
       </div>
