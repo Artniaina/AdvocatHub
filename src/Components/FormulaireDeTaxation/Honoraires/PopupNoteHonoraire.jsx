@@ -1,38 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../Styles/TaxationForm/CardInfo.css";
 import "../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 
-const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
+const PopupNoteHonoraire = ({ onClose, onSubmitData, honoraireData }) => {
   const tableHeaders = [
+    { label: "Nombre d'heures facturées", key: "hours" },
     { label: "Nombre de minutes facturées", key: "minutes" },
-    { label: "Taux honoraires HTVA facturés", key: "tauxHoraires" },
-    { label: "Total des honoraires HTVA facturés", key: "totalHonotraireHTVA" },
+    { label: "Taux horaires HTVA facturés", key: "tauxHorairesfacturés" },
+    { label: "Total des honoraires HTVA facturés", key: "totalHonoraireHTVA" },
     {
-      label:
-        "Total des frais de constitution de dossier et des frais de bureau HTVA facturés",
-      key: "fraisDossier",
+      label: "Total des frais de constitution de dossier HTVA",
+      key: "fraisConstitutionDossier",
     },
     {
       label: "Total des honoraires et des frais de dossier HTVA",
-      key: "totalHTVA",
+      key: "totalHonoraireFraisDossier",
     },
     { label: "Taux de TVA", key: "tauxTVA" },
-    {
-      label: "Montant de la TVA (honoraire et frais compris)",
-      key: "montantTVA",
-    },
-    { label: "Total des honoraires TTC", key: "totalTTC" },
-    {
-      label: "Frais d'huissiers, d'expertise, de traduction, de RCS...(TTC)",
-      key: "fraisDivers",
-    },
+    { label: "Montant de la TVA", key: "montantTVA" },
+    { label: "Total des honoraires TTC", key: "totalHonoraireTTC" },
+    { label: "Frais divers (TTC)", key: "fraisDivers" },
     { label: "Total des provisions TTC payées", key: "provisionsTTC" },
     { label: "Remise/note de crédit", key: "remise" },
     { label: "Total de la note d'honoraire TTC", key: "noteTTC" },
     { label: "Total du montant restant dû TTC", key: "restantDu" },
   ];
+
   const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const [formData, setFormData] = useState({
     id: generateId(),
@@ -40,30 +35,40 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
     reference: "",
     hours: "",
     minutes: "",
-    tauxHoraires: "",
-    totalHonotraireHTVA: "",
-    fraisDossier: "",
-    totalHTVA: "",
+    tauxHorairesfacturés: "",
+    totalHonoraireHTVA: "",
+    fraisConstitutionDossier: "",
+    totalHonoraireFraisDossier: "",
     tauxTVA: "",
     montantTVA: "",
-    totalTTC: "",
+    totalHonoraireTTC: "",
     fraisDivers: "",
     provisionsTTC: "",
     remise: "",
     noteTTC: "",
     restantDu: "",
   });
+
+  const [tableData, setTableData] = useState(honoraireData);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [filterActive, setFilterActive] = useState(null);
   const [filters, setFilters] = useState({});
-  const [tableData, setTableData] = useState(honoraireData);
+  const [filterActive, setFilterActive] = useState(null);
+
+  useEffect(() => {
+    const { totalHonoraireFraisDossier, tauxTVA } = formData;
+    if (totalHonoraireFraisDossier && tauxTVA) {
+      const montantTVA = (
+        (parseFloat(totalHonoraireFraisDossier) * parseFloat(tauxTVA)) /
+        100
+      ).toFixed(2);
+      setFormData((prevData) => ({ ...prevData, montantTVA }));
+    }
+  }, [formData.totalHonoraireFraisDossier, formData.tauxTVA]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
- 
 
   const requestSort = (key) => {
     const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
@@ -107,13 +112,13 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
       reference: "",
       hours: "",
       minutes: "",
-      tauxHoraires: "",
-      totalHonotraireHTVA: "",
-      fraisDossier: "",
-      totalHTVA: "",
+      tauxHorairesfacturés: "",
+      totalHonoraireHTVA: "",
+      fraisConstitutionDossier: "",
+      totalHonoraireFraisDossier: "",
       tauxTVA: "",
       montantTVA: "",
-      totalTTC: "",
+      totalHonoraireTTC: "",
       fraisDivers: "",
       provisionsTTC: "",
       remise: "",
@@ -124,10 +129,8 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
 
   const handleSendData = () => {
     onSubmitData(tableData);
-    console.log("Donnees ao anaty popup",tableData);
     onClose();
   };
-  
 
   return (
     <div className="overlay">
@@ -179,6 +182,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                     name="hours"
                     value={formData.hours}
                     onChange={handleChange}
+                    required
                   />
                   <input
                     className="hour"
@@ -187,20 +191,36 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                     name="minutes"
                     value={formData.minutes}
                     onChange={handleChange}
+                    required
                   />
                 </div>
               </div>
               <div className="formGroup">
-                <label htmlFor="tauxHoraires">
+                <label htmlFor="tauxHorairesfacturés">
                   Taux horaires HTVA facturés * :
                 </label>
                 <input
                   type="text"
-                  id="tauxHoraires"
-                  name="tauxHoraires"
-                  value={formData.tauxHoraires}
+                  id="tauxHorairesfacturés"
+                  name="tauxHorairesfacturés"
+                  value={formData.tauxHorairesfacturés}
                   onChange={handleChange}
                   placeholder="0.00 €"
+                  required
+                />
+              </div>
+              <div className="formGroup">
+                <label htmlFor="totalHonoraireHTVA">
+                  Total des honoraires HTVA facturés * :
+                </label>
+                <input
+                  type="text"
+                  id="totalHonoraireHTVA"
+                  name="totalHonoraireHTVA"
+                  value={formData.totalHonoraireHTVA}
+                  onChange={handleChange}
+                  placeholder="0.00 €"
+                  required
                 />
               </div>
 
@@ -212,25 +232,11 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                 <input
                   type="text"
                   id="totalFraisConstitutionHtva"
-                  name="totalHonotraireHTVA"
-                  value={formData.totalHonotraireHTVA}
+                  name="fraisConstitutionDossier"
+                  value={formData.fraisConstitutionDossier}
                   placeholder="0.00 €"
                   onChange={handleChange}
-                />
-              </div>
-
-              <div className="formGroup">
-                <label htmlFor="totalFraisDossierBureauHtva">
-                  Total des frais de constitution de dossier et des frais de
-                  bureau HTVA facturés :
-                </label>
-                <input
-                  type="text"
-                  id="totalFraisDossierBureauHtva"
-                  name="fraisDossier"
-                  value={formData.fraisDossier}
-                  placeholder="0.00 €"
-                  onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -241,8 +247,8 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                 <input
                   type="text"
                   id="totalHonorairesFraisDossierHtva"
-                  name="totalHTVA"
-                  value={formData.totalTVA}
+                  name="totalHonoraireFraisDossier"
+                  value={formData.totalHonoraireFraisDossier}
                   placeholder="0.00 €"
                   onChange={handleChange}
                 />
@@ -273,6 +279,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                   value={formData.montantTVA}
                   placeholder="0.00 €"
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -283,10 +290,11 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                 <input
                   type="text"
                   id="totalHonorairesTtc"
-                  name="totalTTC"
+                  name="totalHonoraireTTC"
                   placeholder="0.00 €"
-                  value={formData.totalTTC}
+                  value={formData.totalHonoraireTTC}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -302,6 +310,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                   placeholder="0.00 €"
                   value={formData.fraisDivers}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -316,6 +325,7 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
                   placeholder="0.00 €"
                   value={formData.provisionsTTC}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -398,17 +408,15 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
             <tbody>
               {filteredData.map((data, index) => (
                 <tr key={index}>
-                  <td>{data.date}</td>
-                  <td>{data.reference}</td>
                   <td>{data.hours}</td>
                   <td>{data.minutes}</td>
-                  <td>{data.tauxHoraires}</td>
-                  <td>{data.totalHonotraireHTVA}</td>
-                  <td>{data.fraisDossier}</td>
-                  <td>{data.totalHTVA}</td>
+                  <td>{data.tauxHorairesfacturés}</td>
+                  <td>{data.totalHonoraireHTVA}</td>
+                  <td>{data.fraisConstitutionDossier}</td>
+                  <td>{data.totalHonoraireFraisDossier}</td>
                   <td>{data.tauxTVA}</td>
                   <td>{data.montantTVA}</td>
-                  <td>{data.totalTTC}</td>
+                  <td>{data.totalHonoraireTTC}</td>
                   <td>{data.fraisDivers}</td>
                   <td>{data.provisionsTTC}</td>
                   <td>{data.remise}</td>
@@ -420,7 +428,9 @@ const PopupNoteHonoraire = ({ onClose  , onSubmitData, honoraireData}) => {
           </table>
         </div>
 
-        <button className="sendButton" onClick={handleSendData}>Envoyer les données</button>
+        <button className="sendButton" onClick={handleSendData}>
+          Envoyer les données
+        </button>
       </div>
     </div>
   );
