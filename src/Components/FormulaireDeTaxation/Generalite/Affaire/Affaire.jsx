@@ -6,7 +6,6 @@ import PopupDomaineJuridique from "./PopupDomaineJuridique";
 import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
 import PopupMontant from "./PopupMontant";
-import { getAllData, addData, updateData, deleteData } from '../../../../db'; 
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -71,13 +70,11 @@ const Affaire = () => {
   };
   const handlePopupDomaineSubmit = async (data) => {
     setSelectedDomains(data);
-    await addData({ type: 'domaines', data });
     setIsPopupVisible(false);
   };
 
   const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
-    await addData({ type: 'montants', data });
     console.log("Ito eeeeeeee", montantData);
     setIsPopupMontantVisible(false);
   };
@@ -85,14 +82,12 @@ const Affaire = () => {
   const handlePopupHonoraireSubmit = async (data) => {
     setHonoraireData(data);
     setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
-    await addData({ type: 'honoraires', data });
     setIsPopupHonoraireVisible(false);
   };
 
   const handlePopupProvisionSubmit = async (data) => {
     setProvisionData(data);
-    setUniqueProvisionDates([...new Set(data.map(item => item.date))]);
-    await addData({ type: 'provisions', data }); 
+    setUniqueProvisionDates([...new Set(data.map(item => item.date))]); 
     setIsPopupProvisionVisible(false);
   };
 
@@ -101,16 +96,6 @@ const Affaire = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const loadData = async () => {
-      const data = await getAllData();
-      // Traitez les données selon leur type
-      // Par exemple : 
-      // const montants = data.filter(item => item.type === 'montants');
-      // setMontantData(montants.map(item => item.data));
-    };
-    loadData();
-  }, []);
 
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));

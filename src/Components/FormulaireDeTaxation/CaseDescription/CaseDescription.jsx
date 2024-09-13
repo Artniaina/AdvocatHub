@@ -1,5 +1,5 @@
 import React from "react";
-import Editor from "../../TextEditor/EditeurHTML";
+import Editor from "../TextEditor/EditeurHTML";
 import "../../../Styles/TaxationForm/CardInfo.css";
 
 const CaseDescription = () => {

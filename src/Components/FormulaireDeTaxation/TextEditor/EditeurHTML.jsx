@@ -4,7 +4,7 @@ import EditorToolbar, {  formats } from "./EditorCustomBar";
 import "react-quill/dist/quill.snow.css";
 import "./styles.css";
 
-export const Editor = ({id}) => {
+const Editor = ({id}) => {
   const [value, setValue] = React.useState("");
 
   const handleChange = (val) => {
