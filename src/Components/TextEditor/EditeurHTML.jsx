@@ -18,7 +18,6 @@ export const Editor = ({id}) => {
         theme="snow"
         value={value}
         onChange={handleChange}
-        placeholder={"Write..."}
         modules={modules(id)}  
         formats={formats}
       />

@@ -1,4 +1,5 @@
 import React from "react";
+import Editor from "../TextEditor/EditeurHTML";
 import "../../Styles/TaxationForm/CardInfo.css";
 
 const PrisedePosition = () => {
@@ -14,7 +15,7 @@ const PrisedePosition = () => {
           souligner)
         </p>
         <div>
-            Editeur de texte HTML
+            <Editor key="editor2" id="editor2"/>
         </div>
       </div>
     </>
