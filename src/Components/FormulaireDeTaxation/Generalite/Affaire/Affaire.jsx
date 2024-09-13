@@ -9,6 +9,11 @@ import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Affaire = () => {
+  const{ selectedDomains, setSelectedDomains }= useGeneraliteContext();
+  const { honoraireData, setHonoraireData}= useGeneraliteContext();
+  const { provisionData, setProvisionData}= useGeneraliteContext();
+
+
   const [showOptions, setShowOptions] = useState({
     affaire: "non",
     honoraires: "non",
@@ -19,7 +24,7 @@ const Affaire = () => {
     mediation: "non",
     mediationChoix: "non",
   });
-  const{ selectedDomains, setSelectedDomains }= useGeneraliteContext();
+  
   
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -27,8 +32,6 @@ const Affaire = () => {
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
   const [montantData, setMontantData] = useState([]); 
-  const [honoraireData, setHonoraireData] = useState([]);
-  const [provisionData, setProvisionData] = useState([]);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
@@ -338,7 +341,6 @@ const Affaire = () => {
           {isPopupHonoraireVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupHonoraire
-                honoraireData={honoraireData}
                 onClose={handlePopupClose}
                 onSubmit={handlePopupHonoraireSubmit}
               />
@@ -406,7 +408,6 @@ const Affaire = () => {
           {isPopupProvisionVisible && (
             <div className="popupContainer" ref={popupRef}>
               <PopupProvision
-                provisionData={provisionData}
                 onClose={handlePopupClose}
                 onSubmit={handlePopupProvisionSubmit}
               />

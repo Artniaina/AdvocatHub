@@ -4,9 +4,11 @@ import ToggleButton from "./ToggleButton";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
-import { update } from "lodash";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
-const PopupHonoraire = ({ onClose, onSubmit, honoraireData}) => {
+const PopupHonoraire = ({ onClose, onSubmit}) => {
+
+  const {honoraireData}= useGeneraliteContext()
 
   const initialData = Array.from({ length: 10 }, () => ({
     date: "",
@@ -18,7 +20,6 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData}) => {
   const [rowsData, setRowsData] = useState(initialData);
   const [initialRowsData, setInitialRowsData] = useState(initialData);
   const [isModified, setIsModified] = useState(false); 
-
 
   useEffect(() => {
     if (honoraireData && honoraireData.length > 0) {
