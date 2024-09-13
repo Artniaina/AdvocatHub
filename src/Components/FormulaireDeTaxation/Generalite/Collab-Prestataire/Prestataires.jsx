@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext"; 
 import PopupPrestataires from "./PopUpPresta";
 
 const Prestataires = () => {
+  const {prestataires, setPrestataires} = useGeneraliteContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [etude, setEtude] = useState("");
@@ -12,13 +14,14 @@ const Prestataires = () => {
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
   const [titrePro, setTitrePro] = useState("");
-  const [prestataires, setPrestataires] = useState([]);
   const [selectedPrestataire, setSelectedPrestataire] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
   const handleShowPopup = () => {
     setShowPopup(true);
   };
+
+//Data to send: prestataire
 
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -148,7 +151,6 @@ const Prestataires = () => {
         <PopupPrestataires
           onClose={handleClosePopup}
           onSubmitData={handleDataFromPopup}
-          prestataireData={prestataires}
         />
       )}
     </div> 

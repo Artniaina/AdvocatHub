@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
-import { useGenerealiteContext } from "../../../../Hooks/GeneraliteContext"; 
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext"; 
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
 
 const Clients = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const { clientData, setClientData } = useGenerealiteContext();
+  const { clientData, setClientData } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
 
   const handleOptionChange = (event) => {

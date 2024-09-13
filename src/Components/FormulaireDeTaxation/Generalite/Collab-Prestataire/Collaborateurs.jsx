@@ -4,10 +4,10 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
-import { useGenerealiteContext } from "../../../../Hooks/GeneraliteContext";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
  
 const Collaborateurs = () => {
-  const { selectedAvocats, setSelectedAvocats} = useGenerealiteContext();
+  const { selectedAvocats, setSelectedAvocats} = useGeneraliteContext();
 
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -19,9 +19,7 @@ const Collaborateurs = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [isInscrit, setIsInscrit] = useState(false);
-  
-  //Donnees a envoyer: selectedAvocat
-   
+     
   const handleShowPopup = () => setShowPopup(true);
 
   const handleClosePopup = () => setShowPopup(false);

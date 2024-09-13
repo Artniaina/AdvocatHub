@@ -3,8 +3,11 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
-const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
+const PopupPrestataires = ({ onClose, onSubmitData }) => {
+  const { prestataires } = useGeneraliteContext(); 
+
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
@@ -12,7 +15,7 @@ const PopupPrestataires = ({ onClose, onSubmitData, prestataireData }) => {
   const [titrePro, setTitrePro] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
-  const [Prestataires, setPrestataires] = useState(prestataireData);
+  const [Prestataires, setPrestataires] = useState(prestataires || []);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [filterActive, setFilterActive] = useState(null);

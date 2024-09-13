@@ -13,7 +13,7 @@ const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
     'Droit bancaire',
     'Droit de la propriété intellectuelle',
     'Droit de la presse',
-    'Droit de l’environnement',
+    'Droit de l’environnement', 
     'Fonds d’investissement',
     'Recouvrement de créances',
     'Successions et libéralités',

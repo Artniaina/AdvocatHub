@@ -6,6 +6,7 @@ import PopupDomaineJuridique from "./PopupDomaineJuridique";
 import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
 import PopupMontant from "./PopupMontant";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Affaire = () => {
   const [showOptions, setShowOptions] = useState({
@@ -18,7 +19,8 @@ const Affaire = () => {
     mediation: "non",
     mediationChoix: "non",
   });
- 
+  const{ selectedDomains, setSelectedDomains }= useGeneraliteContext();
+  
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
@@ -34,7 +36,6 @@ const Affaire = () => {
       setIsPopupProvisionVisible(false);
     }
   };
-  const [selectedDomains, setSelectedDomains] = useState([]);
   const [selectedMontantData, setSelectedMontantData] = useState([]);
   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState('');
   const [selectedProvisionDate, setSelectedProvisionDate] = useState('');
@@ -73,12 +74,13 @@ const Affaire = () => {
     setIsPopupVisible(false);
   };
 
+  
   const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
     console.log("Ito eeeeeeee", montantData);
     setIsPopupMontantVisible(false);
   };
-
+ 
   const handlePopupHonoraireSubmit = async (data) => {
     setHonoraireData(data);
     setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
