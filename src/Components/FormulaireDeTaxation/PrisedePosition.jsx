@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Editor from "./TextEditor/EditeurHTML";
 import "../../Styles/TaxationForm/CardInfo.css";
 
 const PrisedePosition = () => {
+  const [editorContent, setEditorContent] = useState({});
+
+  const handleEditorChange = (id, content) => {
+    setEditorContent((prevContent) => ({
+      ...prevContent,
+      [id]: content,
+    }));
+  };
+  const handleSubmit = () => {
+    console.log(editorContent);
+  };
   return (
     <>
       <div className="cardGeneralité" style={{ display: "block" }}>
@@ -15,7 +26,11 @@ const PrisedePosition = () => {
           souligner)
         </p>
         <div>
-            <Editor key="editor2" id="editor2"/>
+          <Editor
+            key="editor2"
+            id="editor2"
+            onChange={(content) => handleEditorChange("editor2", content)}
+          />
         </div>
       </div>
     </>

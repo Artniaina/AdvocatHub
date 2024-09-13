@@ -1,20 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactQuill from "react-quill";
 import EditorToolbar, {  formats } from "./EditorCustomBar";
 import "react-quill/dist/quill.snow.css";
 import "./styles.css";
 
-const Editor = ({id}) => {
+const Editor = ({id, onChange}) => {
   const [value, setValue] = React.useState("");
+
 
   const handleChange = (val) => {
     setValue(val);
+    if (onChange) onChange(val);
   };
-
   return (
     <div className="text-editor">
       <EditorToolbar id={id}/>
-      <ReactQuill
+      <ReactQuill 
         theme="snow"
         value={value}
         onChange={handleChange}
