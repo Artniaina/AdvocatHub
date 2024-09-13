@@ -46,7 +46,6 @@ Quill.register(Font, true);
 export const modules = {
   toolbar: {
     container: "#toolbar",
-    
     handlers: {
       undo: undoChange,
       redo: redoChange

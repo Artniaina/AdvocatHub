@@ -4,11 +4,11 @@ import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { useSelector } from "react-redux"; 
-import { useClientContext } from "../../../../Hooks/ClientContext";
+import { useGenerealiteContext } from "../../../../Hooks/GeneraliteContext";
 
-
+ 
 const PopupClients = ({ onClose, onSelectClient }) => {
-  const { clientData } = useClientContext(); 
+  const { clientData } = useGenerealiteContext(); 
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
   const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
