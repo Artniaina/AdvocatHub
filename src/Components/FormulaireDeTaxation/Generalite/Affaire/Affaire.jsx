@@ -9,37 +9,39 @@ import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Affaire = () => {
-   const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
-   const { honoraireData, setHonoraireData } = useGeneraliteContext();
-   const { provisionData, setProvisionData } = useGeneraliteContext();
-   const { montantData, setMontantData } = useGeneraliteContext();
- 
-   const [showOptions, setShowOptions] = useState({
-     affaire: "non",
-     honoraires: "non",
-     notes: "non",
-     conciliation: "non",
-     relative: "non",
-     conserv: "non",
-     mediation: "non",
-     mediationChoix: "non",
-   });
- 
-   const popupRef = useRef(null);
-   const [isPopupVisible, setIsPopupVisible] = useState(false);
-   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
-   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
-   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-   const [selectedMontantData, setSelectedMontantData] = useState([]);
-   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
-   const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
-   const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
-   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
-   const [selectedAmount, setSelectedAmount] = useState("");
-   const [selectedComment, setSelectedComment] = useState("");
+  const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
+  const { honoraireData, setHonoraireData } = useGeneraliteContext();
+  const { provisionData, setProvisionData } = useGeneraliteContext();
+  const { montantData, setMontantData } = useGeneraliteContext();
 
-   const [formData, setFormData] = useState({
-    domaine: selectedDomains,
+  const [showOptions, setShowOptions] = useState({
+    affaire: "non",
+    honoraires: "non",
+    notes: "non",
+    termesHonoraires: "non",
+    etatAvancement: "non",
+    conciliation: "non",
+    relative: "non",
+    conserv: "non",
+    mediation: "non",
+    mediationChoix: "non",
+  });
+
+  const popupRef = useRef(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
+  const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
+  const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
+  const [selectedMontantData, setSelectedMontantData] = useState([]);
+  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
+  const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
+  const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
+  const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
+  const [selectedAmount, setSelectedAmount] = useState("");
+  const [selectedComment, setSelectedComment] = useState("");
+
+  const [formData, setFormData] = useState({
+    domaine: [],
     honoraire: [],
     provision: [],
     montant: [],
@@ -55,9 +57,9 @@ const Affaire = () => {
     relative: "",
     conciliation: "",
   });
-  
-   useEffect(() => {
-    setFormData(prevState => ({
+
+  useEffect(() => {
+    setFormData((prevState) => ({
       ...prevState,
       domaine: selectedDomains,
       honoraire: honoraireData,
@@ -65,10 +67,10 @@ const Affaire = () => {
       montant: montantData,
     }));
   }, [selectedDomains, honoraireData, provisionData, montantData]);
-  
+
   const handleTextareaChange = (e) => {
     const { id, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
@@ -78,93 +80,89 @@ const Affaire = () => {
     console.log("Form Data:", formData);
   };
 
- 
- 
-   useEffect(() => {
-     if (montantData.length > 0) {
-       setSelectedAmount(montantData[0].amount);
-       setSelectedComment(montantData[0].comment);
-     }
-   }, [montantData]);
- 
-   const handleAmountChange = (e) => {
-     const selectedValue = e.target.value;
-     setSelectedAmount(selectedValue);
- 
-     const selectedData = montantData.find(
-       (item) => item.amount === selectedValue
-     );
-     setSelectedComment(selectedData ? selectedData.comment : "");
-   };
- 
-   const handleToggle = (field, value) => {
-     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
- 
-     setFormData((prevState) => ({
-       ...prevState,
-       [field]: value === "oui" ? prevState[field] : "", 
-     }));
-   };
- 
-   const isDisabled = (field) => showOptions[field] === "non";
- 
-   const handlePopupClose = () => {
-     setIsPopupVisible(false);
-     setIsPopupHonoraireVisible(false);
-     setIsPopupMontantVisible(false);
-     setIsPopupProvisionVisible(false);
-   };
- 
-   const handlePopupDomaineSubmit = async (data) => {
-     setSelectedDomains(data);
-     setFormData((prevState) => ({
-       ...prevState,
-       formation: data,
-     }));
-     handlePopupClose(); 
-   };
- 
-   const handlePopupMontantSubmit = async (data) => {
-     setMontantData(data);
-     setFormData((prevState) => ({
-       ...prevState,
-       noteDivers: data.length > 0 ? data[0].amount : "",
-     }));
-     handlePopupClose(); 
-   };
- 
-   const handlePopupHonoraireSubmit = async (data) => {
-     setHonoraireData(data);
-     setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
-     handlePopupClose(); 
-   };
- 
-   const handlePopupProvisionSubmit = async (data) => {
-     setProvisionData(data);
-     setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
-     handlePopupClose(); 
-   };
- 
-   const handleClickOutside = (event) => {
-     if (popupRef.current && !popupRef.current.contains(event.target)) {
-       handlePopupClose(); 
-     }
-   };
- 
-   const filteredHonoraireData = honoraireData.filter(
-     (item) => item.date === selectedHonoraireDate
-   );
- 
-   const filteredProvisionData = provisionData.filter(
-     (item) => item.date === selectedProvisionDate
-   );
- 
-   useEffect(() => {
-     document.addEventListener("mousedown", handleClickOutside);
-     return () => document.removeEventListener("mousedown", handleClickOutside);
-   }, []);
+  useEffect(() => {
+    if (montantData.length > 0) {
+      setSelectedAmount(montantData[0].amount);
+      setSelectedComment(montantData[0].comment);
+    }
+  }, [montantData]);
 
- 
+  const handleAmountChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedAmount(selectedValue);
+
+    const selectedData = montantData.find(
+      (item) => item.amount === selectedValue
+    );
+    setSelectedComment(selectedData ? selectedData.comment : "");
+  };
+
+  const handleToggle = (field, value) => {
+    setShowOptions((prevState) => ({ ...prevState, [field]: value }));
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [field]: value === "oui" ? prevState[field] : "",
+    }));
+  };
+
+  const isDisabled = (field) => showOptions[field] === "non";
+
+  const handlePopupClose = () => {
+    setIsPopupVisible(false);
+    setIsPopupHonoraireVisible(false);
+    setIsPopupMontantVisible(false);
+    setIsPopupProvisionVisible(false);
+  };
+
+  const handlePopupDomaineSubmit = async (data) => {
+    setSelectedDomains(data);
+    setFormData((prevState) => ({
+      ...prevState,
+    }));
+    handlePopupClose();
+  };
+
+  const handlePopupMontantSubmit = async (data) => {
+    setMontantData(data);
+    setFormData((prevState) => ({
+      ...prevState,
+      noteDivers: data.length > 0 ? data[0].amount : "",
+    }));
+    handlePopupClose();
+  };
+
+  const handlePopupHonoraireSubmit = async (data) => {
+    setHonoraireData(data);
+    setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
+    handlePopupClose();
+  };
+
+  const handlePopupProvisionSubmit = async (data) => {
+    setProvisionData(data);
+    setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
+    handlePopupClose();
+  };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      handlePopupClose();
+    }
+  };
+
+  const filteredHonoraireData = honoraireData.filter(
+    (item) => item.date === selectedHonoraireDate
+  );
+
+  const filteredProvisionData = provisionData.filter(
+    (item) => item.date === selectedProvisionDate
+  );
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div>
       <div className="formGroup">
@@ -211,7 +209,12 @@ const Affaire = () => {
         }}
       >
         <label htmlFor="dateDebut">Date de début du mandat * :</label>
-        <input type="date" id="dateDebut" value={formData.dateDebut} onChange={handleTextareaChange}/>
+        <input
+          type="date"
+          id="dateDebut"
+          value={formData.dateDebut}
+          onChange={handleTextareaChange}
+        />
       </div>
       <div
         className="formGroup"
@@ -221,61 +224,37 @@ const Affaire = () => {
         }}
       >
         <label htmlFor="dateFin">Date de fin du mandat * :</label>
-        <input type="date" id="dateFin" value={formData.dateFin} onChange={handleTextareaChange}/>
+        <input
+          type="date"
+          id="dateFin"
+          value={formData.dateFin}
+          onChange={handleTextareaChange}
+        />
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
           <p>
-            Une convention d’honoraires/lettre d’engagement a-t-elle été signée
-            ?
+          Une convention d’honoraires/lettre d’engagement a-t-elle été signée ? 
+            <br />
+            Si oui, quels en étaient les termes ? (merci de joindre la convention d’honoraires au dossier de taxation):
           </p>
-          <div className="box">
-            <label
-              className={`toggleButtonForm ${
-                showOptions.honoraires === "non" ? "active" : ""
-              }`}
-            >
-              <input
-                type="radio"
-                name="honoraires"
-                value="non"
-                checked={showOptions.honoraires === "non"}
-                onChange={() => handleToggle("honoraires", "non")}
-              />
-              Non
-            </label>
-            <label
-              className={`toggleButtonForm ${
-                showOptions.honoraires === "oui" ? "active" : ""
-              }`}
-            >
-              <input
-                type="radio"
-                name="honoraires"
-                value="oui"
-                checked={showOptions.honoraires === "oui"}
-                onChange={() => handleToggle("honoraires", "oui")}
-              />
-              Oui
-            </label>
-          </div>
+          <ToggleButton
+            name="termesHonoraires"
+            checkedValue={showOptions.termesHonoraires}
+            onChange={(value) => handleToggle("termesHonoraires", value)}
+          />
         </div>
-      </div>
-
-      <div className="formGroup">
-        <label htmlFor="termesHonoraires">
-          Si oui, quels en étaient les termes ? (merci de joindre la convention
-          d’honoraires au dossier de taxation):{" "}
-        </label>
         <textarea
           id="termesHonoraires"
-          className={`textarea ${isDisabled("honoraires") ? "disabled" : ""}`}
+          className={`textarea ${isDisabled("termesHonoraires") ? "disabled" : ""}`}
           value={formData.termesHonoraires}
           onChange={handleTextareaChange}
-          disabled={isDisabled("honoraires")}
+          disabled={isDisabled("termesHonoraires")}
         />
       </div>
+
+      
 
       <div className="formGroup">
         <label htmlFor="absenceTerm">
@@ -284,60 +263,33 @@ const Affaire = () => {
           client ?
         </label>
         <textarea
+          style={{width:"100%"}}
           id="absenceTerm"
           value={formData.absenceTerm}
           onChange={handleTextareaChange}
-          className="textarea honoraires"
-        />     
-         </div>
+        />
+      </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Affaire(s) en cours ? (si oui, préciser l'état d'avancement):</p>
-          <div className="box">
-            <label
-              className={`toggleButtonForm ${
-                showOptions.affaire === "non" ? "active" : ""
-              }`}
-            >
-              <input
-                type="radio"
-                name="affaire"
-                value="non"
-                checked={showOptions.affaire === "non"}
-                onChange={() => handleToggle("affaire", "non")}
-              />
-              Non
-            </label>
-            <label
-              className={`toggleButtonForm ${
-                showOptions.affaire === "oui" ? "active" : ""
-              }`}
-            >
-              <input
-                type="radio"
-                name="affaire"
-                value="oui"
-                checked={showOptions.affaire === "oui"}
-                onChange={() => handleToggle("affaire", "oui")}
-              />
-              Oui
-            </label>
-          </div>
+          <p>
+            Affaire(s) en cours ? (si oui, préciser l’état d’avancement) :{" "}
+            <br />
+            Etat d’avancement hors recouvrement des honoraires (Juridiction,
+            décisions rendues, expertise, plaidoiries…)
+          </p>
+          <ToggleButton
+            name="etatAvancement"
+            checkedValue={showOptions.etatAvancement}
+            onChange={(value) => handleToggle("etatAvancement", value)}
+          />
         </div>
-      </div>
-
-      <div className="formGroup">
-        <label htmlFor="etatAvancement">
-          Etat d’avancement hors recouvrement des honoraires (Juridiction,
-          décisions rendues, expertise, plaidoiries…)
-        </label>
         <textarea
           id="etatAvancement"
-          className={`textarea ${isDisabled("honoraires") ? "disabled" : ""}`}
+          className={`textarea ${isDisabled("etatAvancement") ? "disabled" : ""}`}
           value={formData.etatAvancement}
           onChange={handleTextareaChange}
-          disabled={isDisabled("honoraires")}
+          disabled={isDisabled("etatAvancement")}
         />
       </div>
 

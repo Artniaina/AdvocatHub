@@ -4,7 +4,6 @@ import { IoCloseCircle } from "react-icons/io5";
 
 const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
   const [checkedDomains, setCheckedDomains] = useState(selectedDomains);
-
   const domains = [
     'Droit fiscal',
     'Droit de la construction et de l’immobilier',
