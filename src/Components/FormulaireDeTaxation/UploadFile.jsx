@@ -8,8 +8,7 @@ import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 
 const UploadFile = () => {
   const {prepareDataToSend}= useGeneraliteContext()
-
-  const [fileInfos, setFileInfos] = useState([]);
+  const {fileInfos, setFileInfos} = useGeneraliteContext();
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);

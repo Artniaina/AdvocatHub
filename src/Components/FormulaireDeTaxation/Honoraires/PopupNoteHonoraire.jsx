@@ -6,7 +6,7 @@ import { FaFilter } from "react-icons/fa";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
-  const {noteHonoraire}= useGeneraliteContext()
+  const {noteHonoraire, setNoteHonoraire}= useGeneraliteContext()
   const tableHeaders = [
     { label: "Nombre d'heures facturées", key: "hours" },
     { label: "Nombre de minutes facturées", key: "minutes" },

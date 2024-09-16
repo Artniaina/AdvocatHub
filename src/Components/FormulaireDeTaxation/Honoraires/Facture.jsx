@@ -35,7 +35,7 @@ const Facture = () => {
   };
 
   const handleDataFromPopup = (data) => {
-    setHonoraireData(data);
+    setNoteHonoraire(data);
     handleClosePopup();
   };
 

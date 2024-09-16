@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Editor from "./TextEditor/EditeurHTML";
 import "../../Styles/TaxationForm/CardInfo.css";
+import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 
 const PrisedePosition = () => {
-  const [editorContent, setEditorContent] = useState({});
+  const {editorContentPosition, setEditorContentPosition}= useGeneraliteContext();
 
   const handleEditorChange = (id, content) => {
-    setEditorContent((prevContent) => ({
+    setEditorContentPosition((prevContent) => ({
       ...prevContent,
       [id]: content,
     }));

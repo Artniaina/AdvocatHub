@@ -12,6 +12,8 @@ export const GeneraliteProvider = ({ children }) => {
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
   const [editorContentObservation, setEditorContentObservation] = useState([]);
+  const [editorContentPosition, setEditorContentPosition] = useState({});
+  const [fileInfos, setFileInfos] = useState([]);
 
   const [formData, setFormData] = useState({
     domaine: [],
@@ -53,15 +55,15 @@ export const GeneraliteProvider = ({ children }) => {
       honoraireData,
       noteHonoraire,
       editorContentObservation,
+      editorContentPosition,
+      fileInfos,
       formData,
     };
 
-    // console.log('Data to send (JSON):', JSON.stringify(data, null, 2));
-  
+    console.log("Data to send (JSON):", JSON.stringify(data, null, 2));
+
     return data;
   };
-  
-  
 
   return (
     <GeneraliteContext.Provider
@@ -84,11 +86,15 @@ export const GeneraliteProvider = ({ children }) => {
         setNoteHonoraire,
         editorContentObservation,
         setEditorContentObservation,
+        editorContentPosition,
+        setEditorContentPosition,
         editorContents,
         setEditorContents,
+        fileInfos,
+        setFileInfos,
         formData,
         setFormData,
-        prepareDataToSend, 
+        prepareDataToSend,
       }}
     >
       {children}
