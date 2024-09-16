@@ -9,133 +9,162 @@ import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Affaire = () => {
-  const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
-  const { honoraireData, setHonoraireData } = useGeneraliteContext();
-  const { provisionData, setProvisionData } = useGeneraliteContext();
+   const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
+   const { honoraireData, setHonoraireData } = useGeneraliteContext();
+   const { provisionData, setProvisionData } = useGeneraliteContext();
+   const { montantData, setMontantData } = useGeneraliteContext();
+ 
+   const [showOptions, setShowOptions] = useState({
+     affaire: "non",
+     honoraires: "non",
+     notes: "non",
+     conciliation: "non",
+     relative: "non",
+     conserv: "non",
+     mediation: "non",
+     mediationChoix: "non",
+   });
+ 
+   const popupRef = useRef(null);
+   const [isPopupVisible, setIsPopupVisible] = useState(false);
+   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
+   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
+   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
+   const [selectedMontantData, setSelectedMontantData] = useState([]);
+   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
+   const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
+   const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
+   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
+   const [selectedAmount, setSelectedAmount] = useState("");
+   const [selectedComment, setSelectedComment] = useState("");
 
-  const [showOptions, setShowOptions] = useState({
-    affaire: "non",
-    honoraires: "non",
-    notes: "non",
-    conciliation: "non",
-    relative: "non",
-    conserv: "non",
-    mediation: "non",
-    mediationChoix: "non",
-  });
-
-  const popupRef = useRef(null);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
-  const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
-  const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-  const [montantData, setMontantData] = useState([]);
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setIsPopupVisible(false);
-      setIsPopupHonoraireVisible(false);
-      setIsPopupProvisionVisible(false);
-    }
-  };
-  const [selectedMontantData, setSelectedMontantData] = useState([]);
-  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
-  const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
-  const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
-  const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
-  const filteredHonoraireData = honoraireData.filter(
-    (item) => item.date === selectedHonoraireDate
-  );
-  const filteredMontant = montantData.filter(
-    (item) => item.date === selectedMontantData
-  );
-  const filteredProvisionData = provisionData.filter(
-    (item) => item.date === selectedProvisionDate
-  );
-  const [selectedAmount, setSelectedAmount] = useState("");
-  const [selectedComment, setSelectedComment] = useState("");
-  const [formData, setFormData] = useState({
-    formation: "",
+   const [formData, setFormData] = useState({
+    domaine: selectedDomains,
+    honoraire: [],
+    provision: [],
+    montant: [],
     nomAffaire: "",
     termesHonoraires: "",
-    absenceTerm:"",
-    datecontest:"",
-    dateDebut:"",
-    dateFin:"",
+    absenceTerm: "",
+    datecontest: "",
+    dateDebut: "",
+    dateFin: "",
     etatAvancement: "",
     conserv: "",
     mediation: "",
     relative: "",
     conciliation: "",
   });
-const handleGetData=()=>{
-console.log(formData);
-
-}  
-const handleTextareaChange = (e) => {
+  
+   useEffect(() => {
+    setFormData(prevState => ({
+      ...prevState,
+      domaine: selectedDomains,
+      honoraire: honoraireData,
+      provision: provisionData,
+      montant: montantData,
+    }));
+  }, [selectedDomains, honoraireData, provisionData, montantData]);
+  
+  const handleTextareaChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prevState) => ({
+    setFormData(prevState => ({
       ...prevState,
       [id]: value,
     }));
   };
 
-  useEffect(() => {
-    if (montantData.length > 0) {
-      setSelectedAmount(montantData[0].amount);
-      setSelectedComment(montantData[0].comment);
-    }
-  }, [montantData]);
-
-  const handleAmountChange = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedAmount(selectedValue);
-
-    const selectedData = montantData.find(
-      (item) => item.amount === selectedValue
-    );
-    setSelectedComment(selectedData ? selectedData.comment : "");
+  const handleGetData = () => {
+    console.log("Form Data:", formData);
   };
 
-  const handlePopupClose = () => {
-    setIsPopupVisible(false);
-    setIsPopupHonoraireVisible(false);
-    setIsPopupMontantVisible(false);
-    setIsPopupProvisionVisible(false);
-  };
-  const handlePopupDomaineSubmit = async (data) => {
-    setSelectedDomains(data);
-    setIsPopupVisible(false);
-  };
+ 
+ 
+   useEffect(() => {
+     if (montantData.length > 0) {
+       setSelectedAmount(montantData[0].amount);
+       setSelectedComment(montantData[0].comment);
+     }
+   }, [montantData]);
+ 
+   const handleAmountChange = (e) => {
+     const selectedValue = e.target.value;
+     setSelectedAmount(selectedValue);
+ 
+     const selectedData = montantData.find(
+       (item) => item.amount === selectedValue
+     );
+     setSelectedComment(selectedData ? selectedData.comment : "");
+   };
+ 
+   const handleToggle = (field, value) => {
+     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
+ 
+     setFormData((prevState) => ({
+       ...prevState,
+       [field]: value === "oui" ? prevState[field] : "", 
+     }));
+   };
+ 
+   const isDisabled = (field) => showOptions[field] === "non";
+ 
+   const handlePopupClose = () => {
+     setIsPopupVisible(false);
+     setIsPopupHonoraireVisible(false);
+     setIsPopupMontantVisible(false);
+     setIsPopupProvisionVisible(false);
+   };
+ 
+   const handlePopupDomaineSubmit = async (data) => {
+     setSelectedDomains(data);
+     setFormData((prevState) => ({
+       ...prevState,
+       formation: data,
+     }));
+     handlePopupClose(); 
+   };
+ 
+   const handlePopupMontantSubmit = async (data) => {
+     setMontantData(data);
+     setFormData((prevState) => ({
+       ...prevState,
+       noteDivers: data.length > 0 ? data[0].amount : "",
+     }));
+     handlePopupClose(); 
+   };
+ 
+   const handlePopupHonoraireSubmit = async (data) => {
+     setHonoraireData(data);
+     setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
+     handlePopupClose(); 
+   };
+ 
+   const handlePopupProvisionSubmit = async (data) => {
+     setProvisionData(data);
+     setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
+     handlePopupClose(); 
+   };
+ 
+   const handleClickOutside = (event) => {
+     if (popupRef.current && !popupRef.current.contains(event.target)) {
+       handlePopupClose(); 
+     }
+   };
+ 
+   const filteredHonoraireData = honoraireData.filter(
+     (item) => item.date === selectedHonoraireDate
+   );
+ 
+   const filteredProvisionData = provisionData.filter(
+     (item) => item.date === selectedProvisionDate
+   );
+ 
+   useEffect(() => {
+     document.addEventListener("mousedown", handleClickOutside);
+     return () => document.removeEventListener("mousedown", handleClickOutside);
+   }, []);
 
-  const handlePopupMontantSubmit = async (data) => {
-    setMontantData(data);
-    console.log("Ito eeeeeeee", montantData);
-    setIsPopupMontantVisible(false);
-  };
-
-  const handlePopupHonoraireSubmit = async (data) => {
-    setHonoraireData(data);
-    setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
-    setIsPopupHonoraireVisible(false);
-  };
-
-  const handlePopupProvisionSubmit = async (data) => {
-    setProvisionData(data);
-    setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
-    setIsPopupProvisionVisible(false);
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleToggle = (field, value) => {
-    setShowOptions((prevState) => ({ ...prevState, [field]: value }));
-  };
-
-  const isDisabled = (field) => showOptions[field] === "non";
-
+ 
   return (
     <div>
       <div className="formGroup">
@@ -258,7 +287,7 @@ const handleTextareaChange = (e) => {
           id="absenceTerm"
           value={formData.absenceTerm}
           onChange={handleTextareaChange}
-          className="honoraires"
+          className="textarea honoraires"
         />     
          </div>
 
@@ -537,7 +566,6 @@ const handleTextareaChange = (e) => {
             {isPopupMontantVisible && (
               <div className="popupContainer" ref={popupRef}>
                 <PopupMontant
-                  provisionData={montantData}
                   onClose={handlePopupClose}
                   onSubmit={handlePopupMontantSubmit}
                 />

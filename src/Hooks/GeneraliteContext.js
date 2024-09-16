@@ -7,10 +7,12 @@ export const GeneraliteProvider = ({ children }) => {
   const [selectedAvocats, setSelectedAvocats] = useState([]);
   const [prestataires, setPrestataires] = useState([]);
   const [selectedDomains, setSelectedDomains] = useState([]);
+  const [montantData, setMontantData] = useState([]);
   const [honoraireData, setHonoraireData] = useState([]);
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
   const [editorContentObservation, setEditorContentObservation] = useState([]);
+console.log(montantData);
 
   const [editorContents, setEditorContents] = useState({
     c1: {},
@@ -21,17 +23,17 @@ export const GeneraliteProvider = ({ children }) => {
     c6: {},
   });
 
-  const [textareaContents, setTextareaContents]=useState({
-    nomAffaire:{},
-    terme:{},
-    tauxhoraire:{},
-    affaireEnCours:{},
-    conciliation:{},
-    procedureRelative:{},
-    procedureConservatoire:{},
-    procedureMediation:{},
-    mediationSurChoix:{},
-  })
+  const [textareaContents, setTextareaContents] = useState({
+    nomAffaire: {},
+    terme: {},
+    tauxhoraire: {},
+    affaireEnCours: {},
+    conciliation: {},
+    procedureRelative: {},
+    procedureConservatoire: {},
+    procedureMediation: {},
+    mediationSurChoix: {},
+  });
 
   return (
     <GeneraliteContext.Provider
@@ -44,6 +46,8 @@ export const GeneraliteProvider = ({ children }) => {
         setPrestataires,
         selectedDomains,
         setSelectedDomains,
+        montantData,
+        setMontantData,
         honoraireData,
         setHonoraireData,
         provisionData,

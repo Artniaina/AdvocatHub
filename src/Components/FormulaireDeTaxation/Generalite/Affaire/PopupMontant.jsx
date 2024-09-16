@@ -3,8 +3,10 @@ import "../../../../Styles/TaxationForm/Popup.css";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
-const PopupMontant = ({ onClose, onSubmit, provisionData }) => {
+const PopupMontant = ({ onClose, onSubmit }) => {
+  const {montantData}= useGeneraliteContext()
   const initialData = Array.from({ length: 5 }, () => ({
     amount: "",
     comment: "",
@@ -15,10 +17,10 @@ const PopupMontant = ({ onClose, onSubmit, provisionData }) => {
   const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
-    if (provisionData && provisionData.length > 0) {
+    if (montantData && montantData.length > 0) {
       setRowsData((prevRowsData) => {
         const updatedData = [...prevRowsData];
-        provisionData.forEach((provision, index) => {
+        montantData.forEach((provision, index) => {
           if (updatedData[index]) {
             updatedData[index] = { ...updatedData[index], ...provision };
           }
@@ -27,7 +29,7 @@ const PopupMontant = ({ onClose, onSubmit, provisionData }) => {
       });
     }
     setInitialRowsData(rowsData);
-  }, [provisionData]);
+  }, [montantData]);
 
   const checkIfModified = () => {
     return rowsData.some((row, index) => {
