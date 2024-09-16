@@ -173,11 +173,11 @@ legend {
   font-weight: bold;
 }
 
-#date {
+#dateDebut {
   width: max-content;
   margin: 0px 6px;
 }
-#date1 {
+#dateFin {
   width: max-content;
   margin: 0px 32px;
 }

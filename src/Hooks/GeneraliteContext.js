@@ -21,22 +21,18 @@ export const GeneraliteProvider = ({ children }) => {
     c6: {},
   });
 
-  //Debug kely fa ts hay ze hanjo avy eo
-  console.log("Editor contents updated:", editorContents);
-  console.log(
-    "Observation hehe dans le context Tompoko",
-    editorContentObservation
-  );
-  console.log("Note de provision hehe dans le context Tompoko", provisionData);
-  console.log("Note d'honoraire hehe dans le context Tompoko", honoraireData);
-  console.log("Note d'honoraire hehe dans le context Tompoko", noteHonoraire);
-  console.log("Client dans le context Tompoko", clientData);
-  console.log("Collaborateur dans le context Tompoko", selectedAvocats);
-  console.log("Prestatire dans le context Tompoko", prestataires);
-  console.log(
-    "Domaine juridique hehe dans le context Tompoko",
-    selectedDomains
-  );
+  const [textareaContents, setTextareaContents]=useState({
+    nomAffaire:{},
+    terme:{},
+    tauxhoraire:{},
+    affaireEnCours:{},
+    conciliation:{},
+    procedureRelative:{},
+    procedureConservatoire:{},
+    procedureMediation:{},
+    mediationSurChoix:{},
+  })
+
   return (
     <GeneraliteContext.Provider
       value={{

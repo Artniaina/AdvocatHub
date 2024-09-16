@@ -9,10 +9,9 @@ import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Affaire = () => {
-  const{ selectedDomains, setSelectedDomains }= useGeneraliteContext();
-  const { honoraireData, setHonoraireData}= useGeneraliteContext();
-  const { provisionData, setProvisionData}= useGeneraliteContext();
-
+  const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
+  const { honoraireData, setHonoraireData } = useGeneraliteContext();
+  const { provisionData, setProvisionData } = useGeneraliteContext();
 
   const [showOptions, setShowOptions] = useState({
     affaire: "non",
@@ -24,14 +23,13 @@ const Affaire = () => {
     mediation: "non",
     mediationChoix: "non",
   });
-  
-  
+
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-  const [montantData, setMontantData] = useState([]); 
+  const [montantData, setMontantData] = useState([]);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsPopupVisible(false);
@@ -40,16 +38,47 @@ const Affaire = () => {
     }
   };
   const [selectedMontantData, setSelectedMontantData] = useState([]);
-  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState('');
-  const [selectedProvisionDate, setSelectedProvisionDate] = useState('');
+  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
+  const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
   const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
-  const filteredHonoraireData = honoraireData.filter(item => item.date === selectedHonoraireDate);
-  const filteredMontant = montantData.filter(item => item.date === selectedMontantData);
-  const filteredProvisionData = provisionData.filter(item => item.date === selectedProvisionDate);
-  const [selectedAmount, setSelectedAmount] = useState(""); 
-  const [selectedComment, setSelectedComment] = useState(""); 
-  
+  const filteredHonoraireData = honoraireData.filter(
+    (item) => item.date === selectedHonoraireDate
+  );
+  const filteredMontant = montantData.filter(
+    (item) => item.date === selectedMontantData
+  );
+  const filteredProvisionData = provisionData.filter(
+    (item) => item.date === selectedProvisionDate
+  );
+  const [selectedAmount, setSelectedAmount] = useState("");
+  const [selectedComment, setSelectedComment] = useState("");
+  const [formData, setFormData] = useState({
+    formation: "",
+    nomAffaire: "",
+    termesHonoraires: "",
+    absenceTerm:"",
+    datecontest:"",
+    dateDebut:"",
+    dateFin:"",
+    etatAvancement: "",
+    conserv: "",
+    mediation: "",
+    relative: "",
+    conciliation: "",
+  });
+const handleGetData=()=>{
+console.log(formData);
+
+}  
+const handleTextareaChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
   useEffect(() => {
     if (montantData.length > 0) {
       setSelectedAmount(montantData[0].amount);
@@ -61,7 +90,9 @@ const Affaire = () => {
     const selectedValue = e.target.value;
     setSelectedAmount(selectedValue);
 
-    const selectedData = montantData.find((item) => item.amount === selectedValue);
+    const selectedData = montantData.find(
+      (item) => item.amount === selectedValue
+    );
     setSelectedComment(selectedData ? selectedData.comment : "");
   };
 
@@ -76,22 +107,21 @@ const Affaire = () => {
     setIsPopupVisible(false);
   };
 
-  
   const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
     console.log("Ito eeeeeeee", montantData);
     setIsPopupMontantVisible(false);
   };
- 
+
   const handlePopupHonoraireSubmit = async (data) => {
     setHonoraireData(data);
-    setUniqueHonoraireDates([...new Set(data.map(item => item.date))]);
+    setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
     setIsPopupHonoraireVisible(false);
   };
 
   const handlePopupProvisionSubmit = async (data) => {
     setProvisionData(data);
-    setUniqueProvisionDates([...new Set(data.map(item => item.date))]); 
+    setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
     setIsPopupProvisionVisible(false);
   };
 
@@ -99,7 +129,6 @@ const Affaire = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
 
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
@@ -138,7 +167,11 @@ const Affaire = () => {
 
       <div className="formGroup">
         <label htmlFor="nomAffaire">Nom de l'affaire * : </label>
-        <textarea id="nomAffaire" />
+        <textarea
+          id="nomAffaire"
+          value={formData.nomAffaire}
+          onChange={handleTextareaChange}
+        />
       </div>
 
       <div
@@ -149,7 +182,7 @@ const Affaire = () => {
         }}
       >
         <label htmlFor="dateDebut">Date de début du mandat * :</label>
-        <input type="date" id="date" />
+        <input type="date" id="dateDebut" value={formData.dateDebut} onChange={handleTextareaChange}/>
       </div>
       <div
         className="formGroup"
@@ -159,7 +192,7 @@ const Affaire = () => {
         }}
       >
         <label htmlFor="dateFin">Date de fin du mandat * :</label>
-        <input type="date" id="date1" />
+        <input type="date" id="dateFin" value={formData.dateFin} onChange={handleTextareaChange}/>
       </div>
 
       <div className="formGroupbtn">
@@ -202,25 +235,32 @@ const Affaire = () => {
       </div>
 
       <div className="formGroup">
-        <label htmlFor="nomAffaire">
+        <label htmlFor="termesHonoraires">
           Si oui, quels en étaient les termes ? (merci de joindre la convention
           d’honoraires au dossier de taxation):{" "}
         </label>
         <textarea
+          id="termesHonoraires"
           className={`textarea ${isDisabled("honoraires") ? "disabled" : ""}`}
-          id="nomAffaire"
+          value={formData.termesHonoraires}
+          onChange={handleTextareaChange}
           disabled={isDisabled("honoraires")}
         />
       </div>
 
       <div className="formGroup">
-        <label htmlFor="nomAffaire">
+        <label htmlFor="absenceTerm">
           En l’absence de convention d’honoraires/lettre d’engagement en bonne
           et due forme, un budget ou un taux horaire a-t'il été annoncé au
           client ?
         </label>
-        <textarea className={`textarea`} id="nomAffaire" />
-      </div>
+        <textarea
+          id="absenceTerm"
+          value={formData.absenceTerm}
+          onChange={handleTextareaChange}
+          className="honoraires"
+        />     
+         </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
@@ -259,14 +299,16 @@ const Affaire = () => {
       </div>
 
       <div className="formGroup">
-        <label htmlFor="nomAffaire">
+        <label htmlFor="etatAvancement">
           Etat d’avancement hors recouvrement des honoraires (Juridiction,
           décisions rendues, expertise, plaidoiries…)
         </label>
         <textarea
-          className={`textarea ${isDisabled("affaire") ? "disabled" : ""}`}
-          id="nomAffaire"
-          disabled={isDisabled("affaire")}
+          id="etatAvancement"
+          className={`textarea ${isDisabled("honoraires") ? "disabled" : ""}`}
+          value={formData.etatAvancement}
+          onChange={handleTextareaChange}
+          disabled={isDisabled("honoraires")}
         />
       </div>
 
@@ -277,28 +319,40 @@ const Affaire = () => {
         <input
           type="date"
           id="datecontest"
+          value={formData.datecontest}
+          onChange={handleTextareaChange}
           style={{ margin: "0px", width: "19vw" }}
         />
       </div>
 
-    <div className="formGroup">
-        <p>Date, référence et montant TTC de la/des note(s) d'honoraires contestée(s) * :</p>
-        <div className="btnAdd" style={{ textAlign: 'center', marginRight: '900px' }}>
+      <div className="formGroup">
+        <p>
+          Date, référence et montant TTC de la/des note(s) d'honoraires
+          contestée(s) * :
+        </p>
+        <div
+          className="btnAdd"
+          style={{ textAlign: "center", marginRight: "900px" }}
+        >
           {honoraireData.length === 0 ? (
             <IoAddCircle
-              style={{ color: 'green', fontSize: '40px' }}
-              onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
+              style={{ color: "green", fontSize: "40px" }}
+              onClick={() =>
+                setIsPopupHonoraireVisible(!isPopupHonoraireVisible)
+              }
             />
           ) : (
             <>
-             <IoAddCircle
-              style={{ color: 'green', fontSize: '40px' }}
-              onClick={() => setIsPopupHonoraireVisible(!isPopupHonoraireVisible)}
-            />
+              <IoAddCircle
+                style={{ color: "green", fontSize: "40px" }}
+                onClick={() =>
+                  setIsPopupHonoraireVisible(!isPopupHonoraireVisible)
+                }
+              />
               <select
                 value={selectedHonoraireDate}
                 onChange={(e) => setSelectedHonoraireDate(e.target.value)}
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: "20px" }}
               >
                 <option value="">Select Date</option>
                 {uniqueHonoraireDates.map((date, index) => (
@@ -312,18 +366,26 @@ const Affaire = () => {
                 {selectedHonoraireDate && filteredHonoraireData.length > 0 && (
                   <div className="honoraireData">
                     {filteredHonoraireData.map((item, index) => (
-                      <div key={index} style={{ marginBottom: '10px' }}>
+                      <div key={index} style={{ marginBottom: "10px" }}>
                         <label>
                           <strong>Date :</strong>
                           <input type="text" value={item.date} readOnly />
                         </label>
                         <label>
                           <strong>Référence :</strong>
-                          <input type="text" value={item.reference || ''} readOnly />
+                          <input
+                            type="text"
+                            value={item.reference || ""}
+                            readOnly
+                          />
                         </label>
                         <label>
                           <strong>Montant TTC :</strong>
-                          <input type="text" value={item.amount || ''} readOnly />
+                          <input
+                            type="text"
+                            value={item.amount || ""}
+                            readOnly
+                          />
                         </label>
                         <label>
                           <strong>Payée :</strong>
@@ -350,22 +412,29 @@ const Affaire = () => {
 
       <div className="formGroup">
         <p>Date, référence et montant TTC de la/des note(s) de provision :</p>
-        <div className="btnAdd" style={{ textAlign: 'center', marginRight: '900px' }}>
+        <div
+          className="btnAdd"
+          style={{ textAlign: "center", marginRight: "900px" }}
+        >
           {provisionData.length === 0 ? (
             <IoAddCircle
-              style={{ color: 'green', fontSize: '40px' }}
-              onClick={() => setIsPopupProvisionVisible(!isPopupProvisionVisible)}
+              style={{ color: "green", fontSize: "40px" }}
+              onClick={() =>
+                setIsPopupProvisionVisible(!isPopupProvisionVisible)
+              }
             />
           ) : (
             <>
-             <IoAddCircle
-              style={{ color: 'green', fontSize: '40px' }}
-              onClick={() => setIsPopupProvisionVisible(!isPopupProvisionVisible)}
-            />
+              <IoAddCircle
+                style={{ color: "green", fontSize: "40px" }}
+                onClick={() =>
+                  setIsPopupProvisionVisible(!isPopupProvisionVisible)
+                }
+              />
               <select
                 value={selectedProvisionDate}
                 onChange={(e) => setSelectedProvisionDate(e.target.value)}
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: "20px" }}
               >
                 <option value="">Select Date</option>
                 {uniqueProvisionDates.map((date, index) => (
@@ -375,22 +444,30 @@ const Affaire = () => {
                 ))}
               </select>
 
-              <div className="honoraireData" >
+              <div className="honoraireData">
                 {selectedProvisionDate && filteredProvisionData.length > 0 && (
                   <div className="honoraireData">
                     {filteredProvisionData.map((item, index) => (
-                      <div key={index} style={{ marginBottom: '10px' }}>
+                      <div key={index} style={{ marginBottom: "10px" }}>
                         <label>
                           <strong>Date :</strong>
                           <input type="text" value={item.date} readOnly />
                         </label>
                         <label>
                           <strong>Référence :</strong>
-                          <input type="text" value={item.reference || ''} readOnly />
+                          <input
+                            type="text"
+                            value={item.reference || ""}
+                            readOnly
+                          />
                         </label>
                         <label>
                           <strong>Montant :</strong>
-                          <input type="text" value={item.amount || ''} readOnly />
+                          <input
+                            type="text"
+                            value={item.amount || ""}
+                            readOnly
+                          />
                         </label>
                         <label>
                           <strong>Payée :</strong>
@@ -415,58 +492,60 @@ const Affaire = () => {
         </div>
       </div>
       <div className="formGroupbtn">
-      <div className="toggleButtons">
-        <p>
-          D’autres notes dans le cadre de la même affaire ont-elles été payées ?
-          (Factures...)
-        </p>
-        <ToggleButton
-          name="notes"
-          checkedValue={showOptions.notes}
-          onChange={(value) => handleToggle("notes", value)}
-        />
-      </div>
-
-      <div className="formGroup">
-        <label style={{ display: "inline" }} htmlFor="client">
-          Merci de bien vouloir indiquer les montants TTC :
-        </label>
-        <div className="divflex" style={{ display: "flex" }}>
-          <select id="client" value={selectedAmount} onChange={handleAmountChange}>
-            {montantData.map((item, index) => (
-              <option key={index} value={item.amount}>
-                {item.amount} TTC
-              </option>
-            ))}
-          </select>
-
-          <textarea
-            style={{ width: "30vw", height: "12px" }}
-            value={selectedComment}
-            readOnly
+        <div className="toggleButtons">
+          <p>
+            D’autres notes dans le cadre de la même affaire ont-elles été payées
+            ? (Factures...)
+          </p>
+          <ToggleButton
+            name="notes"
+            checkedValue={showOptions.notes}
+            onChange={(value) => handleToggle("notes", value)}
           />
+        </div>
 
-          <div className="btnAdd">
-            <IoAddCircle
-              style={{ color: "green", fontSize: "40px", marginTop: "-2px" }}
-              onClick={() => setIsPopupMontantVisible(!isPopupMontantVisible)}
+        <div className="formGroup">
+          <label style={{ display: "inline" }} htmlFor="client">
+            Merci de bien vouloir indiquer les montants TTC :
+          </label>
+          <div className="divflex" style={{ display: "flex" }}>
+            <select
+              id="client"
+              value={selectedAmount}
+              onChange={handleAmountChange}
+            >
+              {montantData.map((item, index) => (
+                <option key={index} value={item.amount}>
+                  {item.amount} TTC
+                </option>
+              ))}
+            </select>
+
+            <textarea
+              style={{ width: "30vw", height: "12px" }}
+              value={selectedComment}
+              readOnly
             />
-          </div>
 
-          {isPopupMontantVisible && (
-            <div className="popupContainer" ref={popupRef}>
-              <PopupMontant
-                provisionData={montantData}
-                onClose={handlePopupClose}
-                onSubmit={handlePopupMontantSubmit}
+            <div className="btnAdd">
+              <IoAddCircle
+                style={{ color: "green", fontSize: "40px", marginTop: "-2px" }}
+                onClick={() => setIsPopupMontantVisible(!isPopupMontantVisible)}
               />
             </div>
-          )}
+
+            {isPopupMontantVisible && (
+              <div className="popupContainer" ref={popupRef}>
+                <PopupMontant
+                  provisionData={montantData}
+                  onClose={handlePopupClose}
+                  onSubmit={handlePopupMontantSubmit}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-
-
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
@@ -481,6 +560,8 @@ const Affaire = () => {
           className={`textarea ${isDisabled("conciliation") ? "disabled" : ""}`}
           name="conciliation"
           id="conciliation"
+          onChange={handleTextareaChange}
+          value={formData.conciliation}
           disabled={isDisabled("conciliation")}
         ></textarea>
       </div>
@@ -502,13 +583,18 @@ const Affaire = () => {
           className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
           name="relative"
           id="relative"
+          onChange={handleTextareaChange}
+          value={formData.relative}
           disabled={isDisabled("relative")}
         ></textarea>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Une procédure conservatoire a-t-elle été introduite ?</p>
+          <p>
+            Des mesures conservatoires ont-elles été introduites ?(date, action
+            judiciaire, procédure et stade de la procédure)
+          </p>
           <ToggleButton
             name="conserv"
             checkedValue={showOptions.conserv}
@@ -519,16 +605,15 @@ const Affaire = () => {
           className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
           name="conserv"
           id="conserv"
+          onChange={handleTextareaChange}
+          value={formData.conserv}
           disabled={isDisabled("conserv")}
         ></textarea>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>
-            Une procédure de médiation a-t-elle été introduite ? (date,
-            médiateur et résultat)
-          </p>
+          <p>Unde médiation est-elle en cours?</p>
           <ToggleButton
             name="mediation"
             checkedValue={showOptions.mediation}
@@ -539,28 +624,23 @@ const Affaire = () => {
           className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
           name="mediation"
           id="mediation"
+          onChange={handleTextareaChange}
+          value={formData.mediation}
           disabled={isDisabled("mediation")}
         ></textarea>
       </div>
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
-          <p>Médiation sur choix :</p>
+          <p>Si non, est-elle souhaitée ?</p>
           <ToggleButton
             name="mediationChoix"
             checkedValue={showOptions.mediationChoix}
             onChange={(value) => handleToggle("mediationChoix", value)}
           />
         </div>
-        <textarea
-          className={`textarea ${
-            isDisabled("mediationChoix") ? "disabled" : ""
-          }`}
-          name="mediationChoix"
-          id="mediationChoix"
-          disabled={isDisabled("mediationChoix")}
-        ></textarea>
       </div>
+      <button onClick={handleGetData}>Hello World</button>
     </div>
   );
 };
