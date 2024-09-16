@@ -13,6 +13,25 @@ export const GeneraliteProvider = ({ children }) => {
   const [noteHonoraire, setNoteHonoraire] = useState([]);
   const [editorContentObservation, setEditorContentObservation] = useState([]);
 
+  const [formData, setFormData] = useState({
+    domaine: [],
+    honoraire: [],
+    provision: [],
+    montant: [],
+    nomAffaire: "",
+    termesHonoraires: "",
+    absenceTerm: "",
+    datecontest: "",
+    dateDebut: "",
+    dateFin: "",
+    etatAvancement: "",
+    conserv: "",
+    mediation: "",
+    relative: "",
+    conciliation: "",
+    mediationChoix: "non",
+  });
+
   const [editorContents, setEditorContents] = useState({
     c1: {},
     c2: {},
@@ -22,17 +41,27 @@ export const GeneraliteProvider = ({ children }) => {
     c6: {},
   });
 
-  const [textareaContents, setTextareaContents] = useState({
-    nomAffaire: {},
-    terme: {},
-    tauxhoraire: {},
-    affaireEnCours: {},
-    conciliation: {},
-    procedureRelative: {},
-    procedureConservatoire: {},
-    procedureMediation: {},
-    mediationSurChoix: {},
-  });
+  const prepareDataToSend = () => {
+    const data = {
+      editorContents,
+      clientData,
+      selectedAvocats,
+      prestataires,
+      selectedDomains,
+      montantData,
+      provisionData,
+      honoraireData,
+      noteHonoraire,
+      editorContentObservation,
+      formData,
+    };
+
+    // console.log('Data to send (JSON):', JSON.stringify(data, null, 2));
+  
+    return data;
+  };
+  
+  
 
   return (
     <GeneraliteContext.Provider
@@ -57,6 +86,9 @@ export const GeneraliteProvider = ({ children }) => {
         setEditorContentObservation,
         editorContents,
         setEditorContents,
+        formData,
+        setFormData,
+        prepareDataToSend, 
       }}
     >
       {children}

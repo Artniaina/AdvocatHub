@@ -13,7 +13,7 @@ const Affaire = () => {
   const { honoraireData, setHonoraireData } = useGeneraliteContext();
   const { provisionData, setProvisionData } = useGeneraliteContext();
   const { montantData, setMontantData } = useGeneraliteContext();
-
+  const { formData, setFormData } = useGeneraliteContext();
   const [showOptions, setShowOptions] = useState({
     affaire: "non",
     honoraires: "non",
@@ -40,25 +40,6 @@ const Affaire = () => {
   const [selectedAmount, setSelectedAmount] = useState("");
   const [selectedComment, setSelectedComment] = useState("");
 
-  const [formData, setFormData] = useState({
-    domaine: [],
-    honoraire: [],
-    provision: [],
-    montant: [],
-    nomAffaire: "",
-    termesHonoraires: "",
-    absenceTerm: "",
-    datecontest: "",
-    dateDebut: "",
-    dateFin: "",
-    etatAvancement: "",
-    conserv: "",
-    mediation: "",
-    relative: "",
-    conciliation: "",
-    mediationChoix:"non"
-  });
-
   useEffect(() => {
     const fieldsToUpdate = [
       "etatAvancement",
@@ -84,7 +65,7 @@ const Affaire = () => {
         domaine: selectedDomains,
         honoraire: honoraireData,
         provision: provisionData,
-        montant: montantData
+        montant: montantData,
       };
     });
   }, [selectedDomains, honoraireData, provisionData, montantData, showOptions]);
@@ -273,7 +254,9 @@ const Affaire = () => {
           className={`textarea ${
             isDisabled("termesHonoraires") ? "disabled" : ""
           }`}
-          value={isDisabled("termesHonoraires") ? "" : formData.termesHonoraires}
+          value={
+            isDisabled("termesHonoraires") ? "" : formData.termesHonoraires
+          }
           onChange={handleTextareaChange}
           disabled={isDisabled("termesHonoraires")}
         />

@@ -4,8 +4,11 @@ import Image from "../../assets/icons8-fichier-67.png";
 import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
+import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 
 const UploadFile = () => {
+  const {prepareDataToSend}= useGeneraliteContext()
+
   const [fileInfos, setFileInfos] = useState([]);
 
   const handleFileChange = (event) => {
@@ -24,14 +27,15 @@ const UploadFile = () => {
   };
 
   const handleSubmit = () => {
-    if (fileInfos.length > 0) {
-      console.log(
-        "Fichiers envoyés:",
-        fileInfos.map((file) => file.name)
-      );
-    } else {
-      console.log("Aucun fichier sélectionné");
-    }
+    // if (fileInfos.length > 0) {
+    //   console.log(
+    //     "Fichiers envoyés:",
+    //     fileInfos.map((file) => file.name)
+    //   );
+    // } else {
+    //   console.log("Aucun fichier sélectionné");
+    // }
+    
   };
 
   const triggerFileUpload = () => {
@@ -108,8 +112,8 @@ const UploadFile = () => {
             onChange={handleFileChange}
             multiple
           />
-          <button onClick={handleSubmit}>
-            <FaCheck style={{ color: "green", fontSize: "30px" }} />
+          <button onClick={prepareDataToSend}>
+            <FaCheck style={{ color: "green", fontSize: "30px" }}/>
             Envoyer
           </button>
         </div>
