@@ -6,7 +6,6 @@ import { IoAddCircle } from "react-icons/io5";
 const GuideAffaire = () => {
   const [isHovered, setIsHovered] = useState(false);
   const popupRef = useRef(null);
-
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setIsHovered(false);

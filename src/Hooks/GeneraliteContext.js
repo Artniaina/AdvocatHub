@@ -68,7 +68,7 @@ export const GeneraliteProvider = ({ children }) => {
   return (
     <GeneraliteContext.Provider
       value={{
-        clientData,
+        clientData, 
         setClientData,
         selectedAvocats,
         setSelectedAvocats,

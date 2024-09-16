@@ -5,6 +5,7 @@ import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
+import UploadFileGuide from "./UploadFileGuide";
 
 const UploadFile = () => {
   const {prepareDataToSend}= useGeneraliteContext()
@@ -42,7 +43,9 @@ const UploadFile = () => {
   };
 
   return (
-    <>
+    <>  <div>
+    <UploadFileGuide/>
+    </div>
       <div
         className="cardGeneralité"
         style={{ display: "flex", justifyContent: "space-between" }}
