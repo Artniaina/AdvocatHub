@@ -56,17 +56,38 @@ const Affaire = () => {
     mediation: "",
     relative: "",
     conciliation: "",
+    mediationChoix:"non"
   });
 
   useEffect(() => {
-    setFormData((prevState) => ({
-      ...prevState,
-      domaine: selectedDomains,
-      honoraire: honoraireData,
-      provision: provisionData,
-      montant: montantData,
-    }));
-  }, [selectedDomains, honoraireData, provisionData, montantData]);
+    const fieldsToUpdate = [
+      "etatAvancement",
+      "conciliation",
+      "conserv",
+      "mediation",
+      "relative",
+      "absenceTerm",
+      "nomAffaire",
+      "termesHonoraires",
+    ];
+
+    setFormData((prevState) => {
+      const updatedData = fieldsToUpdate.reduce((acc, field) => {
+        acc[field] = isDisabled(field) ? showOptions[field] : "";
+        return acc;
+      }, {});
+
+      return {
+        ...prevState,
+        ...updatedData,
+        mediationChoix: showOptions.mediationChoix,
+        domaine: selectedDomains,
+        honoraire: honoraireData,
+        provision: provisionData,
+        montant: montantData
+      };
+    });
+  }, [selectedDomains, honoraireData, provisionData, montantData, showOptions]);
 
   const handleTextareaChange = (e) => {
     const { id, value } = e.target;
@@ -235,9 +256,11 @@ const Affaire = () => {
       <div className="formGroupbtn">
         <div className="toggleButtons">
           <p>
-          Une convention d’honoraires/lettre d’engagement a-t-elle été signée ? 
+            Une convention d’honoraires/lettre d’engagement a-t-elle été signée
+            ?
             <br />
-            Si oui, quels en étaient les termes ? (merci de joindre la convention d’honoraires au dossier de taxation):
+            Si oui, quels en étaient les termes ? (merci de joindre la
+            convention d’honoraires au dossier de taxation):
           </p>
           <ToggleButton
             name="termesHonoraires"
@@ -247,14 +270,14 @@ const Affaire = () => {
         </div>
         <textarea
           id="termesHonoraires"
-          className={`textarea ${isDisabled("termesHonoraires") ? "disabled" : ""}`}
-          value={formData.termesHonoraires}
+          className={`textarea ${
+            isDisabled("termesHonoraires") ? "disabled" : ""
+          }`}
+          value={isDisabled("termesHonoraires") ? "" : formData.termesHonoraires}
           onChange={handleTextareaChange}
           disabled={isDisabled("termesHonoraires")}
         />
       </div>
-
-      
 
       <div className="formGroup">
         <label htmlFor="absenceTerm">
@@ -263,13 +286,12 @@ const Affaire = () => {
           client ?
         </label>
         <textarea
-          style={{width:"100%"}}
+          style={{ width: "100%" }}
           id="absenceTerm"
           value={formData.absenceTerm}
           onChange={handleTextareaChange}
         />
       </div>
-
       <div className="formGroupbtn">
         <div className="toggleButtons">
           <p>
@@ -286,8 +308,10 @@ const Affaire = () => {
         </div>
         <textarea
           id="etatAvancement"
-          className={`textarea ${isDisabled("etatAvancement") ? "disabled" : ""}`}
-          value={formData.etatAvancement}
+          className={`textarea ${
+            isDisabled("etatAvancement") ? "disabled" : ""
+          }`}
+          value={isDisabled("etatAvancement") ? "" : formData.etatAvancement}
           onChange={handleTextareaChange}
           disabled={isDisabled("etatAvancement")}
         />
@@ -541,7 +565,7 @@ const Affaire = () => {
           name="conciliation"
           id="conciliation"
           onChange={handleTextareaChange}
-          value={formData.conciliation}
+          value={isDisabled("conciliation") ? "" : formData.conciliation}
           disabled={isDisabled("conciliation")}
         ></textarea>
       </div>
@@ -564,7 +588,7 @@ const Affaire = () => {
           name="relative"
           id="relative"
           onChange={handleTextareaChange}
-          value={formData.relative}
+          value={isDisabled("relative") ? "" : formData.relative}
           disabled={isDisabled("relative")}
         ></textarea>
       </div>
@@ -586,7 +610,7 @@ const Affaire = () => {
           name="conserv"
           id="conserv"
           onChange={handleTextareaChange}
-          value={formData.conserv}
+          value={isDisabled("conserv") ? "" : formData.conserv}
           disabled={isDisabled("conserv")}
         ></textarea>
       </div>
@@ -605,7 +629,7 @@ const Affaire = () => {
           name="mediation"
           id="mediation"
           onChange={handleTextareaChange}
-          value={formData.mediation}
+          value={isDisabled("mediation") ? "" : formData.mediation}
           disabled={isDisabled("mediation")}
         ></textarea>
       </div>

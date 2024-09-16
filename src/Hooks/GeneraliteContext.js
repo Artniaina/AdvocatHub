@@ -12,7 +12,6 @@ export const GeneraliteProvider = ({ children }) => {
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
   const [editorContentObservation, setEditorContentObservation] = useState([]);
-console.log(montantData);
 
   const [editorContents, setEditorContents] = useState({
     c1: {},
