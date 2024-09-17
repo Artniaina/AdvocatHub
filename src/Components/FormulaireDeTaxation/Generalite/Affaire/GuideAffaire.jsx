@@ -11,7 +11,7 @@ const GuideAffaire = () => {
       setIsHovered(false);
     }
   };
-
+ 
   useEffect(() => {
     if (isHovered) {
       document.addEventListener("mousedown", handleClickOutside);

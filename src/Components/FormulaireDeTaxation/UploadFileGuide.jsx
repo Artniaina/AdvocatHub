@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "../../Styles/TaxationForm/Guide.css";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { IoAddCircle } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
 
 const UploadFileGuide = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -45,7 +46,7 @@ const UploadFileGuide = () => {
             className="popup-overlay"
             onMouseEnter={() => setIsHovered(true)}
           />
-          <div className="popup-guide upload" ref={popupRef}>
+          <div className="upload"ref={popupRef}>
             <button
               className="popup-closee"
               onClick={() => setIsHovered(false)}
@@ -79,12 +80,14 @@ const UploadFileGuide = () => {
               </li>
 
               <li>
-                vCliquer sur <span>+ «PARCOURIR» </span> pour insérer des
+                Cliquer sur <IoAddCircle style={{ color: "green", fontSize: "40px", marginBottom:"-13px" }} />
+                Parcourir pour insérer des
                 fichiers
               </li>
 
               <li>
-                Cliquer sur « ENVOYER » pour valider définitivement la Demande
+                Cliquer sur  <FaCheck style={{ color: "green", fontSize: "30px", marginBottom:"-13px"  }}/>
+                Envoyer pour valider définitivement la Demande
                 d’information pour taxation. Une fois envoyé, le formulaire ne
                 pourra plus être modifié.
               </li>

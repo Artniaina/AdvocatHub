@@ -37,8 +37,22 @@
   padding-bottom: 5px;
 }
 .upload{
-  top: 900vh;
-  padding-top: 12px;
+  top: 880vh;
+  padding-top: 50px;
+  padding-left: 25px;
+  padding-bottom: 25px;
+  width: 65vw;  
+  height: 75vh;
+  position: absolute;
+  left: 77px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow:2px 3px 25px #00000085;
+  z-index: 1000;
+  font-size: 19px;
+  color: #000000;
+  margin: -25px 0 0 45px;
+  border-radius: 10px;
 }
 .honoraire{
   top: 540vh;
@@ -59,30 +73,30 @@
   width: 42px;
   border-radius: 18px;
 }
-.popup-guide h2{
+.popup-guide h2, .upload h2{
   font-size: 25px;
   margin-top: -80px;
   color: #7b2d82;
 }
-.popup-guide h4 {
+.popup-guide h4 , .upload h4 {
   margin-top: 0px;
   font-size: 20px;
   color: #7b2d82;
 }
 
-.popup-guide ul {
+.popup-guide ul, .upload ul {
   list-style-type: disc;
   padding-left: 20px;
   color: #272727;
 }
 
-.popup-guide li {
+.popup-guide li, .upload li {
   margin-bottom: 10px;
   color: #272727;
   padding: 12px 0px 5px 25px;
   margin-left: 74px;
 }
-.popup-guide span{
+.popup-guide span, .upload span{
   background: #5E1675;
   border: 1px solid #5E1675;
   padding: 12px;
