@@ -89,7 +89,7 @@ const Page1 = () => {
               <td style={styles.tableCell}>Ghizlane</td>
             </tr>
             <tr>
-            <td style={styles.tableCellBold}>
+              <td style={styles.tableCellBold}>
                 {" "}
                 Adresse professionnelle:
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -100,7 +100,7 @@ const Page1 = () => {
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span style={{ fontSize: "0px" }}>e</span>
               </td>
-              </tr>
+            </tr>
             <tr>
               <td style={styles.tableCellBold}>Date d'assermentation:</td>
               <td style={styles.tableCell}>0956321</td>
@@ -230,6 +230,176 @@ const Page1 = () => {
           </tbody>
         </table>
       </div>
+      <div style={styles.sectionDivider}></div>
+
+      <div style={{ marginBottom: "10px" }}>
+        <p style={styles.subSectionTitle}>d)AFFAIRE</p>
+        <table style={styles.table}>
+          <tbody>
+            <tr>
+              <td style={styles.tableCellBold}>Domaine(s) juridique(s)</td>
+              <td style={styles.tableCell}>Valeur DJ</td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>Nom de l'affaire :</td>
+              <td style={styles.tableCell}>Valeur NA</td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                {" "}
+                Date de dÈbut du mandat :
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style={{ fontSize: "0px" }}>e</span>
+              </td>
+              <td style={styles.tableCell}>
+                Valeur date debut mandat
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style={{ fontSize: "0px" }}>e</span>
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>Date de fin du mandat:</td>
+              <td style={styles.tableCell}>date fin </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                Une convention díhonoraires/lettre d'engagement a-t'elle été
+                signée ? Si oui, quels en étaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                En l'absence de convention d'honoraires/lettre d'engagement en
+                bonne et due forme, un budget ou un taux horaire a-t'il été
+                annoncé au client ?
+              </td>
+              <td style={styles.tableCell}>
+                En líabsence de convention díhonoraires/lettre díengagement en
+                bonne et due forme, un budget ou un taux horaire a-t'il ÈtÈ
+                annoncÈ au client ?
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                Affaire(s) en cours ? (si oui, préciser l'état d'avancement)
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                Date de la contestation d'honoraires :
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+            
+            <tr>
+              
+              <td style={styles.tableCellBold}>
+                Date, référence et montant TTC de la/des note(s) d'honoraires
+                contestée(s) :{" "}
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+         
+
+        
+            <tr>
+              <td style={styles.tableCellBold}>
+                Date, référence et montant TTC de la/des note(s) de provision{" "}
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+
+            <tr>
+              <td style={styles.tableCellBold}>
+                D'autres notes dans le cadre de la même affaire ont-elles été
+                payées ? Si oui, merci de bien vouloir indiquer les montants TTC
+                :{" "}
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                Proposition de conciliation concernant les honoraires :{" "}
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+
+            <tr>
+              <td style={styles.tableCellBold}>
+                Une procédure relative au recouvrement des honoraires a-t'elle
+                été introduite ?{" "}
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>
+                Des mesures conservatoires ont-elles été introduites ?
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+
+            <tr>
+              <td style={styles.tableCellBold}>
+                Une médiation est-elle en cours ?
+              </td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+            <tr>
+              <td style={styles.tableCellBold}>Si non, est-elle souhaitée ?</td>
+              <td style={styles.tableCell}>
+                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
+                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
+                la convention díhonoraires au dossier de taxation).
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style={styles.sectionDivider}></div>
     </div>
   );
 };
