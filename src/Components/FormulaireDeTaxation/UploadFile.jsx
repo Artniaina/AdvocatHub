@@ -6,10 +6,31 @@ import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 import UploadFileGuide from "./UploadFileGuide";
+import { pdf } from "@react-pdf/renderer";
+import Page1 from "../PDF/FormulaireDeTaxation/Page1";
 
 const UploadFile = () => {
-  const {prepareDataToSend}= useGeneraliteContext()
-  const {fileInfos, setFileInfos} = useGeneraliteContext();
+  const { prepareDataToSend } = useGeneraliteContext();
+  const { fileInfos, setFileInfos } = useGeneraliteContext();
+  const [currentBlobUrl, setCurrentBlobUrl] = useState(null);
+  const generateAndViewPdf = async () => {
+    try {
+      const blob = await pdf(<Page1 />).toBlob();
+      const blobUrl = URL.createObjectURL(blob);
+      setCurrentBlobUrl(blobUrl);
+  
+      window.open(blobUrl, "_blank");
+  
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+        setCurrentBlobUrl(null);
+      }, 30000);
+    } catch (error) {
+      console.error("Erreur lors de la génération du PDF:", error);
+    }
+  };
+  
+  
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -26,26 +47,17 @@ const UploadFile = () => {
     );
   };
 
-  const handleSubmit = () => {
-    // if (fileInfos.length > 0) {
-    //   console.log(
-    //     "Fichiers envoyés:",
-    //     fileInfos.map((file) => file.name)
-    //   );
-    // } else {
-    //   console.log("Aucun fichier sélectionné");
-    // }
-    
-  };
 
   const triggerFileUpload = () => {
     document.getElementById("file-upload").click();
   };
 
   return (
-    <>  <div>
-    <UploadFileGuide/>
-    </div>
+    <>
+      {" "}
+      <div>
+        <UploadFileGuide />
+      </div>
       <div
         className="cardGeneralité"
         style={{ display: "flex", justifyContent: "space-between" }}
@@ -67,7 +79,7 @@ const UploadFile = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <div style={{padding:"15px"}}>
+                  <div style={{ padding: "15px" }}>
                     <div>
                       <strong>Nom du fichier:</strong> {file.name}
                     </div>
@@ -86,7 +98,9 @@ const UploadFile = () => {
                       cursor: "pointer",
                     }}
                   >
-                    <TiDelete style={{ color: "#e73737b2", fontSize: "40px" }} />{" "}
+                    <TiDelete
+                      style={{ color: "#e73737b2", fontSize: "40px" }}
+                    />{" "}
                   </button>
                 </div>
               ))}
@@ -115,8 +129,12 @@ const UploadFile = () => {
             multiple
           />
           <button onClick={prepareDataToSend}>
-            <FaCheck style={{ color: "green", fontSize: "30px" }}/>
+            <FaCheck style={{ color: "green", fontSize: "30px" }} />
             Envoyer
+          </button>
+          <button onClick={generateAndViewPdf}>
+            <FaCheck style={{ color: "blue", fontSize: "30px" }} />
+            Visualiser PDF
           </button>
         </div>
       </div>
