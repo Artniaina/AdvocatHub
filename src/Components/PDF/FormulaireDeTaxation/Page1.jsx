@@ -575,9 +575,24 @@ const Page1 = () => {
         <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           3. HONORAIRES
         </p>
-        <p style={{marginLeft:"0px"}}><span style={{fontWeight:"bold" , paddingRight:"10px"}}>Date:</span> Today</p>
-        <p style={{marginLeft:"15px"}}><span style={{fontWeight:"bold" , paddingRight:"10px"}}>Référence:</span> ref</p>
-        <p style={{marginLeft:"80px"}}><span style={{fontWeight:"bold" , paddingRight:"10px"}}>MontantTTC:</span> 12.00E</p>
+        <p style={{ marginLeft: "0px" }}>
+          <span style={{ fontWeight: "bold", paddingRight: "10px" }}>
+            Date:
+          </span>{" "}
+          Today
+        </p>
+        <p style={{ marginLeft: "15px" }}>
+          <span style={{ fontWeight: "bold", paddingRight: "10px" }}>
+            Référence:
+          </span>{" "}
+          ref
+        </p>
+        <p style={{ marginLeft: "80px" }}>
+          <span style={{ fontWeight: "bold", paddingRight: "10px" }}>
+            MontantTTC:
+          </span>{" "}
+          12.00E
+        </p>
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -602,12 +617,13 @@ const Page1 = () => {
                 Total des honoriares HTVA facturés:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                Valeur 
+                Valeur
               </td>
             </tr>
             <tr>
               <td colspan="28" style={styles.tableCellBold}>
-                Total des frais de constitution de dossier et des frais de bureau HTVA facturés:
+                Total des frais de constitution de dossier et des frais de
+                bureau HTVA facturés:
               </td>
               <td colspan="29" style={styles.tableCell}>
                 12
@@ -629,9 +645,95 @@ const Page1 = () => {
                 12
               </td>
             </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Montant de la TVA (honoraires et frais compris):
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Total des honoraires TTC:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Frais huissiers, d'expertise, de traduction, de RCS... (TTC):
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Total des provisions TTC payées:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Remise / note de crédit:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Total de la note d'honoraires TTC:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Total du montant restant dû TTC:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
           </tbody>
         </table>
+        <p>
+          Observation particulières: (prise en charge totale ou partielle par un
+          tiers/assurance protection juridique du client,...)
+        </p>
+        <div>Valeur de html editor observation</div>
       </div>
+      <div>
+        <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
+          4. PRISE DE POSITION DE L'AVOCAT
+        </p>
+        <p>
+          (au regard des contestations du client, de la facturation réalisée, du
+          taux horaire appliqué, l'implication du client dans le traitement du
+          dossier. Merci de mentionner ici tout ce qui peut aider le taxateur
+          dans son appréciation du dossier et ce qu'il vous parait important à
+          souligner) prise en charge totale ou partielle par un tiers/assurance
+          protection juridique du client,…)
+        </p>
+
+        <div>
+          Valeur du contenu de l'editeur de texte HTML sur la prise de position
+          de l'avocat
+        </div>
+      </div>
+
+      <div>
+        <p>Fichier(s) importé(s)</p>
+        <div>Nom du fichier importés</div>
+      </div>
+
+      <div style={{ textAlign: "end" }}>Date aujourd'hui</div>
     </div>
   );
 };
