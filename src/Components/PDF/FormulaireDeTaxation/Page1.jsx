@@ -544,24 +544,30 @@ const Page1 = () => {
         <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           3. HONORAIRES
         </p>
-        <p style={{ marginLeft: "0px" }}>
-          <span style={{ fontWeight: "bold", paddingRight: "10px" }}>
-            Date:
-          </span>{" "}
-          Today
-        </p>
-        <p style={{ marginLeft: "15px" }}>
-          <span style={{ fontWeight: "bold", paddingRight: "10px" }}>
-            Référence:
-          </span>{" "}
-          ref
-        </p>
-        <p style={{ marginLeft: "80px" }}>
-          <span style={{ fontWeight: "bold", paddingRight: "10px" }}>
-            MontantTTC:
-          </span>{" "}
-          12.00E
-        </p>
+        <div>
+          <p>
+            <span style={{ fontWeight: "bold", marginRight: "10px" }}>
+              Date
+            </span>
+            : date
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span
+              style={{
+                fontWeight: "bold",
+                marginRight: "10px",
+                marginLeft: "10px",
+              }}
+            >
+              Référence:
+            </span>{" "}
+            ref
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style={{ fontWeight: "bold", marginLeft: "10px" }}>
+              Montant TTC
+            </span>{" "}
+            12.00
+          </p>
+        </div>
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -672,9 +678,12 @@ const Page1 = () => {
             </tr>
           </tbody>
         </table>
-        <p>
-          Observation particulières: (prise en charge totale ou partielle par un
-          tiers/assurance protection juridique du client,...)
+        <p style={{ fontSize: "13px", marginLeft: "10px" }}>
+          <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
+            Observation particulières:
+          </span>
+          (prise en charge totale ou partielle par un tiers/assurance protection
+          juridique du client,...)
         </p>
         <div>Valeur de html editor observation</div>
       </div>
@@ -702,7 +711,7 @@ const Page1 = () => {
           dossier. Merci de mentionner ici tout ce qui peut aider le taxateur
           dans son appréciation du dossier et ce qu'il vous parait important à
           souligner) prise en charge totale ou partielle par un tiers/assurance
-          protection juridique du client,…) 
+          protection juridique du client,…)
         </p>
 
         <div>
@@ -717,7 +726,7 @@ const Page1 = () => {
             textDecoration: "underline",
             fontStyle: "italic",
             fontSize: "20px",
-            marginTop:"20px"
+            marginTop: "20px",
           }}
         >
           Fichier(s) importé(s)
