@@ -11,12 +11,12 @@ const styles = {
     marginTop: "100px",
     textAlign: "center",
     padding: "10px",
-    borderWidth: "2px", 
+    borderWidth: "2px",
     borderColor: "black",
-    borderStyle: "solid"
-  },  
-  remarkText:{
-    marginTop:"30px",
+    borderStyle: "solid",
+  },
+  remarkText: {
+    marginTop: "30px",
     fontSize: "20px",
     marginBottom: "5px",
     fontWeight: "bold",
@@ -26,34 +26,34 @@ const styles = {
     marginBottom: "5px",
     color: "purple",
     textDecoration: "underline",
-    fontWeight: "bold", 
- },
+    fontWeight: "bold",
+  },
   sectionDivider: {
     margin: "30px 0",
     borderBottom: "1px solid #000",
   },
   sectionTitle: {
-    marginLeft:"16px",
-    marginTop:"50px",
-    marginBottom:"20px",
+    marginLeft: "16px",
+    marginTop: "50px",
+    marginBottom: "20px",
     fontSize: "20px",
     fontWeight: "bold",
     color: "purple",
   },
   subSectionTitle: {
     fontSize: "18px",
-    marginLeft:"50px",
-    fontStyle:"Italic"
+    marginLeft: "50px",
+    fontStyle: "Italic",
   },
   subSectionTitle2: {
     fontSize: "18px",
-    marginBottom:"15px",
-    marginTop:"15px",
-    fontStyle:"Italic",
-    textDecoration:"underline",
+    marginBottom: "15px",
+    marginTop: "15px",
+    fontStyle: "Italic",
+    textDecoration: "underline",
   },
   table: {
-    width:"100%",
+    width: "100%",
     borderCollapse: "collapse",
     marginBottom: "10px",
     tableLayout: "fixed",
@@ -87,8 +87,9 @@ const Page1 = () => {
       <div style={{ marginBottom: "10px" }}>
         <h1 style={styles.header}>DEMANDE D'INFORMATIONS POUR TAXATION</h1>
         <p style={styles.remarkText}>
-          <span style={styles.remark}>REMARQUE:</span>  LA TAXATION NE POURRA ÊTRE TRAITÉE SI LE FORMULAIRE EST
-          INCOMPLET ET/OU SI LES DOCUMENTS LISTÉS NE SONT PAS JOINTS !
+          <span style={styles.remark}>REMARQUE:</span> LA TAXATION NE POURRA
+          ÊTRE TRAITÉE SI LE FORMULAIRE EST INCOMPLET ET/OU SI LES DOCUMENTS
+          LISTÉS NE SONT PAS JOINTS !
         </p>
       </div>
 
@@ -100,12 +101,20 @@ const Page1 = () => {
         <table style={styles.table}>
           <tbody>
             <tr>
-              <td colspan="28"  style={styles.tableCellBold}>Nom:</td>
-              <td colspan="29" style={styles.tableCell}>AATTI</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Nom:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                AATTI
+              </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>Prénom:</td>
-              <td colspan="29" style={styles.tableCell}>Ghizlane</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Prénom:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                Ghizlane
+              </td>
             </tr>
             <tr>
               <td colspan="28" style={styles.tableCellBold}>
@@ -117,16 +126,28 @@ const Page1 = () => {
               </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>Date d'assermentation:</td>
-              <td colspan="29" style={styles.tableCell}>0956321</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Date d'assermentation:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                0956321
+              </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>Téléphone:</td>
-              <td colspan="29" style={styles.tableCell}>+352 2659844</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Téléphone:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                +352 2659844
+              </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>Email:</td>
-              <td colspan="29" style={styles.tableCell}>sabrine.aba</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Email:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                sabrine.aba
+              </td>
             </tr>
           </tbody>
         </table>
@@ -141,34 +162,46 @@ const Page1 = () => {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th colspan="8" style={styles.tableHeader}>Nom</th>
+              <th colspan="8" style={styles.tableHeader}>
+                Nom
+              </th>
               <th style={styles.tableHeader}>Adresse professionnelle</th>
               <th style={styles.tableHeader}>Date d'assermentation</th>
               <th style={styles.tableHeader}>Téléphone</th>
-              <th  style={styles.tableHeader}>E-mail</th>
-              <th colspan="8" style={styles.tableHeader}>Statut</th>
+              <th style={styles.tableHeader}>E-mail</th>
+              <th colspan="8" style={styles.tableHeader}>
+                Statut
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td  colspan="8" style={styles.tableCellCenter}>AATTI Ghizlane</td>
+              <td colspan="8" style={styles.tableCellCenter}>
+                AATTI Ghizlane
+              </td>
               <td style={styles.tableCellCenter}>
                 12 rue Jean l'Aveugle, L-1148 Luxembourg
               </td>
               <td style={styles.tableCellCenter}>13/07/2006</td>
               <td style={styles.tableCellCenter}>0956321</td>
               <td style={styles.tableCellCenter}>sabrine.abaa heloooo</td>
-              <td  colspan="8" style={styles.tableCellCenter}>Non inscrit</td>
+              <td colspan="8" style={styles.tableCellCenter}>
+                Non inscrit
+              </td>
             </tr>
             <tr>
-              <td  colspan="8" style={styles.tableCellCenter}>ABAAB Sabrine</td>
+              <td colspan="8" style={styles.tableCellCenter}>
+                ABAAB Sabrine
+              </td>
               <td style={styles.tableCellCenter}>
                 16 rue Notre Dame, L-2240 Luxembourg
               </td>
               <td style={styles.tableCellCenter}>01/06/2017</td>
               <td style={styles.tableCellCenter}>7896523</td>
               <td style={styles.tableCellCenter}>sabrine.abaaa aaaaaaaaaa</td>
-              <td colspan="8" style={styles.tableCellCenter}>Inscrit</td>
+              <td colspan="8" style={styles.tableCellCenter}>
+                Inscrit
+              </td>
             </tr>
           </tbody>
         </table>
@@ -184,29 +217,45 @@ const Page1 = () => {
         <table style={styles.table}>
           <tbody>
             <tr>
-              <td style={styles.tableCellBold}>Dénomination étude:</td>
-              <td style={styles.tableCell}>Valeur denomination etude</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Dénomination étude:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                Valeur denomination etude
+              </td>
             </tr>
             <tr>
-              <td style={styles.tableCellBold}>Date d'inscription:</td>
-              <td style={styles.tableCell}>Valeur date dinscri</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Date d'inscription:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                Valeur date dinscri
+              </td>
             </tr>
             <tr>
-              <td style={styles.tableCellBold}>
+              <td colspan="28" style={styles.tableCellBold}>
                 {" "}
                 Adresse professionnelle:
               </td>
-              <td style={styles.tableCell}>
+              <td colspan="29" style={styles.tableCell}>
                 Valeur Adresse
               </td>
             </tr>
             <tr>
-              <td style={styles.tableCellBold}>Téléphone:</td>
-              <td style={styles.tableCell}>+352 2659844</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Téléphone:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                +352 2659844
+              </td>
             </tr>
             <tr>
-              <td style={styles.tableCellBold}>Email barreau:</td>
-              <td style={styles.tableCell}>sabrine.abaab@barreau.lu</td>
+              <td colspan="28" style={styles.tableCellBold}>
+                Email barreau:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                sabrine.abaab@barreau.lu
+              </td>
             </tr>
           </tbody>
         </table>
@@ -256,21 +305,12 @@ const Page1 = () => {
               <td style={styles.tableCell}>Valeur NA</td>
             </tr>
             <tr>
-              <td  style={styles.tableCellBold}>
-                {" "}
-                Date de début du mandat :
-                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-                <span style={{ fontSize: "0px" }}>e</span>
-              </td>
-              <td  style={styles.tableCell}>
-                Valeur date debut mandat
-                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-                <span style={{ fontSize: "0px" }}>e</span>
-              </td>
+              <td style={styles.tableCellBold}> Date de début du mandat :</td>
+              <td style={styles.tableCell}>Valeur date debut mandat</td>
             </tr>
             <tr>
-              <td  style={styles.tableCellBold}>Date de fin du mandat:</td>
-              <td  style={styles.tableCell}>date fin </td>
+              <td style={styles.tableCellBold}>Date de fin du mandat:</td>
+              <td style={styles.tableCell}>date fin </td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}>
@@ -316,9 +356,8 @@ const Page1 = () => {
                 la convention díhonoraires au dossier de taxation).
               </td>
             </tr>
-            
+
             <tr>
-              
               <td style={styles.tableCellBold}>
                 Date, référence et montant TTC de la/des note(s) d'honoraires
                 contestée(s) :{" "}
@@ -408,6 +447,191 @@ const Page1 = () => {
       </div>
 
       <div style={styles.sectionDivider}></div>
+      <div>
+        <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
+          2. DESCRIPTION DE L'AFFAIRE ET DES PRESTATIONS
+        </p>
+        <p
+          style={{
+            fontStyle: "italic",
+            fontSize: "17px",
+            fontWeight: "bold",
+            marginLeft: "50px",
+            marginBottom: "10px",
+            marginTop: "0px",
+          }}
+        >
+          a) Description de l'affaire
+        </p>
+        <div>
+          <p
+            style={{
+              fontStyle: "italic",
+              textDecoration: "underline",
+              marginLeft: "100px",
+              fontSize: "17px",
+              fontWeight: "bold",
+              marginBottom: "0px",
+              marginTop: "0px",
+            }}
+          >
+            1) Mentionner les faits
+          </p>
+          <div>Editor html Content</div>
+        </div>
+
+        <div>
+          <p
+            style={{
+              fontStyle: "italic",
+              textDecoration: "underline",
+              marginLeft: "100px",
+              fontSize: "17px",
+              fontWeight: "bold",
+              marginBottom: "0px",
+              marginTop: "0px",
+            }}
+          >
+            Le(s) résultat(s) obtenu(s){" "}
+            <p>
+              (par exemple : revirement jurisprudentiel ou jurisprudence
+              constante, rÈsultat exceptionnel, autorisations ou agrÈments
+              obtenus...)
+            </p>
+          </p>
+
+          <div>Editor html Content</div>
+        </div>
+        <div>
+          <p
+            style={{
+              fontStyle: "italic",
+              textDecoration: "underline",
+              marginLeft: "100px",
+              fontSize: "17px",
+              fontWeight: "bold",
+              marginBottom: "0px",
+              marginTop: "0px",
+            }}
+          >
+            L'expérience et la notoriété de l'avocat{" "}
+            <p>
+              (par exemple : spÈcialisation en lien avec la matiËre traitÈe,
+              expÈrience professionnelle, autre(s) activitÈ(s) en lien avec la
+              profession, publications/ouvrages...)
+            </p>
+          </p>
+
+          <div>Editor html Content</div>
+        </div>
+        <div>
+          <p
+            style={{
+              fontStyle: "italic",
+              textDecoration: "underline",
+              marginLeft: "100px",
+              fontSize: "17px",
+              fontWeight: "bold",
+              marginBottom: "0px",
+              marginTop: "0px",
+            }}
+          >
+            La situation de fortune du client
+            <p>
+              (assistance judiciaire abordÈe et/ou sollicitÈe, estimation des
+              revenus moyens du mandant, risque de faillite...)
+            </p>
+          </p>
+
+          <div>Editor html Content</div>
+        </div>
+        <div>
+          <p
+            style={{
+              fontStyle: "italic",
+              fontSize: "17px",
+              fontWeight: "bold",
+              marginLeft: "50px",
+              marginBottom: "10px",
+              marginTop: "0px",
+            }}
+          >
+            b)Le travail effectué
+          </p>
+          <p>
+            <p>
+              (prière de regrouper par types de prestations : par exemple
+              correspondances, procédures, rédaction de documents, recherches,
+              audiences, etc. et indiquer le temps mis en compte par catégories
+              ainsi que le total des honoraires)
+            </p>
+          </p>
+
+          <div>Editor html Content</div>
+        </div>
+      </div>
+
+      <div>
+        <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
+          3. HONORAIRES
+        </p>
+        <p style={{marginLeft:"0px"}}><span style={{fontWeight:"bold" , paddingRight:"10px"}}>Date:</span> Today</p>
+        <p style={{marginLeft:"15px"}}><span style={{fontWeight:"bold" , paddingRight:"10px"}}>Référence:</span> ref</p>
+        <p style={{marginLeft:"80px"}}><span style={{fontWeight:"bold" , paddingRight:"10px"}}>MontantTTC:</span> 12.00E</p>
+        <table style={styles.table}>
+          <tbody>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Nombre d'heures facturées:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12h00mn
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Taux horaires HTVA facturés:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12.00
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                {" "}
+                Total des honoriares HTVA facturés:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                Valeur 
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Total des frais de constitution de dossier et des frais de bureau HTVA facturés:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Total des honoraires et frais de dossiers HTVA:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+            <tr>
+              <td colspan="28" style={styles.tableCellBold}>
+                Taux TVA:
+              </td>
+              <td colspan="29" style={styles.tableCell}>
+                12
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
