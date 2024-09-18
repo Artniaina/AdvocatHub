@@ -79,6 +79,27 @@ const styles = {
     fontWeight: "bold",
     textAlign: "left",
   },
+  editorTitle: {
+    fontStyle: "italic",
+    marginLeft: "50px",
+    fontSize: "17px",
+    fontWeight: "bold",
+    marginTop: "10px",
+  },
+  editorHeader: {
+    fontStyle: "italic",
+    textDecoration: "underline",
+    marginLeft: "90px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    marginBottom: "10px",
+    marginTop: "10px",
+  },
+  miniText: {
+    fontStyle: "italic",
+    fontSize: "12px",
+    marginLeft: "80px",
+  },
 };
 
 const Page1 = () => {
@@ -451,49 +472,29 @@ const Page1 = () => {
         <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           2. DESCRIPTION DE L'AFFAIRE ET DES PRESTATIONS
         </p>
-        <p
-          style={{
-            fontStyle: "italic",
-            fontSize: "17px",
-            fontWeight: "bold",
-            marginLeft: "50px",
-            marginBottom: "10px",
-            marginTop: "0px",
-          }}
-        >
-          a) Description de l'affaire
-        </p>
+        <p style={styles.editorTitle}>a) Description de l'affaire</p>
         <div>
-          <p
-            style={{
-              fontStyle: "italic",
-              textDecoration: "underline",
-              marginLeft: "100px",
-              fontSize: "17px",
-              fontWeight: "bold",
-              marginBottom: "0px",
-              marginTop: "0px",
-            }}
-          >
-            1) Mentionner les faits
-          </p>
+          <p style={styles.editorHeader}>1) Mentionner les faits</p>
           <div>Editor html Content</div>
         </div>
 
         <div>
-          <p
-            style={{
-              fontStyle: "italic",
-              textDecoration: "underline",
-              marginLeft: "100px",
-              fontSize: "17px",
-              fontWeight: "bold",
-              marginBottom: "0px",
-              marginTop: "0px",
-            }}
-          >
+          <p style={styles.editorHeader}>
+            Enjeu de l'affaire
+            <p style={styles.miniText}>
+              (par exemple : l'enjeu financier de l'affaire, l'importance et le
+              degré de difficultÈ de líaffaire, reprise de mandat en cours de
+              procédure, etc.)
+            </p>
+          </p>
+
+          <div>Editor html Content</div>
+        </div>
+
+        <div>
+          <p style={styles.editorHeader}>
             Le(s) résultat(s) obtenu(s){" "}
-            <p>
+            <p style={styles.miniText}>
               (par exemple : revirement jurisprudentiel ou jurisprudence
               constante, rÈsultat exceptionnel, autorisations ou agrÈments
               obtenus...)
@@ -503,19 +504,9 @@ const Page1 = () => {
           <div>Editor html Content</div>
         </div>
         <div>
-          <p
-            style={{
-              fontStyle: "italic",
-              textDecoration: "underline",
-              marginLeft: "100px",
-              fontSize: "17px",
-              fontWeight: "bold",
-              marginBottom: "0px",
-              marginTop: "0px",
-            }}
-          >
+          <p style={styles.editorHeader}>
             L'expérience et la notoriété de l'avocat{" "}
-            <p>
+            <p style={styles.miniText}>
               (par exemple : spÈcialisation en lien avec la matiËre traitÈe,
               expÈrience professionnelle, autre(s) activitÈ(s) en lien avec la
               profession, publications/ouvrages...)
@@ -525,19 +516,9 @@ const Page1 = () => {
           <div>Editor html Content</div>
         </div>
         <div>
-          <p
-            style={{
-              fontStyle: "italic",
-              textDecoration: "underline",
-              marginLeft: "100px",
-              fontSize: "17px",
-              fontWeight: "bold",
-              marginBottom: "0px",
-              marginTop: "0px",
-            }}
-          >
+          <p style={styles.editorHeader}>
             La situation de fortune du client
-            <p>
+            <p style={styles.miniText}>
               (assistance judiciaire abordÈe et/ou sollicitÈe, estimation des
               revenus moyens du mandant, risque de faillite...)
             </p>
@@ -546,25 +527,13 @@ const Page1 = () => {
           <div>Editor html Content</div>
         </div>
         <div>
-          <p
-            style={{
-              fontStyle: "italic",
-              fontSize: "17px",
-              fontWeight: "bold",
-              marginLeft: "50px",
-              marginBottom: "10px",
-              marginTop: "0px",
-            }}
-          >
-            b)Le travail effectué
-          </p>
-          <p>
-            <p>
-              (prière de regrouper par types de prestations : par exemple
-              correspondances, procédures, rédaction de documents, recherches,
-              audiences, etc. et indiquer le temps mis en compte par catégories
-              ainsi que le total des honoraires)
-            </p>
+          <p style={styles.editorTitle}>b)Le travail effectué</p>
+
+          <p style={{ ...styles.miniText, marginLeft: "50px" }}>
+            (prière de regrouper par types de prestations : par exemple
+            correspondances, procédures, rédaction de documents, recherches,
+            audiences, etc. et indiquer le temps mis en compte par catégories
+            ainsi que le total des honoraires)
           </p>
 
           <div>Editor html Content</div>
@@ -599,7 +568,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Nombre d'heures facturées:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12h00mn
               </td>
             </tr>
@@ -607,7 +576,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Taux horaires HTVA facturés:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12.00
               </td>
             </tr>
@@ -616,7 +585,7 @@ const Page1 = () => {
                 {" "}
                 Total des honoriares HTVA facturés:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 Valeur
               </td>
             </tr>
@@ -625,7 +594,7 @@ const Page1 = () => {
                 Total des frais de constitution de dossier et des frais de
                 bureau HTVA facturés:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -633,7 +602,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Total des honoraires et frais de dossiers HTVA:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -641,7 +610,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Taux TVA:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -649,7 +618,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Montant de la TVA (honoraires et frais compris):
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -657,7 +626,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Total des honoraires TTC:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -665,7 +634,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Frais huissiers, d'expertise, de traduction, de RCS... (TTC):
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -673,7 +642,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Total des provisions TTC payées:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -681,7 +650,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Remise / note de crédit:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -689,7 +658,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Total de la note d'honoraires TTC:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -697,7 +666,7 @@ const Page1 = () => {
               <td colspan="28" style={styles.tableCellBold}>
                 Total du montant restant dû TTC:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colspan="15" style={styles.tableCell}>
                 12
               </td>
             </tr>
@@ -710,16 +679,30 @@ const Page1 = () => {
         <div>Valeur de html editor observation</div>
       </div>
       <div>
-        <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
+        <p
+          style={{
+            ...styles.sectionTitle,
+            marginTop: "10px",
+            marginBottom: "0px",
+          }}
+        >
           4. PRISE DE POSITION DE L'AVOCAT
         </p>
-        <p>
+        <p
+          style={{
+            ...styles.miniText,
+            fontSize: "16px",
+            color: "#463d3d",
+            marginLeft: "10px",
+            marginTop: "5px",
+          }}
+        >
           (au regard des contestations du client, de la facturation réalisée, du
           taux horaire appliqué, l'implication du client dans le traitement du
           dossier. Merci de mentionner ici tout ce qui peut aider le taxateur
           dans son appréciation du dossier et ce qu'il vous parait important à
           souligner) prise en charge totale ou partielle par un tiers/assurance
-          protection juridique du client,…)
+          protection juridique du client,…) 
         </p>
 
         <div>
@@ -729,8 +712,19 @@ const Page1 = () => {
       </div>
 
       <div>
-        <p>Fichier(s) importé(s)</p>
-        <div>Nom du fichier importés</div>
+        <p
+          style={{
+            textDecoration: "underline",
+            fontStyle: "italic",
+            fontSize: "20px",
+            marginTop:"20px"
+          }}
+        >
+          Fichier(s) importé(s)
+        </p>
+        <ul>
+          <li>Liste des fichiers uploader</li>
+        </ul>
       </div>
 
       <div style={{ textAlign: "end" }}>Date aujourd'hui</div>
