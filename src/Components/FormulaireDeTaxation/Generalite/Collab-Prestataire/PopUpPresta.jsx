@@ -24,7 +24,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const handleSubmitTable = (e) => {
     e.preventDefault();
     setPrestataires([
-      ...Prestataires,
+      ...Prestataires, 
       {
         name,
         prenom,

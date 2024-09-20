@@ -71,7 +71,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
         localitebp,
         pays,
         contactInfo: `${selectedCountry} ${phoneNumber}`,
-        email,
+        email, 
       },
     ]);
     setSelectedOption("Particulier");

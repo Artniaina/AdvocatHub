@@ -58,7 +58,7 @@ const avocatSlice = createSlice({
       .addCase(fetchEtudeInfo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch etude info';
-      });
+      });   
   },
 });
 

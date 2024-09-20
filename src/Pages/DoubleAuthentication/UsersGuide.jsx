@@ -21,7 +21,6 @@ const UsersGuide = () => {
           if (parts.length !== 2) {
             throw new Error("URL OTP invalide.");
           }
-    
           const [baseURL, queryParams] = parts;
           const params = new URLSearchParams(queryParams);
           const secret = params.get("secret");
@@ -52,6 +51,7 @@ const UsersGuide = () => {
     const handlePrevious = () => {
         setCurrentStep(prevStep => (prevStep > 1 ? prevStep - 1 : 1));
     };
+
 
 
     return (

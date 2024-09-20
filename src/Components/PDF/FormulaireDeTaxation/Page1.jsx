@@ -8,12 +8,13 @@ const styles = {
   header: {
     fontSize: "25px",
     marginBottom: "10px",
+    marginLeft: "50px",
     marginTop: "100px",
     textAlign: "center",
-    padding: "10px",
     borderWidth: "2px",
     borderColor: "black",
     borderStyle: "solid",
+    backgroundColor: "#fff",
   },
   remarkText: {
     marginTop: "30px",
@@ -34,7 +35,7 @@ const styles = {
   },
   sectionTitle: {
     marginLeft: "16px",
-    marginTop: "50px",
+    marginTop: "30px",
     marginBottom: "20px",
     fontSize: "20px",
     fontWeight: "bold",
@@ -100,17 +101,26 @@ const styles = {
     fontSize: "12px",
     marginLeft: "80px",
   },
+
 };
 
 const Page1 = () => {
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>
-        <h1 style={styles.header}>DEMANDE D'INFORMATIONS POUR TAXATION</h1>
+        <table style={styles.header}>
+          <tr>
+            <th style={{ margin: "25px", backgroundColor: "#fff" }}>
+              {" "}
+              DEMANDE D'INFORMATIONS POUR TAXATION
+            </th>
+          </tr>
+        </table>
         <p style={styles.remarkText}>
           <span style={styles.remark}>REMARQUE:</span> LA TAXATION NE POURRA
           ÊTRE TRAITÉE SI LE FORMULAIRE EST INCOMPLET ET/OU SI LES DOCUMENTS
           LISTÉS NE SONT PAS JOINTS !
+
         </p>
       </div>
 
@@ -450,18 +460,14 @@ const Page1 = () => {
                 Une médiation est-elle en cours ?
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                Une convention d'honoraires/lettre d'engagement a-t'elle été
+                signée ? Si oui, quels en étaient les termes ? (merci de joindre
+                la convention d'honoraires au dossier de taxation).
               </td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}>Si non, est-elle souhaitée ?</td>
-              <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
-              </td>
+              <td style={styles.tableCell}>oui</td>
             </tr>
           </tbody>
         </table>
@@ -483,7 +489,7 @@ const Page1 = () => {
             Enjeu de l'affaire
             <p style={styles.miniText}>
               (par exemple : l'enjeu financier de l'affaire, l'importance et le
-              degré de difficultÈ de líaffaire, reprise de mandat en cours de
+              degré de difficulté de l'affaire, reprise de mandat en cours de
               procédure, etc.)
             </p>
           </p>
@@ -496,7 +502,7 @@ const Page1 = () => {
             Le(s) résultat(s) obtenu(s){" "}
             <p style={styles.miniText}>
               (par exemple : revirement jurisprudentiel ou jurisprudence
-              constante, rÈsultat exceptionnel, autorisations ou agrÈments
+              constante, résultat exceptionnel, autorisations ou agréments
               obtenus...)
             </p>
           </p>
@@ -507,8 +513,8 @@ const Page1 = () => {
           <p style={styles.editorHeader}>
             L'expérience et la notoriété de l'avocat{" "}
             <p style={styles.miniText}>
-              (par exemple : spÈcialisation en lien avec la matiËre traitÈe,
-              expÈrience professionnelle, autre(s) activitÈ(s) en lien avec la
+              (par exemple : spécialisation en lien avec la matiËre traitée,
+              expérience professionnelle, autre(s) activité(s) en lien avec la
               profession, publications/ouvrages...)
             </p>
           </p>
@@ -519,7 +525,7 @@ const Page1 = () => {
           <p style={styles.editorHeader}>
             La situation de fortune du client
             <p style={styles.miniText}>
-              (assistance judiciaire abordÈe et/ou sollicitÈe, estimation des
+              (assistance judiciaire abordée et/ou sollicitée, estimation des
               revenus moyens du mandant, risque de faillite...)
             </p>
           </p>

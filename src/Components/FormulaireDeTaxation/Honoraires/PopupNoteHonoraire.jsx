@@ -45,7 +45,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     montantTVA: "",
     totalHonoraireTTC: "",
     fraisDivers: "",
-    provisionsTTC: "",
+    provisionsTTC: "", 
     remise: "",
     noteTTC: "",
     restantDu: "",

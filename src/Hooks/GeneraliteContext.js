@@ -11,9 +11,9 @@ export const GeneraliteProvider = ({ children }) => {
   const [honoraireData, setHonoraireData] = useState([]);
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
-  const [editorContentObservation, setEditorContentObservation] = useState([]);
-  const [editorContentPosition, setEditorContentPosition] = useState({});
-  const [fileInfos, setFileInfos] = useState([]);
+  const [editorContentObservation, setEditorContentObservation] = useState("");
+  const [editorContentPosition, setEditorContentPosition] = useState("");
+  const [fileInfos, setFileInfos] = useState("");
 
   const [formData, setFormData] = useState({
     domaine: [],
@@ -35,12 +35,12 @@ export const GeneraliteProvider = ({ children }) => {
   });
 
   const [editorContents, setEditorContents] = useState({
-    c1: {},
-    c2: {},
-    c3: {},
-    c4: {},
-    c5: {},
-    c6: {},
+    c1: "",
+    c2: "",
+    c3: "",
+    c4: "",
+    c5: "",
+    c6: "",
   });
 
   const prepareDataToSend = () => {
@@ -61,7 +61,37 @@ export const GeneraliteProvider = ({ children }) => {
     };
 
     console.log("Data to send (JSON):", JSON.stringify(data, null, 2));
-
+    const jsonToSend ={
+    "sIDDomaineJuridique": formData.domaine,
+    "sDomaineJuridique":formData.domaine,
+    "sNomAffaire": formData.nomAffaire,
+    "sTermesHonoraires": formData.termesHonoraires,
+    "sAbsenceTermes": formData.absenceTerm,
+    "sDateContestation":formData.datecontest,
+    "sDateDebutMandat": formData.dateDebut,
+    "sDateFinMandat": formData.dateFin,
+    "sEtatAvancement": formData.etatAvancement,
+    "sMesureConservatoire": formData.conserv,
+    "sMediation": formData.mediation,
+    "sMediationChox":formData.mediationChoix ,
+    "sConciliation": formData.conciliation,
+    "sProcedureRelative": formData.relative,
+    "sObservations":editorContentObservation ,
+    "sPositionAvocat":editorContentPosition,
+    "sContenu1":editorContents.c1,
+    "sContenu2":editorContents.c2 ,
+    "sContenu3":editorContents.c3 ,
+    "sContenu4":editorContents.c4,
+    "sContenu5":editorContents.c5,
+    "sContenu6":editorContents.c6,
+    "sMontant": montantData,
+    "sNoteHonoraire": noteHonoraire,
+    "sHonoraire":honoraireData,
+    "sProvision":provisionData ,
+    "sPrestataireData": prestataires,
+    "sClientsData": clientData,
+    // "sSubmited_at": "string"
+}
     return data;
   };
 

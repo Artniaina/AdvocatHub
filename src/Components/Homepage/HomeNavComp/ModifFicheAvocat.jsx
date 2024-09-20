@@ -29,7 +29,7 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
 
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const { user } = useAuth();
- 
+
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchAvocatInfo(`'${user.email}'`));
@@ -39,8 +39,7 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
   }, [dispatch, user]);
 console.log("Avocat", avocatInfo);
 
-////////////////////////////////////DISPENSE ASSISTANCE JUDICIAIRE/////////////////////////////////////
-
+////////////////////////////////////DISPENSE ASSISTANCE JUDICIAIRE////////////////////////////////////
   const activites =
     avocatInfo && avocatInfo.m_langue
       ? avocatInfo.m_sactivitépref.split(",")
