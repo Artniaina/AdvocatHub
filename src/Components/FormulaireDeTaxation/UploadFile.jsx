@@ -75,36 +75,36 @@ const UploadFile = () => {
     const currentDate = new Date().toISOString();
     const jsonToSend = {
       sEmailUtilisateur: user.email,
-      sDomaineJuridique: formData.domaine.join(","), //*
-      sNomAffaire: formData.nomAffaire, //*
-      sTermesHonoraires: formData.termesHonoraires, //*
-      sAbsenceTermes: formData.absenceTerm, //*
-      sDateContestation: formData.datecontest, //*
-      sDateDebutMandat: formData.dateDebut, //*
-      sDateFinMandat: formData.dateFin, //*
-      sEtatAvancement: formData.etatAvancement, //*
-      sMesureConservatoire: formData.conserv, //*
-      sMediation: formData.mediation, //*
-      sMediationChox: formData.mediationChoix, //*
-      sConciliation: formData.conciliation, //*
-      sProcedureRelative: formData.relative, //*
-      sObservations: editorContentObservation, //*
-      sPositionAvocat: editorContentPosition, //*
+      sDomaineJuridique: formData.domaine.join(","), 
+      sNomAffaire: formData.nomAffaire, 
+      sTermesHonoraires: formData.termesHonoraires, 
+      sAbsenceTermes: formData.absenceTerm, 
+      sDateContestation: formData.datecontest, 
+      sDateDebutMandat: formData.dateDebut, 
+      sDateFinMandat: formData.dateFin, 
+      sEtatAvancement: formData.etatAvancement, 
+      sMesureConservatoire: formData.conserv, 
+      sMediation: formData.mediation, 
+      sMediationChox: formData.mediationChoix, 
+      sConciliation: formData.conciliation, 
+      sProcedureRelative: formData.relative, 
+      sObservations: editorContentObservation, 
+      sPositionAvocat: editorContentPosition, 
       sContenu1: editorContents.c1,
-      sContenu2: editorContents.c2, //*
-      sContenu3: editorContents.c3, //*
-      sContenu4: editorContents.c4, //*
-      sContenu5: editorContents.c5, //*
+      sContenu2: editorContents.c2,
+      sContenu3: editorContents.c3,
+      sContenu4: editorContents.c4,
+      sContenu5: editorContents.c5,
       sContenu6: editorContents.c6,
-      sMontant: montantData, //*
-      sNoteHonoraire: noteHonoraire, //*
-      sHonoraire: honoraireData, //*
-      sProvision: provisionData, //*
-      sPrestataireData: prestataires, //*
-      sClientsData: clientData, //*
+      sMontant: montantData,
+      sNoteHonoraire: noteHonoraire,
+      sHonoraire: honoraireData,
+      sProvision: provisionData,
+      sPrestataireData: prestataires,
+      sClientsData: clientData,
       sSubmited_at: currentDate,
     };
-
+    //Okalou fa down ny server
     // try {
     //   const response = await fetch(
     //     "http://192.168.10.5/Utilisateur/DossierTaxation",
