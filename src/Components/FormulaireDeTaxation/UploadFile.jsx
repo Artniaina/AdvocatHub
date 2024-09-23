@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../Styles/TaxationForm/CardInfo.css";
+import RequiredMessage from "../PopUp/RequiredMessage";
 import Image from "../../assets/icons8-fichier-67.png";
 import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
@@ -29,64 +30,104 @@ const UploadFile = () => {
     clientData,
   } = useGeneraliteContext();
   const { fileInfos, setFileInfos } = useGeneraliteContext();
+  const [showPopup, setShowPopup] = useState(false);
+  const [fieldName, setFieldName] = useState("");
+  const validateFormData = () => {
+    const requiredFields = [
+      { value: formData.domaine, name: "Domaine Juridique" },
+      { value: formData.nomAffaire, name: "Nom Affaire" },
+      { value: formData.termesHonoraires, name: "Termes Honoraires" },
+      { value: formData.absenceTerm, name: "Absence de Termes" },
+      { value: formData.datecontest, name: "Date de Contestation" },
+      { value: formData.dateDebut, name: "Date de Début de Mandat" },
+      { value: formData.dateFin, name: "Date de Fin de Mandat" },
+      { value: formData.etatAvancement, name: "État d’Avancement" },
+      { value: formData.conserv, name: "Mesure Conservatoire" },
+      { value: formData.mediation, name: "Médiation" },
+      { value: formData.mediationChoix, name: "Choix de Médiation" },
+      { value: formData.conciliation, name: "Conciliation" },
+      { value: formData.relative, name: "Procédure Relative" },
+      { value: editorContentObservation, name: "Observations" },
+      { value: editorContentPosition, name: "Position Avocat" },
+      { value: editorContents.c2, name: "Contenu 2" },
+      { value: montantData, name: "Montant" },
+      { value: noteHonoraire, name: "Note Honoraire" },
+      { value: honoraireData, name: "Honoraire" },
+      { value: provisionData, name: "Provision" },
+      { value: prestataires, name: "Prestataire Data" },
+      { value: clientData, name: "Clients Data" },
+    ];
+
+    for (const field of requiredFields) {
+      if (!field.value || field.value.length === 0) {
+        setFieldName(field.name);
+        setShowPopup(true);
+        return false;
+      }
+    }
+    return true;
+  };
 
   const submitFormData = async () => {
+    if (!validateFormData()) {
+      return;
+    }
     const currentDate = new Date().toISOString();
     const jsonToSend = {
       sEmailUtilisateur: user.email,
-      sDomaineJuridique: formData.domaine.join(","),
-      sNomAffaire: formData.nomAffaire,
-      sTermesHonoraires: formData.termesHonoraires,
-      sAbsenceTermes: formData.absenceTerm,
-      sDateContestation: formData.datecontest,
-      sDateDebutMandat: formData.dateDebut,
-      sDateFinMandat: formData.dateFin,
-      sEtatAvancement: formData.etatAvancement,
-      sMesureConservatoire: formData.conserv,
-      sMediation: formData.mediation,
-      sMediationChox: formData.mediationChoix,
-      sConciliation: formData.conciliation,
-      sProcedureRelative: formData.relative,
-      sObservations: editorContentObservation,
-      sPositionAvocat: editorContentPosition,
+      sDomaineJuridique: formData.domaine.join(","), //*
+      sNomAffaire: formData.nomAffaire, //*
+      sTermesHonoraires: formData.termesHonoraires, //*
+      sAbsenceTermes: formData.absenceTerm, //*
+      sDateContestation: formData.datecontest, //*
+      sDateDebutMandat: formData.dateDebut, //*
+      sDateFinMandat: formData.dateFin, //*
+      sEtatAvancement: formData.etatAvancement, //*
+      sMesureConservatoire: formData.conserv, //*
+      sMediation: formData.mediation, //*
+      sMediationChox: formData.mediationChoix, //*
+      sConciliation: formData.conciliation, //*
+      sProcedureRelative: formData.relative, //*
+      sObservations: editorContentObservation, //*
+      sPositionAvocat: editorContentPosition, //*
       sContenu1: editorContents.c1,
-      sContenu2: editorContents.c2,
-      sContenu3: editorContents.c3,
-      sContenu4: editorContents.c4,
-      sContenu5: editorContents.c5,
+      sContenu2: editorContents.c2, //*
+      sContenu3: editorContents.c3, //*
+      sContenu4: editorContents.c4, //*
+      sContenu5: editorContents.c5, //*
       sContenu6: editorContents.c6,
-      sMontant: montantData,
-      sNoteHonoraire: noteHonoraire,
-      sHonoraire: honoraireData,
-      sProvision: provisionData,
-      sPrestataireData: prestataires,
-      sClientsData: clientData,
+      sMontant: montantData, //*
+      sNoteHonoraire: noteHonoraire, //*
+      sHonoraire: honoraireData, //*
+      sProvision: provisionData, //*
+      sPrestataireData: prestataires, //*
+      sClientsData: clientData, //*
       sSubmited_at: currentDate,
     };
 
+    // try {
+    //   const response = await fetch(
+    //     "http://192.168.10.5/Utilisateur/DossierTaxation",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(jsonToSend),
+    //     }
+    //   );
+
+    //   if (response.ok) {
+    //     const result = await response.json();
+    //     console.log("Form submitted successfully:", result);
+    //   } else {
+    //     console.error("Failed to submit form:", response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error("Error while submitting form:", error);
+    // }
     console.log(jsonToSend);
-
-    try {
-      const response = await fetch(
-        "http://192.168.10.5/Utilisateur/DossierTaxation",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(jsonToSend),
-        }
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Form submitted successfully:", result);
-      } else {
-        console.error("Failed to submit form:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error while submitting form:", error);
-    }
+    
   };
 
   const generateAndViewPdf = () => {
@@ -121,7 +162,9 @@ const UploadFile = () => {
   const triggerFileUpload = () => {
     document.getElementById("file-upload").click();
   };
-
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
   return (
     <>
       <div>
@@ -197,10 +240,18 @@ const UploadFile = () => {
             onChange={handleFileChange}
             multiple
           />
-          <button onClick={submitFormData}>
+          <div>
+            <button onClick={submitFormData}>            
             <FaCheck style={{ color: "green", fontSize: "30px" }} />
             Envoyer
-          </button>
+            </button>
+            {showPopup && (
+              <RequiredMessage
+                onClose={handleClosePopup}
+                nomChamp={fieldName}
+              />
+            )}
+          </div>
           <button onClick={generateAndViewPdf}>
             <FaCheck style={{ color: "blue", fontSize: "30px" }} />
             Visualiser PDF

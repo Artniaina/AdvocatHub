@@ -57,10 +57,6 @@ const Affaire = () => {
     }));
   };
 
-  const handleGetData = () => {
-    console.log("Form Data:", formData);
-  };
-
   useEffect(() => {
     if (montantData.length > 0) {
       setSelectedAmount(montantData[0].amount);
@@ -80,11 +76,14 @@ const Affaire = () => {
 
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
-
     setFormData((prevState) => ({
       ...prevState,
       [field]: value === "non" ? "" : prevState[field],
     }));
+    if (field === "notes" && value === "non") {
+      setMontantData([]);
+      setSelectedComment("");
+    }
   };
 
   const isDisabled = (field) => showOptions[field] === "non";
@@ -179,6 +178,7 @@ const Affaire = () => {
           id="nomAffaire"
           value={formData.nomAffaire}
           onChange={handleTextareaChange}
+          required
         />
       </div>
 
@@ -195,6 +195,7 @@ const Affaire = () => {
           id="dateDebut"
           value={formData.dateDebut}
           onChange={handleTextareaChange}
+          required
         />
       </div>
       <div
@@ -210,6 +211,7 @@ const Affaire = () => {
           id="dateFin"
           value={formData.dateFin}
           onChange={handleTextareaChange}
+          required
         />
       </div>
 
@@ -289,6 +291,7 @@ const Affaire = () => {
           value={formData.datecontest}
           onChange={handleTextareaChange}
           style={{ margin: "0px", width: "19vw" }}
+          required
         />
       </div>
 
@@ -458,6 +461,7 @@ const Affaire = () => {
           )}
         </div>
       </div>
+
       <div className="formGroupbtn">
         <div className="toggleButtons">
           <p>
@@ -477,6 +481,7 @@ const Affaire = () => {
           </label>
           <div className="divflex" style={{ display: "flex" }}>
             <select
+              className={`selectarea ${isDisabled("notes") ? "disabled" : ""}`}
               id="client"
               value={selectedAmount}
               onChange={handleAmountChange}
@@ -489,15 +494,23 @@ const Affaire = () => {
             </select>
 
             <textarea
-              style={{ width: "30vw", height: "12px" }}
+              className={`textarea ${isDisabled("notes") ? "disabled" : ""}`}
+              style={{ width: "30vw", height: "40px", marginTop: "-2px" }}
               value={selectedComment}
               readOnly
             />
 
             <div className="btnAdd">
               <IoAddCircle
+                className={` buttonIoAdd ${
+                  isDisabled("notes") ? "disabled" : ""
+                }`}
                 style={{ color: "green", fontSize: "40px", marginTop: "-2px" }}
-                onClick={() => setIsPopupMontantVisible(!isPopupMontantVisible)}
+                onClick={() => {
+                  if (!isDisabled("notes")) {
+                    setIsPopupMontantVisible(!isPopupMontantVisible);
+                  }
+                }}
               />
             </div>
             {isPopupMontantVisible && (
@@ -605,7 +618,6 @@ const Affaire = () => {
           />
         </div>
       </div>
-      <button onClick={handleGetData}>Hello World</button>
     </div>
   );
 };
