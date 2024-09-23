@@ -1,4 +1,4 @@
-import React from "react";
+import React,  { useEffect } from "react";
 
 const styles = {
   container: {
@@ -105,6 +105,7 @@ const styles = {
 };
 
 const FormulaireDeTaxation = () => {
+  
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>

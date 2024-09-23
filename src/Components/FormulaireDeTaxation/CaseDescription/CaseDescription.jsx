@@ -52,7 +52,7 @@ const CaseDescription = () => {
         {editors.slice(0, 5).map(({ id, label }) => (
           <div key={id}>
             <p>{label}</p>
-            <Editor
+            <Editor 
               id={id}
               onChange={(content) => handleEditorChange(id, content)}
             />

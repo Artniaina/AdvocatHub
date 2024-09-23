@@ -32,7 +32,6 @@ const Affaire = () => {
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
   const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-  const [selectedMontantData, setSelectedMontantData] = useState([]);
   const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
   const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
   const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
@@ -41,34 +40,14 @@ const Affaire = () => {
   const [selectedComment, setSelectedComment] = useState("");
 
   useEffect(() => {
-    const fieldsToUpdate = [
-      "etatAvancement",
-      "conciliation",
-      "conserv",
-      "mediation",
-      "relative",
-      "absenceTerm",
-      "nomAffaire",
-      "termesHonoraires",
-    ];
-
-    setFormData((prevState) => {
-      const updatedData = fieldsToUpdate.reduce((acc, field) => {
-        acc[field] = isDisabled(field) ? showOptions[field] : "";
-        return acc;
-      }, {});
-
-      return {
-        ...prevState,
-        ...updatedData,
-        mediationChoix: showOptions.mediationChoix,
-        domaine: selectedDomains,
-        honoraire: honoraireData,
-        provision: provisionData,
-        montant: montantData,
-      };
-    });
-  }, [selectedDomains, honoraireData, provisionData, montantData, showOptions]);
+    setFormData((prevState) => ({
+      ...prevState,
+      domaine: selectedDomains,
+      honoraire: honoraireData,
+      provision: provisionData,
+      montant: montantData,
+    }));
+  }, [selectedDomains, honoraireData, provisionData, montantData]);
 
   const handleTextareaChange = (e) => {
     const { id, value } = e.target;
@@ -104,7 +83,7 @@ const Affaire = () => {
 
     setFormData((prevState) => ({
       ...prevState,
-      [field]: value === "oui" ? prevState[field] : "",
+      [field]: value === "non" ? "" : prevState[field],
     }));
   };
 
@@ -521,7 +500,6 @@ const Affaire = () => {
                 onClick={() => setIsPopupMontantVisible(!isPopupMontantVisible)}
               />
             </div>
-
             {isPopupMontantVisible && (
               <div className="popupContainer" ref={popupRef}>
                 <PopupMontant
@@ -573,7 +551,7 @@ const Affaire = () => {
           onChange={handleTextareaChange}
           value={isDisabled("relative") ? "" : formData.relative}
           disabled={isDisabled("relative")}
-        ></textarea>
+        />
       </div>
 
       <div className="formGroupbtn">
