@@ -104,7 +104,7 @@ const styles = {
 
 };
 
-const Page1 = () => {
+const FormulaireDeTaxation = () => {
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>
@@ -747,4 +747,4 @@ const Page1 = () => {
   );
 };
 
-export default Page1;
+export default FormulaireDeTaxation;
