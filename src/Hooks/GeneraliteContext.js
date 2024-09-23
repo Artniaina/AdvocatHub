@@ -43,57 +43,6 @@ export const GeneraliteProvider = ({ children }) => {
     c6: "",
   });
 
-  const prepareDataToSend = () => {
-    const data = {
-      editorContents,
-      clientData,
-      selectedAvocats,
-      prestataires,
-      selectedDomains,
-      montantData,
-      provisionData,
-      honoraireData,
-      noteHonoraire,
-      editorContentObservation,
-      editorContentPosition,
-      fileInfos,
-      formData,
-    };
-
-    console.log("Data to send (JSON):", JSON.stringify(data, null, 2));
-    const jsonToSend ={
-    "sIDDomaineJuridique": formData.domaine,
-    "sDomaineJuridique":formData.domaine,
-    "sNomAffaire": formData.nomAffaire,
-    "sTermesHonoraires": formData.termesHonoraires,
-    "sAbsenceTermes": formData.absenceTerm,
-    "sDateContestation":formData.datecontest,
-    "sDateDebutMandat": formData.dateDebut,
-    "sDateFinMandat": formData.dateFin,
-    "sEtatAvancement": formData.etatAvancement,
-    "sMesureConservatoire": formData.conserv,
-    "sMediation": formData.mediation,
-    "sMediationChox":formData.mediationChoix ,
-    "sConciliation": formData.conciliation,
-    "sProcedureRelative": formData.relative,
-    "sObservations":editorContentObservation ,
-    "sPositionAvocat":editorContentPosition,
-    "sContenu1":editorContents.c1,
-    "sContenu2":editorContents.c2 ,
-    "sContenu3":editorContents.c3 ,
-    "sContenu4":editorContents.c4,
-    "sContenu5":editorContents.c5,
-    "sContenu6":editorContents.c6,
-    "sMontant": montantData,
-    "sNoteHonoraire": noteHonoraire,
-    "sHonoraire":honoraireData,
-    "sProvision":provisionData ,
-    "sPrestataireData": prestataires,
-    "sClientsData": clientData,
-    // "sSubmited_at": "string"
-}
-    return data;
-  };
 
   return (
     <GeneraliteContext.Provider
@@ -124,7 +73,6 @@ export const GeneraliteProvider = ({ children }) => {
         setFileInfos,
         formData,
         setFormData,
-        prepareDataToSend,
       }}
     >
       {children}

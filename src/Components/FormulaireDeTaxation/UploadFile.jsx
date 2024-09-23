@@ -6,19 +6,93 @@ import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 import UploadFileGuide from "./UploadFileGuide";
-import TaxationFormContent from "../PDF/FormulaireDeTaxation/Page1"; 
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-import htmlToPdfmake from 'html-to-pdfmake';
+import TaxationFormContent from "../PDF/FormulaireDeTaxation/Page1";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import htmlToPdfmake from "html-to-pdfmake";
+import { useAuth } from "../../Hooks/AuthContext";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
-  const { prepareDataToSend } = useGeneraliteContext();
+  const { user } = useAuth();
+  const {
+    formData,
+    editorContentObservation,
+    editorContentPosition,
+    editorContents,
+    montantData,
+    noteHonoraire,
+    honoraireData,
+    prestataires,
+    provisionData,
+    clientData,
+  } = useGeneraliteContext();
   const { fileInfos, setFileInfos } = useGeneraliteContext();
-  
+
+  const submitFormData = async () => {
+    const currentDate = new Date().toISOString();
+    const jsonToSend = {
+      sEmailUtilisateur: user.email,
+      sDomaineJuridique: formData.domaine.join(","),
+      sNomAffaire: formData.nomAffaire,
+      sTermesHonoraires: formData.termesHonoraires,
+      sAbsenceTermes: formData.absenceTerm,
+      sDateContestation: formData.datecontest,
+      sDateDebutMandat: formData.dateDebut,
+      sDateFinMandat: formData.dateFin,
+      sEtatAvancement: formData.etatAvancement,
+      sMesureConservatoire: formData.conserv,
+      sMediation: formData.mediation,
+      sMediationChox: formData.mediationChoix,
+      sConciliation: formData.conciliation,
+      sProcedureRelative: formData.relative,
+      sObservations: editorContentObservation,
+      sPositionAvocat: editorContentPosition,
+      sContenu1: editorContents.c1,
+      sContenu2: editorContents.c2,
+      sContenu3: editorContents.c3,
+      sContenu4: editorContents.c4,
+      sContenu5: editorContents.c5,
+      sContenu6: editorContents.c6,
+      sMontant: montantData,
+      sNoteHonoraire: noteHonoraire,
+      sHonoraire: honoraireData,
+      sProvision: provisionData,
+      sPrestataireData: prestataires,
+      sClientsData: clientData,
+      sSubmited_at: currentDate,
+    };
+
+    console.log(jsonToSend);
+
+    try {
+      const response = await fetch(
+        "http://192.168.10.5/Utilisateur/DossierTaxation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonToSend),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Form submitted successfully:", result);
+      } else {
+        console.error("Failed to submit form:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error while submitting form:", error);
+    }
+  };
+
   const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById('taxation-form-content').innerHTML;
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
 
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
@@ -59,7 +133,8 @@ const UploadFile = () => {
       >
         <div className="CardFichiers">
           <p>
-            <img src={Image} alt="" style={{ width: "40px", height: "40px" }} /> Déposer des fichiers ici *
+            <img src={Image} alt="" style={{ width: "40px", height: "40px" }} />{" "}
+            Déposer des fichiers ici *
           </p>
           {fileInfos.length > 0 ? (
             <div>
@@ -122,7 +197,7 @@ const UploadFile = () => {
             onChange={handleFileChange}
             multiple
           />
-          <button onClick={prepareDataToSend}>
+          <button onClick={submitFormData}>
             <FaCheck style={{ color: "green", fontSize: "30px" }} />
             Envoyer
           </button>
@@ -132,7 +207,7 @@ const UploadFile = () => {
           </button>
         </div>
       </div>
-      <div id="taxation-form-content" style={{ display: 'none' }}>
+      <div id="taxation-form-content" style={{ display: "none" }}>
         <TaxationFormContent />
       </div>
     </>
