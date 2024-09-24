@@ -17,7 +17,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.5/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");

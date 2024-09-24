@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
       expires: expirationDate,
       sameSite: "Strict",
       secure: true,
+      httpOnly:true
     });
 
     cookies.set("USER_DATA", userData, {
@@ -46,6 +47,7 @@ const AuthProvider = ({ children }) => {
       expires: expirationDate,
       sameSite: "Strict",
       secure: true,
+      httpOnly:true,
     });
 
     setIsAuthenticated(true);

@@ -58,7 +58,7 @@ const ModifMdp = ({email}) => {
         SMotdePasse: formData.password,
       };
 
-      const response = await fetch("http://192.168.10.5/Utilisateur/Modif", {
+      const response = await fetch("http://192.168.10.10/Utilisateur/Modif", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

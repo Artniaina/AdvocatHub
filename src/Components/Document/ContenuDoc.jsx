@@ -4,7 +4,6 @@ const ContenuDoc = () => {
 
   return (
     <div className="mainContainerDoc">
-      
     </div>
   );
 };

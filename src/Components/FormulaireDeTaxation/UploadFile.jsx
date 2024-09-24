@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
 import Image from "../../assets/icons8-fichier-67.png";
-import { FaCheck, FaTrashAlt } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
@@ -34,28 +34,19 @@ const UploadFile = () => {
   const [fieldName, setFieldName] = useState("");
   const validateFormData = () => {
     const requiredFields = [
-      { value: formData.domaine, name: "Domaine Juridique" },
-      { value: formData.nomAffaire, name: "Nom Affaire" },
-      { value: formData.termesHonoraires, name: "Termes Honoraires" },
-      { value: formData.absenceTerm, name: "Absence de Termes" },
-      { value: formData.datecontest, name: "Date de Contestation" },
-      { value: formData.dateDebut, name: "Date de Début de Mandat" },
-      { value: formData.dateFin, name: "Date de Fin de Mandat" },
-      { value: formData.etatAvancement, name: "État d’Avancement" },
-      { value: formData.conserv, name: "Mesure Conservatoire" },
-      { value: formData.mediation, name: "Médiation" },
-      { value: formData.mediationChoix, name: "Choix de Médiation" },
-      { value: formData.conciliation, name: "Conciliation" },
-      { value: formData.relative, name: "Procédure Relative" },
-      { value: editorContentObservation, name: "Observations" },
-      { value: editorContentPosition, name: "Position Avocat" },
-      { value: editorContents.c2, name: "Contenu 2" },
-      { value: montantData, name: "Montant" },
-      { value: noteHonoraire, name: "Note Honoraire" },
-      { value: honoraireData, name: "Honoraire" },
-      { value: provisionData, name: "Provision" },
-      { value: prestataires, name: "Prestataire Data" },
-      { value: clientData, name: "Clients Data" },
+      { value: montantData, name: "montant" },
+      { value: noteHonoraire, name: "note honoraire" },
+      { value: honoraireData, name: "honoraire" },
+      { value: provisionData, name: "provision" },
+      { value: prestataires, name: "prestataire" },
+      { value: clientData, name: "client" },
+      { value: formData.domaine, name: "domaine juridique" },
+      { value: formData.nomAffaire, name: "nom affaire" },
+      { value: formData.datecontest, name: "date de contestation" },
+      { value: formData.dateDebut, name: "date de début de mandat" },
+      { value: formData.dateFin, name: "date de fin de mandat" },
+      { value: editorContentObservation, name: "observations" },
+      { value: editorContentPosition, name: "position avocat" }
     ];
 
     for (const field of requiredFields) {
@@ -75,21 +66,21 @@ const UploadFile = () => {
     const currentDate = new Date().toISOString();
     const jsonToSend = {
       sEmailUtilisateur: user.email,
-      sDomaineJuridique: formData.domaine.join(","), 
-      sNomAffaire: formData.nomAffaire, 
-      sTermesHonoraires: formData.termesHonoraires, 
-      sAbsenceTermes: formData.absenceTerm, 
-      sDateContestation: formData.datecontest, 
-      sDateDebutMandat: formData.dateDebut, 
-      sDateFinMandat: formData.dateFin, 
-      sEtatAvancement: formData.etatAvancement, 
-      sMesureConservatoire: formData.conserv, 
-      sMediation: formData.mediation, 
-      sMediationChox: formData.mediationChoix, 
-      sConciliation: formData.conciliation, 
-      sProcedureRelative: formData.relative, 
-      sObservations: editorContentObservation, 
-      sPositionAvocat: editorContentPosition, 
+      sDomaineJuridique: formData.domaine.join(","),
+      sNomAffaire: formData.nomAffaire,
+      sTermesHonoraires: formData.termesHonoraires,
+      sAbsenceTermes: formData.absenceTerm,
+      sDateContestation: formData.datecontest,
+      sDateDebutMandat: formData.dateDebut,
+      sDateFinMandat: formData.dateFin,
+      sEtatAvancement: formData.etatAvancement,
+      sMesureConservatoire: formData.conserv,
+      sMediation: formData.mediation,
+      sMediationChox: formData.mediationChoix,
+      sConciliation: formData.conciliation,
+      sProcedureRelative: formData.relative,
+      sObservations: editorContentObservation,
+      sPositionAvocat: editorContentPosition,
       sContenu1: editorContents.c1,
       sContenu2: editorContents.c2,
       sContenu3: editorContents.c3,
@@ -104,10 +95,10 @@ const UploadFile = () => {
       sClientsData: clientData,
       sSubmited_at: currentDate,
     };
-    //Okalou fa down ny server
+ 
     // try {
     //   const response = await fetch(
-    //     "http://192.168.10.5/Utilisateur/DossierTaxation",
+    //     "http://192.168.10.10/Utilisateur/DossierTaxation",
     //     {
     //       method: "POST",
     //       headers: {
@@ -127,7 +118,6 @@ const UploadFile = () => {
     //   console.error("Error while submitting form:", error);
     // }
     console.log(jsonToSend);
-    
   };
 
   const generateAndViewPdf = () => {
@@ -241,9 +231,9 @@ const UploadFile = () => {
             multiple
           />
           <div>
-            <button onClick={submitFormData}>            
-            <FaCheck style={{ color: "green", fontSize: "30px" }} />
-            Envoyer
+            <button onClick={submitFormData}>
+              <FaCheck style={{ color: "green", fontSize: "30px" }} />
+              Envoyer
             </button>
             {showPopup && (
               <RequiredMessage

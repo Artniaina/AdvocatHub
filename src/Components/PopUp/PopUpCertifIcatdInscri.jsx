@@ -96,7 +96,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
         const base64data = reader.result.split(",")[1];
 
         try {
-          const response = await fetch("http://192.168.10.5/Utilisateur/Send_email", {
+          const response = await fetch("http://192.168.10.10/Utilisateur/Send_email", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

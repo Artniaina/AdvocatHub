@@ -54,7 +54,7 @@ const Registration = () => {
         sMotdePasse: password,
       };
 
-      const response = await fetch("http://192.168.10.5/Utilisateur/Register", {
+      const response = await fetch("http://192.168.10.10/Utilisateur/Register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

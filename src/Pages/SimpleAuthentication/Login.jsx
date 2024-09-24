@@ -26,16 +26,16 @@ const Login = () => {
       alert("Tous les champs doivent être remplis.");
       return;
     }
-    // if (!captchaValue) {
-    //   alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
-    //   return;
-    // }
+    if (!captchaValue) {
+      alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
+      return;
+    }
     try {
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
       };
-      const response = await fetch("http://192.168.10.5/Utilisateur/Authent", {
+      const response = await fetch("http://192.168.10.10/Utilisateur/Authent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
