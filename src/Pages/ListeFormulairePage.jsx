@@ -1,21 +1,36 @@
-import React from 'react';
-import Navbar from '../Components/Navbar';
+import React from "react";
+import Navbar from "../Components/Navbar";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { GrUpdate } from "react-icons/gr";
 import { PiNotePencil } from "react-icons/pi";
-
+import { useNavigate } from "react-router-dom";
 
 const ListeFormulairePage = () => {
+  const navigate = useNavigate();
+  const handleNavigateAddNew = () => {
+    navigate("/home/formTaxation");
+  };
+  const handleNavigate = () => {
+    navigate("/home/UpdateformTaxation");
+  };
+  const handleDelete = () => {
+    navigate("/home/UpdateformTaxation");
+  };
   return (
     <>
       <Navbar />
       <div>
-      <h2>Mes demandes de taxation ordinaire</h2>
+        <h2>Mes demandes de taxation ordinaire</h2>
       </div>
       <div>
-        <button><IoAddCircleSharp/>Nouveau formulaire en ligne</button>
-        <button><GrUpdate/></button>
+        <button onClick={handleNavigateAddNew}>
+          <IoAddCircleSharp />
+          Nouveau formulaire en ligne
+        </button>
+        <button>
+          <GrUpdate />
+        </button>
       </div>
       <table>
         <thead>
@@ -34,8 +49,12 @@ const ListeFormulairePage = () => {
             <td>En cours</td>
             <td>2024-09-02</td>
             <td>12345</td>
-            <td><PiNotePencil/></td>
-            <td><RiDeleteBin5Line/></td>
+            <td>
+              <PiNotePencil onClick={handleNavigate} />
+            </td>
+            <td>
+              <RiDeleteBin5Line onClick={handleDelete}/>
+            </td>
           </tr>
           <tr>
             <td>Affaire 2</td>
@@ -43,8 +62,12 @@ const ListeFormulairePage = () => {
             <td>Terminé</td>
             <td>2024-08-26</td>
             <td>67890</td>
-            <td><PiNotePencil/></td>
-            <td><RiDeleteBin5Line/></td>
+            <td>
+              <PiNotePencil onClick={handleNavigate} />
+            </td>
+            <td>
+              <RiDeleteBin5Line onClick={handleDelete}/>
+            </td>
           </tr>
         </tbody>
       </table>
