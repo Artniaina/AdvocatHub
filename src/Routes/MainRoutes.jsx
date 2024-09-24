@@ -23,6 +23,8 @@ import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
 import TaxationFormPage from "../Pages/TaxationFormPage";
 import UsersGuide from "../Pages/DoubleAuthentication/UsersGuide";
+import UpdateTaxationFormPage from "../Pages/UpdateTaxationFormPage";
+import ListeFormulairePage from "../Pages/ListeFormulairePage";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -92,21 +94,25 @@ function MainRoutes() {
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
 
+        //Temporaire juste le temps que le server soit ok
+          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
+          <Route path="/home/UpdateformTaxation" element={<UpdateTaxationFormPage />} />
+          <Route path="/home/ListeFormulaire" element={<ListeFormulairePage />} />
+
         //PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN
         <Route element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
 
         //PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION
-          <Route exact path="/scanqrcode" element={<UsersGuide />} />
         <Route element={<PartialProtectedRoute />}>
+          <Route exact path="/scanqrcode" element={<UsersGuide />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
         
         //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
         <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
-          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />

@@ -6,4 +6,4 @@ const ContenuFAQ = () => {
   )
 }
 
-export default ContenuFAQ
+export default ContenuFAQ 

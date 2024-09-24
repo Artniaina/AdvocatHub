@@ -7,7 +7,7 @@ import Honoraires from '../Components/FormulaireDeTaxation/Honoraires/Honoraires
 import UploadFile from '../Components/FormulaireDeTaxation/UploadFile'
 import PrisedePosition from '../Components/FormulaireDeTaxation/PrisedePosition'
 
-const TaxationFormPage = () => {
+const UpdateTaxationFormPage = () => {
   return (
     <>
     <Navbar/>
@@ -31,4 +31,4 @@ const TaxationFormPage = () => {
   )
 }
 
-export default TaxationFormPage
+export default UpdateTaxationFormPage

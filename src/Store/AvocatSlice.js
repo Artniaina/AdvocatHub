@@ -6,7 +6,6 @@ const initialState = {
   loading: false,
   error: null,
 };
-
 export const fetchAvocatInfo = createAsyncThunk(
   'avocat/fetchAvocatInfo',
   async (email) => {
