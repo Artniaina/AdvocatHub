@@ -15,7 +15,7 @@ const UserTable = () => {
     fetchData();
   }, []);
 
-  const apiUrl = "http://192.168.10.5/Utilisateur/Utilisateur";
+  const apiUrl = "http://192.168.10.10/Utilisateur/Utilisateur";
 
   const fetchData = async () => {
     try {

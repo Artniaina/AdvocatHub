@@ -92,12 +92,7 @@ function MainRoutes() {
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
-        <Route path="/modifmdp" element={<ModifMdp />} />
-
-        //Temporaire juste le temps que le server soit ok
-          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
-          <Route path="/home/UpdateformTaxation" element={<UpdateTaxationFormPage />} />
-          <Route path="/home/ListeFormulaire" element={<ListeFormulairePage />} />
+        <Route path="/modifmdp" element={<ModifMdp />} />         
 
         //PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN
         <Route element={<PrivateRoute />}>
@@ -117,6 +112,9 @@ function MainRoutes() {
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
+          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
+          <Route path="/home/UpdateformTaxation" element={<UpdateTaxationFormPage />} />
+          <Route path="/home/ListeFormulaire" element={<ListeFormulairePage />} />
         </Route>
       </Routes>
     </Router>

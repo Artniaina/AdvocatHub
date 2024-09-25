@@ -5,34 +5,39 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { GrUpdate } from "react-icons/gr";
 import { PiNotePencil } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import "../Styles/TaxationForm/ListeForm.css"; 
 
 const ListeFormulairePage = () => {
   const navigate = useNavigate();
+
   const handleNavigateAddNew = () => {
     navigate("/home/formTaxation");
   };
+
   const handleNavigate = () => {
     navigate("/home/UpdateformTaxation");
   };
+
   const handleDelete = () => {
     navigate("/home/UpdateformTaxation");
   };
+
   return (
     <>
       <Navbar />
-      <div>
+      <div className="page-title">
         <h2>Mes demandes de taxation ordinaire</h2>
       </div>
-      <div>
-        <button onClick={handleNavigateAddNew}>
+      <div className="button-container">
+        <button className="add-button" onClick={handleNavigateAddNew}>
           <IoAddCircleSharp />
           Nouveau formulaire en ligne
         </button>
-        <button>
+        <button className="update-button">
           <GrUpdate />
         </button>
       </div>
-      <table>
+      <table className="styled-table">
         <thead>
           <tr>
             <th>Affaire</th>
@@ -40,6 +45,7 @@ const ListeFormulairePage = () => {
             <th>Statut</th>
             <th>Transmis le</th>
             <th>Référence Formulaire PDF</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -49,11 +55,9 @@ const ListeFormulairePage = () => {
             <td>En cours</td>
             <td>2024-09-02</td>
             <td>12345</td>
-            <td>
+            <td className="actions">
               <PiNotePencil onClick={handleNavigate} />
-            </td>
-            <td>
-              <RiDeleteBin5Line onClick={handleDelete}/>
+              <RiDeleteBin5Line onClick={handleDelete} />
             </td>
           </tr>
           <tr>
@@ -62,11 +66,9 @@ const ListeFormulairePage = () => {
             <td>Terminé</td>
             <td>2024-08-26</td>
             <td>67890</td>
-            <td>
+            <td className="actions">
               <PiNotePencil onClick={handleNavigate} />
-            </td>
-            <td>
-              <RiDeleteBin5Line onClick={handleDelete}/>
+              <RiDeleteBin5Line onClick={handleDelete} />
             </td>
           </tr>
         </tbody>

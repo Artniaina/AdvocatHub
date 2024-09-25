@@ -321,3 +321,8 @@ PiCaretUpDownFill{
   border-radius: 4px;
   box-sizing: border-box;
 }
+.spanish{
+  font-style: italic;
+  font-size: 15px;
+  color: #202020;
+}
