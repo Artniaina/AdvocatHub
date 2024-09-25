@@ -14,6 +14,18 @@ export const GeneraliteProvider = ({ children }) => {
   const [editorContentObservation, setEditorContentObservation] = useState("");
   const [editorContentPosition, setEditorContentPosition] = useState("");
   const [fileInfos, setFileInfos] = useState("");
+  const [avocatsData, setAvocatsData] = useState([
+    {
+      nom: "",
+      prenom:"",
+      etude:"",
+      adresseEtude:"",
+      telephone:"",
+      email:"",
+      dateAssermentation:"",
+      isSocieteChecked:"",
+    },
+  ]);
 
   const [formData, setFormData] = useState({
     domaine: [],
@@ -60,6 +72,8 @@ export const GeneraliteProvider = ({ children }) => {
         setHonoraireData,
         provisionData,
         setProvisionData,
+        avocatsData,
+        setAvocatsData,
         noteHonoraire,
         setNoteHonoraire,
         editorContentObservation,

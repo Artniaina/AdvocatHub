@@ -7,7 +7,6 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Collaborateurs = () => {
   const { selectedAvocats, setSelectedAvocats } = useGeneraliteContext();
-
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [etude, setEtude] = useState("");
@@ -21,7 +20,7 @@ const Collaborateurs = () => {
 
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => {
-    resetFields();  // Reset fields on close
+    resetFields(); 
     setShowPopup(false);
   };
 

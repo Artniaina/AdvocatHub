@@ -4,6 +4,7 @@ import { useAuth } from "../../../../Hooks/AuthContext";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-user-menu-male-40.png";
 import { fetchAvocatInfo, fetchEtudeInfo } from "../../../../Store/AvocatSlice";
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Avocat = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const Avocat = () => {
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
   const [isSocieteChecked, setIsSocieteChecked] = useState(false);
+  const { avocatsData, setAvocatsData } = useGeneraliteContext();
 
   const handleCheckboxChange = (e) => {
     setIsSocieteChecked(e.target.checked);
@@ -87,7 +89,21 @@ const Avocat = () => {
       setEmail(avocatInfo.m_emailbarreau);
     }
   }, [avocatInfo]);
-  const dataToSend = {
+
+  useEffect(() => {
+    setAvocatsData([
+      {
+        nom,
+        prenom,
+        etude,
+        adresseEtude,
+        dateAssermentation,
+        telephone,
+        email,
+        isSocieteChecked,
+      },
+    ]);
+  }, [
     nom,
     prenom,
     etude,
@@ -95,12 +111,13 @@ const Avocat = () => {
     dateAssermentation,
     telephone,
     email,
-    isSocieteChecked
-  };
+    isSocieteChecked,
+    setAvocatsData,
+  ]);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("Form submitted" + dataToSend);
   };
 
   return (
@@ -161,7 +178,7 @@ const Avocat = () => {
         </div>
 
         <div style={{ margin: "10px" }}>
-        <input
+          <input
             type="checkbox"
             id="societe"
             name="societe"

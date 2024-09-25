@@ -27,7 +27,7 @@ const UploadFile = () => {
     honoraireData,
     prestataires,
     selectedAvocats,
-    // avocatInfo,
+    avocatsData,
     provisionData,
     clientData,
   } = useGeneraliteContext();
@@ -95,32 +95,32 @@ const UploadFile = () => {
       sProvision: provisionData,
       sPrestataireData: prestataires,
       sCollaboratorsData:selectedAvocats,
-      // sAvocatsData: avocatInfo,
+      sAvocatsData: avocatsData,
       sClientsData: clientData,
       sSubmited_at: currentDate,
     };
  
-    // try {
-    //   const response = await fetch(
-    //     "http://192.168.10.10/Utilisateur/DossierTaxation",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(jsonToSend),
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        "http://192.168.10.10/Utilisateur/DossierTaxation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonToSend),
+        }
+      );
 
-    //   if (response.ok) {
-    //     const result = await response.json();
-    //     console.log("Form submitted successfully:", result);
-    //   } else {
-    //     console.error("Failed to submit form:", response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error("Error while submitting form:", error);
-    // }
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Form submitted successfully:", result);
+      } else {
+        console.error("Failed to submit form:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error while submitting form:", error);
+    }
     console.log(jsonToSend);
   };
 
