@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
- 
+
 const Collaborateurs = () => {
-  const { selectedAvocats, setSelectedAvocats} = useGeneraliteContext();
+  const { selectedAvocats, setSelectedAvocats } = useGeneraliteContext();
 
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -19,59 +18,75 @@ const Collaborateurs = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [isInscrit, setIsInscrit] = useState(false);
-     
-  const handleShowPopup = () => setShowPopup(true);
 
-  const handleClosePopup = () => setShowPopup(false);
+  const handleShowPopup = () => setShowPopup(true);
+  const handleClosePopup = () => {
+    resetFields();  // Reset fields on close
+    setShowPopup(false);
+  };
 
   const handleSelectCollaborators = (collaborators, avocatsData) => {
     setSelectedCollaborators(collaborators);
-    setSelectedAvocats(avocatsData);    
+    setSelectedAvocats(avocatsData);
   };
 
   const handleSelectCollaborator = (e) => {
     const selectedID = parseInt(e.target.value, 10);
+    populateFields(selectedID);
+  };
 
+  const populateFields = (selectedID) => {
     const selectedAvocat = (selectedAvocats || []).find(
-      (collaborator) => collaborator.m_nIDAvocat_PP === selectedID
+      (collaborator) => collaborator.IDAvocat === selectedID 
     );
 
     const formatDate = (dateString) => {
       if (!dateString) return "";
-    
       const year = dateString.substring(0, 4);
       const month = dateString.substring(4, 6);
       const day = dateString.substring(6, 8);
-    
       return `${day}/${month}/${year}`;
     };
 
     if (selectedAvocat) {
-      setName(selectedAvocat.m_sNom || "");
-      setPrenom(selectedAvocat.m_sPrenom || "");
-      setEtude(selectedAvocat.m_nidetude || "");
-      setAdresseEtude(selectedAvocat.m_sadressecomplet || "");
-      setDateAssermentation(formatDate(selectedAvocat.m_dDateAssermentation));
-      setTelephone(selectedAvocat.m_stelephone || "");
-      setEmail(selectedAvocat.m_emailbarreau || "");
-      setIsInscrit(selectedAvocat.m_sStatut==="Inscrit");
+      setName(selectedAvocat.Nom || "");
+      setPrenom(selectedAvocat.Prenom || "");
+      setEtude(selectedAvocat.Etude || ""); 
+      setAdresseEtude(selectedAvocat.Adresse || ""); 
+      setDateAssermentation(formatDate(selectedAvocat.DateAssermentation));
+      setTelephone(selectedAvocat.Telephone || ""); 
+      setEmail(selectedAvocat.Email || ""); 
+      setIsInscrit(selectedAvocat.isInscrit === "Inscrit");
     } else {
-      setName("");
-      setPrenom("");
-      setEtude("");
-      setAdresseEtude("");
-      setDateAssermentation("");
-      setTelephone("");
-      setEmail("");
-      setIsInscrit(false);
+      resetFields();
     }
+ 
   };
+
+  const resetFields = () => {
+    setName("");
+    setPrenom("");
+    setEtude("");
+    setAdresseEtude("");
+    setDateAssermentation("");
+    setTelephone("");
+    setEmail("");
+    setIsInscrit(false);
+  };
+
+  useEffect(() => {
+    if (selectedCollaborators.length > 0) {
+      populateFields(selectedCollaborators[0]); 
+    } else {
+      resetFields(); 
+    }
+  }, [selectedCollaborators, selectedAvocats]); 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
-
-  
+ 
   return (
     <div>
       <div className="titleCard">
@@ -85,17 +100,16 @@ const Collaborateurs = () => {
           </label>
           <select
             id="client"
-            style={{ width: "24vw"}}
+            style={{ width: "24vw" }}
             onChange={handleSelectCollaborator}
             aria-label="Select Collaborator"
           >
-          
             {(selectedAvocats || []).map((collaborator) => (
               <option
-                key={collaborator.m_nIDAvocat_PP}
-                value={collaborator.m_nIDAvocat_PP}
+                key={collaborator.IDAvocat} 
+                value={collaborator.IDAvocat} 
               >
-                {`${collaborator.m_sNom || ""} ${collaborator.m_sPrenom || ""}`}
+                {`${collaborator.Nom || ""} ${collaborator.Prenom || ""}`}
               </option>
             ))}
           </select>

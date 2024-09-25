@@ -36,6 +36,9 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     Prenom: "m_sPrenom",
     Etude: "m_sDénominationEtude",
     Adresse: "m_sadressecomplet",
+    DateAssermentation: "m_dDateAssermentation",
+    Telephone: "m_sTelephone",
+    Email: "m_sEmail", 
   };
 
   const sortedAvocat = useMemo(() => {
@@ -70,7 +73,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     }
     setSortConfig({ key, direction });
   };
- 
+
   const handleFilterChange = (e, key) => {
     setFilters((prev) => ({ ...prev, [key]: e.target.value }));
   };
@@ -92,9 +95,21 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
   }, [avocat, selectedCollaborators]);
 
   const handleSubmit = () => {
-    onSelectCollaborators(selectedCollaborators, selectedAvocats);
+ 
+    const necessaryData = selectedAvocats.map((avocat) => ({
+      Nom: avocat.m_sNom,
+      Prenom: avocat.m_sPrenom,
+      Etude: avocat.m_sDénominationEtude,
+      Adresse: avocat.m_sadressecomplet,
+      DateAssermentation: avocat.m_dDateAssermentation, 
+      Telephone: avocat.m_sTelephone,
+      Email: avocat.m_emailbarreau, 
+      IDAvocat: avocat.m_nIDAvocat_PP,
+    }));
+    onSelectCollaborators(selectedCollaborators, necessaryData);
     onClose();
   };
+  
 
   return (
     <div className="overlay">
