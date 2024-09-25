@@ -1,4 +1,7 @@
 import React,  { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchFormulaires } from '../../Store/TaxationFormSlice';
+import { useAuth } from "../../Hooks/AuthContext";
 
 const styles = {
   container: {
@@ -105,7 +108,15 @@ const styles = {
 };
 
 const FormulaireDeTaxation = () => {
-  
+  const dispatch = useDispatch();
+  const { formulaires, status, error } = useSelector((state) => state.formulaires);
+  const {user}= useAuth();
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchFormulaires(user.email));
+    }
+  }, [status, dispatch, user.email]);
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>
