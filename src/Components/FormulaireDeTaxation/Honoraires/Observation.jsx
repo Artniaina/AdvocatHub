@@ -3,10 +3,10 @@ import Editor from "../TextEditor/EditeurHTML";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const Observation = () => {
-  const {editorContentObservation, setEditorContentObservation} = useGeneraliteContext();
+  const { editorContents, setEditorContents } = useGeneraliteContext();
 
   const handleEditorChange = (id, content) => {
-    setEditorContentObservation((prevContent) => ({
+    setEditorContents((prevContent) => ({
       ...prevContent,
       [id]: content,
     }));
@@ -15,9 +15,9 @@ const Observation = () => {
   return (
     <>
       <Editor
-        key="editor1"
-        id="editor1"
-        onChange={(content) => handleEditorChange("editor1", content)}
+        key="observation"
+        id="observation"
+        onChange={(content) => handleEditorChange("observation", content)}
       />
     </>
   );

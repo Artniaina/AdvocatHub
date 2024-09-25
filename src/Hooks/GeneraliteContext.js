@@ -11,14 +11,12 @@ export const GeneraliteProvider = ({ children }) => {
   const [honoraireData, setHonoraireData] = useState([]);
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
-  const [editorContentObservation, setEditorContentObservation] = useState("");
-  const [editorContentPosition, setEditorContentPosition] = useState("");
   const [fileInfos, setFileInfos] = useState("");
   const [avocatsData, setAvocatsData] = useState([
     {
       nom: "",
       prenom:"",
-      etude:"",
+      setude:"",
       adresseEtude:"",
       telephone:"",
       email:"",
@@ -47,6 +45,8 @@ export const GeneraliteProvider = ({ children }) => {
   });
 
   const [editorContents, setEditorContents] = useState({
+    observation:"",
+    position:"",
     c1: "",
     c2: "",
     c3: "",
@@ -76,10 +76,6 @@ export const GeneraliteProvider = ({ children }) => {
         setAvocatsData,
         noteHonoraire,
         setNoteHonoraire,
-        editorContentObservation,
-        setEditorContentObservation,
-        editorContentPosition,
-        setEditorContentPosition,
         editorContents,
         setEditorContents,
         fileInfos,

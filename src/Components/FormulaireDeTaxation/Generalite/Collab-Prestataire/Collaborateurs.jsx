@@ -9,7 +9,7 @@ const Collaborateurs = () => {
   const { selectedAvocats, setSelectedAvocats } = useGeneraliteContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [etude, setEtude] = useState("");
+  const [setude, setEtude] = useState("");
   const [adresseEtude, setAdresseEtude] = useState("");
   const [dateAssermentation, setDateAssermentation] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -142,7 +142,7 @@ const Collaborateurs = () => {
           <input
             type="text"
             id="etude"
-            value={etude}
+            value={setude}
             onChange={(e) => setEtude(e.target.value)}
             readOnly
           />

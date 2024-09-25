@@ -40,7 +40,7 @@ const Avocat = () => {
 
   const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
   const [prenom, setPrenom] = useState(avocatInfo?.m_sPrenom || "");
-  const [etude, setEtude] = useState(etudeInfo?.m_sDénominationEtude || "");
+  const [setude, setEtude] = useState(etudeInfo?.m_sDénominationEtude || "");
   const [adresseEtude, setAdresseEtude] = useState(
     etudeInfo?.m_sadressecomplet || ""
   );
@@ -95,7 +95,7 @@ const Avocat = () => {
       {
         nom,
         prenom,
-        etude,
+        setude,
         adresseEtude,
         dateAssermentation,
         telephone,
@@ -106,7 +106,7 @@ const Avocat = () => {
   }, [
     nom,
     prenom,
-    etude,
+    setude,
     adresseEtude,
     dateAssermentation,
     telephone,
@@ -149,7 +149,7 @@ const Avocat = () => {
 
         <div className="formGroup">
           <label htmlFor="etude">Etude:</label>
-          <input type="text" id="etude" value={etude} readOnly />
+          <input type="text" id="etude" value={setude} readOnly />
         </div>
 
         <div className="formGroup">

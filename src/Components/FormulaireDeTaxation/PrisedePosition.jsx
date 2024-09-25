@@ -4,10 +4,10 @@ import "../../Styles/TaxationForm/CardInfo.css";
 import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 
 const PrisedePosition = () => {
-  const {editorContentPosition, setEditorContentPosition}= useGeneraliteContext();
+  const { editorContents, setEditorContents } = useGeneraliteContext();
 
   const handleEditorChange = (id, content) => {
-    setEditorContentPosition((prevContent) => ({
+    setEditorContents((prevContent) => ({
       ...prevContent,
       [id]: content,
     }));
@@ -26,9 +26,9 @@ const PrisedePosition = () => {
         </p>
         <div>
           <Editor
-            key="editor2"
-            id="editor2"
-            onChange={(content) => handleEditorChange("editor2", content)}
+            key="position"
+            id="position"
+            onChange={(content) => handleEditorChange("position", content)}
           />
         </div>
       </div>

@@ -9,7 +9,7 @@ const Prestataires = () => {
   const {prestataires, setPrestataires} = useGeneraliteContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [etude, setEtude] = useState("");
+  const [setude, setEtude] = useState("");
   const [email, setEmail] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
@@ -20,8 +20,6 @@ const Prestataires = () => {
   const handleShowPopup = () => {
     setShowPopup(true);
   };
-
-//Data to send: prestataire
 
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -40,7 +38,7 @@ const Prestataires = () => {
         setSelectedPrestataire(prestataireData.indexOf(firstChecked));
         setName(firstChecked.name);
         setPrenom(firstChecked.prenom);
-        setEtude(firstChecked.etude);
+        setEtude(firstChecked.setude);
         setEmail(firstChecked.email);
         setTitrePro(firstChecked.titrePro);
         setAutresInfo(firstChecked.autresInfo);
@@ -65,7 +63,7 @@ const Prestataires = () => {
       const selected = prestataires[selectedIndex];
       setName(selected.name);
       setPrenom(selected.prenom);
-      setEtude(selected.etude);
+      setEtude(selected.setude);
       setEmail(selected.email);
       setTitrePro(selected.titrePro);
       setAutresInfo(selected.autresInfo);
@@ -121,7 +119,7 @@ const Prestataires = () => {
 
         <div className="formGroup">
           <label htmlFor="etude">Etude/Société tierce:</label>
-          <input type="text" id="etude" value={etude} readOnly />
+          <input type="text" id="etude" value={setude} readOnly />
         </div>
 
         <div className="formGroup">
