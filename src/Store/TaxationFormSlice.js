@@ -1,45 +1,42 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  formulaires: [],
-  status: 'idle', 
+  formulaire: null,
+  status: "idle",
   error: null,
 };
 
-export const fetchFormulaires = createAsyncThunk(
-  'formulaires/fetchFormulaires',
-  async (emailUtilisateur) => {
+export const fetchFormulaireById = createAsyncThunk(
+  "formulaire/fetchFormulaireById",
+  async (idFormulaire) => {
     const response = await fetch(
-      `http://192.168.10.10/Utilisateur/GetListFormulaire/${emailUtilisateur}`
+      `http://192.168.10.10/Utilisateur/FormulaireDeTaxation/${idFormulaire}`
     );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch formulaires');
+      throw new Error("Failed to fetch formulaire");
     }
 
     const data = await response.json();
-    return data;
+    return data[0];
   }
 );
 
 const formulaireSlice = createSlice({
-  name: 'formulaires',
+  name: "formulaire",
   initialState,
-  reducers: {
-   
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFormulaires.pending, (state) => {
-        state.status = 'loading';
+      .addCase(fetchFormulaireById.pending, (state) => {
+        state.status = "loading";
       })
-      .addCase(fetchFormulaires.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.formulaires = action.payload;
+      .addCase(fetchFormulaireById.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.formulaire = action.payload;
       })
-      .addCase(fetchFormulaires.rejected, (state, action) => {
-        state.status = 'failed';
+      .addCase(fetchFormulaireById.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.error.message;
       });
   },

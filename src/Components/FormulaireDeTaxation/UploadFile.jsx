@@ -7,7 +7,7 @@ import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 import UploadFileGuide from "./UploadFileGuide";
-import TaxationFormContent from "../PDF/FormulaireDeTaxationPDF";
+import FormulaireDeTaxationPDF from "../PDF/FormulaireDeTaxationPDF";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfmake from "html-to-pdfmake";
@@ -253,7 +253,7 @@ const UploadFile = () => {
         </div>
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
-        <TaxationFormContent />
+        <FormulaireDeTaxationPDF idFormulaire={27} />
       </div>
     </>
   );

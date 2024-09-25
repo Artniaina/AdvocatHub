@@ -1,6 +1,6 @@
 import React,  { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchFormulaires } from '../../Store/TaxationFormSlice';
+import { fetchFormulaireById } from '../../Store/TaxationFormSlice';
 import { useAuth } from "../../Hooks/AuthContext";
 
 const styles = {
@@ -107,16 +107,19 @@ const styles = {
 
 };
 
-const FormulaireDeTaxation = () => {
-  const dispatch = useDispatch();
-  const { formulaires, status, error } = useSelector((state) => state.formulaires);
-  const {user}= useAuth();
+const FormulaireDeTaxationPDF = ({idFormulaire}) => {
+    const dispatch = useDispatch();
+    const { formulaire, status } = useSelector((state) => state.formulaire);  
+  
+    useEffect(() => {
+      if (status === 'idle') {
+        dispatch(fetchFormulaireById(idFormulaire));
+      }
+    }, [status, dispatch, idFormulaire])
+    // console.log("form ho anle pdf:",formulaire.sAvocatsData ||{});
 
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchFormulaires(user.email));
-    }
-  }, [status, dispatch, user.email]);
+    const avocat = formulaire?.sAvocatsData ? formulaire.sAvocatsData[0] : {};
+    
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>
@@ -135,12 +138,12 @@ const FormulaireDeTaxation = () => {
 
         </p>
       </div>
-
       <div style={styles.sectionDivider}></div>
 
       <div style={{ marginBottom: "10px" }}>
         <p style={styles.sectionTitle}>1. GENERALITE</p>
         <p style={styles.subSectionTitle}>a) AVOCAT (Titulaire du dossier)</p>
+       
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -148,7 +151,7 @@ const FormulaireDeTaxation = () => {
                 Nom:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                AATTI
+              {avocat.nom || 'N/A'}
               </td>
             </tr>
             <tr>
@@ -156,7 +159,7 @@ const FormulaireDeTaxation = () => {
                 Prénom:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                Ghizlane
+              {avocat.prenom || 'N/A'}
               </td>
             </tr>
             <tr>
@@ -165,7 +168,7 @@ const FormulaireDeTaxation = () => {
                 Adresse professionnelle:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                Valeur Adresse
+              {avocat.adresseEtude || 'N/A'}
               </td>
             </tr>
             <tr>
@@ -173,7 +176,7 @@ const FormulaireDeTaxation = () => {
                 Date d'assermentation:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                0956321
+              {avocat.dateAssermentation || 'N/A'}
               </td>
             </tr>
             <tr>
@@ -181,7 +184,7 @@ const FormulaireDeTaxation = () => {
                 Téléphone:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                +352 2659844
+              {avocat.telephone || 'N/A'}
               </td>
             </tr>
             <tr>
@@ -189,7 +192,7 @@ const FormulaireDeTaxation = () => {
                 Email:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                sabrine.aba
+              {avocat.email || 'N/A'}
               </td>
             </tr>
           </tbody>
@@ -759,4 +762,4 @@ const FormulaireDeTaxation = () => {
   );
 };
 
-export default FormulaireDeTaxation;
+export default FormulaireDeTaxationPDF;

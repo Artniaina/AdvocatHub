@@ -11,7 +11,7 @@ const store = configureStore({
     countryCodes: countryCodesReducer,
     activities: activityReducer,
     langues: languesReducer,
-    formulaires: formulaireReducer,
+    formulaire: formulaireReducer,
   },
 });
 
