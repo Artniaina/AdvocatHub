@@ -1,6 +1,6 @@
-import React,  { useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchFormulaireById } from '../../Store/TaxationFormSlice';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchFormulaireById } from "../../Store/TaxationFormSlice";
 import { useAuth } from "../../Hooks/AuthContext";
 
 const styles = {
@@ -104,22 +104,32 @@ const styles = {
     fontSize: "12px",
     marginLeft: "80px",
   },
-
 };
 
-const FormulaireDeTaxationPDF = ({idFormulaire}) => {
-    const dispatch = useDispatch();
-    const { formulaire, status } = useSelector((state) => state.formulaire);  
-  
-    useEffect(() => {
-      if (status === 'idle') {
-        dispatch(fetchFormulaireById(idFormulaire));
-      }
-    }, [status, dispatch, idFormulaire])
-    // console.log("form ho anle pdf:",formulaire.sAvocatsData ||{});
+const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
+  const dispatch = useDispatch();
+  const { formulaire, status } = useSelector((state) => state.formulaire);
 
-    const avocat = formulaire?.sAvocatsData ? formulaire.sAvocatsData[0] : {};
-    
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchFormulaireById(idFormulaire));
+    }
+  }, [status, dispatch, idFormulaire]);
+
+  const avocat = formulaire?.sAvocatsData ? formulaire.sAvocatsData[0] : {};
+  const collaborateurs = formulaire?.sCollaboratorsData || [];
+  const clients = formulaire?.sClientsData || [];
+  const noteHonoraire = formulaire?.sNoteHonoraire || [];
+  // console.log("form ho anle pdf:",noteHonoraire);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const year = dateString.slice(0, 4);
+    const month = dateString.slice(4, 6);
+    const day = dateString.slice(6, 8);
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>
@@ -135,7 +145,6 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
           <span style={styles.remark}>REMARQUE:</span> LA TAXATION NE POURRA
           ÊTRE TRAITÉE SI LE FORMULAIRE EST INCOMPLET ET/OU SI LES DOCUMENTS
           LISTÉS NE SONT PAS JOINTS !
-
         </p>
       </div>
       <div style={styles.sectionDivider}></div>
@@ -143,7 +152,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
       <div style={{ marginBottom: "10px" }}>
         <p style={styles.sectionTitle}>1. GENERALITE</p>
         <p style={styles.subSectionTitle}>a) AVOCAT (Titulaire du dossier)</p>
-       
+
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -151,7 +160,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Nom:
               </td>
               <td colspan="29" style={styles.tableCell}>
-              {avocat.nom || 'N/A'}
+                {avocat.nom || ""}
               </td>
             </tr>
             <tr>
@@ -159,7 +168,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Prénom:
               </td>
               <td colspan="29" style={styles.tableCell}>
-              {avocat.prenom || 'N/A'}
+                {avocat.prenom || ""}
               </td>
             </tr>
             <tr>
@@ -168,7 +177,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Adresse professionnelle:
               </td>
               <td colspan="29" style={styles.tableCell}>
-              {avocat.adresseEtude || 'N/A'}
+                {avocat.adresseEtude || ""}
               </td>
             </tr>
             <tr>
@@ -176,7 +185,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Date d'assermentation:
               </td>
               <td colspan="29" style={styles.tableCell}>
-              {avocat.dateAssermentation || 'N/A'}
+                {formatDate(avocat?.dateAssermentation) || ""}
               </td>
             </tr>
             <tr>
@@ -184,7 +193,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Téléphone:
               </td>
               <td colspan="29" style={styles.tableCell}>
-              {avocat.telephone || 'N/A'}
+                {avocat.telephone || ""}
               </td>
             </tr>
             <tr>
@@ -192,7 +201,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Email:
               </td>
               <td colspan="29" style={styles.tableCell}>
-              {avocat.email || 'N/A'}
+                {avocat.email || ""}
               </td>
             </tr>
           </tbody>
@@ -208,53 +217,47 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th colspan="8" style={styles.tableHeader}>
+              <th colSpan="8" style={styles.tableHeader}>
                 Nom
               </th>
               <th style={styles.tableHeader}>Adresse professionnelle</th>
               <th style={styles.tableHeader}>Date d'assermentation</th>
               <th style={styles.tableHeader}>Téléphone</th>
               <th style={styles.tableHeader}>E-mail</th>
-              <th colspan="8" style={styles.tableHeader}>
+              <th colSpan="8" style={styles.tableHeader}>
                 Statut
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colspan="8" style={styles.tableCellCenter}>
-                AATTI Ghizlane
-              </td>
-              <td style={styles.tableCellCenter}>
-                12 rue Jean l'Aveugle, L-1148 Luxembourg
-              </td>
-              <td style={styles.tableCellCenter}>13/07/2006</td>
-              <td style={styles.tableCellCenter}>0956321</td>
-              <td style={styles.tableCellCenter}>sabrine.abaa heloooo</td>
-              <td colspan="8" style={styles.tableCellCenter}>
-                Non inscrit
-              </td>
-            </tr>
-            <tr>
-              <td colspan="8" style={styles.tableCellCenter}>
-                ABAAB Sabrine
-              </td>
-              <td style={styles.tableCellCenter}>
-                16 rue Notre Dame, L-2240 Luxembourg
-              </td>
-              <td style={styles.tableCellCenter}>01/06/2017</td>
-              <td style={styles.tableCellCenter}>7896523</td>
-              <td style={styles.tableCellCenter}>sabrine.abaaa aaaaaaaaaa</td>
-              <td colspan="8" style={styles.tableCellCenter}>
-                Inscrit
-              </td>
-            </tr>
+            {collaborateurs.map((collaborateur, index) => (
+              <tr key={index}>
+                <td colSpan="8" style={styles.tableCellCenter}>
+                  {`${collaborateur.nom} ${collaborateur.prenom}`}
+                </td>
+                <td style={styles.tableCellCenter}>
+                  {collaborateur.adresseEtude || ""}
+                </td>
+                <td style={styles.tableCellCenter}>
+                  {formatDate(collaborateur.dateAssermentation)}
+                </td>
+                <td style={styles.tableCellCenter}>
+                  {collaborateur.telephone || ""}
+                </td>
+                <td style={styles.tableCellCenter}>
+                  {collaborateur.email || ""}
+                </td>
+                <td colSpan="8" style={styles.tableCellCenter}>
+                  {collaborateur.isInscrit ? "Inscrit" : "Non inscrit"}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
       <div style={styles.sectionDivider}></div>
-
+      {/* Jspa comment faire haha toi tu attends de l'aide j'ai pas de donnée pour toi */}
       <div style={{ marginBottom: "10px" }}>
         <p style={styles.subSectionTitle}>
           b) Société d'avocats (à remplir uniquement si le mandat lui a été
@@ -325,14 +328,26 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style={styles.tableCellCenter}>valeur</td>
-              <td style={styles.tableCellCenter}>valeur</td>
-              <td style={styles.tableCellCenter}>valeur</td>
-              <td style={styles.tableCellCenter}>valeur</td>
-              <td style={styles.tableCellCenter}>valeur</td>
-              <td style={styles.tableCellCenter}>valeur</td>
-            </tr>
+            {clients.map((client) => (
+              <tr key={client.id}>
+                <td style={styles.tableCellCenter}>{client.selectedOption}</td>
+                <td style={styles.tableCellCenter}>
+                  {client.denomination || ""}
+                </td>
+                <td
+                  style={styles.tableCellCenter}
+                >{`${client.name} ${client.prenom}`}</td>
+                <td style={styles.tableCellCenter}>
+                  {`${client.numVoie || ""} ${client.rue || ""}, ${
+                    client.cp || ""
+                  } ${client.localite || ""}, ${client.pays || ""}`}
+                </td>
+                <td style={styles.tableCellCenter}>
+                  {client.contactInfo || ""}
+                </td>
+                <td style={styles.tableCellCenter}>{client.email || ""}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -344,30 +359,34 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
           <tbody>
             <tr>
               <td style={styles.tableCellBold}>Domaine(s) juridique(s)</td>
-              <td style={styles.tableCell}>Valeur DJ</td>
+              <td style={styles.tableCell}>
+                {formulaire?.sDomaineJuridique || ""}
+              </td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}>Nom de l'affaire :</td>
-              <td style={styles.tableCell}>Valeur NA</td>
+              <td style={styles.tableCell}>{formulaire?.sNomAffaire || ""}</td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}> Date de début du mandat :</td>
-              <td style={styles.tableCell}>Valeur date debut mandat</td>
+              <td style={styles.tableCell}>
+                {formulaire?.sDateDebutMandat || ""}
+              </td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}>Date de fin du mandat:</td>
-              <td style={styles.tableCell}>date fin </td>
+              <td style={styles.tableCell}>
+                {formulaire?.sDateFinMandat || ""}{" "}
+              </td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}>
-                Une convention díhonoraires/lettre d'engagement a-t'elle été
+                Une convention d'honoraires/lettre d'engagement a-t'elle été
                 signée ? Si oui, quels en étaient les termes ? (merci de joindre
                 la convention díhonoraires au dossier de taxation).
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sTermesHonoraires || ""}
               </td>
             </tr>
             <tr>
@@ -377,9 +396,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 annoncé au client ?
               </td>
               <td style={styles.tableCell}>
-                En líabsence de convention díhonoraires/lettre díengagement en
-                bonne et due forme, un budget ou un taux horaire a-t'il ÈtÈ
-                annoncÈ au client ?
+                {formulaire?.sAbsenceTermes || ""}
               </td>
             </tr>
             <tr>
@@ -387,9 +404,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Affaire(s) en cours ? (si oui, préciser l'état d'avancement)
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sEtatAvancement || ""}
               </td>
             </tr>
             <tr>
@@ -397,9 +412,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Date de la contestation d'honoraires :
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sDateContestation || ""}
               </td>
             </tr>
 
@@ -409,9 +422,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 contestée(s) :{" "}
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sTermesHonoraires || ""}
               </td>
             </tr>
             <tr>
@@ -419,9 +430,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Date, référence et montant TTC de la/des note(s) de provision{" "}
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sTermesHonoraires || ""}
               </td>
             </tr>
 
@@ -432,9 +441,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 :{" "}
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sTermesHonoraires || ""}
               </td>
             </tr>
             <tr>
@@ -442,9 +449,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Proposition de conciliation concernant les honoraires :{" "}
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sConciliation || ""}
               </td>
             </tr>
 
@@ -454,9 +459,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 été introduite ?{" "}
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sProcedureRelative || ""}
               </td>
             </tr>
             <tr>
@@ -464,9 +467,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
                 Des mesures conservatoires ont-elles été introduites ?
               </td>
               <td style={styles.tableCell}>
-                Une convention díhonoraires/lettre díengagement a-t'elle ÈtÈ
-                signÈe ? Si oui, quels en Ètaient les termes ? (merci de joindre
-                la convention díhonoraires au dossier de taxation).
+                {formulaire?.sMesureConservatoire || ""}
               </td>
             </tr>
 
@@ -474,15 +475,13 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
               <td style={styles.tableCellBold}>
                 Une médiation est-elle en cours ?
               </td>
-              <td style={styles.tableCell}>
-                Une convention d'honoraires/lettre d'engagement a-t'elle été
-                signée ? Si oui, quels en étaient les termes ? (merci de joindre
-                la convention d'honoraires au dossier de taxation).
-              </td>
+              <td style={styles.tableCell}>{formulaire?.sMediation || ""}</td>
             </tr>
             <tr>
               <td style={styles.tableCellBold}>Si non, est-elle souhaitée ?</td>
-              <td style={styles.tableCell}>oui</td>
+              <td style={styles.tableCell}>
+                {formulaire?.sMediationChoix || ""}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -496,7 +495,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
         <p style={styles.editorTitle}>a) Description de l'affaire</p>
         <div>
           <p style={styles.editorHeader}>1) Mentionner les faits</p>
-          <div>Editor html Content</div>
+          <div>{formulaire?.sContenu1 || ""}</div>
         </div>
 
         <div>
@@ -509,7 +508,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             </p>
           </p>
 
-          <div>Editor html Content</div>
+          <div>{formulaire?.sConten2 || ""}</div>
         </div>
 
         <div>
@@ -522,7 +521,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             </p>
           </p>
 
-          <div>Editor html Content</div>
+          <div>{formulaire?.sContenu3 || ""}</div>
         </div>
         <div>
           <p style={styles.editorHeader}>
@@ -534,7 +533,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             </p>
           </p>
 
-          <div>Editor html Content</div>
+          <div>{formulaire?.sContenu4 || ""}</div>
         </div>
         <div>
           <p style={styles.editorHeader}>
@@ -545,7 +544,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             </p>
           </p>
 
-          <div>Editor html Content</div>
+          <div>{formulaire?.sContenu5 || ""}</div>
         </div>
         <div>
           <p style={styles.editorTitle}>b)Le travail effectué</p>
@@ -557,7 +556,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             ainsi que le total des honoraires)
           </p>
 
-          <div>Editor html Content</div>
+          <div>{formulaire?.sContenu6 || ""}</div>
         </div>
       </div>
 
@@ -570,7 +569,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             <span style={{ fontWeight: "bold", marginRight: "10px" }}>
               Date
             </span>
-            : date
+            : {noteHonoraire.date || ""}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span
               style={{
@@ -581,124 +580,126 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             >
               Référence:
             </span>{" "}
-            ref
+            {noteHonoraire.reference || ""}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style={{ fontWeight: "bold", marginLeft: "10px" }}>
               Montant TTC
             </span>{" "}
-            12.00
+            {noteHonoraire.totalHonoraireTTC || ""}
           </p>
         </div>
-        <table style={styles.table}>
-          <tbody>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Nombre d'heures facturées:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12h00mn
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Taux horaires HTVA facturés:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12.00
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                {" "}
-                Total des honoriares HTVA facturés:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                Valeur
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Total des frais de constitution de dossier et des frais de
-                bureau HTVA facturés:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Total des honoraires et frais de dossiers HTVA:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Taux TVA:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Montant de la TVA (honoraires et frais compris):
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Total des honoraires TTC:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Frais huissiers, d'expertise, de traduction, de RCS... (TTC):
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Total des provisions TTC payées:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Remise / note de crédit:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Total de la note d'honoraires TTC:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Total du montant restant dû TTC:
-              </td>
-              <td colspan="15" style={styles.tableCell}>
-                12
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        {noteHonoraire.map((note, index) => (
+          <table key={note.id} style={styles.table}>
+            <tbody>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Nombre d'heures facturées:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.hours}h{note.minutes}mn
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Taux horaires HTVA facturés:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.tauxHorairesfacturés}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total des honoraires HTVA facturés:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.totalHonoraireHTVA}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total des frais de constitution de dossier et des frais de
+                  bureau HTVA facturés:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.fraisConstitutionDossier}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total des honoraires et frais de dossiers HTVA:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.totalHonoraireFraisDossier}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Taux TVA:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.tauxTVA}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Montant de la TVA (honoraires et frais compris):
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.montantTVA}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total des honoraires TTC:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.noteTTC}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Frais huissiers, d'expertise, de traduction, de RCS... (TTC):
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.totalHonoraireFraisDossier}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total des provisions TTC payées:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.provisionTTC}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Remise / note de crédit:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.remise}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total de la note d'honoraires TTC:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.noteTTC}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="28" style={styles.tableCellBold}>
+                  Total du montant restant dû TTC:
+                </td>
+                <td colSpan="15" style={styles.tableCell}>
+                  {note.restantDu}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        ))}
+
         <p style={{ fontSize: "13px", marginLeft: "10px" }}>
           <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
             Observation particulières:
@@ -706,7 +707,7 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
           (prise en charge totale ou partielle par un tiers/assurance protection
           juridique du client,...)
         </p>
-        <div>Valeur de html editor observation</div>
+        <div>{formulaire?.sObservations || ""}</div>
       </div>
       <div>
         <p
@@ -735,10 +736,8 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
           protection juridique du client,…)
         </p>
 
-        <div>
-          Valeur du contenu de l'editeur de texte HTML sur la prise de position
-          de l'avocat
-        </div>
+
+        <div>{formulaire?.sPositionAvocat || ""}</div>
       </div>
 
       <div>
@@ -750,14 +749,15 @@ const FormulaireDeTaxationPDF = ({idFormulaire}) => {
             marginTop: "20px",
           }}
         >
+          {" "}
           Fichier(s) importé(s)
         </p>
         <ul>
-          <li>Liste des fichiers uploader</li>
+          <li>{formulaire?.sFichiersJoints || ""}</li>
         </ul>
       </div>
 
-      <div style={{ textAlign: "end" }}>Date aujourd'hui</div>
+      <div style={{ textAlign: "end" }}>{formulaire?.sSubmited_at || ""}</div>
     </div>
   );
 };
