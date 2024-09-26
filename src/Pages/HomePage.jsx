@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAvocatInfo, fetchEtudeInfo } from '../Store/AvocatSlice';
-import Navbar from '../Components/Navbar';
-import Welcome from '../Components/Homepage/Accueil/Welcome';
-import Accueil from '../Components/Homepage/Accueil/Accueil';
-import { useAuth } from '../Hooks/AuthContext';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAvocatInfo, fetchEtudeInfo } from "../Store/AvocatSlice";
+import Navbar from "../Components/Navbar";
+import Welcome from "../Components/Homepage/Accueil/Welcome";
+import Accueil from "../Components/Homepage/Accueil/Accueil";
+import { useAuth } from "../Hooks/AuthContext";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const HomePage = () => {
     if (user?.email) {
       dispatch(fetchAvocatInfo(`'${user.email}'`));
     } else {
-      console.log('User or User Email is not available.');
+      console.log("User or User Email is not available.");
     }
   }, [dispatch, user]);
 
@@ -28,7 +28,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Welcome avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
       <Accueil avocatInfo={avocatInfo} etudeInfo={etudeInfo} />
     </div>

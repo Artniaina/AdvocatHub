@@ -13,13 +13,20 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfmake from "html-to-pdfmake";
 import { useAuth } from "../../Hooks/AuthContext";
+import { useNavigation } from "../../Hooks/NavigationListenerContext";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
-  const navigate= useNavigate()
-  const location= useLocation()
   const { user } = useAuth();
+  // const { submitDraftData } = useNavigation();
+  const location = useLocation();
+  const {draftData, setDraftData} = useNavigation();
+  const {updateJsonData} = useNavigation();
+
+
+  const navigate = useNavigate();
+
   const {
     formData,
     editorContents,
@@ -61,6 +68,45 @@ const UploadFile = () => {
     }
     return true;
   };
+  const currentDate = new Date().toISOString();
+
+  const jsonToSend = {
+    sEmailUtilisateur: user.email,
+    sDomaineJuridique: formData.domaine.join(","),
+    sNomAffaire: formData.nomAffaire,
+    sTermesHonoraires: formData.termesHonoraires,
+    sAbsenceTermes: formData.absenceTerm,
+    sDateContestation: formData.datecontest,
+    sDateDebutMandat: formData.dateDebut,
+    sDateFinMandat: formData.dateFin,
+    sEtatAvancement: formData.etatAvancement,
+    sMesureConservatoire: formData.conserv,
+    sMediation: formData.mediation,
+    sMediationChox: formData.mediationChoix,
+    sConciliation: formData.conciliation,
+    sProcedureRelative: formData.relative,
+    sObservations: editorContents.observation,
+    sPositionAvocat: editorContents.position,
+    sContenu1: editorContents.c1,
+    sContenu2: editorContents.c2,
+    sContenu3: editorContents.c3,
+    sContenu4: editorContents.c4,
+    sContenu5: editorContents.c5,
+    sContenu6: editorContents.c6,
+    sMontant: montantData,
+    sNoteHonoraire: noteHonoraire,
+    sHonoraireData: honoraireData,
+    sProvision: provisionData,
+    sPrestataireData: prestataires,
+    sCollaboratorsData: selectedAvocats,
+    sAvocatsData: avocatsData,
+    sClientsData: clientData,
+    sSubmited_at: currentDate,
+  };
+
+  useEffect(() => {
+    updateJsonData(jsonToSend);
+  }, [jsonToSend, updateJsonData]);
 
   const submitFormData = async () => {
     if (!validateFormData()) {
@@ -129,7 +175,7 @@ const UploadFile = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
     ).innerHTML;
-    
+
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
       const docDefinition = { content: pdfDoc };
@@ -138,25 +184,6 @@ const UploadFile = () => {
       console.error("Erreur lors de la génération du PDF:", error);
     }
   };
-
-// Does nt detect when i change path , fix
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     submitFormData(); 
-  //     console.log("changement de route");
-  //   };
-
-  //   return navigate(() => {
-  //     handleRouteChange();
-  //     console.log("changement de route");
-
-  //   });
-  // }, [formData, navigate, location]);
-
-  
-  useEffect(() => {
-    console.log('Location changed');
-  }, [location]);
 
   const handleRemoveFile = (index) => {
     setFileInfos((prevFileInfos) =>
@@ -168,7 +195,7 @@ const UploadFile = () => {
     setShowPopup(false);
   };
 
-  
+
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const newFileInfos = files.map((file) => ({
