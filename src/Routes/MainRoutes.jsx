@@ -78,13 +78,12 @@ function PageTitleUpdater() {
 
     document.title = pageTitle;
   }, [location]);
-
   return null;
 }
 
 function MainRoutes() {
   return (
-    <Router>
+    <>
       <PageTitleUpdater />
       <Routes>
         //SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED
@@ -117,7 +116,7 @@ function MainRoutes() {
           <Route path="/home/ListeFormulaire" element={<ListeFormulairePage />} />
         </Route>
       </Routes>
-    </Router>
+      </>
   );
 }
 export default MainRoutes;

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
 import Image from "../../assets/icons8-fichier-67.png";
@@ -16,11 +17,11 @@ import { useAuth } from "../../Hooks/AuthContext";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
+  const navigate= useNavigate()
+  const location= useLocation()
   const { user } = useAuth();
   const {
     formData,
-    editorContentObservation,
-    editorContentPosition,
     editorContents,
     montantData,
     noteHonoraire,
@@ -94,12 +95,12 @@ const UploadFile = () => {
       sHonoraireData: honoraireData,
       sProvision: provisionData,
       sPrestataireData: prestataires,
-      sCollaboratorsData:selectedAvocats,
+      sCollaboratorsData: selectedAvocats,
       sAvocatsData: avocatsData,
       sClientsData: clientData,
       sSubmited_at: currentDate,
     };
- 
+
     try {
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/DossierTaxation",
@@ -128,7 +129,7 @@ const UploadFile = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
     ).innerHTML;
-
+    
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
       const docDefinition = { content: pdfDoc };
@@ -138,6 +139,36 @@ const UploadFile = () => {
     }
   };
 
+// Does nt detect when i change path , fix
+  // useEffect(() => {
+  //   const handleRouteChange = () => {
+  //     submitFormData(); 
+  //     console.log("changement de route");
+  //   };
+
+  //   return navigate(() => {
+  //     handleRouteChange();
+  //     console.log("changement de route");
+
+  //   });
+  // }, [formData, navigate, location]);
+
+  
+  useEffect(() => {
+    console.log('Location changed');
+  }, [location]);
+
+  const handleRemoveFile = (index) => {
+    setFileInfos((prevFileInfos) =>
+      prevFileInfos.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
+  
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const newFileInfos = files.map((file) => ({
@@ -147,18 +178,10 @@ const UploadFile = () => {
     setFileInfos((prevFileInfos) => [...prevFileInfos, ...newFileInfos]);
   };
 
-  const handleRemoveFile = (index) => {
-    setFileInfos((prevFileInfos) =>
-      prevFileInfos.filter((_, i) => i !== index)
-    );
-  };
-
   const triggerFileUpload = () => {
     document.getElementById("file-upload").click();
   };
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
+
   return (
     <>
       <div>

@@ -257,7 +257,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
       </div>
 
       <div style={styles.sectionDivider}></div>
-      {/* Jspa comment faire haha toi tu attends de l'aide j'ai pas de donnée pour toi */}
       <div style={{ marginBottom: "10px" }}>
         <p style={styles.subSectionTitle}>
           b) Société d'avocats (à remplir uniquement si le mandat lui a été
@@ -457,6 +456,7 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
               <td style={styles.tableCellBold}>
                 Une procédure relative au recouvrement des honoraires a-t'elle
                 été introduite ?{" "}
+                
               </td>
               <td style={styles.tableCell}>
                 {formulaire?.sProcedureRelative || ""}
@@ -563,13 +563,14 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
       <div>
         <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           3. HONORAIRES
-        </p>
+        </p>        {noteHonoraire.map((note, index) => (
+
         <div>
           <p>
             <span style={{ fontWeight: "bold", marginRight: "10px" }}>
               Date
             </span>
-            : {noteHonoraire.date || ""}
+            : {note.date || ""}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span
               style={{
@@ -580,15 +581,13 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
             >
               Référence:
             </span>{" "}
-            {noteHonoraire.reference || ""}
+            {note.reference || ""}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style={{ fontWeight: "bold", marginLeft: "10px" }}>
               Montant TTC
             </span>{" "}
-            {noteHonoraire.totalHonoraireTTC || ""}
+            {note.totalHonoraireTTC || ""}
           </p>
-        </div>
-        {noteHonoraire.map((note, index) => (
           <table key={note.id} style={styles.table}>
             <tbody>
               <tr>
@@ -698,6 +697,7 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
               </tr>
             </tbody>
           </table>
+        </div>
         ))}
 
         <p style={{ fontSize: "13px", marginLeft: "10px" }}>

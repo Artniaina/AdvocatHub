@@ -37,7 +37,6 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
       console.log('User or User Email is not available.');
     }
   }, [dispatch, user]);
-console.log("Avocat", avocatInfo);
 
 ////////////////////////////////////DISPENSE ASSISTANCE JUDICIAIRE////////////////////////////////////
   const activites =
@@ -367,12 +366,6 @@ console.log("Avocat", avocatInfo);
       m_tableauLangue: selectedLanguages,
       m_tableauActivPref: selectedActivities,
     };
-
-    console.log(
-      "Données envoyées pour la modification:",
-      JSON.stringify(dataToSend)
-    );
-
     const IdAvocat = avocatInfo && avocatInfo.m_nIDAvocat_PP;
 
     try {
@@ -446,18 +439,14 @@ console.log("Avocat", avocatInfo);
   );
 
   useEffect(() => {
-    console.log("initialState:", initialState);
-    console.log("currentState:", currentState);
     const isDisabled = ObjectComparison(initialState, currentState);
     setIsButtonDisabled(isDisabled);
   }, [initialState, currentState]);
 
   const handleValidPopup = (e) => {
     if (isButtonDisabled) {
-      console.log("Pas de changement sur les donnees");
       setIsButtonDisabled(true);
     } else {
-      console.log("Changement sur les donnees");
       handleSubmitAllChangeform(e, "valider");
       setShowValiderPopUp(true);
       setIsButtonDisabled(false);
@@ -469,11 +458,9 @@ console.log("Avocat", avocatInfo);
   const handleAnnuleClick = (e) => {
     if (ObjectComparison(initialState, currentState)) {
       navigate("/home");
-      console.log("Pas de changement sur les donnees");
     } else {
       setShowAnnulePopup(true);
       handleSubmitAllChangeform(e, "annuler");
-      console.log("Changement sur les donnees");
     }
   };
 

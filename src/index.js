@@ -5,17 +5,24 @@ import { Provider } from "react-redux";
 import store from "./Store/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { AuthProvider } from './Hooks/AuthContext';
+import { AuthProvider } from "./Hooks/AuthContext";
 import { GeneraliteProvider } from "./Hooks/GeneraliteContext";
+
+import { BrowserRouter as Router } from 'react-router-dom';
+import { NavigationProvider } from "./Hooks/NavigationListenerContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <AuthProvider>
-    <GeneraliteProvider>
-        <App />
-      </GeneraliteProvider>
-    </AuthProvider>
+    <Router> 
+      <AuthProvider>
+        <GeneraliteProvider>
+          <NavigationProvider>
+            <App />
+          </NavigationProvider>
+        </GeneraliteProvider>
+      </AuthProvider>
+    </Router>
   </Provider>
 );
 
