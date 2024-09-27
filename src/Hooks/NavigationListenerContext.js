@@ -12,27 +12,20 @@ export const NavigationProvider = ({ children }) => {
   const [wasFormTaxation, setWasFormTaxation] = useState(false);
   const [prevLocation, setPrevLocation] = useState(location.pathname);
   const [draftData, setDraftData] = useState({});
-  const [draftDatareset, setDraftDatareset] = useState({});
 
   const updateJsonData = (data) => {
     setDraftData(data);
   };
   useEffect(() => {
-    const executeFunctions = async () => {
-        if (
-            location.pathname !== "/home/formTaxation" &&
-            prevLocation === "/home/formTaxation" &&
-            location.pathname !== "/home/ListeFormulaire"
-        ) {
-            await submitDraftData(draftData); 
-            
-        }
-        setPrevLocation(location.pathname);
-    };
-
-    executeFunctions(); 
-}, [location, draftData, prevLocation]);
-
+    if (
+      location.pathname !== "/home/formTaxation" &&
+      prevLocation === "/home/formTaxation" &&
+      location.pathname !== "/home/ListeFormulaire"
+    ) {
+      submitDraftData(draftData);
+    }
+    setPrevLocation(location.pathname);
+  }, [location, draftData, prevLocation]);
 
   const submitDraftData = async (params) => {
     if (!params || Object.keys(params).length === 0) {
@@ -62,7 +55,6 @@ export const NavigationProvider = ({ children }) => {
       console.error("Error while submitting form:", error);
     }
   };
-
 
   return (
     <NavigationContext.Provider

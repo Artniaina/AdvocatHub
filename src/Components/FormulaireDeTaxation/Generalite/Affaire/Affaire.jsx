@@ -14,18 +14,8 @@ const Affaire = () => {
   const { provisionData, setProvisionData } = useGeneraliteContext();
   const { montantData, setMontantData } = useGeneraliteContext();
   const { formData, setFormData } = useGeneraliteContext();
-  const [showOptions, setShowOptions] = useState({
-    affaire: "non",
-    honoraires: "non",
-    notes: "non",
-    termesHonoraires: "non",
-    etatAvancement: "non",
-    conciliation: "non",
-    relative: "non",
-    conserv: "non",
-    mediation: "non",
-    mediationChoix: "non",
-  });
+  const {showOptions, setShowOptions} = useGeneraliteContext();
+  
 
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -46,6 +36,7 @@ const Affaire = () => {
       honoraire: honoraireData,
       provision: provisionData,
       montant: montantData,
+
     }));
   }, [selectedDomains, honoraireData, provisionData, montantData]);
 
@@ -76,15 +67,47 @@ const Affaire = () => {
 
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
+  
+    setFormData((prevState) => {
+      const updatedFormData = {
+        ...prevState,
+        [field]: value === "non" ? "non" : prevState[field] || "oui",
+      };
+      console.log("Updated formData:", updatedFormData); 
+      return updatedFormData;
+    });
+  
+  };
+  
+  useEffect(() => {
+    const updatedFormData = {};
+    Object.keys(showOptions).forEach((field) => {
+      if (showOptions[field] === "non") {
+        updatedFormData[field] = "non";
+      }
+    });
+  
     setFormData((prevState) => ({
       ...prevState,
-      [field]: value === "non" ? "" : prevState[field],
+      ...updatedFormData,
     }));
-    if (field === "notes" && value === "non") {
-      setMontantData([]);
-      setSelectedComment("");
-    }
-  };
+  }, [showOptions]);
+  
+  
+  useEffect(() => {
+    const updatedFormData = {};
+    Object.keys(showOptions).forEach((field) => {
+      if (showOptions[field] === "non") {
+        updatedFormData[field] = "non";
+      }
+    });
+  
+    setFormData((prevState) => ({
+      ...prevState,
+      ...updatedFormData,
+    }));
+  }, [showOptions]);
+  
 
   const isDisabled = (field) => showOptions[field] === "non";
 
@@ -609,15 +632,19 @@ const Affaire = () => {
       </div>
 
       <div className="formGroupbtn">
-        <div className="toggleButtons">
-          <p>Si non, est-elle souhaitée ?</p>
-          <ToggleButton
-            name="mediationChoix"
-            checkedValue={showOptions.mediationChoix}
-            onChange={(value) => handleToggle("mediationChoix", value)}
-          />
-        </div>
-      </div>
+  <div className="toggleButtons">
+    <p>Si non, est-elle souhaitée ?</p>
+    <ToggleButton
+      name="mediationChoix"
+      checkedValue={showOptions.mediationChoix}
+      onChange={(value) => {
+        
+        handleToggle("mediationChoix", value);
+      }}
+    />
+  </div>
+</div>
+
     </div>
   );
 };

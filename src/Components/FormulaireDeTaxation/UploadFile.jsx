@@ -31,12 +31,19 @@ const UploadFile = () => {
     prestataires,
     selectedAvocats,
     avocatsData,
+    showOptions,
     provisionData,
     clientData,
   } = useGeneraliteContext();
   const { fileInfos, setFileInfos } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [fieldName, setFieldName] = useState("");
+
+  const filesMap = fileInfos.map((file) => ({
+    name: file.name,
+    size: (file.size / 1024).toFixed(2),
+  }));
+  const filesName = filesMap.map((file) => file.name);
 
   const validateFormData = () => {
     const requiredFields = [
@@ -66,7 +73,6 @@ const UploadFile = () => {
   };
 
   const currentDate = new Date().toISOString();
-
   const jsonToSend = useMemo(() => ({
     sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user.email,
@@ -80,7 +86,7 @@ const UploadFile = () => {
     sEtatAvancement: formData.etatAvancement,
     sMesureConservatoire: formData.conserv,
     sMediation: formData.mediation,
-    sMediationChox: formData.mediationChoix,
+    sMediationChoix: showOptions.mediationChoix,
     sConciliation: formData.conciliation,
     sProcedureRelative: formData.relative,
     sObservations: editorContents.observation,
@@ -122,6 +128,7 @@ const UploadFile = () => {
           body: JSON.stringify({
             ...jsonToSend,
             sStatutFormulaire: "transmis",
+            sFichiersJoints :filesName.join(","),
           }),
         }
       );
@@ -267,7 +274,7 @@ const UploadFile = () => {
         </div>
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
-        <FormulaireDeTaxationPDF idFormulaire={27} />
+        <FormulaireDeTaxationPDF idFormulaire={118} />
       </div>
     </>
   );
