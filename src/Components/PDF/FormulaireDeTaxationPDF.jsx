@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFormulaireById } from "../../Store/TaxationFormSlice";
-import { useAuth } from "../../Hooks/AuthContext";
 
 const styles = {
   container: {
@@ -122,7 +121,7 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
   const noteHonoraire = formulaire?.sNoteHonoraire || [];
   // console.log("form ho anle pdf:",noteHonoraire);
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString) => { 
     if (!dateString) return "";
     const year = dateString.slice(0, 4);
     const month = dateString.slice(4, 6);

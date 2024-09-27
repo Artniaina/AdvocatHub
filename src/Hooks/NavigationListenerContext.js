@@ -12,24 +12,34 @@ export const NavigationProvider = ({ children }) => {
   const [wasFormTaxation, setWasFormTaxation] = useState(false);
   const [prevLocation, setPrevLocation] = useState(location.pathname);
   const [draftData, setDraftData] = useState({});
+  const [draftDatareset, setDraftDatareset] = useState({});
 
   const updateJsonData = (data) => {
     setDraftData(data);
   };
-
   useEffect(() => {
-    if (
-      location.pathname !== "/home/formTaxation" &&
-      prevLocation === "/home/formTaxation" &&
-      location.pathname !== "/home/ListeFormulaire"
-    ) {
-      submitDraftData(draftData);
-    } else {
-    }
-    setPrevLocation(location.pathname);
-  }, [location]);
+    const executeFunctions = async () => {
+        if (
+            location.pathname !== "/home/formTaxation" &&
+            prevLocation === "/home/formTaxation" &&
+            location.pathname !== "/home/ListeFormulaire"
+        ) {
+            await submitDraftData(draftData); 
+            
+        }
+        setPrevLocation(location.pathname);
+    };
+
+    executeFunctions(); 
+}, [location, draftData, prevLocation]);
+
 
   const submitDraftData = async (params) => {
+    if (!params || Object.keys(params).length === 0) {
+      console.error("No data provided to submitDraftData.");
+      return;
+    }
+
     try {
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/DossierTaxation",
@@ -41,6 +51,7 @@ export const NavigationProvider = ({ children }) => {
           body: JSON.stringify(params),
         }
       );
+
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
@@ -50,15 +61,13 @@ export const NavigationProvider = ({ children }) => {
     } catch (error) {
       console.error("Error while submitting form:", error);
     }
-    if (!params) {
-      console.error("No data provided to submitDraftData.");
-      return;
-    }
   };
+
+
   return (
     <NavigationContext.Provider
       value={{
-        wasFormTaxation: wasFormTaxation,
+        wasFormTaxation,
         prevLocation,
         setPrevLocation,
         submitDraftData,

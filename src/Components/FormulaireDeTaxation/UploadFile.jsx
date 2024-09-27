@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
 import Image from "../../assets/icons8-fichier-67.png";
@@ -18,9 +18,10 @@ import { useNavigation } from "../../Hooks/NavigationListenerContext";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
+  const location = useLocation();
   const { user } = useAuth();
-  const {updateJsonData} = useNavigation();
-
+  const { updateJsonData } = useNavigation();
+  const { resetAllData } = useGeneraliteContext();
   const {
     formData,
     editorContents,
@@ -36,6 +37,7 @@ const UploadFile = () => {
   const { fileInfos, setFileInfos } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [fieldName, setFieldName] = useState("");
+
   const validateFormData = () => {
     const requiredFields = [
       // { value: montantData, name: "montant" },
@@ -62,10 +64,11 @@ const UploadFile = () => {
     }
     return true;
   };
+
   const currentDate = new Date().toISOString();
 
-  const jsonToSend = {
-    sStatutFormulaire:"non transmis",
+  const jsonToSend = useMemo(() => ({
+    sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user.email,
     sDomaineJuridique: formData.domaine.join(","),
     sNomAffaire: formData.nomAffaire,
@@ -97,7 +100,7 @@ const UploadFile = () => {
     sAvocatsData: avocatsData,
     sClientsData: clientData,
     sSubmited_at: currentDate,
-  };
+  }), [user.email, formData, editorContents, montantData, noteHonoraire, honoraireData, provisionData, prestataires, selectedAvocats, avocatsData, clientData, currentDate]);
 
   useEffect(() => {
     updateJsonData(jsonToSend);
@@ -107,41 +110,6 @@ const UploadFile = () => {
     if (!validateFormData()) {
       return;
     }
-    const currentDate = new Date().toISOString();
-    const jsonToSend = {
-      sStatutFormulaire:"transmis",
-      sEmailUtilisateur: user.email,
-      sDomaineJuridique: formData.domaine.join(","),
-      sNomAffaire: formData.nomAffaire,
-      sTermesHonoraires: formData.termesHonoraires,
-      sAbsenceTermes: formData.absenceTerm,
-      sDateContestation: formData.datecontest,
-      sDateDebutMandat: formData.dateDebut,
-      sDateFinMandat: formData.dateFin,
-      sEtatAvancement: formData.etatAvancement,
-      sMesureConservatoire: formData.conserv,
-      sMediation: formData.mediation,
-      sMediationChox: formData.mediationChoix,
-      sConciliation: formData.conciliation,
-      sProcedureRelative: formData.relative,
-      sObservations: editorContents.observation,
-      sPositionAvocat: editorContents.position,
-      sContenu1: editorContents.c1,
-      sContenu2: editorContents.c2,
-      sContenu3: editorContents.c3,
-      sContenu4: editorContents.c4,
-      sContenu5: editorContents.c5,
-      sContenu6: editorContents.c6,
-      sMontant: montantData,
-      sNoteHonoraire: noteHonoraire,
-      sHonoraireData: honoraireData,
-      sProvision: provisionData,
-      sPrestataireData: prestataires,
-      sCollaboratorsData: selectedAvocats,
-      sAvocatsData: avocatsData,
-      sClientsData: clientData,
-      sSubmited_at: currentDate,
-    };
 
     try {
       const response = await fetch(
@@ -151,26 +119,27 @@ const UploadFile = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(jsonToSend),
+          body: JSON.stringify({
+            ...jsonToSend,
+            sStatutFormulaire: "transmis",
+          }),
         }
       );
 
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
+        resetAllData();
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
     } catch (error) {
       console.error("Error while submitting form:", error);
     }
-    console.log(jsonToSend);
   };
 
   const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById(
-      "taxation-form-content"
-    ).innerHTML;
+    const htmlContent = document.getElementById("taxation-form-content").innerHTML;
 
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
@@ -190,7 +159,6 @@ const UploadFile = () => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);

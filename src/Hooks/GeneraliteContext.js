@@ -15,13 +15,13 @@ export const GeneraliteProvider = ({ children }) => {
   const [avocatsData, setAvocatsData] = useState([
     {
       nom: "",
-      prenom:"",
-      setude:"",
-      adresseEtude:"",
-      telephone:"",
-      email:"",
-      dateAssermentation:"",
-      isSocieteChecked:"",
+      prenom: "",
+      setude: "",
+      adresseEtude: "",
+      telephone: "",
+      email: "",
+      dateAssermentation: "",
+      isSocieteChecked: "",
     },
   ]);
 
@@ -45,8 +45,8 @@ export const GeneraliteProvider = ({ children }) => {
   });
 
   const [editorContents, setEditorContents] = useState({
-    observation:"",
-    position:"",
+    observation: "",
+    position: "",
     c1: "",
     c2: "",
     c3: "",
@@ -54,6 +54,58 @@ export const GeneraliteProvider = ({ children }) => {
     c5: "",
     c6: "",
   });
+
+  const resetClientData = () => setClientData([]);
+  const resetSelectedAvocats = () => setSelectedAvocats([]);
+  const resetPrestataires = () => setPrestataires([]);
+  const resetSelectedDomains = () => setSelectedDomains([]);
+  const resetMontantData = () => setMontantData([]);
+  const resetHonoraireData = () => setHonoraireData([]);
+  const resetProvisionData = () => setProvisionData([]);
+  const resetNoteHonoraire = () => setNoteHonoraire([]);
+  const resetFileInfos = () => setFileInfos("");
+  const resetFormData = () => setFormData({
+    domaine: [],
+    honoraire: [],
+    provision: [],
+    montant: [],
+    nomAffaire: "",
+    termesHonoraires: "",
+    absenceTerm: "",
+    datecontest: "",
+    dateDebut: "",
+    dateFin: "",
+    etatAvancement: "",
+    conserv: "",
+    mediation: "",
+    relative: "",
+    conciliation: "",
+    mediationChoix: "non",
+  });
+  const resetEditorContents = () => setEditorContents({
+    observation: "",
+    position: "",
+    c1: "",
+    c2: "",
+    c3: "",
+    c4: "",
+    c5: "",
+    c6: "",
+  });
+
+  const resetAllData = () => {
+    resetClientData();
+    resetSelectedAvocats();
+    resetPrestataires();
+    resetSelectedDomains();
+    resetMontantData();
+    resetHonoraireData();
+    resetProvisionData();
+    resetNoteHonoraire();
+    resetFileInfos();
+    resetFormData();
+    resetEditorContents();
+  };
 
   return (
     <GeneraliteContext.Provider
@@ -82,6 +134,7 @@ export const GeneraliteProvider = ({ children }) => {
         setFileInfos,
         formData,
         setFormData,
+        resetAllData,
       }}
     >
       {children}
