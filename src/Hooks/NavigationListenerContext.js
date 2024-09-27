@@ -11,20 +11,23 @@ export const NavigationProvider = ({ children }) => {
   const location = useLocation();
   const [wasFormTaxation, setWasFormTaxation] = useState(false);
   const [prevLocation, setPrevLocation] = useState(location.pathname);
-  const [draftData, setDraftData]=useState({})
+  const [draftData, setDraftData] = useState({});
 
-const updateJsonData = (data) => {
-  setDraftData(data);
-};
+  const updateJsonData = (data) => {
+    setDraftData(data);
+  };
 
-useEffect(() => {
-  if (location.pathname !== "/home/formTaxation" && prevLocation === "/home/formTaxation" ) {
-    submitDraftData(draftData)
+  useEffect(() => {
+    if (
+      location.pathname !== "/home/formTaxation" &&
+      prevLocation === "/home/formTaxation" &&
+      location.pathname !== "/home/ListeFormulaire"
+    ) {
+      submitDraftData(draftData);
     } else {
-  }
-  setPrevLocation(location.pathname);
-}, [location]);
-
+    }
+    setPrevLocation(location.pathname);
+  }, [location]);
 
   const submitDraftData = async (params) => {
     try {
@@ -59,7 +62,9 @@ useEffect(() => {
         prevLocation,
         setPrevLocation,
         submitDraftData,
-        draftData, setDraftData,updateJsonData
+        draftData,
+        setDraftData,
+        updateJsonData,
       }}
     >
       {children}

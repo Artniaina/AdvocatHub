@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../Components/Navbar";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -7,37 +8,32 @@ import { PiNotePencil } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import "../Styles/TaxationForm/ListeForm.css"; 
 import { useAuth } from "../Hooks/AuthContext"; 
+import { fetchFormulaireByEmail } from "../Store/TaxationDraftListeSlice";
 
 const ListeFormulairePage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useAuth();
+  
+  const originalFormulaires = useSelector((state) => state.formulaireDraft.formulaireDraft);
+  const status = useSelector((state) => state.formulaireDraft.status);
+  const error = useSelector((state) => state.formulaireDraft.error);
+  
   const [formulaires, setFormulaires] = useState([]);
 
-  const fetchFormulaires = async () => {
-    try {
-      const response = await fetch(`http://192.168.10.10/Utilisateur/GetListFormulaire/${user.email}`, {
-        method: 'GET', 
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const data = await response.json();
-      if (!data || data.length === 0) {
-        console.log("Il n'y a pas de formulaires disponibles."); 
-        setFormulaires([]); 
-      } else {
-        setFormulaires(data); 
-      }
-    } catch (error) {
-      console.error("Error fetching formulaires:", error);
+  useEffect(() => {
+    if (user?.email) {
+      dispatch(fetchFormulaireByEmail(user.email));
+    } else {
+      console.log("User or User Email is not available.");
     }
-  };
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    setFormulaires(originalFormulaires);
+  }, [originalFormulaires]);
 
   const deleteFormulaire = async (idFormulaire) => {
-    setFormulaires((prevFormulaires) =>
-        prevFormulaires.filter((form) => form.sIDFormulaire !== idFormulaire)
-      );
-
     try {
       const response = await fetch(`http://192.168.10.10/Utilisateur/DeleteForm/${idFormulaire}`, {
         method: 'DELETE', 
@@ -45,20 +41,14 @@ const ListeFormulairePage = () => {
       if (!response.ok) {
         throw new Error('Failed to delete the form');
       }
+
       setFormulaires((prevFormulaires) =>
-        prevFormulaires.filter((form) => form.id !== idFormulaire)
+        prevFormulaires.filter((formulaire) => formulaire.sIDFormulaire !== idFormulaire)
       );
     } catch (error) {
       console.error('Error deleting formulaire:', error);
     }
-
-    fetchFormulaires();
   };
-
-  useEffect(() => {
-    fetchFormulaires();
-  }, []);
-
 
   const handleNavigateAddNew = () => {
     navigate("/home/formTaxation");
@@ -68,7 +58,13 @@ const ListeFormulairePage = () => {
     navigate("/home/UpdateformTaxation");
   };
 
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>

@@ -19,13 +19,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
   const { user } = useAuth();
-  // const { submitDraftData } = useNavigation();
-  const location = useLocation();
-  const {draftData, setDraftData} = useNavigation();
   const {updateJsonData} = useNavigation();
-
-
-  const navigate = useNavigate();
 
   const {
     formData,
@@ -71,6 +65,7 @@ const UploadFile = () => {
   const currentDate = new Date().toISOString();
 
   const jsonToSend = {
+    sStatutFormulaire:"non transmis",
     sEmailUtilisateur: user.email,
     sDomaineJuridique: formData.domaine.join(","),
     sNomAffaire: formData.nomAffaire,
@@ -114,6 +109,7 @@ const UploadFile = () => {
     }
     const currentDate = new Date().toISOString();
     const jsonToSend = {
+      sStatutFormulaire:"transmis",
       sEmailUtilisateur: user.email,
       sDomaineJuridique: formData.domaine.join(","),
       sNomAffaire: formData.nomAffaire,

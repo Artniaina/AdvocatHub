@@ -4,6 +4,7 @@ import activityReducer from "./ActivtesPreferentiellesSlice";
 import languesReducer from "./LanguagesSlice";
 import countryCodesReducer from "./countryCodesSlice";
 import formulaireReducer from "./TaxationFormSlice";
+import formulaireDraftReducer from "./TaxationDraftListeSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     activities: activityReducer,
     langues: languesReducer,
     formulaire: formulaireReducer,
+    formulaireDraft: formulaireDraftReducer,
   },
 });
 
