@@ -31,25 +31,45 @@ const ListeFormulairePage = () => {
 
   useEffect(() => {
     setFormulaires(originalFormulaires);
-  }, [originalFormulaires]);
+    if (!originalFormulaires || originalFormulaires.length === 0) {
+      navigate("/home/formTaxation");
+    }
+  }, [originalFormulaires, navigate]);
 
   const deleteFormulaire = async (idFormulaire) => {
     try {
       const response = await fetch(`http://192.168.10.10/Utilisateur/DeleteForm/${idFormulaire}`, {
-        method: 'DELETE', 
+        method: 'DELETE',
       });
-      if (!response.ok) {
+  
+      if (response.ok) {
+        if (response.status === 204) {
+          console.log(`Formulaire with ID ${idFormulaire} deleted successfully.`);
+        } else {
+          const data = await response.json();
+          console.log('Delete response data:', data);
+        }
+  
+        setFormulaires((prevFormulaires) => 
+          prevFormulaires.filter((formulaire) => formulaire.sIDFormulaire !== idFormulaire)
+        );
+  
+        const updatedFormulaires = formulaires.filter((formulaire) => formulaire.sIDFormulaire !== idFormulaire);
+  
+        if (updatedFormulaires.length === 0) {
+            navigate("/home/formTaxation");
+       
+        }
+      } else {
         throw new Error('Failed to delete the form');
       }
-
-      setFormulaires((prevFormulaires) =>
-        prevFormulaires.filter((formulaire) => formulaire.sIDFormulaire !== idFormulaire)
-      );
     } catch (error) {
       console.error('Error deleting formulaire:', error);
     }
   };
-
+  
+  
+  
   const handleNavigateAddNew = () => {
     navigate("/home/formTaxation");
   };

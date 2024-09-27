@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { fetchFormulaireByEmail } from "../../../Store/TaxationDraftListeSlice";
 import document from "../../../assets/icons8-document-64(1).png";
 import formulaire from "../../../assets/icons8-formulaire-64 (2).png";
 import modif from "../../../assets/icons8-liste-presse-papiers-64.png";
@@ -8,19 +10,33 @@ import "../../../Styles/Homepage/Acceuil/Welcome.css";
 import "../../../Styles/Homepage/Acceuil/PopUp.css";
 import PopUpCertifIcatdInscri from "../../PopUp/PopUpCertifIcatdInscri";
 import PopUpChangementEtude from "../../PopUp/PopUpChangementEtude";
+import { useAuth } from "../../../Hooks/AuthContext";
 
 const HomeNav = () => {
   const navigate = useNavigate();
+  const dispatch= useDispatch()
   const location = useLocation();
+  const {user}= useAuth();
   const [showEtudePopup, setShowEtudePopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
+
+  const Formulaires = useSelector((state) => state.formulaireDraft.formulaireDraft);
+  useEffect(() => {
+    if (user?.email) {
+      dispatch(fetchFormulaireByEmail(user.email));
+    }
+  }, [dispatch, user?.email]);
 
   const handleEtudeClick = () => {
     setShowEtudePopup(true);
   };
 
   const handleFormTaxClick = () => {
-    navigate("/home/formTaxation")
+    if (Array.isArray(Formulaires) && Formulaires.length === 0) {
+      navigate("/home/formTaxation");
+    } else {
+      navigate("/home/listeFormulaire");
+    }
   };
 
   const handleDocumentClick = () => {
@@ -37,7 +53,7 @@ const HomeNav = () => {
 
   return (
     <nav className="home-nav">
-      <ul className="home-navbar-nav">
+      <ul className="home-navbar-nav"> 
         <li className="home-item">
           <button onClick={() => navigate("/home/modifFiche")} className="nav-link2">
             <img src={modif} alt="Modification fiche avocat" />
