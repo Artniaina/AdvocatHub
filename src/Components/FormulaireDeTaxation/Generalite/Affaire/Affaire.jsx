@@ -95,6 +95,23 @@ const Affaire = () => {
     }));
   }, [showOptions]);
   
+  useEffect(() => {
+    const updatedFormData = {};
+    
+    Object.keys(showOptions).forEach((field) => {
+      if (showOptions[field] === "non") {
+        updatedFormData[field] = "non"; 
+      } else {
+        updatedFormData[field] = ""; 
+      }
+    });
+  
+    setFormData((prevState) => ({
+      ...prevState,
+      ...updatedFormData,
+    }));
+  }, [showOptions]);
+  
   
 
   const isDisabled = (field) => showOptions[field] === "non";
@@ -618,6 +635,7 @@ const Affaire = () => {
           disabled={isDisabled("mediation")}
         ></textarea>
       </div>
+
 
       <div className="formGroupbtn">
   <div className="toggleButtons">

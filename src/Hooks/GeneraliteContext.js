@@ -74,7 +74,7 @@ export const GeneraliteProvider = ({ children }) => {
   const resetProvisionData = () => setProvisionData([]);
   const resetNoteHonoraire = () => setNoteHonoraire([]);
   const resetFileInfos = () => setFileInfos([]);
-  const resetShowOptions =()=> setShowOptions({
+  const resetShowOptions = () => setShowOptions({
     affaire: "non",
     honoraires: "non",
     notes: "non",
@@ -85,7 +85,8 @@ export const GeneraliteProvider = ({ children }) => {
     conserv: "non",
     mediation: "non",
     mediationChoix: "non",
-  })
+  });
+
   const resetFormData = () => setFormData({
     domaine: [],
     honoraire: [],
@@ -104,6 +105,7 @@ export const GeneraliteProvider = ({ children }) => {
     conciliation: "",
     mediationChoix: "non",
   });
+
   const resetEditorContents = () => setEditorContents({
     observation: "",
     position: "",
@@ -147,7 +149,8 @@ export const GeneraliteProvider = ({ children }) => {
         setHonoraireData,
         provisionData,
         setProvisionData,
-        showOptions, setShowOptions,
+        showOptions,
+        setShowOptions,
         avocatsData,
         setAvocatsData,
         noteHonoraire,
@@ -159,6 +162,7 @@ export const GeneraliteProvider = ({ children }) => {
         formData,
         setFormData,
         resetAllData,
+        resetEditorContents,
       }}
     >
       {children}

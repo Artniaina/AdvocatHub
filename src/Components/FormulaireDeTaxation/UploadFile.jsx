@@ -36,6 +36,7 @@ const UploadFile = () => {
     provisionData,
     clientData,
   } = useGeneraliteContext();
+
   const { fileInfos, setFileInfos } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [fieldName, setFieldName] = useState("");
@@ -45,7 +46,7 @@ const UploadFile = () => {
     size: (file.size / 1024).toFixed(2),
   }));
   const filesName = filesMap.map((file) => file.name);
-
+  
   const validateFormData = () => {
     const requiredFields = [
       // { value: montantData, name: "montant" },
@@ -128,9 +129,7 @@ const UploadFile = () => {
 
   useEffect(() => {
     updateJsonData(jsonDataRef.current);
-}, [updateJsonData]); 
-
-
+  }, [updateJsonData]);
 
   const submitFormData = async () => {
     if (!validateFormData()) {
@@ -151,12 +150,10 @@ const UploadFile = () => {
           }),
         }
       );
-
+ 
       if (response.ok) {
-        const result = await response.json();      
+        const result = await response.json();
         console.log("Form submitted successfully:", result);
-        resetAllData(); 
-        
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
@@ -289,6 +286,11 @@ const UploadFile = () => {
               />
             )}
           </div>
+          <button onClick={resetAllData}>
+  <FaCheck style={{ color: "blue", fontSize: "30px" }} />
+  Reset{" "}
+</button>
+
           <button onClick={generateAndViewPdf}>
             <FaCheck style={{ color: "blue", fontSize: "30px" }} />
             Visualiser PDF
