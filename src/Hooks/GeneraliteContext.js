@@ -1,3 +1,4 @@
+//Comment appeller le fonction resetAllData() dans ce hooks
 import React, { createContext, useState, useContext } from "react";
 
 const GeneraliteContext = createContext();
@@ -64,9 +65,6 @@ export const GeneraliteProvider = ({ children }) => {
     c5: "",
     c6: "",
   });
-
-  
-  
 
   const resetClientData = () => setClientData([]);
   const resetSelectedAvocats = () => setSelectedAvocats([]);

@@ -64,7 +64,7 @@ const styles = {
   tableHeader: {
     border: "1px solid #000",
     padding: "5px",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: " 	#C0C0C0",
     textAlign: "center",
   },
   tableCell: {
@@ -119,7 +119,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
   const collaborateurs = formulaire?.sCollaboratorsData || [];
   const clients = formulaire?.sClientsData || [];
   const noteHonoraire = formulaire?.sNoteHonoraire || [];
-  // console.log("form ho anle pdf:",noteHonoraire);
 
   const formatDate = (dateString) => { 
     if (!dateString) return "";
@@ -268,7 +267,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
                 Dénomination étude:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                Valeur denomination etude
               </td>
             </tr>
             <tr>
@@ -276,7 +274,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
                 Date d'inscription:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                Valeur date dinscri
               </td>
             </tr>
             <tr>
@@ -285,7 +282,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
                 Adresse professionnelle:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                Valeur Adresse
               </td>
             </tr>
             <tr>
@@ -293,7 +289,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
                 Téléphone:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                +352 2659844
               </td>
             </tr>
             <tr>
@@ -301,7 +296,6 @@ const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
                 Email barreau:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                sabrine.abaab@barreau.lu
               </td>
             </tr>
           </tbody>

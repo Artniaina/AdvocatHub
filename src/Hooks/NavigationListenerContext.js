@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { useGeneraliteContext } from "./GeneraliteContext";
 
 const NavigationContext = createContext();
 
@@ -13,9 +14,12 @@ export const NavigationProvider = ({ children }) => {
   const [prevLocation, setPrevLocation] = useState(location.pathname);
   const [draftData, setDraftData] = useState({});
 
+  const { resetAllData } = useGeneraliteContext(); 
+
   const updateJsonData = (data) => {
     setDraftData(data);
   };
+
   useEffect(() => {
     if (
       location.pathname !== "/home/formTaxation" &&
@@ -29,7 +33,7 @@ export const NavigationProvider = ({ children }) => {
 
   const submitDraftData = async (params) => {
     if (!params || Object.keys(params).length === 0) {
-      console.error("No data provided to submitDraftData.");
+      console.error("No data found.");
       return;
     }
 
@@ -48,6 +52,7 @@ export const NavigationProvider = ({ children }) => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
+        resetAllData(); 
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
