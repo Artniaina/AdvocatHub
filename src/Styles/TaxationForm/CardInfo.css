@@ -268,20 +268,25 @@ legend {
 .prestataire  .formGroup input,.prestataire  .formGroup textarea{
   width: 45vw;
 }
+
 PiCaretUpDownFill{
   display: none;
 }
 .textarea.disabled, .selectarea.disabled {
-  background-color: #f0f0f0; 
-  color: #7a7a7a;
+  background-color: #e0e0e0; 
   pointer-events: none;
   cursor: not-allowed; 
+  transition: background-color 0.3s ease, opacity 0.3s ease, font-size 0.3s ease; 
+  font-size: 0px; 
 }
-.buttonIoAdd.disabled{
+
+.buttonIoAdd.disabled {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
+  transition: opacity 0.3s ease; 
 }
+
 .textarea {
   width: 100%;
   height: 70px;
@@ -290,7 +295,16 @@ PiCaretUpDownFill{
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  font-size: 16px; 
+  transition: border-color 0.3s ease, font-size 0.3s ease; 
 }
+
+.textarea:focus {
+  border-color: #81a3c7;
+  outline: none; 
+}
+
+
 .guide{
   background-color: red;
   width: 40vw;

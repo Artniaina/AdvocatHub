@@ -73,7 +73,6 @@ const Affaire = () => {
         ...prevState,
         [field]: value === "non" ? "non" : prevState[field] || "oui",
       };
-      console.log("Updated formData:", updatedFormData); 
       return updatedFormData;
     });
   
@@ -81,9 +80,12 @@ const Affaire = () => {
   
   useEffect(() => {
     const updatedFormData = {};
+    
     Object.keys(showOptions).forEach((field) => {
       if (showOptions[field] === "non") {
-        updatedFormData[field] = "non";
+        updatedFormData[field] = "non"; 
+      } else {
+        updatedFormData[field] = ""; 
       }
     });
   
@@ -93,20 +95,6 @@ const Affaire = () => {
     }));
   }, [showOptions]);
   
-  
-  useEffect(() => {
-    const updatedFormData = {};
-    Object.keys(showOptions).forEach((field) => {
-      if (showOptions[field] === "non") {
-        updatedFormData[field] = "non";
-      }
-    });
-  
-    setFormData((prevState) => ({
-      ...prevState,
-      ...updatedFormData,
-    }));
-  }, [showOptions]);
   
 
   const isDisabled = (field) => showOptions[field] === "non";
