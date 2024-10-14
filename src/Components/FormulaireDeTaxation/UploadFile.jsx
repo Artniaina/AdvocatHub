@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
@@ -22,6 +22,7 @@ const UploadFile = () => {
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const { resetAllData } = useGeneraliteContext();
+
   const {
     formData,
     editorContents,
@@ -59,7 +60,7 @@ const UploadFile = () => {
       // { value: formData.dateDebut, name: "date de début de mandat" },
       // { value: formData.dateFin, name: "date de fin de mandat" },
       // { value: editorContentObservation, name: "observations" },
-      // { value: editorContentPosition, name: "position avocat" }
+      // { value: editorContentPosition, name: "position avocat" },
     ];
 
     for (const field of requiredFields) {
@@ -73,50 +74,68 @@ const UploadFile = () => {
   };
 
   const currentDate = new Date().toISOString();
-  const jsonToSend = useMemo(() => ({
-    sStatutFormulaire: "non transmis",
-    sEmailUtilisateur: user.email,
-    sDomaineJuridique: formData.domaine.join(","),
-    sNomAffaire: formData.nomAffaire,
-    sTermesHonoraires: formData.termesHonoraires,
-    sAbsenceTermes: formData.absenceTerm,
-    sDateContestation: formData.datecontest,
-    sDateDebutMandat: formData.dateDebut,
-    sDateFinMandat: formData.dateFin,
-    sEtatAvancement: formData.etatAvancement,
-    sMesureConservatoire: formData.conserv,
-    sMediation: formData.mediation,
-    sMediationChoix: showOptions.mediationChoix,
-    sConciliation: formData.conciliation,
-    sProcedureRelative: formData.relative,
-    sObservations: editorContents.observation,
-    sPositionAvocat: editorContents.position,
-    sContenu1: editorContents.c1,
-    sContenu2: editorContents.c2,
-    sContenu3: editorContents.c3,
-    sContenu4: editorContents.c4,
-    sContenu5: editorContents.c5,
-    sContenu6: editorContents.c6,
-    sMontant: montantData,
-    sNoteHonoraire: noteHonoraire,
-    sHonoraireData: honoraireData,
-    sProvision: provisionData,
-    sPrestataireData: prestataires,
-    sCollaboratorsData: selectedAvocats,
-    sAvocatsData: avocatsData,
-    sClientsData: clientData,
-    sSubmited_at: currentDate,
-  }), [user.email, formData, editorContents, montantData, noteHonoraire, honoraireData, provisionData, prestataires, selectedAvocats, avocatsData, clientData, currentDate]);
+  const jsonToSend = useMemo(
+    () => ({
+      sStatutFormulaire: "non transmis",
+      sEmailUtilisateur: user.email,
+      sDomaineJuridique: formData.domaine.join(","),
+      sNomAffaire: formData.nomAffaire,
+      sTermesHonoraires: formData.termesHonoraires,
+      sAbsenceTermes: formData.absenceTerm,
+      sDateContestation: formData.datecontest,
+      sDateDebutMandat: formData.dateDebut,
+      sDateFinMandat: formData.dateFin,
+      sEtatAvancement: formData.etatAvancement,
+      sMesureConservatoire: formData.conserv,
+      sMediation: formData.mediation,
+      sMediationChoix: showOptions.mediationChoix,
+      sConciliation: formData.conciliation,
+      sProcedureRelative: formData.relative,
+      sObservations: editorContents.observation,
+      sPositionAvocat: editorContents.position,
+      sContenu1: editorContents.c1,
+      sContenu2: editorContents.c2,
+      sContenu3: editorContents.c3,
+      sContenu4: editorContents.c4,
+      sContenu5: editorContents.c5,
+      sContenu6: editorContents.c6,
+      sMontant: montantData,
+      sNoteHonoraire: noteHonoraire,
+      sHonoraireData: honoraireData,
+      sProvision: provisionData,
+      sPrestataireData: prestataires,
+      sCollaboratorsData: selectedAvocats,
+      sAvocatsData: avocatsData,
+      sClientsData: clientData,
+      sSubmited_at: currentDate,
+    }),
+    [
+      user.email,
+      formData,
+      editorContents,
+      montantData,
+      noteHonoraire,
+      honoraireData,
+      provisionData,
+      prestataires,
+      selectedAvocats,
+      avocatsData,
+      clientData,
+      currentDate,
+    ]
+  );
+  const jsonDataRef = useRef(jsonToSend);
 
   useEffect(() => {
-    updateJsonData(jsonToSend);
-  }, [jsonToSend, updateJsonData]);
+    updateJsonData(jsonDataRef.current);
+}, [updateJsonData]); 
+
+
 
   const submitFormData = async () => {
     if (!validateFormData()) {
       return;
     }
-
     try {
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/DossierTaxation",
@@ -128,15 +147,16 @@ const UploadFile = () => {
           body: JSON.stringify({
             ...jsonToSend,
             sStatutFormulaire: "transmis",
-            sFichiersJoints :filesName.join(","),
+            sFichiersJoints: filesName.join(","),
           }),
         }
       );
 
       if (response.ok) {
-        const result = await response.json();
+        const result = await response.json();      
         console.log("Form submitted successfully:", result);
-        resetAllData();
+        resetAllData(); 
+        
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
@@ -146,7 +166,9 @@ const UploadFile = () => {
   };
 
   const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById("taxation-form-content").innerHTML;
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
 
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
@@ -274,7 +296,7 @@ const UploadFile = () => {
         </div>
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
-        <FormulaireDeTaxationPDF idFormulaire={118} />
+        <FormulaireDeTaxationPDF />
       </div>
     </>
   );

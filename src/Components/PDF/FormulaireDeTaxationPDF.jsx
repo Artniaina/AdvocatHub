@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchFormulaireById } from "../../Store/TaxationFormSlice";
+import React, { useEffect, useState } from "react";
 
 const styles = {
   container: {
@@ -105,15 +103,31 @@ const styles = {
   },
 };
 
-const FormulaireDeTaxationPDF = ({ idFormulaire }) => {
-  const dispatch = useDispatch();
-  const { formulaire, status } = useSelector((state) => state.formulaire);
+const FormulaireDeTaxationPDF = () => {
+  const [formulaire, setFormulaire] = useState(null);
+  const [status, setStatus] = useState("idle");
 
   useEffect(() => {
+    const fetchFormulaires = async () => {
+      setStatus("loading");
+      try {
+        const response = await fetch("http://192.168.10.10/Utilisateur/Formulaire/FormTransmis");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setFormulaire(data[0]); 
+        setStatus("succeeded");
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setStatus("failed");
+      }
+    };
+
     if (status === "idle") {
-      dispatch(fetchFormulaireById(idFormulaire));
+      fetchFormulaires();
     }
-  }, [status, dispatch, idFormulaire]);
+  }, [status]);
 
   const avocat = formulaire?.sAvocatsData ? formulaire.sAvocatsData[0] : {};
   const collaborateurs = formulaire?.sCollaboratorsData || [];

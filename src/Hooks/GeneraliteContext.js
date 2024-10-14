@@ -1,4 +1,3 @@
-//Comment appeller le fonction resetAllData() dans ce hooks
 import React, { createContext, useState, useContext } from "react";
 
 const GeneraliteContext = createContext();

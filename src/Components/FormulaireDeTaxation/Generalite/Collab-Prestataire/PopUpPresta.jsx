@@ -11,7 +11,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
-  const [etude, setEtude] = useState("");
+  const [setude, setEtude] = useState("");
   const [titrePro, setTitrePro] = useState("");
   const [formationExp, setFormationExp] = useState("");
   const [autresInfo, setAutresInfo] = useState("");
@@ -29,7 +29,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
         name,
         prenom,
         email,
-        etude,
+        setude,
         titrePro,
         formationExp,
         autresInfo,
@@ -136,7 +136,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                 <input
                   type="text"
                   id="etude"
-                  value={etude}
+                  value={setude}
                   onChange={(e) => setEtude(e.target.value)}
                   required
                 />
@@ -241,7 +241,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   <td>{Prestataire.name}</td>
                   <td>{Prestataire.prenom}</td>
                   <td>{Prestataire.email}</td>
-                  <td>{Prestataire.etude}</td>
+                  <td>{Prestataire.setude}</td>
                   <td>{Prestataire.titrePro}</td>
                   <td>{Prestataire.formationExp}</td>
                   <td>{Prestataire.autresInfo}</td>

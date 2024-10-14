@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext"; 
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupPrestataires from "./PopUpPresta";
 
 const Prestataires = () => {
-  const {prestataires, setPrestataires} = useGeneraliteContext();
+  const { prestataires, setPrestataires } = useGeneraliteContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");
@@ -29,11 +29,26 @@ const Prestataires = () => {
     e.preventDefault();
   };
 
+  const resetData = () =>{ 
+      setName('');
+       setPrenom('');
+       setEtude('');
+       setEmail('');
+       setTitrePro('');
+       setAutresInfo('');
+       setFormationExp('');
+       setSelectedPrestataire(null);
+     } 
+  
   const handleDataFromPopup = (prestataireData) => {
+    if (prestataireData.length === 0) {
+      console.log("null", prestataireData);
+      resetData()
+    }
     if (prestataireData.length > 0) {
       setPrestataires(prestataireData);
-
       const firstChecked = prestataireData.find((p) => p.checked);
+      console.log("not null", prestataireData);
       if (firstChecked) {
         setSelectedPrestataire(prestataireData.indexOf(firstChecked));
         setName(firstChecked.name);
@@ -43,20 +58,13 @@ const Prestataires = () => {
         setTitrePro(firstChecked.titrePro);
         setAutresInfo(firstChecked.autresInfo);
         setFormationExp(firstChecked.formationExp);
-      } else {
-        setSelectedPrestataire(null);
-        setName("");
-        setPrenom("");
-        setEtude("");
-        setEmail("");
-        setTitrePro("");
-        setAutresInfo("");
-        setFormationExp("");
+      } else{
+        resetData()
       }
     }
     setShowPopup(false);
   };
-
+  
   const handlePrestataireChange = (e) => {
     const selectedIndex = e.target.value;
     if (selectedIndex !== "") {
@@ -69,9 +77,19 @@ const Prestataires = () => {
       setAutresInfo(selected.autresInfo);
       setFormationExp(selected.formationExp);
       setSelectedPrestataire(selectedIndex);
+    } else {
+      setName('');
+      setPrenom('');
+      setEtude('');
+      setEmail('');
+      setTitrePro('');
+      setAutresInfo('');
+      setFormationExp('');
+      setSelectedPrestataire(null);
     }
   };
-  const checkedPrestataires = prestataires.filter(p => p.checked);
+  
+  const checkedPrestataires = prestataires.filter((p) => p.checked);
 
   return (
     <div>
@@ -86,7 +104,7 @@ const Prestataires = () => {
           </label>
           <select
             id="client"
-            style={{ width: "23vw" }}
+            style={{ width: "23vw"}}
             onChange={handlePrestataireChange}
             value={selectedPrestataire || ""}
           >
@@ -151,7 +169,7 @@ const Prestataires = () => {
           onSubmitData={handleDataFromPopup}
         />
       )}
-    </div> 
+    </div>
   );
 };
 
