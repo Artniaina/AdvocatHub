@@ -132,11 +132,15 @@ const UploadFile = () => {
   useEffect(() => {
     updateJsonData(jsonDataRef.current);
   }, [updateJsonData]);
-
   const refreshPage = () => {
-      window.location.reload();
-      setLoading(true);
+    setLoading(true);
+    resetAllData();
+  
+    localStorage.setItem("generatePdfAfterReload", "true");
+  
+    window.location.reload();
   };
+  
   const submitFormData = async () => {
     if (!validateFormData()) {
       return;
@@ -161,31 +165,39 @@ const UploadFile = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
-        resetAllData();
-        refreshPage();
+        refreshPage(); 
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
     } catch (error) {
       console.error("Error while submitting form:", error);
     } finally {
-      setLoading(false); 
-  }
+      setLoading(false);
+    }
   };
-
+  
   const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById(
-      "taxation-form-content"
-    ).innerHTML;
-
+    const htmlContent = document.getElementById("taxation-form-content").innerHTML;
+  
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
       const docDefinition = { content: pdfDoc };
       pdfMake.createPdf(docDefinition).open();
     } catch (error) {
-      console.error("Erreur lors de la génération du PDF:", error);
+      console.error("Error while generating PDF:", error);
     }
   };
+  
+setTimeout(() => {
+  if (localStorage.getItem("generatePdfAfterReload") == "true") {
+    generateAndViewPdf(); 
+    localStorage.removeItem("generatePdfAfterReload"); 
+  }
+}, 3000);
+
+  
+ 
+  
 
   const handleRemoveFile = (index) => {
     setFileInfos((prevFileInfos) =>
