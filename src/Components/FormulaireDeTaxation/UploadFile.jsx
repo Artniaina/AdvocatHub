@@ -46,7 +46,7 @@ const UploadFile = () => {
     size: (file.size / 1024).toFixed(2),
   }));
   const filesName = filesMap.map((file) => file.name);
-  
+
   const validateFormData = () => {
     const requiredFields = [
       // { value: montantData, name: "montant" },
@@ -150,7 +150,7 @@ const UploadFile = () => {
           }),
         }
       );
- 
+
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
@@ -287,9 +287,9 @@ const UploadFile = () => {
             )}
           </div>
           <button onClick={resetAllData}>
-  <FaCheck style={{ color: "blue", fontSize: "30px" }} />
-  Reset{" "}
-</button>
+            <FaCheck style={{ color: "blue", fontSize: "30px" }} />
+            Reset{" "}
+          </button>
 
           <button onClick={generateAndViewPdf}>
             <FaCheck style={{ color: "blue", fontSize: "30px" }} />

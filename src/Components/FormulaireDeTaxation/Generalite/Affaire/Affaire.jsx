@@ -67,54 +67,34 @@ const Affaire = () => {
 
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
-  
+    
     setFormData((prevState) => {
-      const updatedFormData = {
-        ...prevState,
-        [field]: value === "non" ? "non" : prevState[field] || "oui",
-      };
+      const updatedFormData = { ...prevState };
+  
+      if (value === "non") {
+        updatedFormData[field] = "non";
+      } else if (prevState[field] === "non") {
+        updatedFormData[field] = ""; 
+      }
+  
       return updatedFormData;
     });
-  
   };
   
   useEffect(() => {
-    const updatedFormData = {};
-    
+    const updatedFormData = { ...formData };
+  
     Object.keys(showOptions).forEach((field) => {
       if (showOptions[field] === "non") {
         updatedFormData[field] = "non"; 
-      } else {
-        updatedFormData[field] = ""; 
       }
     });
   
-    setFormData((prevState) => ({
-      ...prevState,
-      ...updatedFormData,
-    }));
+    setFormData(updatedFormData); 
   }, [showOptions]);
   
-  useEffect(() => {
-    const updatedFormData = {};
-    
-    Object.keys(showOptions).forEach((field) => {
-      if (showOptions[field] === "non") {
-        updatedFormData[field] = "non"; 
-      } else {
-        updatedFormData[field] = ""; 
-      }
-    });
-  
-    setFormData((prevState) => ({
-      ...prevState,
-      ...updatedFormData,
-    }));
-  }, [showOptions]);
-  
-  
-
   const isDisabled = (field) => showOptions[field] === "non";
+  
 
   const handlePopupClose = () => {
     setIsPopupVisible(false);
