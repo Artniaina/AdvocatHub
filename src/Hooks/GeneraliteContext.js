@@ -162,7 +162,6 @@ export const GeneraliteProvider = ({ children }) => {
         formData,
         setFormData,
         resetAllData,
-        resetEditorContents,
       }}
     >
       {children}

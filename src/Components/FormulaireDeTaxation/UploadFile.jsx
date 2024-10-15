@@ -14,11 +14,13 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfmake from "html-to-pdfmake";
 import { useAuth } from "../../Hooks/AuthContext";
 import { useNavigation } from "../../Hooks/NavigationListenerContext";
+import "../../Styles/spinner.css";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const { resetAllData } = useGeneraliteContext();
@@ -131,10 +133,15 @@ const UploadFile = () => {
     updateJsonData(jsonDataRef.current);
   }, [updateJsonData]);
 
+  const refreshPage = () => {
+      window.location.reload();
+      setLoading(true);
+  };
   const submitFormData = async () => {
     if (!validateFormData()) {
       return;
     }
+    setLoading(true);
     try {
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/DossierTaxation",
@@ -154,12 +161,16 @@ const UploadFile = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
+        resetAllData();
+        refreshPage();
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
     } catch (error) {
       console.error("Error while submitting form:", error);
-    }
+    } finally {
+      setLoading(false); 
+  }
   };
 
   const generateAndViewPdf = () => {
@@ -201,6 +212,7 @@ const UploadFile = () => {
 
   return (
     <>
+     {loading &&  <div className="loading-spinner1"></div>}
       <div>
         <UploadFileGuide />
       </div>

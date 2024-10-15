@@ -9,6 +9,19 @@
     box-sizing: border-box;
     animation: animloader 1s linear infinite; 
 }
+.loading-spinner1 {
+    width: 280px; 
+    height: 280px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 12122;
+    margin: auto;
+    right: 700px;
+    border: 10px solid;
+    border-color: transparent; 
+    box-sizing: border-box;
+    animation: animloader 1s linear infinite; 
+}
 
 @keyframes animloader {
     0% {
