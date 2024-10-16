@@ -65,6 +65,9 @@ export const GeneraliteProvider = ({ children }) => {
     c6: "",
   });
 
+  const [honoraireToCompare, setHonoraireToCompare] = useState({});
+
+  const [noteHonoraireToCompare, setNoteHonoraireToCompare] = useState({});
   const resetClientData = () => setClientData([]);
   const resetSelectedAvocats = () => setSelectedAvocats([]);
   const resetPrestataires = () => setPrestataires([]);
@@ -74,48 +77,51 @@ export const GeneraliteProvider = ({ children }) => {
   const resetProvisionData = () => setProvisionData([]);
   const resetNoteHonoraire = () => setNoteHonoraire([]);
   const resetFileInfos = () => setFileInfos([]);
-  const resetShowOptions = () => setShowOptions({
-    affaire: "non",
-    honoraires: "non",
-    notes: "non",
-    termesHonoraires: "non",
-    etatAvancement: "non",
-    conciliation: "non",
-    relative: "non",
-    conserv: "non",
-    mediation: "non",
-    mediationChoix: "non",
-  });
+  const resetShowOptions = () =>
+    setShowOptions({
+      affaire: "non",
+      honoraires: "non",
+      notes: "non",
+      termesHonoraires: "non",
+      etatAvancement: "non",
+      conciliation: "non",
+      relative: "non",
+      conserv: "non",
+      mediation: "non",
+      mediationChoix: "non",
+    });
 
-  const resetFormData = () => setFormData({
-    domaine: [],
-    honoraire: [],
-    provision: [],
-    montant: [],
-    nomAffaire: "",
-    termesHonoraires: "",
-    absenceTerm: "",
-    datecontest: "",
-    dateDebut: "",
-    dateFin: "",
-    etatAvancement: "",
-    conserv: "",
-    mediation: "",
-    relative: "",
-    conciliation: "",
-    mediationChoix: "non",
-  });
+  const resetFormData = () =>
+    setFormData({
+      domaine: [],
+      honoraire: [],
+      provision: [],
+      montant: [],
+      nomAffaire: "",
+      termesHonoraires: "",
+      absenceTerm: "",
+      datecontest: "",
+      dateDebut: "",
+      dateFin: "",
+      etatAvancement: "",
+      conserv: "",
+      mediation: "",
+      relative: "",
+      conciliation: "",
+      mediationChoix: "non",
+    });
 
-  const resetEditorContents = () => setEditorContents({
-    observation: "",
-    position: "",
-    c1: "",
-    c2: "",
-    c3: "",
-    c4: "",
-    c5: "",
-    c6: "",
-  });
+  const resetEditorContents = () =>
+    setEditorContents({
+      observation: "",
+      position: "",
+      c1: "",
+      c2: "",
+      c3: "",
+      c4: "",
+      c5: "",
+      c6: "",
+    });
 
   const resetAllData = () => {
     resetClientData();
@@ -155,6 +161,10 @@ export const GeneraliteProvider = ({ children }) => {
         setAvocatsData,
         noteHonoraire,
         setNoteHonoraire,
+        honoraireToCompare,
+        setHonoraireToCompare,
+        noteHonoraireToCompare,
+        setNoteHonoraireToCompare,
         editorContents,
         setEditorContents,
         fileInfos,

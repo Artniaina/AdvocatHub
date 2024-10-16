@@ -51,19 +51,17 @@ const UploadFile = () => {
 
   const validateFormData = () => {
     const requiredFields = [
-      // { value: montantData, name: "montant" },
-      // { value: noteHonoraire, name: "note honoraire" },
-      // { value: honoraireData, name: "honoraire" },
-      // { value: provisionData, name: "provision" },
-      // { value: prestataires, name: "prestataire" },
-      // { value: clientData, name: "client" },
-      // { value: formData.domaine, name: "domaine juridique" },
-      // { value: formData.nomAffaire, name: "nom affaire" },
-      // { value: formData.datecontest, name: "date de contestation" },
-      // { value: formData.dateDebut, name: "date de début de mandat" },
-      // { value: formData.dateFin, name: "date de fin de mandat" },
-      // { value: editorContentObservation, name: "observations" },
-      // { value: editorContentPosition, name: "position avocat" },
+      { value: montantData, name: "montant" },
+      { value: noteHonoraire, name: "note honoraire" },
+      { value: honoraireData, name: "honoraire" },
+      { value: provisionData, name: "provision" },
+      { value: prestataires, name: "prestataire" },
+      { value: clientData, name: "client" },
+      { value: formData.domaine, name: "domaine juridique" },
+      { value: formData.nomAffaire, name: "nom affaire" },
+      { value: formData.datecontest, name: "date de contestation" },
+      { value: formData.dateDebut, name: "date de début de mandat" },
+      { value: formData.dateFin, name: "date de fin de mandat" },
     ];
 
     for (const field of requiredFields) {
@@ -193,11 +191,7 @@ setTimeout(() => {
     generateAndViewPdf(); 
     localStorage.removeItem("generatePdfAfterReload"); 
   }
-}, 3000);
-
-  
- 
-  
+}, 1000);
 
   const handleRemoveFile = (index) => {
     setFileInfos((prevFileInfos) =>
@@ -310,15 +304,6 @@ setTimeout(() => {
               />
             )}
           </div>
-          <button onClick={resetAllData}>
-            <FaCheck style={{ color: "blue", fontSize: "30px" }} />
-            Reset{" "}
-          </button>
-
-          <button onClick={generateAndViewPdf}>
-            <FaCheck style={{ color: "blue", fontSize: "30px" }} />
-            Visualiser PDF
-          </button>
         </div>
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>

@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PopupNoteHonoraire from "./PopupNoteHonoraire";
 import { IoAddCircle } from "react-icons/io5";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const Facture = () => {
-  const {noteHonoraire, setNoteHonoraire}= useGeneraliteContext();
+  const { noteHonoraire, setNoteHonoraire } = useGeneraliteContext();
+  const {noteHonoraireToCompare, setNoteHonoraireToCompare} =
+    useGeneraliteContext();
+
+
+
+
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedData, setSelectedData] = useState({
     date: "",
-      reference: "",
-      hours: "",
-      minutes: "",
-      tauxHorairesfacturés: "",
-      totalHonoraireHTVA: "",
-      fraisConstitutionDossier: "",
-      totalHonoraireFraisDossier: "",
-      tauxTVA: "",
-      montantTVA: "",
-      totalHonoraireTTC: "",
-      fraisDivers: "",
-      provisionsTTC: "",
-      remise: "",
-      noteTTC: "",
-      restantDu: "",
+    reference: "",
+    hours: "",
+    minutes: "",
+    tauxHorairesfacturés: "",
+    totalHonoraireHTVA: "",
+    fraisConstitutionDossier: "",
+    totalHonoraireFraisDossier: "",
+    tauxTVA: "",
+    montantTVA: "",
+    totalHonoraireTTC: "",
+    fraisDivers: "",
+    provisionsTTC: "",
+    remise: "",
+    noteTTC: "",
+    restantDu: "",
   });
 
   const handleShowPopup = () => {
@@ -38,29 +44,44 @@ const Facture = () => {
     setNoteHonoraire(data);
     handleClosePopup();
   };
+  useEffect(() => {
+    if (noteHonoraire.length > 0) {
+      const noteHonoraireData = noteHonoraire.map(({ date, totalHonoraireTTC, reference }) => ({
+        date,
+        amount: totalHonoraireTTC, 
+        reference,
+      }));
+      setNoteHonoraireToCompare(noteHonoraireData);
+    } else {
+      setNoteHonoraireToCompare([]);
+    }
+  }, [noteHonoraire]);
+  
 
   const handleDateChange = (event) => {
     const date = event.target.value;
     setSelectedDate(date);
-    const data = noteHonoraire.find(item => item.date === date);
-    setSelectedData(data || {
-      date: "",
-      reference: "",
-      hours: "",
-      minutes: "",
-      tauxHorairesfacturés: "",
-      totalHonoraireHTVA: "",
-      fraisConstitutionDossier: "",
-      totalHonoraireFraisDossier: "",
-      tauxTVA: "",
-      montantTVA: "",
-      totalHonoraireTTC: "",
-      fraisDivers: "",
-      provisionsTTC: "",
-      remise: "",
-      noteTTC: "",
-      restantDu: "",
-    });
+    const data = noteHonoraire.find((item) => item.date === date);
+    setSelectedData(
+      data || {
+        date: "",
+        reference: "",
+        hours: "",
+        minutes: "",
+        tauxHorairesfacturés: "",
+        totalHonoraireHTVA: "",
+        fraisConstitutionDossier: "",
+        totalHonoraireFraisDossier: "",
+        tauxTVA: "",
+        montantTVA: "",
+        totalHonoraireTTC: "",
+        fraisDivers: "",
+        provisionsTTC: "",
+        remise: "",
+        noteTTC: "",
+        restantDu: "",
+      }
+    );
   };
 
   const handleSubmit = (e) => {
@@ -74,18 +95,22 @@ const Facture = () => {
         montants sont exprimés en Euros.
       </p>
       {noteHonoraire.length > 0 && (
-            <div>
-              <label htmlFor="dateSelect">Sélectionner une date:</label>
-              <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
-                <option value="">-- Choisissez une date --</option>
-                {noteHonoraire.map((data) => (
-                  <option key={data.date} value={data.date}>
-                    {data.date}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+        <div>
+          <label htmlFor="dateSelect">Sélectionner une date:</label>
+          <select
+            id="dateSelect"
+            value={selectedDate}
+            onChange={handleDateChange}
+          >
+            <option value="">-- Choisissez une date --</option>
+            {noteHonoraire.map((data) => (
+              <option key={data.date} value={data.date}>
+                {data.date}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div>
         <p style={{ display: "flex" }}>
           Ajouter une note d'honoraire{" "}
@@ -105,15 +130,25 @@ const Facture = () => {
         <div style={{ display: "flex" }}>
           <p>Nombre d'heures facturées:</p>
           <div>
-            <input className="hour" type="text" placeholder="0h" value={selectedData.hours} readOnly />
-            <input className="hour" type="text" placeholder="0mn" value={selectedData.minutes} readOnly />
+            <input
+              className="hour"
+              type="text"
+              placeholder="0h"
+              value={selectedData.hours}
+              readOnly
+            />
+            <input
+              className="hour"
+              type="text"
+              placeholder="0mn"
+              value={selectedData.minutes}
+              readOnly
+            />
           </div>
         </div>
       </div>
       <div className="honoraires ">
         <form onSubmit={handleSubmit}>
-       
-
           <label htmlFor="honorairesHtva">Aux horaires HTVA facturés :</label>
           <input
             type="text"
@@ -239,7 +274,12 @@ const Facture = () => {
             readOnly
           />
         </form>
-        {showPopup && <PopupNoteHonoraire onClose={handleClosePopup} onSubmitData={handleDataFromPopup} />}
+        {showPopup && (
+          <PopupNoteHonoraire
+            onClose={handleClosePopup}
+            onSubmitData={handleDataFromPopup}
+          />
+        )}
       </div>
     </>
   );

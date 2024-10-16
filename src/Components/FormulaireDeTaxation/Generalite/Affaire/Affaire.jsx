@@ -11,12 +11,12 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 const Affaire = () => {
   const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
   const { honoraireData, setHonoraireData } = useGeneraliteContext();
+  const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
   const { provisionData, setProvisionData } = useGeneraliteContext();
   const { montantData, setMontantData } = useGeneraliteContext();
   const { formData, setFormData } = useGeneraliteContext();
   const {showOptions, setShowOptions} = useGeneraliteContext();
   
-
   const popupRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
@@ -108,9 +108,24 @@ const Affaire = () => {
     setFormData((prevState) => ({
       ...prevState,
     }));
-    handlePopupClose();
+
+    handlePopupClose(); 
   };
 
+ useEffect(() => {
+    if (honoraireData.length > 0) {
+      const noteHonoraire = honoraireData.map(({ date, amount, reference }) => ({
+        date,
+        amount,
+        reference,
+      }));
+      setHonoraireToCompare(noteHonoraire);
+    } else {
+      setHonoraireToCompare([]);
+    }
+  }, [honoraireData]);
+   
+  
   const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
     setFormData((prevState) => ({
