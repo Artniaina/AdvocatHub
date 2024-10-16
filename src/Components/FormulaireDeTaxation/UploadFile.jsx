@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
+import NoteHonoraireWarning from "../PopUp/NoteHonoraireWarning";
 import Image from "../../assets/icons8-fichier-67.png";
 import { FaCheck } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
@@ -24,6 +25,8 @@ const UploadFile = () => {
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const { resetAllData } = useGeneraliteContext();
+  const { noteHonoraireToCompare, setNoteHonoraireToCompare } = useGeneraliteContext();
+  const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
 
   const {
     formData,
@@ -41,6 +44,7 @@ const UploadFile = () => {
 
   const { fileInfos, setFileInfos } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopupDifference, setShowPopupDifference] = useState(false);
   const [fieldName, setFieldName] = useState("");
 
   const filesMap = fileInfos.map((file) => ({
@@ -50,27 +54,33 @@ const UploadFile = () => {
   const filesName = filesMap.map((file) => file.name);
 
   const validateFormData = () => {
-    const requiredFields = [
-      { value: montantData, name: "montant" },
-      { value: noteHonoraire, name: "note honoraire" },
-      { value: honoraireData, name: "honoraire" },
-      { value: provisionData, name: "provision" },
-      { value: prestataires, name: "prestataire" },
-      { value: clientData, name: "client" },
-      { value: formData.domaine, name: "domaine juridique" },
-      { value: formData.nomAffaire, name: "nom affaire" },
-      { value: formData.datecontest, name: "date de contestation" },
-      { value: formData.dateDebut, name: "date de début de mandat" },
-      { value: formData.dateFin, name: "date de fin de mandat" },
-    ];
+    // const requiredFields = [
+    //   { value: montantData, name: "montant" },
+    //   { value: noteHonoraire, name: "note honoraire" },
+    //   { value: honoraireData, name: "honoraire" },
+    //   { value: provisionData, name: "provision" },
+    //   { value: prestataires, name: "prestataire" },
+    //   { value: clientData, name: "client" },
+    //   { value: formData.domaine, name: "domaine juridique" },
+    //   { value: formData.nomAffaire, name: "nom affaire" },
+    //   { value: formData.datecontest, name: "date de contestation" },
+    //   { value: formData.dateDebut, name: "date de début de mandat" },
+    //   { value: formData.dateFin, name: "date de fin de mandat" },
+    // ];
 
-    for (const field of requiredFields) {
-      if (!field.value || field.value.length === 0) {
-        setFieldName(field.name);
-        setShowPopup(true);
-        return false;
-      }
+    // for (const field of requiredFields) {
+    //   if (!field.value || field.value.length === 0) {
+    //     setFieldName(field.name);
+    //     setShowPopup(true);
+    //     return false;
+    //   }
+    // }
+    
+    if (honoraireToCompare !== noteHonoraireToCompare) {
+      setShowPopupDifference(true)
+      return false
     }
+
     return true;
   };
 
@@ -299,6 +309,12 @@ setTimeout(() => {
             </button>
             {showPopup && (
               <RequiredMessage
+                onClose={handleClosePopup}
+                nomChamp={fieldName}
+              />
+            )}
+            {showPopupDifference && (
+              <NoteHonoraireWarning
                 onClose={handleClosePopup}
                 nomChamp={fieldName}
               />

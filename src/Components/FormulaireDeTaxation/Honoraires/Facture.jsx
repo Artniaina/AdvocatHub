@@ -5,12 +5,8 @@ import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 
 const Facture = () => {
   const { noteHonoraire, setNoteHonoraire } = useGeneraliteContext();
-  const {noteHonoraireToCompare, setNoteHonoraireToCompare} =
+  const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
     useGeneraliteContext();
-
-
-
-
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedData, setSelectedData] = useState({
@@ -46,17 +42,18 @@ const Facture = () => {
   };
   useEffect(() => {
     if (noteHonoraire.length > 0) {
-      const noteHonoraireData = noteHonoraire.map(({ date, totalHonoraireTTC, reference }) => ({
-        date,
-        amount: totalHonoraireTTC, 
-        reference,
-      }));
+      const noteHonoraireData = noteHonoraire.map(
+        ({ date, totalHonoraireTTC, reference }) => ({
+          date,
+          amount: totalHonoraireTTC,
+          reference,
+        })
+      );
       setNoteHonoraireToCompare(noteHonoraireData);
     } else {
       setNoteHonoraireToCompare([]);
     }
   }, [noteHonoraire]);
-  
 
   const handleDateChange = (event) => {
     const date = event.target.value;
