@@ -7,6 +7,7 @@ import PopupProvision from "./PopupProvision";
 import PopupHonoraire from "./PopupHonoraire";
 import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
+import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 
 const Affaire = () => {
   const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
@@ -15,9 +16,29 @@ const Affaire = () => {
   const { provisionData, setProvisionData } = useGeneraliteContext();
   const { montantData, setMontantData } = useGeneraliteContext();
   const { formData, setFormData } = useGeneraliteContext();
-  const {showOptions, setShowOptions} = useGeneraliteContext();
-  
+  const { showOptions, setShowOptions } = useGeneraliteContext();
   const popupRef = useRef(null);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const validateDate = (selectedDate) => {
+    const currentDate = new Date();
+    const selected = new Date(selectedDate);
+   
+    if (selected > currentDate) {
+      setShowWarning(true); 
+    
+      setFormData((prevState) => ({
+        ...prevState,
+        datecontest: "", 
+        dateDebut:"",
+        dateFin:"",
+
+      }));
+    } else {
+      setShowWarning(false); 
+    }
+  };
+
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
@@ -36,7 +57,6 @@ const Affaire = () => {
       honoraire: honoraireData,
       provision: provisionData,
       montant: montantData,
-
     }));
   }, [selectedDomains, honoraireData, provisionData, montantData]);
 
@@ -46,7 +66,12 @@ const Affaire = () => {
       ...prevState,
       [id]: value,
     }));
+  
+    if (id === "datecontest" || id === "dateFin" || id === "dateDebut") {
+      validateDate(value);
+    }
   };
+  
 
   useEffect(() => {
     if (montantData.length > 0) {
@@ -67,34 +92,33 @@ const Affaire = () => {
 
   const handleToggle = (field, value) => {
     setShowOptions((prevState) => ({ ...prevState, [field]: value }));
-    
+
     setFormData((prevState) => {
       const updatedFormData = { ...prevState };
-  
+
       if (value === "non") {
         updatedFormData[field] = "non";
       } else if (prevState[field] === "non") {
-        updatedFormData[field] = ""; 
+        updatedFormData[field] = "";
       }
-  
+
       return updatedFormData;
     });
   };
-  
+
   useEffect(() => {
     const updatedFormData = { ...formData };
-  
+
     Object.keys(showOptions).forEach((field) => {
       if (showOptions[field] === "non") {
-        updatedFormData[field] = "non"; 
+        updatedFormData[field] = "non";
       }
     });
-  
-    setFormData(updatedFormData); 
+
+    setFormData(updatedFormData);
   }, [showOptions]);
-  
+
   const isDisabled = (field) => showOptions[field] === "non";
-  
 
   const handlePopupClose = () => {
     setIsPopupVisible(false);
@@ -109,23 +133,24 @@ const Affaire = () => {
       ...prevState,
     }));
 
-    handlePopupClose(); 
+    handlePopupClose();
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (honoraireData.length > 0) {
-      const noteHonoraire = honoraireData.map(({ date, amount, reference }) => ({
-        date,
-        amount,
-        reference,
-      }));
+      const noteHonoraire = honoraireData.map(
+        ({ date, amount, reference }) => ({
+          date,
+          amount,
+          reference,
+        })
+      );
       setHonoraireToCompare(noteHonoraire);
     } else {
       setHonoraireToCompare([]);
     }
   }, [honoraireData]);
-   
-  
+
   const handlePopupMontantSubmit = async (data) => {
     setMontantData(data);
     setFormData((prevState) => ({
@@ -631,21 +656,27 @@ const Affaire = () => {
         ></textarea>
       </div>
 
+      {showWarning && (
+        <PopupValidationDate
+          onClose={() => {
+            setShowWarning(false);
+          }}
+        />
+      )}
 
       <div className="formGroupbtn">
-  <div className="toggleButtons">
-    <p>Si non, est-elle souhaitée ?</p>
-    <ToggleButton
-      name="mediationChoix"
-      checkedValue={showOptions.mediationChoix}
-      onChange={(value) => {
-        
-        handleToggle("mediationChoix", value);
-      }}
-    />
-  </div>
-</div>
-
+        <div className="toggleButtons">
+          <p>Si non, est-elle souhaitée ?</p>
+          <ToggleButton
+            name="mediationChoix"
+            checkedValue={showOptions.mediationChoix}
+            onChange={(value) => {
+              handleToggle("mediationChoix", value);
+            }}
+          />
+        </div>
+      </div>
+   
     </div>
   );
 };

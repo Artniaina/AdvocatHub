@@ -65,9 +65,9 @@ export const GeneraliteProvider = ({ children }) => {
     c6: "",
   });
 
-  const [honoraireToCompare, setHonoraireToCompare] = useState({});
+  const [honoraireToCompare, setHonoraireToCompare] = useState([]);
 
-  const [noteHonoraireToCompare, setNoteHonoraireToCompare] = useState({});
+  const [noteHonoraireToCompare, setNoteHonoraireToCompare] = useState([]);
   const resetClientData = () => setClientData([]);
   const resetSelectedAvocats = () => setSelectedAvocats([]);
   const resetPrestataires = () => setPrestataires([]);

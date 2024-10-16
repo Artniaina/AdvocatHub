@@ -25,7 +25,8 @@ const UploadFile = () => {
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const { resetAllData } = useGeneraliteContext();
-  const { noteHonoraireToCompare, setNoteHonoraireToCompare } = useGeneraliteContext();
+  const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
+    useGeneraliteContext();
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
 
   const {
@@ -54,31 +55,31 @@ const UploadFile = () => {
   const filesName = filesMap.map((file) => file.name);
 
   const validateFormData = () => {
-    // const requiredFields = [
-    //   { value: montantData, name: "montant" },
-    //   { value: noteHonoraire, name: "note honoraire" },
-    //   { value: honoraireData, name: "honoraire" },
-    //   { value: provisionData, name: "provision" },
-    //   { value: prestataires, name: "prestataire" },
-    //   { value: clientData, name: "client" },
-    //   { value: formData.domaine, name: "domaine juridique" },
-    //   { value: formData.nomAffaire, name: "nom affaire" },
-    //   { value: formData.datecontest, name: "date de contestation" },
-    //   { value: formData.dateDebut, name: "date de début de mandat" },
-    //   { value: formData.dateFin, name: "date de fin de mandat" },
-    // ];
+    const requiredFields = [
+      { value: montantData, name: "montant" },
+      { value: noteHonoraire, name: "note honoraire" },
+      { value: honoraireData, name: "honoraire" },
+      { value: provisionData, name: "provision" },
+      { value: prestataires, name: "prestataire" },
+      { value: clientData, name: "client" },
+      { value: formData.domaine, name: "domaine juridique" },
+      { value: formData.nomAffaire, name: "nom affaire" },
+      { value: formData.datecontest, name: "date de contestation" },
+      { value: formData.dateDebut, name: "date de début de mandat" },
+      { value: formData.dateFin, name: "date de fin de mandat" },
+    ];
 
-    // for (const field of requiredFields) {
-    //   if (!field.value || field.value.length === 0) {
-    //     setFieldName(field.name);
-    //     setShowPopup(true);
-    //     return false;
-    //   }
-    // }
-    
+    for (const field of requiredFields) {
+      if (!field.value || field.value.length === 0) {
+        setFieldName(field.name);
+        setShowPopup(true);
+        return false;
+      }
+    }
+
     if (honoraireToCompare !== noteHonoraireToCompare) {
-      setShowPopupDifference(true)
-      return false
+      setShowPopupDifference(true);
+      return false;
     }
 
     return true;
@@ -143,12 +144,12 @@ const UploadFile = () => {
   const refreshPage = () => {
     setLoading(true);
     resetAllData();
-  
+
     localStorage.setItem("generatePdfAfterReload", "true");
-  
+
     window.location.reload();
   };
-  
+
   const submitFormData = async () => {
     if (!validateFormData()) {
       return;
@@ -173,7 +174,7 @@ const UploadFile = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
-        refreshPage(); 
+        refreshPage();
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
@@ -183,10 +184,12 @@ const UploadFile = () => {
       setLoading(false);
     }
   };
-  
+
   const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById("taxation-form-content").innerHTML;
-  
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
+
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
       const docDefinition = { content: pdfDoc };
@@ -195,13 +198,13 @@ const UploadFile = () => {
       console.error("Error while generating PDF:", error);
     }
   };
-  
-setTimeout(() => {
-  if (localStorage.getItem("generatePdfAfterReload") == "true") {
-    generateAndViewPdf(); 
-    localStorage.removeItem("generatePdfAfterReload"); 
-  }
-}, 1000);
+
+  setTimeout(() => {
+    if (localStorage.getItem("generatePdfAfterReload") == "true") {
+      generateAndViewPdf();
+      localStorage.removeItem("generatePdfAfterReload");
+    }
+  }, 1000);
 
   const handleRemoveFile = (index) => {
     setFileInfos((prevFileInfos) =>
@@ -211,6 +214,7 @@ setTimeout(() => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
+    setShowPopupDifference(false);
   };
 
   const handleFileChange = (event) => {
@@ -228,7 +232,7 @@ setTimeout(() => {
 
   return (
     <>
-     {loading &&  <div className="loading-spinner1"></div>}
+      {loading && <div className="loading-spinner1"></div>}
       <div>
         <UploadFileGuide />
       </div>
@@ -313,12 +317,24 @@ setTimeout(() => {
                 nomChamp={fieldName}
               />
             )}
-            {showPopupDifference && (
-              <NoteHonoraireWarning
-                onClose={handleClosePopup}
-                nomChamp={fieldName}
-              />
-            )}
+            {honoraireToCompare.map((data, index) => {
+              const date = data.date;
+              const amount = data.amount;
+              const reference = data.reference;
+
+              return (
+                <div key={index}>
+                  {showPopupDifference && (
+                    <NoteHonoraireWarning
+                      onClose={handleClosePopup}
+                      date={date}
+                      amount={amount}
+                      reference={reference}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
