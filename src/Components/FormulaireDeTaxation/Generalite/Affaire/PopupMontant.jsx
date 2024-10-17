@@ -82,7 +82,6 @@ const PopupMontant = ({ onClose, onSubmit }) => {
 
   const rows = Array.from({ length: 5 });
 
-  // Fonction pour déterminer si `required` doit être appliqué
   const isRequired = (index) => {
     const row = rowsData[index];
     return row.amount.trim() || row.comment.trim() ? true : false;
@@ -113,7 +112,7 @@ const PopupMontant = ({ onClose, onSubmit }) => {
                       onChange={(e) =>
                         handleInputChange(index, "amount", e.target.value)
                       }
-                      required={isRequired(index)} // Ajouter `required` selon la condition
+                      required={isRequired(index)}
                     />
                   </td>
                   <td>

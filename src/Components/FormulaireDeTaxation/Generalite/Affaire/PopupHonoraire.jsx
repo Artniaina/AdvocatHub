@@ -6,8 +6,6 @@ import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
 
 const PopupHonoraire = ({ onClose, onSubmit }) => {
   const [showWarning, setShowWarning] = useState(false);
@@ -78,7 +76,6 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     onClose();
   };
 
-  // Function to check if all fields are empty
   const areAllFieldsEmpty = (row) => {
     return !row.date && !row.reference && !row.amount;
   };
@@ -108,7 +105,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                         type="date"
                         value={row.date}
                         onChange={(e) => handleInputChange(index, "date", e.target.value)}
-                        required={!areAllFieldsEmpty(row)} // Conditionally add required
+                        required={!areAllFieldsEmpty(row)} 
                       />
                     </td>
                     <td>
@@ -116,7 +113,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                         type="text"
                         value={row.reference}
                         onChange={(e) => handleInputChange(index, "reference", e.target.value)}
-                        required={!areAllFieldsEmpty(row)} // Conditionally add required
+                        required={!areAllFieldsEmpty(row)}
                       />
                     </td>
                     <td>
@@ -124,7 +121,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                         type="text"
                         value={row.amount}
                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                        required={!areAllFieldsEmpty(row)} // Conditionally add required
+                        required={!areAllFieldsEmpty(row)} 
                       />
                     </td>
                     <td style={{ display: "flex", alignItems: "center" }}>
