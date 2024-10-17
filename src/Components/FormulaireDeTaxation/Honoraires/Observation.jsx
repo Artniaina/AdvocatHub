@@ -26,7 +26,7 @@ const Observation = () => {
       const plainText = extractPlainText(content);
       console.log("Plain Text:", plainText, plainText.length);
 
-      if (plainText.length < 13 && plainText.trim() !== "") {
+      if (plainText.length < 6 && plainText.trim() !== "") {
         setShowWarning(true);
       }
     }
@@ -41,6 +41,7 @@ const Observation = () => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
+    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
