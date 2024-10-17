@@ -30,7 +30,7 @@ const Affaire = () => {
       setShowWarning(true);
       setFormData((prevState) => ({
         ...prevState,
-        [id]: "", 
+        [id]: "",
       }));
     } else {
       setShowWarning(false);
@@ -39,17 +39,17 @@ const Affaire = () => {
 
   const handleTextareaChange = (event) => {
     const { id, value } = event.target;
-  
+
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
-  
-    setId(id); 
-  
+
+    setId(id);
+
     validateDate(value, id);
   };
-  
+
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
@@ -70,7 +70,6 @@ const Affaire = () => {
       montant: montantData,
     }));
   }, [selectedDomains, honoraireData, provisionData, montantData]);
-
 
   useEffect(() => {
     if (montantData.length > 0) {
@@ -420,6 +419,9 @@ const Affaire = () => {
             <div className="popupContainer" ref={popupRef}>
               <PopupHonoraire
                 onClose={handlePopupClose}
+                onOpen={() => {
+                  setIsPopupHonoraireVisible(true);
+                }}
                 onSubmit={handlePopupHonoraireSubmit}
               />
             </div>
@@ -659,7 +661,7 @@ const Affaire = () => {
           onClose={() => {
             setShowWarning(false);
           }}
-          nomChamp ={
+          nomChamp={
             id == "datecontest"
               ? "date de contestation des honoraires"
               : id == "dateDebut"
@@ -670,7 +672,6 @@ const Affaire = () => {
           }
         />
       )}
-
 
       <div className="formGroupbtn">
         <div className="toggleButtons">

@@ -6,7 +6,7 @@ import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const PopupMontant = ({ onClose, onSubmit }) => {
-  const {montantData}= useGeneraliteContext()
+  const { montantData } = useGeneraliteContext();
   const initialData = Array.from({ length: 5 }, () => ({
     amount: "",
     comment: "",
@@ -59,6 +59,7 @@ const PopupMontant = ({ onClose, onSubmit }) => {
       )
     );
   };
+
   const getModifiedData = () => {
     return rowsData.filter((row, index) => {
       const initialRow = initialRowsData[index];
@@ -72,7 +73,6 @@ const PopupMontant = ({ onClose, onSubmit }) => {
     e.preventDefault();
 
     const modifiedData = getModifiedData();
-
     const updateMontant = [...modifiedData];
 
     onSubmit(updateMontant);
@@ -81,6 +81,12 @@ const PopupMontant = ({ onClose, onSubmit }) => {
   };
 
   const rows = Array.from({ length: 5 });
+
+  // Fonction pour déterminer si `required` doit être appliqué
+  const isRequired = (index) => {
+    const row = rowsData[index];
+    return row.amount.trim() || row.comment.trim() ? true : false;
+  };
 
   return (
     <div className="overlay" onClick={onClose}>
@@ -107,6 +113,7 @@ const PopupMontant = ({ onClose, onSubmit }) => {
                       onChange={(e) =>
                         handleInputChange(index, "amount", e.target.value)
                       }
+                      required={isRequired(index)} // Ajouter `required` selon la condition
                     />
                   </td>
                   <td>
@@ -116,7 +123,10 @@ const PopupMontant = ({ onClose, onSubmit }) => {
                       onChange={(e) =>
                         handleInputChange(index, "comment", e.target.value)
                       }
-                      style={{border:"none", backgroundColor:"#ffffff00"}}
+                      style={{
+                        border: "none",
+                        backgroundColor: "#ffffff00",
+                      }}
                     />
                   </td>
                   <td style={{ display: "flex" }}>

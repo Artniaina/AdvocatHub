@@ -9,7 +9,7 @@ import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
-const PopupHonoraire = ({ onClose, onSubmit }) => {
+const PopupHonoraire = ({ onClose, onSubmit, onOpen }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningDateIndex, setWarningDateIndex] = useState(null);
   const [errors, setErrors] = useState({});
@@ -102,8 +102,6 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     }
 
     setErrors((prev) => ({ ...prev, [index]: rowErrors }));
-
-    
   };
 
   const handleToggle = (index, value) => {
@@ -144,6 +142,8 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
       onSubmit(modifiedData);
       console.log("Données mises à jour", modifiedData);
       onClose();
+      setIsErrorPopupOpen(false);
+
     } else {
       console.log("Il y a des erreurs dans le formulaire");
       setErrorPopupMessage(`Veuillez remplir ce champ`);
@@ -157,17 +157,6 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
   };
   return (
     <>
-      {isErrorPopupOpen && (
-        <div className="error-popup">
-          <Popup
-            open={isErrorPopupOpen}
-            onClose={() => setIsErrorPopupOpen(false)}
-          >
-            <div>{errorPopupMessage}</div>
-            <button onClick={() => setIsErrorPopupOpen(false)}>Close</button>
-          </Popup>
-        </div>
-      )}
       <div className="overlay" onClick={onClose}>
         <div
           className="popupAffaire"
@@ -247,17 +236,14 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                 pointerEvents: isModified ? "auto" : "none",
                 opacity: isModified ? 1 : 0.5,
               }}
-              disabled={
-                !isModified 
-              }
+              disabled={!isModified}
               onClick={handleSubmit}
             >
               Valider
             </button>
           </form>
         </div>
-      </div>
-      {showWarning && warningDateIndex !== null && (
+        {showWarning && warningDateIndex !== null && (
         <PopupValidationDate
           onClose={() => {
             setShowWarning(false);
@@ -266,6 +252,20 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
           date={rowsData[warningDateIndex].date}
         />
       )}
+      {isErrorPopupOpen && (
+        <Popup open={isErrorPopupOpen}>
+          <div>{errorPopupMessage}</div>
+          <button
+            onClick={() => {
+              setIsErrorPopupOpen(false) ;
+            }}
+          >
+            Close
+          </button>
+        </Popup>
+      )}
+      </div>
+
     </>
   );
 };
