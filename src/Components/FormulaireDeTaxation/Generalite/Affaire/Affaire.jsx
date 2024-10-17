@@ -20,25 +20,36 @@ const Affaire = () => {
   const popupRef = useRef(null);
   const [showWarning, setShowWarning] = useState(false);
 
-  const validateDate = (selectedDate) => {
+  const [id, setId] = useState("");
+
+  const validateDate = (selectedDate, id) => {
     const currentDate = new Date();
     const selected = new Date(selectedDate);
-   
+
     if (selected > currentDate) {
-      setShowWarning(true); 
-    
+      setShowWarning(true);
       setFormData((prevState) => ({
         ...prevState,
-        datecontest: "", 
-        dateDebut:"",
-        dateFin:"",
-
+        [id]: "", 
       }));
     } else {
-      setShowWarning(false); 
+      setShowWarning(false);
     }
   };
 
+  const handleTextareaChange = (event) => {
+    const { id, value } = event.target;
+  
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  
+    setId(id); 
+  
+    validateDate(value, id);
+  };
+  
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
@@ -60,18 +71,6 @@ const Affaire = () => {
     }));
   }, [selectedDomains, honoraireData, provisionData, montantData]);
 
-  const handleTextareaChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  
-    if (id === "datecontest" || id === "dateFin" || id === "dateDebut") {
-      validateDate(value);
-    }
-  };
-  
 
   useEffect(() => {
     if (montantData.length > 0) {
@@ -655,14 +654,23 @@ const Affaire = () => {
           disabled={isDisabled("mediation")}
         ></textarea>
       </div>
-
       {showWarning && (
         <PopupValidationDate
           onClose={() => {
             setShowWarning(false);
           }}
+          nomChamp ={
+            id == "datecontest"
+              ? "date de contestation des honoraires"
+              : id == "dateDebut"
+              ? "date de début du mandat"
+              : id == "dateFin"
+              ? "date de fin du mandat"
+              : "date"
+          }
         />
       )}
+
 
       <div className="formGroupbtn">
         <div className="toggleButtons">
@@ -676,7 +684,6 @@ const Affaire = () => {
           />
         </div>
       </div>
-   
     </div>
   );
 };

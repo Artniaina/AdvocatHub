@@ -8,8 +8,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
+.error-popup {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000; 
+}
+
 .popupTax {
   background: #fff;
   padding: 20px;
