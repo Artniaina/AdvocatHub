@@ -9,67 +9,25 @@ import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
-const PopupHonoraire = ({ onClose, onSubmit, onOpen }) => {
+const PopupHonoraire = ({ onClose, onSubmit }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningDateIndex, setWarningDateIndex] = useState(null);
-  const [errors, setErrors] = useState({});
-  const [errorPopupMessage, setErrorPopupMessage] = useState(null);
-  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const [rowsData, setRowsData] = useState(
+    Array.from({ length: 10 }, () => ({
+      date: "",
+      reference: "",
+      amount: "",
+      paye: "non",
+    }))
+  );
 
   const { honoraireData } = useGeneraliteContext();
-  const initialData = Array.from({ length: 10 }, () => ({
-    date: "",
-    reference: "",
-    amount: "",
-    paye: "non",
-  }));
-
-  const [rowsData, setRowsData] = useState(initialData);
-  const [initialRowsData, setInitialRowsData] = useState(initialData);
-  const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
     if (honoraireData && honoraireData.length > 0) {
-      setRowsData((prevRowsData) => {
-        const updatedData = [...prevRowsData];
-        honoraireData.forEach((honoraire, index) => {
-          if (updatedData[index]) {
-            updatedData[index] = { ...updatedData[index], ...honoraire };
-          }
-        });
-        return updatedData;
-      });
+      setRowsData(honoraireData);
     }
-    setInitialRowsData(rowsData);
   }, [honoraireData]);
-
-  const checkIfModified = () => {
-    return rowsData.some((row, index) => {
-      const initialRow = initialRowsData[index];
-      return (
-        row.date !== initialRow.date ||
-        row.reference !== initialRow.reference ||
-        row.amount !== initialRow.amount ||
-        row.paye !== initialRow.paye
-      );
-    });
-  };
-
-  useEffect(() => {
-    setIsModified(checkIfModified());
-  }, [rowsData]);
-
-  const handleInputChange = (index, field, value) => {
-    if (field === "date") {
-      validateDate(value, index);
-    }
-    setRowsData((prevState) =>
-      prevState.map((row, i) =>
-        i === index ? { ...row, [field]: value } : row
-      )
-    );
-    validateRow(index, { ...rowsData[index], [field]: value });
-  };
 
   const validateDate = (selectedDate, index) => {
     const currentDate = new Date();
@@ -89,19 +47,15 @@ const PopupHonoraire = ({ onClose, onSubmit, onOpen }) => {
     }
   };
 
-  const validateRow = (index, row) => {
-    const rowErrors = {};
-    if (!row.date) {
-      rowErrors.date = "Date is required";
+  const handleInputChange = (index, field, value) => {
+    if (field === "date") {
+      validateDate(value, index);
     }
-    if (!row.amount) {
-      rowErrors.amount = "Amount is required";
-    }
-    if (!row.reference) {
-      rowErrors.reference = "Reference is required";
-    }
-
-    setErrors((prev) => ({ ...prev, [index]: rowErrors }));
+    setRowsData((prevState) =>
+      prevState.map((row, i) =>
+        i === index ? { ...row, [field]: value } : row
+      )
+    );
   };
 
   const handleToggle = (index, value) => {
@@ -116,57 +70,27 @@ const PopupHonoraire = ({ onClose, onSubmit, onOpen }) => {
         i === index ? { date: "", reference: "", amount: "", paye: "non" } : row
       )
     );
-    setErrors((prev) => ({ ...prev, [index]: {} }));
-  };
-
-  const getModifiedData = () => {
-    return rowsData.filter((row, index) => {
-      const initialRow = initialRowsData[index];
-      return (
-        row.date !== initialRow.date ||
-        row.reference !== initialRow.reference ||
-        row.amount !== initialRow.amount ||
-        row.paye !== initialRow.paye
-      );
-    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const modifiedData = getModifiedData();
-    const hasErrors = Object.values(errors).some(
-      (rowErrors) => Object.keys(rowErrors).length > 0
-    );
-
-    if (!hasErrors) {
-      onSubmit(modifiedData);
-      console.log("Données mises à jour", modifiedData);
-      onClose();
-      setIsErrorPopupOpen(false);
-
-    } else {
-      console.log("Il y a des erreurs dans le formulaire");
-      setErrorPopupMessage(`Veuillez remplir ce champ`);
-      setIsErrorPopupOpen(true);
-    }
+    onSubmit(rowsData);
+    onClose();
   };
 
-  const rows = Array.from({ length: 10 });
-  const handleSubmitForm = (e) => {
-    e.preventDefault();
+  // Function to check if all fields are empty
+  const areAllFieldsEmpty = (row) => {
+    return !row.date && !row.reference && !row.amount;
   };
+
   return (
     <>
       <div className="overlay" onClick={onClose}>
-        <div
-          className="popupAffaire"
-          style={{ top: "10px" }}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="popupAffaire" style={{ top: "10px" }} onClick={(e) => e.stopPropagation()}>
           <button onClick={onClose} className="closeButton">
             <IoCloseCircle />
           </button>
-          <form onSubmit={handleSubmitForm}>
+          <form onSubmit={handleSubmit}>
             <table className="domainTable">
               <thead>
                 <tr>
@@ -177,43 +101,36 @@ const PopupHonoraire = ({ onClose, onSubmit, onOpen }) => {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((_, index) => (
+                {rowsData.map((row, index) => (
                   <tr key={index}>
                     <td>
                       <input
                         type="date"
-                        id={`date-${index}`}
-                        value={rowsData[index].date}
-                        onChange={(e) =>
-                          handleInputChange(index, "date", e.target.value)
-                        }
-                        className={errors[index]?.date ? "error" : ""}
+                        value={row.date}
+                        onChange={(e) => handleInputChange(index, "date", e.target.value)}
+                        required={!areAllFieldsEmpty(row)} // Conditionally add required
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={rowsData[index].reference}
-                        onChange={(e) =>
-                          handleInputChange(index, "reference", e.target.value)
-                        }
-                        className={errors[index]?.reference ? "error" : ""}
+                        value={row.reference}
+                        onChange={(e) => handleInputChange(index, "reference", e.target.value)}
+                        required={!areAllFieldsEmpty(row)} // Conditionally add required
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={rowsData[index].amount}
-                        onChange={(e) =>
-                          handleInputChange(index, "amount", e.target.value)
-                        }
-                        className={errors[index]?.amount ? "error" : ""}
+                        value={row.amount}
+                        onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                        required={!areAllFieldsEmpty(row)} // Conditionally add required
                       />
                     </td>
                     <td style={{ display: "flex", alignItems: "center" }}>
                       <ToggleButton
                         name={`paye-${index}`}
-                        checkedValue={rowsData[index].paye}
+                        checkedValue={row.paye}
                         onChange={(value) => handleToggle(index, value)}
                       />
                       <TiDelete
@@ -229,43 +146,21 @@ const PopupHonoraire = ({ onClose, onSubmit, onOpen }) => {
                 ))}
               </tbody>
             </table>
-            <button
-              type="submit"
-              className="submitButton"
-              style={{
-                pointerEvents: isModified ? "auto" : "none",
-                opacity: isModified ? 1 : 0.5,
-              }}
-              disabled={!isModified}
-              onClick={handleSubmit}
-            >
+            <button type="submit" className="submitButton">
               Valider
             </button>
           </form>
         </div>
         {showWarning && warningDateIndex !== null && (
-        <PopupValidationDate
-          onClose={() => {
-            setShowWarning(false);
-            setWarningDateIndex(null);
-          }}
-          date={rowsData[warningDateIndex].date}
-        />
-      )}
-      {isErrorPopupOpen && (
-        <Popup open={isErrorPopupOpen}>
-          <div>{errorPopupMessage}</div>
-          <button
-            onClick={() => {
-              setIsErrorPopupOpen(false) ;
+          <PopupValidationDate
+            onClose={() => {
+              setShowWarning(false);
+              setWarningDateIndex(null);
             }}
-          >
-            Close
-          </button>
-        </Popup>
-      )}
+            date={rowsData[warningDateIndex].date}
+          />
+        )}
       </div>
-
     </>
   );
 };
