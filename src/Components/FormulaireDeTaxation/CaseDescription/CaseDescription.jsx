@@ -179,7 +179,7 @@ const CaseDescription = () => {
             {showWarnings[id] && (
               <PopupHTMLEditorWarning 
                 onClose={() => setShowWarnings((prev) => ({ ...prev, [id]: false }))}
-                nomChamp={`champ ${id}`} 
+                nomChamp={`champ`} 
               />
             )}
           </div>

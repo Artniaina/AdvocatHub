@@ -8,6 +8,7 @@ import PopupHonoraire from "./PopupHonoraire";
 import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
+import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
 
 const Affaire = () => {
   const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
@@ -18,8 +19,9 @@ const Affaire = () => {
   const { formData, setFormData } = useGeneraliteContext();
   const { showOptions, setShowOptions } = useGeneraliteContext();
   const popupRef = useRef(null);
+  const popupRefLength = useRef(null);
+  const [showWarningLength, setShowWarningLength] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
-
   const [id, setId] = useState("");
 
   const validateDate = (selectedDate, id) => {
@@ -37,19 +39,9 @@ const Affaire = () => {
     }
   };
 
-  const handleTextareaChange = (event) => {
-    const { id, value } = event.target;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-
-    setId(id);
-
-    validateDate(value, id);
+  const closePopup = () => {
+    setShowWarningLength(false);
   };
-
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
@@ -60,6 +52,7 @@ const Affaire = () => {
   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState("");
   const [selectedComment, setSelectedComment] = useState("");
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -168,15 +161,79 @@ const Affaire = () => {
     setProvisionData(data);
     setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
     handlePopupClose();
+  }
+  ;
+  const validateLength = (value) => {
+    if (value.length < 6 && value.trim() !== "") {
+      return false
+    }
+    return true
   };
 
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      handlePopupClose();
+  const absenceTermRef = useRef("");
+
+  const handleTextareaChange = (event) => {
+    const { id, value: newValue } = event.target;
+  
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: newValue,
+    }));
+  
+    setId(id);
+    setValue(newValue);
+    
+    if (id === "absenceTerm") {
+      absenceTermRef.current = newValue;
+    }
+  
+    if (id === "dateFin" || id === "dateDebut" || id === "datecontest") {
+      validateDate(newValue, id); 
+    } 
+    else if (id === "nomAffaire") {
+      // No specific validation for nomAffaire
+      // Do nothing hehe
+    }
+    else {
+      const isLengthValid = validateLength(newValue);
+      if (!isLengthValid) {
+        console.log("Warning: Length is less than 6 characters.");
+      } 
     }
   };
 
-  const filteredHonoraireData = honoraireData.filter(
+
+  
+  const handleClickOutsideTextarea = (event) => {
+    if (popupRefLength.current && !popupRefLength.current.contains(event.target)) {
+      const absenceTermValue = absenceTermRef.current; 
+      const absTermsValid = validateLength(absenceTermValue); 
+      const isFormValid = absTermsValid;
+  
+      console.log("Current Validation Status:", isFormValid,absenceTermValue);
+      
+      if (!isFormValid) { 
+        setShowWarningLength(true); 
+        console.log("It's not valid eeeee");
+      } else {
+        setShowWarningLength(false);
+        console.log("It is valid, congrats");
+      }
+      console.log("Clicked outside the popup.");
+    }
+  };
+  
+
+  
+  
+
+const handleClickOutside = (event) => {
+  if (popupRef.current && !popupRef.current.contains(event.target)) {
+    handlePopupClose();
+  }
+};
+
+const filteredHonoraireData = honoraireData.filter(
     (item) => item.date === selectedHonoraireDate
   );
 
@@ -184,9 +241,15 @@ const Affaire = () => {
     (item) => item.date === selectedProvisionDate
   );
 
+
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideTextarea);
+    return () => document.removeEventListener("mousedown", handleClickOutsideTextarea);
   }, []);
 
   return (
@@ -276,6 +339,7 @@ const Affaire = () => {
             onChange={(value) => handleToggle("termesHonoraires", value)}
           />
         </div>
+        <div ref={popupRefLength}>
         <textarea
           id="termesHonoraires"
           className={`textarea ${
@@ -287,20 +351,27 @@ const Affaire = () => {
           onChange={handleTextareaChange}
           disabled={isDisabled("termesHonoraires")}
         />
+        </div>
       </div>
-
+      {showWarningLength && (
+        <div ref={popupRefLength}>
+          <PopupHTMLEditorWarning onClose={closePopup} nomChamp="champ" />
+        </div>
+      )}
       <div className="formGroup">
         <label htmlFor="absenceTerm">
           En l’absence de convention d’honoraires/lettre d’engagement en bonne
           et due forme, un budget ou un taux horaire a-t'il été annoncé au
           client ?
         </label>
+        <div  ref={popupRefLength}>
         <textarea
           style={{ width: "100%" }}
           id="absenceTerm"
           value={formData.absenceTerm}
           onChange={handleTextareaChange}
         />
+        </div>
       </div>
       <div className="formGroupbtn">
         <div className="toggleButtons">
@@ -316,6 +387,7 @@ const Affaire = () => {
             onChange={(value) => handleToggle("etatAvancement", value)}
           />
         </div>
+        <div ref={popupRefLength}>
         <textarea
           id="etatAvancement"
           className={`textarea ${
@@ -325,6 +397,8 @@ const Affaire = () => {
           onChange={handleTextareaChange}
           disabled={isDisabled("etatAvancement")}
         />
+        </div>
+
       </div>
 
       <div className="formGroup">
@@ -541,13 +615,15 @@ const Affaire = () => {
                 </option>
               ))}
             </select>
-
+            <div ref={popupRefLength}>
+          
             <textarea
               className={`textarea ${isDisabled("notes") ? "disabled" : ""}`}
               style={{ width: "30vw", height: "40px", marginTop: "-2px" }}
               value={selectedComment}
               readOnly
             />
+          </div>
 
             <div className="btnAdd">
               <IoAddCircle
@@ -583,6 +659,8 @@ const Affaire = () => {
             onChange={(value) => handleToggle("conciliation", value)}
           />
         </div>
+        <div ref={popupRefLength}>
+          
         <textarea
           className={`textarea ${isDisabled("conciliation") ? "disabled" : ""}`}
           name="conciliation"
@@ -590,7 +668,8 @@ const Affaire = () => {
           onChange={handleTextareaChange}
           value={isDisabled("conciliation") ? "" : formData.conciliation}
           disabled={isDisabled("conciliation")}
-        ></textarea>
+        />
+          </div>
       </div>
 
       <div className="formGroupbtn">
@@ -606,6 +685,8 @@ const Affaire = () => {
             onChange={(value) => handleToggle("relative", value)}
           />
         </div>
+        <div ref={popupRefLength}>
+          
         <textarea
           className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
           name="relative"
@@ -614,6 +695,7 @@ const Affaire = () => {
           value={isDisabled("relative") ? "" : formData.relative}
           disabled={isDisabled("relative")}
         />
+          </div>
       </div>
 
       <div className="formGroupbtn">
@@ -628,6 +710,8 @@ const Affaire = () => {
             onChange={(value) => handleToggle("conserv", value)}
           />
         </div>
+        <div ref={popupRefLength}>
+          
         <textarea
           className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
           name="conserv"
@@ -635,7 +719,8 @@ const Affaire = () => {
           onChange={handleTextareaChange}
           value={isDisabled("conserv") ? "" : formData.conserv}
           disabled={isDisabled("conserv")}
-        ></textarea>
+        />
+          </div>
       </div>
 
       <div className="formGroupbtn">
@@ -647,6 +732,7 @@ const Affaire = () => {
             onChange={(value) => handleToggle("mediation", value)}
           />
         </div>
+        <div ref={popupRefLength}>
         <textarea
           className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
           name="mediation"
@@ -654,7 +740,8 @@ const Affaire = () => {
           onChange={handleTextareaChange}
           value={isDisabled("mediation") ? "" : formData.mediation}
           disabled={isDisabled("mediation")}
-        ></textarea>
+        />
+          </div>
       </div>
       {showWarning && (
         <PopupValidationDate
@@ -685,6 +772,7 @@ const Affaire = () => {
           />
         </div>
       </div>
+ 
     </div>
   );
 };

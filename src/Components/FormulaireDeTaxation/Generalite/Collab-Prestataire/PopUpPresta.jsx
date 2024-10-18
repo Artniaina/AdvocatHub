@@ -6,7 +6,7 @@ import { FaFilter } from "react-icons/fa";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const PopupPrestataires = ({ onClose, onSubmitData }) => {
-  const { prestataires } = useGeneraliteContext(); 
+  const { prestataires } = useGeneraliteContext();
 
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -17,14 +17,26 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const [autresInfo, setAutresInfo] = useState("");
   const [Prestataires, setPrestataires] = useState(prestataires || []);
   const [sortKey, setSortKey] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState("asc");
   const [filterActive, setFilterActive] = useState(null);
   const [filters, setFilters] = useState({});
 
+  const handleChange = (e, setState) => {
+    const value = e.target.value;
+    setState(value);
+  };
+
+  const handleInvalid = (e) => {
+    e.target.setCustomValidity("Veuillez entrer au moins 6 caractères.");
+  };
+
+  const handleInput = (e) => {
+    e.target.setCustomValidity("");
+  };
   const handleSubmitTable = (e) => {
     e.preventDefault();
     setPrestataires([
-      ...Prestataires, 
+      ...Prestataires,
       {
         name,
         prenom,
@@ -33,10 +45,10 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
         titrePro,
         formationExp,
         autresInfo,
-        checked: false, 
+        checked: true,
       },
     ]);
-  
+
     setName("");
     setPrenom("");
     setEmail("");
@@ -62,10 +74,10 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   };
 
   const requestSort = (key) => {
-    const order = sortKey === key && sortOrder === 'asc' ? 'desc' : 'asc';
+    const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
     const sortedPrestataires = [...Prestataires].sort((a, b) => {
-      if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
-      if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+      if (a[key] < b[key]) return order === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return order === "asc" ? 1 : -1;
       return 0;
     });
     setSortKey(key);
@@ -82,7 +94,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
 
   const handleFilterClick = (key) => {
     setFilterActive(key);
-  }; 
+  };
 
   const filteredPrestataires = Prestataires.filter((Prestataire) =>
     Object.keys(filters).every((key) =>
@@ -167,25 +179,34 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
               </div>
 
               <div className="formGroup">
-                <label htmlFor="formationExp">
-                  Formation et expérience professionnelle:
-                </label>
-                <textarea
-                  id="formationExp"
-                  value={formationExp}
-                  onChange={(e) => setFormationExp(e.target.value)}
-                  style={{ height: "50px" }}
-                />
-              </div>
-
-              <div className="formGroup">
                 <label htmlFor="autreInfo">Autre informations:</label>
                 <textarea
                   id="autreInfo"
                   value={autresInfo}
-                  onChange={(e) => setAutresInfo(e.target.value)}
+                  onChange={(e) =>
+                    handleChange(e, setAutresInfo)
+                  }
                   style={{ height: "50px" }}
+                  minLength={6}
+                  onInvalid={handleInvalid}
+                  onInput={handleInput}
                 />
+              </div>
+
+              <div className="formGroup">
+                <label htmlFor="formationExp">Formation et Expérience:</label>
+                <textarea
+                  id="formationExp"
+                  value={formationExp}
+                  onChange={(e) =>
+                    handleChange(e, setFormationExp)
+                  }
+                  style={{ height: "50px" }}
+                  minLength={6}
+                  onInvalid={handleInvalid}
+                  onInput={handleInput}
+                />
+          
               </div>
             </div>
           </div>
@@ -207,7 +228,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   "titrePro",
                   "formationExp",
                   "autresInfo",
-                  "choix"
+                  "choix",
                 ].map((key) => (
                   <th key={key} onClick={() => requestSort(key)}>
                     <span className="sort-icon">

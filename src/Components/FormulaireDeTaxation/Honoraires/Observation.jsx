@@ -24,7 +24,6 @@ const Observation = () => {
   const handleClickOutside = (event) => {
     if (observationRef.current && !observationRef.current.contains(event.target)) {
       const plainText = extractPlainText(content);
-      console.log("Plain Text:", plainText, plainText.length);
 
       if (plainText.length < 6 && plainText.trim() !== "") {
         setShowWarning(true);
