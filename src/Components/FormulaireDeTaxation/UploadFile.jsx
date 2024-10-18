@@ -22,7 +22,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const UploadFile = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const { resetAllData } = useGeneraliteContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
@@ -89,7 +89,7 @@ const UploadFile = () => {
   const jsonToSend = useMemo(
     () => ({
       sStatutFormulaire: "non transmis",
-      sEmailUtilisateur: user.email,
+      // sEmailUtilisateur: user.email,
       sDomaineJuridique: formData.domaine.join(","),
       sNomAffaire: formData.nomAffaire,
       sTermesHonoraires: formData.termesHonoraires,
@@ -122,7 +122,7 @@ const UploadFile = () => {
       sSubmited_at: currentDate,
     }),
     [
-      user.email,
+      // user.email,
       formData,
       editorContents,
       montantData,

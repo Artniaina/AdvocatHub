@@ -105,13 +105,13 @@ function MainRoutes() {
         </Route>
         
         //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
+          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
           <Route path="/home/UpdateformTaxation" element={<UpdateTaxationFormPage />} />
           <Route path="/home/ListeFormulaire" element={<ListeFormulairePage />} />
         </Route>

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Editor from "../TextEditor/EditeurHTML";
 import "../../../Styles/TaxationForm/CardInfo.css";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
+import PopupHTMLEditorWarning from "../TextEditor/PopupHTMLEditorWarning";
 
 const editors = [
-  { id: "c1", label: <div style={{textDecoration:"underlined"}}> 1)   Mentionner les faits: *</div> },
+  { id: "c1", label: <div style={{ textDecoration: "underline" }}>1) Mentionner les faits: *</div> },
   {
     id: "c2",
     label: (
@@ -14,10 +15,6 @@ const editors = [
           (par exemple : l’enjeu financier de l’affaire, l’importance et le
           degré de difficulté de l’affaire, reprise de mandat en cours de
           procédure, etc.)
-          Suite de la création de la procédure d'envoie des donnees pour le pdf
-          Creation des procedure et des endpoints pour:
-          La mise a jours, suppression et recuperation des formulaire non transmis pour chaque utilisateur
-          Creation de l'interface pour afficher la liste, et mettre a jour les données non transmis(toujours en cours)
         </span>
       </>
     ),
@@ -42,7 +39,7 @@ const editors = [
         <span className="spanish">
           (par exemple : spécialisation en lien avec la matière traitée,
           expérience professionnelle, autre(s) activité(s) en lien avec la
-          profession,publications/ouvrages…)",
+          profession, publications/ouvrages…)",
         </span>
       </>
     ),
@@ -53,7 +50,6 @@ const editors = [
       <>
         "La situation de fortune du client* : <br />
         <span className="spanish">
-          {" "}
           (assistance judiciaire abordée et/ou sollicitée, estimation des
           revenus moyens du mandant, risque de faillite...)",
         </span>
@@ -79,6 +75,44 @@ const editors = [
 
 const CaseDescription = () => {
   const { editorContents, setEditorContents } = useGeneraliteContext();
+  const [showWarnings, setShowWarnings] = useState({});
+  const editorRefs = useRef({});
+
+  useEffect(() => {
+    editors.forEach(({ id }) => {
+      editorRefs.current[id] = React.createRef();
+    });
+  }, []);
+
+  const handleClickOutside = (event) => {
+    let clickedOutsideAllEditors = true;
+
+    editors.forEach(({ id }) => {
+      if (editorRefs.current[id]?.current && editorRefs.current[id].current.contains(event.target)) {
+        clickedOutsideAllEditors = false;
+      }
+    });
+
+    if (clickedOutsideAllEditors) {
+      editors.forEach(({ id }) => {
+        const plainText = extractPlainText(editorContents[id] || "");
+        
+        if (plainText.length < 6 && plainText.trim() !== "") {
+          setShowWarnings((prev) => ({ ...prev, [id]: true }));
+        }
+      });
+    }
+  };
+
+  const handleEditorBlur = (id) => {
+    const plainText = extractPlainText(editorContents[id] || "");
+    
+    if (plainText.length < 6 && plainText.trim() !== "") {
+      setShowWarnings((prev) => ({ ...prev, [id]: true }));
+    } else {
+      setShowWarnings((prev) => ({ ...prev, [id]: false }));
+    }
+  };
 
   const handleEditorChange = (id, content) => {
     setEditorContents((prevContents) => ({
@@ -86,20 +120,41 @@ const CaseDescription = () => {
       [id]: content,
     }));
   };
+
+  const extractPlainText = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editorContents]);
+
   return (
-    <div className="cardGeneralité">
+    <div className="cardGeneralité" style={{ display: "block" }}>
       <div className="mainTitle">
         DESCRIPTION DE L'AFFAIRE ET DES PRESTATIONS
       </div>
       <div className="case">
         <h3>a) Description de l'affaire</h3>
         {editors.slice(0, 5).map(({ id, label }) => (
-          <div key={id}>
+          <div key={id} ref={editorRefs.current[id]}>
             <p className="spanish">{label}</p>
             <Editor
               id={id}
               onChange={(content) => handleEditorChange(id, content)}
+              onBlur={() => handleEditorBlur(id)} 
             />
+            {showWarnings[id] && (
+              <PopupHTMLEditorWarning 
+                onClose={() => setShowWarnings((prev) => ({ ...prev, [id]: false }))}
+                nomChamp={`champ ${id}`} 
+              />
+            )}
           </div>
         ))}
       </div>
@@ -114,12 +169,20 @@ const CaseDescription = () => {
           audiences, etc. et indiquer le temps mis en compte par catégories
           ainsi que le total des honoraires)
         </p>
-        {editors.slice(5).map(({ id }) => (
-          <Editor
-            key={id}
-            id={id}
-            onChange={(content) => handleEditorChange(id, content)}
-          />
+        {editors.slice(5).map(({ id, label }) => (
+          <div key={id} ref={editorRefs.current[id]}>
+            <Editor
+              id={id}
+              onChange={(content) => handleEditorChange(id, content)}
+              onBlur={() => handleEditorBlur(id)} 
+            />
+            {showWarnings[id] && (
+              <PopupHTMLEditorWarning 
+                onClose={() => setShowWarnings((prev) => ({ ...prev, [id]: false }))}
+                nomChamp={`champ ${id}`} 
+              />
+            )}
+          </div>
         ))}
       </div>
     </div>

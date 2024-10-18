@@ -17,9 +17,7 @@ const PrisedePosition = () => {
   const handleClickOutside = (event) => {
     if (priseDePosition.current && !priseDePosition.current.contains(event.target)) {
       const plainText = extractPlainText(content);
-      console.log("Plain Text:", plainText, plainText.length);
 
-      // Show warning if plain text length is less than 6 and not empty
       if (plainText.length < 6 && plainText.trim() !== "") {
         setShowWarning(true);
       }
