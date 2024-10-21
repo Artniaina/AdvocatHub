@@ -19,7 +19,7 @@ const Affaire = () => {
   const { formData, setFormData } = useGeneraliteContext();
   const { showOptions, setShowOptions } = useGeneraliteContext();
   const popupRef = useRef(null);
-  const popupRefLength = useRef(null);
+
   const [showWarningLength, setShowWarningLength] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [id, setId] = useState("");
@@ -161,96 +161,103 @@ const Affaire = () => {
     setProvisionData(data);
     setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
     handlePopupClose();
-  }
-  ;
-  const validateLength = (value) => {
-    if (value.length < 6 && value.trim() !== "") {
-      return false
-    }
-    return true
   };
-
-  const absenceTermRef = useRef("");
-
   const handleTextareaChange = (event) => {
     const { id, value: newValue } = event.target;
-  
+
     setFormData((prevState) => ({
       ...prevState,
       [id]: newValue,
     }));
-  
-    setId(id);
-    setValue(newValue);
-    
+
     if (id === "absenceTerm") {
       absenceTermRef.current = newValue;
     }
-  
+
     if (id === "dateFin" || id === "dateDebut" || id === "datecontest") {
-      validateDate(newValue, id); 
-    } 
-    else if (id === "nomAffaire") {
-      // No specific validation for nomAffaire
-      // Do nothing hehe
-    }
-    else {
+      validateDate(newValue, id);
+    } else if (id !== "nomAffaire") {
       const isLengthValid = validateLength(newValue);
       if (!isLengthValid) {
         console.log("Warning: Length is less than 6 characters.");
-      } 
-    }
-  };
-
-
-  
-  const handleClickOutsideTextarea = (event) => {
-    if (popupRefLength.current && !popupRefLength.current.contains(event.target)) {
-      const absenceTermValue = absenceTermRef.current; 
-      const absTermsValid = validateLength(absenceTermValue); 
-      const isFormValid = absTermsValid;
-  
-      console.log("Current Validation Status:", isFormValid,absenceTermValue);
-      
-      if (!isFormValid) { 
-        setShowWarningLength(true); 
-        console.log("It's not valid eeeee");
-      } else {
-        setShowWarningLength(false);
-        console.log("It is valid, congrats");
       }
-      console.log("Clicked outside the popup.");
     }
   };
-  
+  const absenceTermRef = useRef("");
+  const popupRefLength = useRef(null);
 
-  
-  
+  const validateLength = (value) => {
+    return value.length >= 6 || value.trim() === "";
+  };
 
-const handleClickOutside = (event) => {
-  if (popupRef.current && !popupRef.current.contains(event.target)) {
-    handlePopupClose();
-  }
-};
+  const textareaRef = useRef(null); // Add this
 
-const filteredHonoraireData = honoraireData.filter(
-    (item) => item.date === selectedHonoraireDate
-  );
+  const handleClickOutsideTextarea = (event) => {
+    // Check if the click is outside the textarea and also outside the popup
+    if (
+      textareaRef.current &&
+      !textareaRef.current.contains(event.target) &&
+      (!popupRefLength.current ||
+        !popupRefLength.current.contains(event.target))
+    ) {
+      const absenceTermValue = absenceTermRef.current;
+      const absTermsValid = validateLength(absenceTermValue);
 
-  const filteredProvisionData = provisionData.filter(
-    (item) => item.date === selectedProvisionDate
-  );
+      if (!absTermsValid) {
+        setShowWarningLength(true); // Show the popup if invalid
+        console.log("Invalid: Length is less than 6 characters.");
+      } else {
+        setShowWarningLength(false); // Hide the popup if valid
+        console.log("Valid: Length is acceptable.");
+      }
 
-
+      console.log("Clicked outside the textarea.");
+    }
+  };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    const handleOutsideClick = (event) => {
+      handleClickOutsideTextarea(event); // Ensure handleClickOutsideTextarea is called on every click
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    // Clean up event listener on component unmount or updates
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []); // Only run once on mount
+
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideTextarea);
-    return () => document.removeEventListener("mousedown", handleClickOutsideTextarea);
+    const handleOutsideClick = (event) => {
+      handleClickOutsideTextarea(event);
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
   }, []);
+
+  // const handleClickOutside = (event) => {
+  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //     handlePopupClose();
+  //   }
+  // };
+
+  // const filteredHonoraireData = honoraireData.filter(
+  //     (item) => item.date === selectedHonoraireDate
+  //   );
+
+  //   const filteredProvisionData = provisionData.filter(
+  //     (item) => item.date === selectedProvisionDate
+  //   );
+
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   return (
     <div>
@@ -340,22 +347,25 @@ const filteredHonoraireData = honoraireData.filter(
           />
         </div>
         <div ref={popupRefLength}>
-        <textarea
-          id="termesHonoraires"
-          className={`textarea ${
-            isDisabled("termesHonoraires") ? "disabled" : ""
-          }`}
-          value={
-            isDisabled("termesHonoraires") ? "" : formData.termesHonoraires
-          }
-          onChange={handleTextareaChange}
-          disabled={isDisabled("termesHonoraires")}
-        />
+          <textarea
+            id="termesHonoraires"
+            className={`textarea ${
+              isDisabled("termesHonoraires") ? "disabled" : ""
+            }`}
+            value={
+              isDisabled("termesHonoraires") ? "" : formData.termesHonoraires
+            }
+            onChange={handleTextareaChange}
+            disabled={isDisabled("termesHonoraires")}
+          />
         </div>
       </div>
       {showWarningLength && (
         <div ref={popupRefLength}>
-          <PopupHTMLEditorWarning onClose={closePopup} nomChamp="champ" />
+          <PopupHTMLEditorWarning
+            onClose={() => setShowWarningLength(false)}
+            nomChamp="champ"
+          />
         </div>
       )}
       <div className="formGroup">
@@ -364,20 +374,19 @@ const filteredHonoraireData = honoraireData.filter(
           et due forme, un budget ou un taux horaire a-t'il été annoncé au
           client ?
         </label>
-        <div  ref={popupRefLength}>
-        <textarea
-          style={{ width: "100%" }}
-          id="absenceTerm"
-          value={formData.absenceTerm}
-          onChange={handleTextareaChange}
-        />
+        <div ref={textareaRef}>
+          <textarea
+            style={{ width: "100%" }}
+            id="absenceTerm"
+            value={formData.absenceTerm}
+            onChange={handleTextareaChange}
+          />
         </div>
       </div>
       <div className="formGroupbtn">
         <div className="toggleButtons">
           <p>
-            Affaire(s) en cours ? (si oui, préciser l’état d’avancement) :{" "}
-            <br />
+            Affaire(s) en cours ? (si oui, préciser l’état d’avancement) :<br />
             Etat d’avancement hors recouvrement des honoraires (Juridiction,
             décisions rendues, expertise, plaidoiries…)
           </p>
@@ -387,20 +396,18 @@ const filteredHonoraireData = honoraireData.filter(
             onChange={(value) => handleToggle("etatAvancement", value)}
           />
         </div>
-        <div ref={popupRefLength}>
-        <textarea
-          id="etatAvancement"
-          className={`textarea ${
-            isDisabled("etatAvancement") ? "disabled" : ""
-          }`}
-          value={isDisabled("etatAvancement") ? "" : formData.etatAvancement}
-          onChange={handleTextareaChange}
-          disabled={isDisabled("etatAvancement")}
-        />
+        <div ref={textareaRef}>
+          <textarea
+            id="etatAvancement"
+            className={`textarea ${
+              isDisabled("etatAvancement") ? "disabled" : ""
+            }`}
+            value={isDisabled("etatAvancement") ? "" : formData.etatAvancement}
+            onChange={handleTextareaChange}
+            disabled={isDisabled("etatAvancement")}
+          />
         </div>
-
       </div>
-
       <div className="formGroup">
         <label htmlFor="datecontest">
           Date de la contestation des honoraires * :{" "}
@@ -451,7 +458,7 @@ const filteredHonoraireData = honoraireData.filter(
                   </option>
                 ))}
               </select>
-
+              {/* 
               <div className="honoraireData">
                 {selectedHonoraireDate && filteredHonoraireData.length > 0 && (
                   <div className="honoraireData">
@@ -485,7 +492,7 @@ const filteredHonoraireData = honoraireData.filter(
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
             </>
           )}
 
@@ -537,7 +544,7 @@ const filteredHonoraireData = honoraireData.filter(
                 ))}
               </select>
 
-              <div className="honoraireData">
+              {/* <div className="honoraireData">
                 {selectedProvisionDate && filteredProvisionData.length > 0 && (
                   <div className="honoraireData">
                     {filteredProvisionData.map((item, index) => (
@@ -570,7 +577,7 @@ const filteredHonoraireData = honoraireData.filter(
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
             </>
           )}
 
@@ -616,14 +623,13 @@ const filteredHonoraireData = honoraireData.filter(
               ))}
             </select>
             <div ref={popupRefLength}>
-          
-            <textarea
-              className={`textarea ${isDisabled("notes") ? "disabled" : ""}`}
-              style={{ width: "30vw", height: "40px", marginTop: "-2px" }}
-              value={selectedComment}
-              readOnly
-            />
-          </div>
+              <textarea
+                className={`textarea ${isDisabled("notes") ? "disabled" : ""}`}
+                style={{ width: "30vw", height: "40px", marginTop: "-2px" }}
+                value={selectedComment}
+                readOnly
+              />
+            </div>
 
             <div className="btnAdd">
               <IoAddCircle
@@ -660,16 +666,17 @@ const filteredHonoraireData = honoraireData.filter(
           />
         </div>
         <div ref={popupRefLength}>
-          
-        <textarea
-          className={`textarea ${isDisabled("conciliation") ? "disabled" : ""}`}
-          name="conciliation"
-          id="conciliation"
-          onChange={handleTextareaChange}
-          value={isDisabled("conciliation") ? "" : formData.conciliation}
-          disabled={isDisabled("conciliation")}
-        />
-          </div>
+          <textarea
+            className={`textarea ${
+              isDisabled("conciliation") ? "disabled" : ""
+            }`}
+            name="conciliation"
+            id="conciliation"
+            onChange={handleTextareaChange}
+            value={isDisabled("conciliation") ? "" : formData.conciliation}
+            disabled={isDisabled("conciliation")}
+          />
+        </div>
       </div>
 
       <div className="formGroupbtn">
@@ -686,16 +693,15 @@ const filteredHonoraireData = honoraireData.filter(
           />
         </div>
         <div ref={popupRefLength}>
-          
-        <textarea
-          className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
-          name="relative"
-          id="relative"
-          onChange={handleTextareaChange}
-          value={isDisabled("relative") ? "" : formData.relative}
-          disabled={isDisabled("relative")}
-        />
-          </div>
+          <textarea
+            className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
+            name="relative"
+            id="relative"
+            onChange={handleTextareaChange}
+            value={isDisabled("relative") ? "" : formData.relative}
+            disabled={isDisabled("relative")}
+          />
+        </div>
       </div>
 
       <div className="formGroupbtn">
@@ -711,16 +717,15 @@ const filteredHonoraireData = honoraireData.filter(
           />
         </div>
         <div ref={popupRefLength}>
-          
-        <textarea
-          className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
-          name="conserv"
-          id="conserv"
-          onChange={handleTextareaChange}
-          value={isDisabled("conserv") ? "" : formData.conserv}
-          disabled={isDisabled("conserv")}
-        />
-          </div>
+          <textarea
+            className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
+            name="conserv"
+            id="conserv"
+            onChange={handleTextareaChange}
+            value={isDisabled("conserv") ? "" : formData.conserv}
+            disabled={isDisabled("conserv")}
+          />
+        </div>
       </div>
 
       <div className="formGroupbtn">
@@ -733,15 +738,15 @@ const filteredHonoraireData = honoraireData.filter(
           />
         </div>
         <div ref={popupRefLength}>
-        <textarea
-          className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
-          name="mediation"
-          id="mediation"
-          onChange={handleTextareaChange}
-          value={isDisabled("mediation") ? "" : formData.mediation}
-          disabled={isDisabled("mediation")}
-        />
-          </div>
+          <textarea
+            className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
+            name="mediation"
+            id="mediation"
+            onChange={handleTextareaChange}
+            value={isDisabled("mediation") ? "" : formData.mediation}
+            disabled={isDisabled("mediation")}
+          />
+        </div>
       </div>
       {showWarning && (
         <PopupValidationDate
@@ -772,7 +777,6 @@ const filteredHonoraireData = honoraireData.filter(
           />
         </div>
       </div>
- 
     </div>
   );
 };
