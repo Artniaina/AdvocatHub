@@ -70,6 +70,18 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     );
   };
 
+  const handleCloseWarning = () => {
+    setShowWarning(false);
+    if (warningDateIndex !== null) {
+      setRowsData((prevState) =>
+        prevState.map((row, i) =>
+          i === warningDateIndex ? { ...row, date: "" } : row
+        )
+      );
+      setWarningDateIndex(null);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(rowsData);
@@ -83,7 +95,11 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
   return (
     <>
       <div className="overlay" onClick={onClose}>
-        <div className="popupAffaire" style={{ top: "10px" }} onClick={(e) => e.stopPropagation()}>
+        <div
+          className="popupAffaire"
+          style={{ top: "10px" }}
+          onClick={(e) => e.stopPropagation()}
+        >
           <button onClick={onClose} className="closeButton">
             <IoCloseCircle />
           </button>
@@ -104,15 +120,19 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                       <input
                         type="date"
                         value={row.date}
-                        onChange={(e) => handleInputChange(index, "date", e.target.value)}
-                        required={!areAllFieldsEmpty(row)} 
+                        onChange={(e) =>
+                          handleInputChange(index, "date", e.target.value)
+                        }
+                        required={!areAllFieldsEmpty(row)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={row.reference}
-                        onChange={(e) => handleInputChange(index, "reference", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(index, "reference", e.target.value)
+                        }
                         required={!areAllFieldsEmpty(row)}
                       />
                     </td>
@@ -120,8 +140,10 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
                       <input
                         type="text"
                         value={row.amount}
-                        onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                        required={!areAllFieldsEmpty(row)} 
+                        onChange={(e) =>
+                          handleInputChange(index, "amount", e.target.value)
+                        }
+                        required={!areAllFieldsEmpty(row)}
                       />
                     </td>
                     <td style={{ display: "flex", alignItems: "center" }}>
@@ -148,16 +170,13 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
             </button>
           </form>
         </div>
-        {showWarning && warningDateIndex !== null && (
-          <PopupValidationDate
-            onClose={() => {
-              setShowWarning(false);
-              setWarningDateIndex(null);
-            }}
-            date={rowsData[warningDateIndex].date}
-          />
-        )}
       </div>
+      {showWarning && warningDateIndex !== null && (
+        <PopupValidationDate
+          onClose={handleCloseWarning}
+          date={rowsData[warningDateIndex].date}
+        />
+      )}
     </>
   );
 };

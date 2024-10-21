@@ -5,6 +5,7 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
+import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 
 const PopupProvision = ({ onClose, onSubmit }) => {
   const { provisionData } = useGeneraliteContext();
@@ -18,6 +19,8 @@ const PopupProvision = ({ onClose, onSubmit }) => {
 
   const [rowsData, setRowsData] = useState(initialData);
   const [initialRowsData, setInitialRowsData] = useState(initialData);
+  const [showWarning, setShowWarning] = useState(false);
+  const [warningDateIndex, setWarningDateIndex] = useState(null);
   const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
@@ -46,18 +49,38 @@ const PopupProvision = ({ onClose, onSubmit }) => {
       );
     });
   };
+  const validateDate = (selectedDate, index) => {
+    const currentDate = new Date();
+    const selected = new Date(selectedDate);
 
-  useEffect(() => {
-    setIsModified(checkIfModified());
-  }, [rowsData]);
+    if (selected > currentDate) {
+      setShowWarning(true);
+      setWarningDateIndex(index);
+      setRowsData((prevState) =>
+        prevState.map((row, i) => (i === index ? { ...row, date: "" } : row))
+      );
+    } else {
+      setShowWarning(false);
+      if (warningDateIndex === index) {
+        setWarningDateIndex(null);
+      }
+    }
+  };
 
   const handleInputChange = (index, field, value) => {
+    if (field === "date") {
+      validateDate(value, index);
+    }
     setRowsData((prevState) =>
       prevState.map((row, i) =>
         i === index ? { ...row, [field]: value } : row
       )
     );
   };
+
+  useEffect(() => {
+    setIsModified(checkIfModified());
+  }, [rowsData]);
 
   const handleToggle = (index, value) => {
     setRowsData((prevState) =>
@@ -85,6 +108,17 @@ const PopupProvision = ({ onClose, onSubmit }) => {
     });
   };
 
+  const handleCloseWarning = () => {
+    setShowWarning(false);
+    if (warningDateIndex !== null) {
+      setRowsData((prevState) =>
+        prevState.map((row, i) =>
+          i === warningDateIndex ? { ...row, date: "" } : row
+        )
+      );
+      setWarningDateIndex(null);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -127,7 +161,9 @@ const PopupProvision = ({ onClose, onSubmit }) => {
                     <input
                       type="date"
                       value={rowsData[index].date}
-                      onChange={(e) => handleInputChange(index, "date", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "date", e.target.value)
+                      }
                       required={rowsData[index].date || rowsData[index].amount}
                     />
                   </td>
@@ -135,14 +171,18 @@ const PopupProvision = ({ onClose, onSubmit }) => {
                     <input
                       type="text"
                       value={rowsData[index].reference}
-                      onChange={(e) => handleInputChange(index, "reference", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "reference", e.target.value)
+                      }
                     />
                   </td>
                   <td>
                     <input
                       type="text"
                       value={rowsData[index].amount}
-                      onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(index, "amount", e.target.value)
+                      }
                       required={rowsData[index].amount || rowsData[index].date}
                     />
                   </td>
@@ -153,7 +193,11 @@ const PopupProvision = ({ onClose, onSubmit }) => {
                       onChange={(value) => handleToggle(index, value)}
                     />
                     <TiDelete
-                      style={{ color: "red", fontSize: "50px", cursor: "pointer" }}
+                      style={{
+                        color: "red",
+                        fontSize: "50px",
+                        cursor: "pointer",
+                      }}
                       onClick={() => handleReset(index)}
                     />
                   </td>
@@ -166,6 +210,14 @@ const PopupProvision = ({ onClose, onSubmit }) => {
           </button>
         </form>
       </div>
+      {showWarning && warningDateIndex !== null && (
+        <div onClick={(e) => e.stopPropagation()}>
+          <PopupValidationDate
+            onClose={handleCloseWarning}
+            date={rowsData[warningDateIndex].date}
+          />
+        </div>
+      )}
     </div>
   );
 };

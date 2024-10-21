@@ -53,7 +53,6 @@ const Affaire = () => {
   const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState("");
   const [selectedComment, setSelectedComment] = useState("");
-  const [value, setValue] = useState("");
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -157,7 +156,7 @@ const Affaire = () => {
     setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
     handlePopupClose();
   };
-  const [absenceTerm, setAbsenceTerm] = useState("");
+  const [contentTextarea, setContentTextarea] = useState("");
   const handlePopupProvisionSubmit = async (data) => {
     setProvisionData(data);
     setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
@@ -173,7 +172,7 @@ const Affaire = () => {
     setShowWarningLength(false);
   };
 
-  const absenceTermRef = useRef(absenceTerm);
+  const contentRef = useRef(contentTextarea);
 
   const handleTextareaChange = (event) => {
     const { id, value: newValue } = event.target;
@@ -185,22 +184,21 @@ const Affaire = () => {
 
     if (id === "dateFin" || id === "dateDebut" || id === "datecontest") {
       validateDate(newValue, id);
-    } else if (id == "nomAffaire" || id == "client" ) {
+    } else if (id == "nomAffaire" || id == "client") {
       //Do nothing haha
-    }else{
-      setAbsenceTerm(newValue);
+    } else {
+      setContentTextarea(newValue);
       console.log(`Ito ny id:${id} Dia ito ny value ${newValue}`);
-      absenceTermRef.current = newValue;
+      contentRef.current = newValue;
     }
   };
 
   const handleClickOutsideTextarea = (event) => {
     if (textareaRef.current && !textareaRef.current.contains(event.target)) {
-
-      if (absenceTermRef.current === "") {
+      if (contentRef.current === "") {
         setShowWarningLength(false);
         console.log("Valid: empty is also Gwenchanaaaaaa.");
-      } else if (absenceTermRef.current.length <= 6) {
+      } else if (contentRef.current.length < 6) {
         setShowWarningLength(true);
         console.log("Invalid: Not Daijobuuu");
       } else {
@@ -340,22 +338,21 @@ const Affaire = () => {
             onChange={(value) => handleToggle("termesHonoraires", value)}
           />
         </div>
-          <textarea
-            id="termesHonoraires"
-            ref={textareaRef}
-            className={`textarea ${
-              isDisabled("termesHonoraires") ? "disabled" : ""
-            }`}
-            value={
-              isDisabled("termesHonoraires") ? "" : formData.termesHonoraires
-            }
-            onChange={handleTextareaChange}
-            disabled={isDisabled("termesHonoraires")}
-          />
-       
+        <textarea
+          id="termesHonoraires"
+          ref={textareaRef}
+          className={`textarea ${
+            isDisabled("termesHonoraires") ? "disabled" : ""
+          }`}
+          value={
+            isDisabled("termesHonoraires") ? "" : formData.termesHonoraires
+          }
+          onChange={handleTextareaChange}
+          disabled={isDisabled("termesHonoraires")}
+        />
       </div>
       {showWarningLength && (
-        <div ref={popupRefLength}>
+        <div className="popupContainer" ref={popupRefLength}>
           <PopupHTMLEditorWarning onClose={closePopup} nomChamp="champ" />
         </div>
       )}
@@ -614,14 +611,14 @@ const Affaire = () => {
                 </option>
               ))}
             </select>
-              <textarea
-                className={`textarea ${isDisabled("notes") ? "disabled" : ""}`}
-                style={{ width: "30vw", height: "40px", marginTop: "-2px" }}
-                value={selectedComment}
-                onFocus={handleFocus}
-                readOnly
-              />
-           
+            <textarea
+              className={`textarea ${isDisabled("notes") ? "disabled" : ""}`}
+              style={{ width: "30vw", height: "40px", marginTop: "-2px" }}
+              value={selectedComment}
+              onFocus={handleFocus}
+              readOnly
+            />
+
             <div className="btnAdd">
               <IoAddCircle
                 className={` buttonIoAdd ${
@@ -656,20 +653,17 @@ const Affaire = () => {
             onChange={(value) => handleToggle("conciliation", value)}
           />
         </div>
-    
-          <textarea
-          ref={textareaRef}
-            className={`textarea ${
-              isDisabled("conciliation") ? "disabled" : ""
-            }`}
-            onFocus={handleFocus}
-            name="conciliation"
-            id="conciliation"
-            onChange={handleTextareaChange}
-            value={isDisabled("conciliation") ? "" : formData.conciliation}
-            disabled={isDisabled("conciliation")}
-          />
 
+        <textarea
+          ref={textareaRef}
+          className={`textarea ${isDisabled("conciliation") ? "disabled" : ""}`}
+          onFocus={handleFocus}
+          name="conciliation"
+          id="conciliation"
+          onChange={handleTextareaChange}
+          value={isDisabled("conciliation") ? "" : formData.conciliation}
+          disabled={isDisabled("conciliation")}
+        />
       </div>
 
       <div className="formGroupbtn">
@@ -685,18 +679,17 @@ const Affaire = () => {
             onChange={(value) => handleToggle("relative", value)}
           />
         </div>
-      
-          <textarea
+
+        <textarea
           ref={textareaRef}
-            className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
-            name="relative"
-            id="relative"
-            onChange={handleTextareaChange}
-            value={isDisabled("relative") ? "" : formData.relative}
-            disabled={isDisabled("relative")}
-            onFocus={handleFocus}
-          />
-       
+          className={`textarea ${isDisabled("relative") ? "disabled" : ""}`}
+          name="relative"
+          id="relative"
+          onChange={handleTextareaChange}
+          value={isDisabled("relative") ? "" : formData.relative}
+          disabled={isDisabled("relative")}
+          onFocus={handleFocus}
+        />
       </div>
 
       <div className="formGroupbtn">
@@ -712,17 +705,16 @@ const Affaire = () => {
           />
         </div>
 
-          <textarea
-            className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
-            name="conserv"
-            id="conserv"
-            onChange={handleTextareaChange}
-            value={isDisabled("conserv") ? "" : formData.conserv}
-            disabled={isDisabled("conserv")}
-            onFocus={handleFocus}
-            ref={textareaRef}
-          />
-
+        <textarea
+          className={`textarea ${isDisabled("conserv") ? "disabled" : ""}`}
+          name="conserv"
+          id="conserv"
+          onChange={handleTextareaChange}
+          value={isDisabled("conserv") ? "" : formData.conserv}
+          disabled={isDisabled("conserv")}
+          onFocus={handleFocus}
+          ref={textareaRef}
+        />
       </div>
 
       <div className="formGroupbtn">
@@ -735,33 +727,34 @@ const Affaire = () => {
           />
         </div>
 
-          <textarea
+        <textarea
           ref={textareaRef}
-            className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
-            name="mediation"
-            id="mediation"
-            onChange={handleTextareaChange}
-            value={isDisabled("mediation") ? "" : formData.mediation}
-            disabled={isDisabled("mediation")}
-            onFocus={handleFocus}
-          />
-
+          className={`textarea ${isDisabled("mediation") ? "disabled" : ""}`}
+          name="mediation"
+          id="mediation"
+          onChange={handleTextareaChange}
+          value={isDisabled("mediation") ? "" : formData.mediation}
+          disabled={isDisabled("mediation")}
+          onFocus={handleFocus}
+        />
       </div>
       {showWarning && (
-        <PopupValidationDate
-          onClose={() => {
-            setShowWarning(false);
-          }}
-          nomChamp={
-            id == "datecontest"
-              ? "date de contestation des honoraires"
-              : id == "dateDebut"
-              ? "date de début du mandat"
-              : id == "dateFin"
-              ? "date de fin du mandat"
-              : "date"
-          }
-        />
+        <div className="popupContainer">
+          <PopupValidationDate
+            onClose={() => {
+              setShowWarning(false);
+            }}
+            nomChamp={
+              id == "datecontest"
+                ? "date de contestation des honoraires"
+                : id == "dateDebut"
+                ? "date de début du mandat"
+                : id == "dateFin"
+                ? "date de fin du mandat"
+                : "date"
+            }
+          />
+        </div>
       )}
 
       <div className="formGroupbtn">
