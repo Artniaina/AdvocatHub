@@ -42,6 +42,7 @@ const Affaire = () => {
   const closePopup = () => {
     setShowWarningLength(false);
   };
+  const textareaRef = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
   const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
@@ -156,75 +157,64 @@ const Affaire = () => {
     setUniqueHonoraireDates([...new Set(data.map((item) => item.date))]);
     handlePopupClose();
   };
-
+  const [absenceTerm, setAbsenceTerm] = useState("");
   const handlePopupProvisionSubmit = async (data) => {
     setProvisionData(data);
     setUniqueProvisionDates([...new Set(data.map((item) => item.date))]);
     handlePopupClose();
   };
+
+  const popupRefLength = useRef(null);
+
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+
+
+  const handleFocus = () => {
+    setIsTextareaFocused(true);
+    setShowWarningLength(false);
+  };
+  const absenceTermRef = useRef(absenceTerm);
   const handleTextareaChange = (event) => {
     const { id, value: newValue } = event.target;
-
     setFormData((prevState) => ({
       ...prevState,
       [id]: newValue,
     }));
 
     if (id === "absenceTerm") {
+      setAbsenceTerm(newValue);
       absenceTermRef.current = newValue;
     }
 
     if (id === "dateFin" || id === "dateDebut" || id === "datecontest") {
       validateDate(newValue, id);
     } else if (id !== "nomAffaire") {
-      const isLengthValid = validateLength(newValue);
-      if (!isLengthValid) {
-        console.log("Warning: Length is less than 6 characters.");
-      }
     }
   };
-  const absenceTermRef = useRef("");
-  const popupRefLength = useRef(null);
 
-  const validateLength = (value) => {
-    return value.length >= 6 || value.trim() === "";
-  };
-  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
-
-  const handleBlur = () => {
-    const absenceTermValue = absenceTermRef.current;
-    const absTermsValid = validateLength(absenceTermValue);
-    if (!absTermsValid) {
-      setShowWarningLength(true);
-    } else {
-      setShowWarningLength(false);
-    }
-    setIsTextareaFocused(false);
-  };
-
-  const handleFocus = () => {
-    setIsTextareaFocused(true);
-    setShowWarningLength(false);
-  };
-
-  const textareaRef = useRef(null);
   const handleClickOutsideTextarea = (event) => {
-    if (
-      textareaRef.current &&
-      !textareaRef.current.contains(event.target) &&
-      popupRefLength.current &&
-      !popupRefLength.current.contains(event.target)
-    ) {
-      const absenceTermValue = absenceTermRef.current;
-      const absTermsValid = validateLength(absenceTermValue);
+    if (textareaRef.current && !textareaRef.current.contains(event.target)) {
+      console.log("Current absenceTerm:", absenceTermRef.current);
+  
 
-      if (!absTermsValid && !isTextareaFocused) {
-        setShowWarningLength(true);
-      } else {
+      if (absenceTermRef.current === "") {
         setShowWarningLength(false);
+        console.log("Valid: empty is also Gwenchanaaaaaa.");
+      } 
+
+      else if (absenceTermRef.current.length <= 6) {
+        setShowWarningLength(true);
+        console.log("Invalid: Not Daijobuuu");
+      } 
+
+      else {
+        setShowWarningLength(false);
+        console.log("Valid: Length is Gwenchanaaaaaa.");
       }
     }
   };
+  
+
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -250,24 +240,24 @@ const Affaire = () => {
     };
   }, []);
 
-  // const handleClickOutside = (event) => {
-  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //     handlePopupClose();
-  //   }
-  // };
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      handlePopupClose();
+    }
+  };
 
-  // const filteredHonoraireData = honoraireData.filter(
-  //     (item) => item.date === selectedHonoraireDate
-  //   );
+  const filteredHonoraireData = honoraireData.filter(
+    (item) => item.date === selectedHonoraireDate
+  );
 
-  //   const filteredProvisionData = provisionData.filter(
-  //     (item) => item.date === selectedProvisionDate
-  //   );
+  const filteredProvisionData = provisionData.filter(
+    (item) => item.date === selectedProvisionDate
+  );
 
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => document.removeEventListener("mousedown", handleClickOutside);
-  // }, []);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div>
@@ -389,7 +379,6 @@ const Affaire = () => {
             value={formData.absenceTerm}
             onChange={handleTextareaChange}
             onFocus={handleFocus}
-            onBlur={handleBlur}
           />
         </div>
       </div>
@@ -468,7 +457,7 @@ const Affaire = () => {
                   </option>
                 ))}
               </select>
-              {/* 
+
               <div className="honoraireData">
                 {selectedHonoraireDate && filteredHonoraireData.length > 0 && (
                   <div className="honoraireData">
@@ -502,7 +491,7 @@ const Affaire = () => {
                     ))}
                   </div>
                 )}
-              </div> */}
+              </div>
             </>
           )}
 
@@ -554,7 +543,7 @@ const Affaire = () => {
                 ))}
               </select>
 
-              {/* <div className="honoraireData">
+              <div className="honoraireData">
                 {selectedProvisionDate && filteredProvisionData.length > 0 && (
                   <div className="honoraireData">
                     {filteredProvisionData.map((item, index) => (
@@ -587,7 +576,7 @@ const Affaire = () => {
                     ))}
                   </div>
                 )}
-              </div> */}
+              </div>
             </>
           )}
 

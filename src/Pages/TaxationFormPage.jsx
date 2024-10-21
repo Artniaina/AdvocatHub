@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Navbar from '../Components/Navbar'
 import Intro from '../Components/FormulaireDeTaxation/Intro'
 import Generalite from '../Components/FormulaireDeTaxation/Generalite/Generalite'
@@ -10,7 +10,7 @@ import PrisedePosition from '../Components/FormulaireDeTaxation/PrisedePosition'
 const TaxationFormPage = () => {
   return (
     <>
-    <Navbar/>
+    <Navbar />
     <Intro/>
     <div>
     <Generalite/>
