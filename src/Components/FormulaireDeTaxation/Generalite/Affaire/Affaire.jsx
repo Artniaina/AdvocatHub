@@ -189,44 +189,54 @@ const Affaire = () => {
   const validateLength = (value) => {
     return value.length >= 6 || value.trim() === "";
   };
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
 
-  const textareaRef = useRef(null); // Add this
+  const handleBlur = () => {
+    const absenceTermValue = absenceTermRef.current;
+    const absTermsValid = validateLength(absenceTermValue);
+    if (!absTermsValid) {
+      setShowWarningLength(true);
+    } else {
+      setShowWarningLength(false);
+    }
+    setIsTextareaFocused(false);
+  };
 
+  const handleFocus = () => {
+    setIsTextareaFocused(true);
+    setShowWarningLength(false);
+  };
+
+  const textareaRef = useRef(null);
   const handleClickOutsideTextarea = (event) => {
-    // Check if the click is outside the textarea and also outside the popup
     if (
       textareaRef.current &&
       !textareaRef.current.contains(event.target) &&
-      (!popupRefLength.current ||
-        !popupRefLength.current.contains(event.target))
+      popupRefLength.current &&
+      !popupRefLength.current.contains(event.target)
     ) {
       const absenceTermValue = absenceTermRef.current;
       const absTermsValid = validateLength(absenceTermValue);
 
-      if (!absTermsValid) {
-        setShowWarningLength(true); // Show the popup if invalid
-        console.log("Invalid: Length is less than 6 characters.");
+      if (!absTermsValid && !isTextareaFocused) {
+        setShowWarningLength(true);
       } else {
-        setShowWarningLength(false); // Hide the popup if valid
-        console.log("Valid: Length is acceptable.");
+        setShowWarningLength(false);
       }
-
-      console.log("Clicked outside the textarea.");
     }
   };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      handleClickOutsideTextarea(event); // Ensure handleClickOutsideTextarea is called on every click
+      handleClickOutsideTextarea(event);
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
 
-    // Clean up event listener on component unmount or updates
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, []); // Only run once on mount
+  }, []);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -362,10 +372,7 @@ const Affaire = () => {
       </div>
       {showWarningLength && (
         <div ref={popupRefLength}>
-          <PopupHTMLEditorWarning
-            onClose={() => setShowWarningLength(false)}
-            nomChamp="champ"
-          />
+          <PopupHTMLEditorWarning onClose={closePopup} nomChamp="champ" />
         </div>
       )}
       <div className="formGroup">
@@ -376,10 +383,13 @@ const Affaire = () => {
         </label>
         <div ref={textareaRef}>
           <textarea
+            ref={textareaRef}
             style={{ width: "100%" }}
             id="absenceTerm"
             value={formData.absenceTerm}
             onChange={handleTextareaChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
         </div>
       </div>
