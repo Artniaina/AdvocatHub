@@ -12,11 +12,9 @@ export const fetchFormulaireById = createAsyncThunk(
     const response = await fetch(
       `http://192.168.10.10/Utilisateur/FormulaireDeTaxation/${idFormulaire}`
     );
-
     if (!response.ok) {
       throw new Error("Failed to fetch formulaire");
     }
-
     const data = await response.json();
     return data[0];
   }

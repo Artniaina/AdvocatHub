@@ -14,7 +14,7 @@ const ListeFormulairePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useAuth();
-  
+
   const originalFormulaires = useSelector((state) => state.formulaireDraft.formulaireDraft);
   const status = useSelector((state) => state.formulaireDraft.status);
   const error = useSelector((state) => state.formulaireDraft.error);
@@ -58,7 +58,6 @@ const ListeFormulairePage = () => {
   
         if (updatedFormulaires.length === 0) {
             navigate("/home/formTaxation");
-       
         }
       } else {
         throw new Error('Failed to delete the form');
@@ -67,15 +66,13 @@ const ListeFormulairePage = () => {
       console.error('Error deleting formulaire:', error);
     }
   };
-  
-  
-  
+
   const handleNavigateAddNew = () => {
     navigate("/home/formTaxation");
   };
 
-  const handleNavigate = () => {
-    navigate("/home/UpdateformTaxation");
+  const handleNavigate = (formulaireId) => {
+    navigate(`/home/UpdateformTaxation/${formulaireId}`); 
   };
 
   if (status === "loading") {
@@ -121,7 +118,7 @@ const ListeFormulairePage = () => {
               <td>{formulaire.sSubmited_at}</td>
               <td>{formulaire.sIDFormulaire}</td>
               <td className="actions">
-                <PiNotePencil onClick={handleNavigate} />
+                <PiNotePencil onClick={() => handleNavigate(formulaire.sIDFormulaire)} />
                 <RiDeleteBin5Line onClick={() => deleteFormulaire(formulaire.sIDFormulaire)} />
               </td>
             </tr>

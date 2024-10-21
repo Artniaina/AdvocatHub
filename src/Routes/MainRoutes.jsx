@@ -86,37 +86,38 @@ function MainRoutes() {
     <>
       <PageTitleUpdater />
       <Routes>
-        //SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED
+        {/* SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED */}
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
-        <Route path="/modifmdp" element={<ModifMdp />} />         
+        <Route path="/modifmdp" element={<ModifMdp />} />
 
-        //PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN
+        {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route element={<PrivateRoute />}>
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
 
-        //PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION
+        {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION */}
         <Route element={<PartialProtectedRoute />}>
           <Route exact path="/scanqrcode" element={<UsersGuide />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
-        
-        //MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA
-          <Route path="/home/formTaxation" element={<TaxationFormPage />} />
+
+        {/* MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA */}
+        <Route path="/home/formTaxation" element={<TaxationFormPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-          <Route path="/home/UpdateformTaxation" element={<UpdateTaxationFormPage />} />
-          <Route path="/home/ListeFormulaire" element={<ListeFormulairePage />} />
+          <Route path="/home/updateFormTaxation/:id" element={<UpdateTaxationFormPage />} /> 
+          <Route path="/home/listeFormulaire" element={<ListeFormulairePage />} />
         </Route>
       </Routes>
-      </>
+    </>
   );
 }
+
 export default MainRoutes;
