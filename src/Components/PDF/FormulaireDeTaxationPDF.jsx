@@ -107,32 +107,52 @@ const FormulaireDeTaxationPDF = () => {
   const [formulaire, setFormulaire] = useState(null);
   const [status, setStatus] = useState("idle");
 
-  useEffect(() => {
-    const fetchFormulaires = async () => {
-      setStatus("loading");
-      try {
-        const response = await fetch("http://192.168.10.10/Utilisateur/Formulaire/FormTransmis");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setFormulaire(data[0]); 
-        setStatus("succeeded");
-      } catch (error) {
-        console.error("Fetch error:", error);
-        setStatus("failed");
+useEffect(() => {
+  const fetchFormulaires = async () => {
+    setStatus("loading");
+    try {
+      const response = await fetch("http://192.168.10.10/Utilisateur/Formulaire/FormTransmis");
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok. Status: ${response.status}`);
       }
-    };
 
-    if (status === "idle") {
-      fetchFormulaires();
+      const text = await response.text(); // Get the raw text response
+
+      // Check if the response is empty
+      if (!text) {
+        console.log("Response is empty");
+        setFormulaire(null); // Set formulaire to null or some default value
+        setStatus("succeeded");
+        return;
+      }
+
+      // If response is not empty, attempt to parse it as JSON
+      try {
+        const data = JSON.parse(text); // Parse the text as JSON
+        setFormulaire(data.length ? data[0] : null); // Handle empty data array
+        setStatus("succeeded");
+      } catch (jsonError) {
+        console.error("Error parsing JSON:", jsonError.message);
+        throw new Error("Failed to parse response as JSON.");
+      }
+
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setStatus("failed");
     }
-  }, [status]);
+  };
 
-  const avocat = formulaire?.sAvocatsData ? formulaire.sAvocatsData[0] : {};
-  const collaborateurs = formulaire?.sCollaboratorsData || [];
-  const clients = formulaire?.sClientsData || [];
-  const noteHonoraire = formulaire?.sNoteHonoraire || [];
+  if (status === "idle") {
+    fetchFormulaires();
+  }
+}, [status]);
+
+
+const avocat = formulaire?.sAvocatsData?.[0] || {}; 
+const collaborateurs = formulaire?.sCollaboratorsData || [];
+const clients = formulaire?.sClientsData || [];
+const noteHonoraire = formulaire?.sNoteHonoraire || [];
 
   const formatDate = (dateString) => { 
     if (!dateString) return "";

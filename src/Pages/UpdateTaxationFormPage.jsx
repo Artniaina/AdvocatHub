@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { fetchFormulaireById } from '../Store/TaxationFormSlice';
 import Navbar from '../Components/Navbar';
 import Intro from '../Components/FormulaireDeTaxation/Intro';
@@ -11,11 +12,16 @@ import PrisedePosition from '../Components/FormulaireDeTaxation/PrisedePosition'
 
 const UpdateTaxationFormPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const formulaireId = location.state?.id; 
+
   const { formulaire, status, error } = useSelector((state) => state.formulaire);
 
   useEffect(() => {
-    dispatch(fetchFormulaireById(451));
-  }, [dispatch]);
+    if (formulaireId) {
+      dispatch(fetchFormulaireById(formulaireId));
+    }
+  }, [dispatch, formulaireId]);
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -24,6 +30,7 @@ const UpdateTaxationFormPage = () => {
   if (status === 'failed') {
     return <div>Error: {error}</div>;
   }
+console.log(formulaire);
 
   return (
     <>
@@ -39,10 +46,10 @@ const UpdateTaxationFormPage = () => {
         <Honoraires formulaire={formulaire} /> 
       </div>
       <div>
-        <PrisedePosition formulaire={formulaire} />
+        <PrisedePosition formulaire={formulaire} /> 
       </div>
       <div>
-        <UploadFile formulaire={formulaire} />
+        <UploadFile formulaire={formulaire} /> 
       </div>
     </>
   );

@@ -72,8 +72,9 @@ const ListeFormulairePage = () => {
   };
 
   const handleNavigate = (formulaireId) => {
-    navigate(`/home/UpdateformTaxation/${formulaireId}`); 
+    navigate('/home/UpdateformTaxation', { state: { id: formulaireId } });
   };
+  
 
   if (status === "loading") {
     return <div>Loading...</div>;
