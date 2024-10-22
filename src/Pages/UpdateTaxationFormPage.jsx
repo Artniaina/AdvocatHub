@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { fetchFormulaireById } from '../Store/TaxationFormSlice';
 import Navbar from '../Components/Navbar';
-import Intro from '../Components/FormulaireDeTaxation/Intro';
-import Generalite from '../Components/FormulaireDeTaxation/Generalite/Generalite';
-import CaseDescription from '../Components/FormulaireDeTaxation/CaseDescription/CaseDescription';
-import Honoraires from '../Components/FormulaireDeTaxation/Honoraires/Honoraires';
-import UploadFile from '../Components/FormulaireDeTaxation/UploadFile';
-import PrisedePosition from '../Components/FormulaireDeTaxation/PrisedePosition';
+import Intro from '../Components/ModificationFormulaireDeTaxation/Intro';
+import Generalite from '../Components/ModificationFormulaireDeTaxation/Generalite/Generalite';
+import CaseDescription from '../Components/ModificationFormulaireDeTaxation/CaseDescription/CaseDescription';
+import Honoraires from '../Components/ModificationFormulaireDeTaxation/Honoraires/Honoraires';
+import UploadFile from '../Components/ModificationFormulaireDeTaxation/UploadFile';
+import PrisedePosition from '../Components/ModificationFormulaireDeTaxation/PrisedePosition';
 
 const UpdateTaxationFormPage = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const UpdateTaxationFormPage = () => {
   if (status === 'failed') {
     return <div>Error: {error}</div>;
   }
-console.log(formulaire);
+
 
   return (
     <>
