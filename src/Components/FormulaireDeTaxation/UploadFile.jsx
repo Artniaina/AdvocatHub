@@ -43,6 +43,7 @@ const UploadFile = () => {
     clientData,
   } = useGeneraliteContext();
 
+
   const { fileInfos, setFileInfos } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupDifference, setShowPopupDifference] = useState(false);
@@ -136,11 +137,12 @@ const UploadFile = () => {
       currentDate,
     ]
   );
-  const jsonDataRef = useRef(jsonToSend);
+
 
   useEffect(() => {
-    updateJsonData(jsonDataRef.current);
+    updateJsonData(jsonToSend);
   }, [updateJsonData]);
+  
   const refreshPage = () => {
     setLoading(true);
     resetAllData();

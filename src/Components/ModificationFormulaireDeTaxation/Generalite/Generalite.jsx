@@ -9,8 +9,8 @@ import Affaire from "./Affaire/Affaire";
 import { IoStatsChartSharp } from "react-icons/io5";
 import Guide from "./Guide";
 import GuideAffaire from "./Affaire/GuideAffaire";
+
 const Generalite = ({formulaire}) => {
-  console.log(formulaire.sClientsData);
   
   return (
     <>

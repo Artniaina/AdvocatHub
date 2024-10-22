@@ -64,6 +64,7 @@ export const GeneraliteProvider = ({ children }) => {
     c5: "",
     c6: "",
   });
+console.log(formData);
 
   const [honoraireToCompare, setHonoraireToCompare] = useState([]);
 
@@ -98,16 +99,16 @@ export const GeneraliteProvider = ({ children }) => {
       provision: [],
       montant: [],
       nomAffaire: "",
-      termesHonoraires: "",
+      termesHonoraires: "non",
       absenceTerm: "",
       datecontest: "",
       dateDebut: "",
       dateFin: "",
-      etatAvancement: "",
-      conserv: "",
-      mediation: "",
-      relative: "",
-      conciliation: "",
+      etatAvancement: "non",
+      conserv: "non",
+      mediation: "non",
+      relative: "non",
+      conciliation: "non",
       mediationChoix: "non",
     });
 
