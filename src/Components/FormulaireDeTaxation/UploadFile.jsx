@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useLocation , useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
 import NoteHonoraireWarning from "../PopUp/NoteHonoraireWarning";
@@ -20,7 +20,6 @@ import "../../Styles/spinner.css";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
-
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
@@ -83,12 +82,13 @@ const UploadFile = () => {
       setShowPopupDifference(true);
       return false;
     }
+    console.log(honoraireToCompare);
+    console.log(noteHonoraireToCompare);
 
     return true;
   };
 
   const currentDate = new Date().toISOString();
-
 
   const refreshPage = () => {
     setLoading(true);

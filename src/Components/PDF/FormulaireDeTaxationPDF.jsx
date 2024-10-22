@@ -116,21 +116,17 @@ useEffect(() => {
       if (!response.ok) {
         throw new Error(`Network response was not ok. Status: ${response.status}`);
       }
-
-      const text = await response.text(); // Get the raw text response
-
-      // Check if the response is empty
+      const text = await response.text(); 
       if (!text) {
         console.log("Response is empty");
-        setFormulaire(null); // Set formulaire to null or some default value
+        setFormulaire(null);
         setStatus("succeeded");
         return;
       }
 
-      // If response is not empty, attempt to parse it as JSON
       try {
-        const data = JSON.parse(text); // Parse the text as JSON
-        setFormulaire(data.length ? data[0] : null); // Handle empty data array
+        const data = JSON.parse(text); 
+        setFormulaire(data.length ? data[0] : null); 
         setStatus("succeeded");
       } catch (jsonError) {
         console.error("Error parsing JSON:", jsonError.message);
@@ -147,7 +143,6 @@ useEffect(() => {
     fetchFormulaires();
   }
 }, [status]);
-
 
 const avocat = formulaire?.sAvocatsData?.[0] || {}; 
 const collaborateurs = formulaire?.sCollaboratorsData || [];

@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 const GeneraliteContext = createContext();
 
 export const GeneraliteProvider = ({ children }) => {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const [clientData, setClientData] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
   const [prestataires, setPrestataires] = useState([]);
@@ -126,10 +126,10 @@ export const GeneraliteProvider = ({ children }) => {
     });
 
   const currentDate = new Date().toISOString();
-  
+
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
-    sEmailUtilisateur: user.email,
+    sEmailUtilisateur: user ? user.email : "",
     sDomaineJuridique: formData.domaine.join(","),
     sNomAffaire: formData.nomAffaire,
     sTermesHonoraires: formData.termesHonoraires,
