@@ -10,11 +10,9 @@ import { IoStatsChartSharp } from "react-icons/io5";
 import Guide from "./Guide";
 import GuideAffaire from "./Affaire/GuideAffaire";
 
-const Generalite = ({formulaire}) => {
-  
+const Generalite = ({formulaire}) => { 
   return (
     <>
-      {" "}
       <div>
         <Guide/>
         <GuideAffaire />

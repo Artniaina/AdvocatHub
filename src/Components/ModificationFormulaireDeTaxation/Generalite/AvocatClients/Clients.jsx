@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext"; 
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
 
@@ -12,7 +12,7 @@ const Clients = () => {
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
-  }; 
+  };
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -27,17 +27,18 @@ const Clients = () => {
     setSelectedOption(data[0]?.id || "");
     handleClosePopup();
   };
- 
+
   const flattenedClients = clientData.flat();
   const selectedClient =
     flattenedClients.find((client) => client.id === selectedOption) || {};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
-    <div> 
+    <div>
       <div className="titleCard">
         <img
           src={Image}
@@ -62,7 +63,6 @@ const Clients = () => {
             value={selectedOption}
             onChange={handleOptionChange}
           >
-           
             {flattenedClients.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name + " " + client.prenom}
@@ -74,14 +74,13 @@ const Clients = () => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
         </div>
-
         <div className="radio-group">
           <label>
             <input
               type="radio"
               value="Particulier"
               checked={selectedOption === "Particulier"}
-              onChange={handleOptionChange}
+              disabled={true}
             />
             Particulier
           </label>
@@ -91,7 +90,7 @@ const Clients = () => {
               type="radio"
               value="Société/Entité"
               checked={selectedOption === "Société/Entité"}
-              onChange={handleOptionChange}
+              disabled={true}
             />
             Société/Entité
           </label>

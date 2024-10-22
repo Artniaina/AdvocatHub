@@ -14,11 +14,9 @@ export const NavigationProvider = ({ children }) => {
   const [prevLocation, setPrevLocation] = useState(location.pathname);
   const [draftData, setDraftData] = useState({});
 
+  const { jsonToSend } = useGeneraliteContext(); 
   const { resetAllData } = useGeneraliteContext(); 
 
-  const updateJsonData = (data) => {
-    setDraftData(data);
-  };
 
   useEffect(() => {
     if (
@@ -26,7 +24,7 @@ export const NavigationProvider = ({ children }) => {
       prevLocation === "/home/formTaxation" &&
       location.pathname !== "/home/ListeFormulaire"
     ) {
-      submitDraftData(draftData);
+      submitDraftData(jsonToSend);
     }
     setPrevLocation(location.pathname);
   }, [location, draftData, prevLocation]);
@@ -70,7 +68,6 @@ export const NavigationProvider = ({ children }) => {
         submitDraftData,
         draftData,
         setDraftData,
-        updateJsonData,
       }}
     >
       {children}

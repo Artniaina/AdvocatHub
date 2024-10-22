@@ -53,7 +53,6 @@ const Affaire = () => {
     setShowWarningLength(false);
   };
 
-
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
@@ -184,11 +183,7 @@ const Affaire = () => {
 
     if (id === "dateFin" || id === "dateDebut" || id === "datecontest") {
       validateDate(newValue, id);
-    } 
-    else if (id == "nomAffaire" || id == "client") {
-      //Do nothing haha
-    } 
-    else {
+    } else if (id !== "nomAffaire" || id !== "client") {
       setContentTextarea(newValue);
       contentRef.current = newValue;
     }
@@ -198,13 +193,10 @@ const Affaire = () => {
     if (textareaRef.current && !textareaRef.current.contains(event.target)) {
       if (contentRef.current === "") {
         setShowWarningLength(false);
-        console.log("Valid: empty is also Gwenchanaaaaaa.");
       } else if (contentRef.current.length < 6) {
         setShowWarningLength(true);
-        console.log("Invalid: Not Daijobuuu");
       } else {
         setShowWarningLength(false);
-        console.log("Valid: Length is Gwenchanaaaaaa.");
       }
     }
   };

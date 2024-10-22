@@ -1,8 +1,10 @@
 import React, { createContext, useState, useContext } from "react";
+import { useAuth } from "./AuthContext";
 
 const GeneraliteContext = createContext();
 
 export const GeneraliteProvider = ({ children }) => {
+  const {user} = useAuth()
   const [clientData, setClientData] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
   const [prestataires, setPrestataires] = useState([]);
@@ -64,7 +66,6 @@ export const GeneraliteProvider = ({ children }) => {
     c5: "",
     c6: "",
   });
-console.log(formData);
 
   const [honoraireToCompare, setHonoraireToCompare] = useState([]);
 
@@ -124,6 +125,43 @@ console.log(formData);
       c6: "",
     });
 
+  const currentDate = new Date().toISOString();
+  
+  const jsonToSend = {
+    sStatutFormulaire: "non transmis",
+    sEmailUtilisateur: user.email,
+    sDomaineJuridique: formData.domaine.join(","),
+    sNomAffaire: formData.nomAffaire,
+    sTermesHonoraires: formData.termesHonoraires,
+    sAbsenceTermes: formData.absenceTerm,
+    sDateContestation: formData.datecontest,
+    sDateDebutMandat: formData.dateDebut,
+    sDateFinMandat: formData.dateFin,
+    sEtatAvancement: formData.etatAvancement,
+    sMesureConservatoire: formData.conserv,
+    sMediation: formData.mediation,
+    sMediationChoix: showOptions.mediationChoix,
+    sConciliation: formData.conciliation,
+    sProcedureRelative: formData.relative,
+    sObservations: editorContents.observation,
+    sPositionAvocat: editorContents.position,
+    sContenu1: editorContents.c1,
+    sContenu2: editorContents.c2,
+    sContenu3: editorContents.c3,
+    sContenu4: editorContents.c4,
+    sContenu5: editorContents.c5,
+    sContenu6: editorContents.c6,
+    sMontant: montantData,
+    sNoteHonoraire: noteHonoraire,
+    sHonoraireData: honoraireData,
+    sProvision: provisionData,
+    sPrestataireData: prestataires,
+    sCollaboratorsData: selectedAvocats,
+    sAvocatsData: avocatsData,
+    sClientsData: clientData,
+    sSubmited_at: currentDate,
+  };
+
   const resetAllData = () => {
     resetClientData();
     resetSelectedAvocats();
@@ -173,6 +211,7 @@ console.log(formData);
         formData,
         setFormData,
         resetAllData,
+        jsonToSend,
       }}
     >
       {children}

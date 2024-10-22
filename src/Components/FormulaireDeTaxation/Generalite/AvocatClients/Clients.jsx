@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext"; 
+import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
 
 const Clients = () => {
-  const [selectedOption, setSelectedOption] = useState("");
   const { clientData, setClientData } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState("");
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
-  }; 
+  };
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -27,17 +28,23 @@ const Clients = () => {
     setSelectedOption(data[0]?.id || "");
     handleClosePopup();
   };
- 
+
   const flattenedClients = clientData.flat();
   const selectedClient =
     flattenedClients.find((client) => client.id === selectedOption) || {};
+
+  useEffect(() => {
+    if (selectedClient.selectedOption) {
+      setSelectedOptions(selectedClient.selectedOption);
+    }
+  }, [selectedClient]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
-    <div> 
+    <div>
       <div className="titleCard">
         <img
           src={Image}
@@ -62,7 +69,6 @@ const Clients = () => {
             value={selectedOption}
             onChange={handleOptionChange}
           >
-           
             {flattenedClients.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name + " " + client.prenom}
@@ -80,8 +86,9 @@ const Clients = () => {
             <input
               type="radio"
               value="Particulier"
-              checked={selectedOption === "Particulier"}
+              checked={selectedOptions === "Particulier"}
               onChange={handleOptionChange}
+              disabled
             />
             Particulier
           </label>
@@ -90,8 +97,9 @@ const Clients = () => {
             <input
               type="radio"
               value="Société/Entité"
-              checked={selectedOption === "Société/Entité"}
+              checked={selectedOptions === "Société/Entité"}
               onChange={handleOptionChange}
+              disabled
             />
             Société/Entité
           </label>
