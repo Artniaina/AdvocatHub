@@ -4,10 +4,11 @@ import "../../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFileSignature } from "react-icons/fa6";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
+import { FaFilter } from "react-icons/fa";
 
 const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const { prestataires } = useGeneraliteContext();
-
+  const [filterActive, setFilterActive] = useState(null);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});
-  const [editingIndex, setEditingIndex] = useState(null); // Track editing index
+  const [editingIndex, setEditingIndex] = useState(null);
 
   const handleChange = (e, setState) => {
     const value = e.target.value;
@@ -37,12 +38,42 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
       setTitrePro(prestataireToEdit.titrePro);
       setFormationExp(prestataireToEdit.formationExp);
       setAutresInfo(prestataireToEdit.autresInfo);
-      setEditingIndex(index); // Set the editing index
+      setEditingIndex(index);
     }
   };
+  const requestSort = (key) => {
+    const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
+    const sortedPrestataires = [...Prestataires].sort((a, b) => {
+      if (a[key] < b[key]) return order === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return order === "asc" ? 1 : -1;
+      return 0;
+    });
+    setSortKey(key);
+    setSortOrder(order);
+    setPrestataires(sortedPrestataires);
+  };
 
+  const handleFilterChange = (e, key) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: e.target.value,
+    }));
+  };
+
+  const handleFilterClick = (key) => {
+    setFilterActive(key);
+  };
+
+  const handleInvalid = (e) => {
+    e.target.setCustomValidity("Veuillez entrer au moins 6 caractères.");
+  };
+
+  const handleInput = (e) => {
+    e.target.setCustomValidity("");
+  };
   const handleSubmitTable = (e) => {
     e.preventDefault();
+    
 
     if (editingIndex !== null) {
       const updatedPrestataires = Prestataires.map((prestataire, index) =>
@@ -61,7 +92,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
       );
 
       setPrestataires(updatedPrestataires);
-      setEditingIndex(null); // Reset editing index
+      setEditingIndex(null);
     } else {
       setPrestataires([
         ...Prestataires,
@@ -78,7 +109,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
       ]);
     }
 
-    // Reset input fields
     setName("");
     setPrenom("");
     setEmail("");
@@ -123,7 +153,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
 
         <form onSubmit={handleSubmitTable}>
           <div className="avocatForm2">
-            {/* Form for adding/updating prestataire */}
             <div className="prestataire">
               <div className="formGroup">
                 <label htmlFor="name">Nom*:</label>
@@ -182,18 +211,30 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                 <textarea
                   id="autreInfo"
                   value={autresInfo}
-                  onChange={(e) => handleChange(e, setAutresInfo)}
+                  onChange={(e) =>
+                    handleChange(e, setAutresInfo)
+                  }
                   style={{ height: "50px" }}
+                  minLength={6}
+                  onInvalid={handleInvalid}
+                  onInput={handleInput}
                 />
               </div>
+
               <div className="formGroup">
                 <label htmlFor="formationExp">Formation et Expérience:</label>
                 <textarea
                   id="formationExp"
                   value={formationExp}
-                  onChange={(e) => handleChange(e, setFormationExp)}
+                  onChange={(e) =>
+                    handleChange(e, setFormationExp)
+                  }
                   style={{ height: "50px" }}
+                  minLength={6}
+                  onInvalid={handleInvalid}
+                  onInput={handleInput}
                 />
+          
               </div>
             </div>
           </div>
@@ -207,27 +248,44 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
             <thead>
               <tr>
                 {[
-                  "name",
+                      "name",
                   "prenom",
                   "email",
-                  "setude",
+                  "etude",
                   "titrePro",
                   "formationExp",
                   "autresInfo",
+                  "choix",
                 ].map((key) => (
-                  <th key={key}>
-                    <span className="sort-icon">
-                      <PiCaretUpDownFill />
-                    </span>
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                  </th>
+                  <th key={key} onClick={() => requestSort(key)}>
+                  <span className="sort-icon">
+                    <PiCaretUpDownFill />
+                  </span>
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                  <span
+                    className="filter-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClick(key);
+                    }}
+                  >
+                    <FaFilter />
+                  </span>
+                  {filterActive === key && (
+                    <input
+                      type="text"
+                      placeholder={`Filter by ${key}`}
+                      value={filters[key] || ""}
+                      onChange={(e) => handleFilterChange(e, key)}
+                    />
+                  )}
+                </th>
                 ))}
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredPrestataires.map((prestataire, index) => (
-                // Conditionally hide the row if it's being edited
+              {filteredPrestataires.map((prestataire, index) =>
                 editingIndex === index ? null : (
                   <tr key={index}>
                     <td>{prestataire.name}</td>
@@ -254,7 +312,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                     </td>
                   </tr>
                 )
-              ))}
+              )}
             </tbody>
           </table>
         </div>

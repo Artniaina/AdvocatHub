@@ -4,6 +4,7 @@ import "../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
+import { FaFileSignature } from "react-icons/fa6";
 
 const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   const {noteHonoraire, setNoteHonoraire}= useGeneraliteContext()
@@ -424,6 +425,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   <td>{data.remise}</td>
                   <td>{data.noteTTC}</td>
                   <td>{data.restantDu}</td>
+                  <td></td>
                 </tr>
               ))}
             </tbody>
