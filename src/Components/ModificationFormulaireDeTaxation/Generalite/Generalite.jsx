@@ -12,6 +12,8 @@ import GuideAffaire from "./Affaire/GuideAffaire";
 
 
 const Generalite = ({ formulaire }) => {
+  console.log(formulaire);
+  
   return (
     <>
       <div>
@@ -27,14 +29,14 @@ const Generalite = ({ formulaire }) => {
           <FaUsers style={{ fontSize: "30px", marginRight: "7px" }} />
           Les collaborateurs ayant participé à la réalisation des prestations
         </h2>
-        <Collaborateurs />
-        <Prestataires />
+        <Collaborateurs collaboratorsToModify={formulaire?.sCollaboratorsData}/>
+        <Prestataires prestatairesDataToModify={formulaire?.sPrestataireData} />
         
         <h2 className="miniTitle">
           <IoStatsChartSharp style={{ fontSize: "30px", marginRight: "7px" }} />
           AFFAIRE
         </h2>
-        <Affaire />
+        <Affaire formulaire={formulaire}/>
       </section>
     </>
   );

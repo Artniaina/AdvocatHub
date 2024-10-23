@@ -5,8 +5,8 @@ import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
-const Collaborateurs = () => {
-  const { selectedAvocats, setSelectedAvocats } = useGeneraliteContext();
+const Collaborateurs = ({collaboratorsToModify}) => {
+  const  [selectedAvocats, setSelectedAvocats]  = useState(collaboratorsToModify);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");

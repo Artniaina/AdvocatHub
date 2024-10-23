@@ -10,13 +10,30 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
 
-const Affaire = () => {
+const Affaire = ({formulaire}) => {
+
   const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
   const { honoraireData, setHonoraireData } = useGeneraliteContext();
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
   const { provisionData, setProvisionData } = useGeneraliteContext();
   const { montantData, setMontantData } = useGeneraliteContext();
-  const { formData, setFormData } = useGeneraliteContext();
+  const [formData, setFormData] = useState({
+    domaine: formulaire.sDomaineJuridique || [] ,
+    honoraire:  formulaire.sHonoraireData || [],
+    provision: formulaire.sProvision || [],
+    montant:  formulaire.sMontant || [],
+    nomAffaire: formulaire.sNomAffaire || "",
+    termesHonoraires: formulaire.sNomAffaire || "",
+    absenceTerm: formulaire.sTermesHonoraires ||  "",
+    datecontest: formulaire.sDateContestation || "",
+    dateDebut:formulaire.sDateDebutMandat ||  "",
+    dateFin:formulaire.sDateFinMandat ||  "",
+    etatAvancement:formulaire.sEtatAvancement ||  "",
+    conserv:formulaire.sNomAffaire ||  "",
+    mediation: formulaire.sNomAffaire || "",
+    relative:formulaire.sNomAffaire ||  "",
+    conciliation: formulaire.sNomAffaire || "",
+  });
   const { showOptions, setShowOptions } = useGeneraliteContext();
   const popupRef = useRef(null);
 

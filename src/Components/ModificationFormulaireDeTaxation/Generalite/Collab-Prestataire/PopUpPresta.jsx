@@ -6,8 +6,7 @@ import { FaFileSignature } from "react-icons/fa6";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import { FaFilter } from "react-icons/fa";
 
-const PopupPrestataires = ({ onClose, onSubmitData }) => {
-  const { prestataires } = useGeneraliteContext();
+const PopupPrestataires = ({ onClose, onSubmitData, prestataires }) => {
   const [filterActive, setFilterActive] = useState(null);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");

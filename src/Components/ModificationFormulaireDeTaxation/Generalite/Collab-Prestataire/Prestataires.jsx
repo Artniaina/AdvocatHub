@@ -5,8 +5,8 @@ import { HiUsers } from "react-icons/hi2";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupPrestataires from "./PopUpPresta";
 
-const Prestataires = () => {
-  const { prestataires, setPrestataires } = useGeneraliteContext();
+const Prestataires = ({prestatairesDataToModify}) => {
+  const [ prestataires, setPrestataires ] =useState(prestatairesDataToModify || []);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");
@@ -167,6 +167,7 @@ const Prestataires = () => {
         <PopupPrestataires
           onClose={handleClosePopup}
           onSubmitData={handleDataFromPopup}
+          prestataires={prestataires}
         />
       )}
     </div>
