@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
-import { useSelector } from "react-redux"; 
+import { useSelector } from "react-redux";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
+import { FaFileSignature } from "react-icons/fa6";
 
- 
-const PopupClients = ({ onClose, onSelectClient }) => {
-  const { clientData } = useGeneraliteContext(); 
+
+const PopupClients = ({ onClose, onSelectClient, defaultClient }) => {
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
   const [selectedOption, setSelectedOption] = useState("Particulier");
   const [denomination, setDenomination] = useState("");
@@ -22,11 +22,12 @@ const PopupClients = ({ onClose, onSelectClient }) => {
   const [localitebp, setLocalitebp] = useState("");
   const [pays, setPays] = useState("");
   const [email, setEmail] = useState("");
-  const [clients, setClients] = useState([]);
+  const [clients, setClients] = useState(defaultClient || []);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
   });
+
   const [filters, setFilters] = useState({});
   const [filterActive, setFilterActive] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -50,55 +51,96 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     cursor: "not-allowed",
   };
 
-
   const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
+  const [selectedClientId, setSelectedClientId] = useState(null);
+  const [hiddenClients, setHiddenClients] = useState([]);
+
+  const handleUpdateData = (clientId) => {
+    const clientToEdit = clients.find((client) => client.id === clientId);
+
+    if (clientToEdit) {
+      setSelectedOption(clientToEdit.selectedOption);
+      setDenomination(clientToEdit.denomination);
+      setName(clientToEdit.name);
+      setPrenom(clientToEdit.prenom);
+      setNumVoie(clientToEdit.numVoie);
+      setRue(clientToEdit.rue);
+      setCp(clientToEdit.cp);
+      setLocalite(clientToEdit.localite);
+      setBp(clientToEdit.bp);
+      setLocalitebp(clientToEdit.localitebp);
+      setPays(clientToEdit.pays);
+      setSelectedCountry(clientToEdit.contactInfo.split(" ")[0]);
+      setPhoneNumber(clientToEdit.contactInfo.split(" ")[1]);
+      setEmail(clientToEdit.email);
+      setSelectedClientId(clientId);
+      setHiddenClients((prevHidden) => [...prevHidden, clientId]);
+    }
+  };
 
   const handleSubmitTable = (e) => {
     e.preventDefault();
-    setClients([
-      ...clients,
-      {
-        id: generateId(),
-        selectedOption,
-        denomination,
-        name,
-        prenom,
-        numVoie,
-        rue,
-        cp,
-        localite,
-        bp,
-        localitebp,
-        pays,
-        contactInfo: `${selectedCountry} ${phoneNumber}`,
-        email, 
-      },
-    ]);
-    setSelectedOption("Particulier");
-    setDenomination("");
-    setName("");
-    setPrenom("");
-    setNumVoie("");
-    setRue("");
-    setCp("");
-    setLocalite("");
-    setBp("");
-    setLocalitebp("");
-    setPays("");
-    setSelectedCountry(selectedCountry);
-    setPhoneNumber("");
-    setEmail("");
-  };
 
+    if (selectedClientId) {
+      setClients((prevClients) =>
+        prevClients.map((client) =>
+          client.id === selectedClientId
+            ? {
+                ...client,
+                selectedOption,
+                denomination,
+                name,
+                prenom,
+                numVoie,
+                rue,
+                cp,
+                localite,
+                bp,
+                localitebp,
+                pays,
+                contactInfo: `${selectedCountry} ${phoneNumber}`,
+                email,
+              }
+            : client
+        )
+      );
+
+      setHiddenClients((prevHidden) =>
+        prevHidden.filter((id) => id !== selectedClientId)
+      );
+
+      setSelectedClientId(null);
+    } else {
+      setClients([
+        ...clients,
+        {
+          id: generateId(),
+          selectedOption,
+          denomination,
+          name,
+          prenom,
+          numVoie,
+          rue,
+          cp,
+          localite,
+          bp,
+          localitebp,
+          pays,
+          contactInfo: `${selectedCountry} ${phoneNumber}`,
+          email,
+        },
+      ]);
+    }
+  };
   const handleClientSelection = () => {
-    const selectedClients = [...clients, ...clientData];
+    const selectedClients = [...clients];
     onSelectClient(selectedClients);
-    console.log(clientData);
     console.log(selectedClients);
   };
 
   const sortedClients = React.useMemo(() => {
-    let sortableClients = [...clients, ...clientData]; 
+    let sortableClients = [...clients];
     if (sortConfig !== null) {
       sortableClients.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -115,7 +157,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
         return client[key]?.toLowerCase().includes(filters[key].toLowerCase());
       });
     });
-  }, [clients, clientData, sortConfig, filters]);
+  }, [clients, defaultClient, sortConfig, filters]);
 
   const requestSort = (key) => {
     let direction = "ascending";
@@ -212,7 +254,6 @@ const PopupClients = ({ onClose, onSelectClient }) => {
               required
             />
           </div>
-
           <div className="three">
             <div className="formGroup">
               <label htmlFor="numVoie">Numéro voie:</label>
@@ -297,7 +338,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
                 width: "100%",
                 padding: "8px 0px 8px 10px",
               }}
-            > 
+            >
               <label htmlFor="countrySelect">Téléphone :</label>
               <select
                 id="countrySelect"
@@ -357,12 +398,11 @@ const PopupClients = ({ onClose, onSelectClient }) => {
               />
             </div>
           </div>
-
           <button className="addButton" type="submit">
             Ajouter
           </button>
         </form>
-        <div className="table-container">
+        <div className="table-container" style={{ width: "96%" }}>
           <table className="tavleInfo">
             <thead>
               <tr>
@@ -405,35 +445,40 @@ const PopupClients = ({ onClose, onSelectClient }) => {
                     )}
                   </th>
                 ))}
-              </tr> 
+              </tr>
             </thead>
             <tbody>
-            {sortedClients.map((client) => (
-              <tr key={client.id}>
-               <td>{client.selectedOption}</td>
-                  <td>{client.denomination}</td>
-                  <td>{client.name}</td>
-                  <td>{client.prenom}</td>
-                  <td>{client.numVoie}</td>
-                  <td>{client.rue}</td>
-                  <td>{client.cp}</td>
-                  <td>{client.localite}</td>
-                  <td>{client.bp}</td>
-                  <td>{client.localitebp}</td>
-                  <td>{client.pays}</td>
-                  <td>{client.contactInfo}</td>
-                  <td>{client.email}</td>
-              </tr>
-            ))}
-
+              {sortedClients
+                .filter((client) => !hiddenClients.includes(client.id))
+                .map((client) => (
+                  <tr key={client.id}>
+                    <td>{client.selectedOption}</td>
+                    <td>{client.denomination}</td>
+                    <td>{client.name}</td>
+                    <td>{client.prenom}</td>
+                    <td>{client.numVoie}</td>
+                    <td>{client.rue}</td>
+                    <td>{client.cp}</td>
+                    <td>{client.localite}</td>
+                    <td>{client.bp}</td>
+                    <td>{client.localitebp}</td>
+                    <td>{client.pays}</td>
+                    <td>{client.contactInfo}</td>
+                    <td>{client.email}</td>
+                    <td>
+                      <FaFileSignature
+                        onClick={() => handleUpdateData(client.id)}
+                      />
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <button onClick={handleClientSelection}>ENREGISTRER</button>
         </div>
       </div>
     </div>
-    
-  ); 
+  );
 };
 
 export default PopupClients;

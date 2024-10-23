@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
 import NoteHonoraireWarning from "../PopUp/NoteHonoraireWarning";
@@ -24,6 +24,7 @@ const UploadFile = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
+  const { jsonToSend } = useGeneraliteContext();
   const { resetAllData } = useGeneraliteContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
     useGeneraliteContext();
@@ -81,72 +82,18 @@ const UploadFile = () => {
       setShowPopupDifference(true);
       return false;
     }
+    console.log(honoraireToCompare);
+    console.log(noteHonoraireToCompare);
 
     return true;
   };
 
   const currentDate = new Date().toISOString();
-  const jsonToSend = useMemo(
-    () => ({
-      sStatutFormulaire: "non transmis",
-      sEmailUtilisateur: user.email,
-      sDomaineJuridique: formData.domaine.join(","),
-      sNomAffaire: formData.nomAffaire,
-      sTermesHonoraires: formData.termesHonoraires,
-      sAbsenceTermes: formData.absenceTerm,
-      sDateContestation: formData.datecontest,
-      sDateDebutMandat: formData.dateDebut,
-      sDateFinMandat: formData.dateFin,
-      sEtatAvancement: formData.etatAvancement,
-      sMesureConservatoire: formData.conserv,
-      sMediation: formData.mediation,
-      sMediationChoix: showOptions.mediationChoix,
-      sConciliation: formData.conciliation,
-      sProcedureRelative: formData.relative,
-      sObservations: editorContents.observation,
-      sPositionAvocat: editorContents.position,
-      sContenu1: editorContents.c1,
-      sContenu2: editorContents.c2,
-      sContenu3: editorContents.c3,
-      sContenu4: editorContents.c4,
-      sContenu5: editorContents.c5,
-      sContenu6: editorContents.c6,
-      sMontant: montantData,
-      sNoteHonoraire: noteHonoraire,
-      sHonoraireData: honoraireData,
-      sProvision: provisionData,
-      sPrestataireData: prestataires,
-      sCollaboratorsData: selectedAvocats,
-      sAvocatsData: avocatsData,
-      sClientsData: clientData,
-      sSubmited_at: currentDate,
-    }),
-    [
-      user.email,
-      formData,
-      editorContents,
-      montantData,
-      noteHonoraire,
-      honoraireData,
-      provisionData,
-      prestataires,
-      selectedAvocats,
-      avocatsData,
-      clientData,
-      currentDate,
-    ]
-  );
-  const jsonDataRef = useRef(jsonToSend);
 
-  useEffect(() => {
-    updateJsonData(jsonDataRef.current);
-  }, [updateJsonData]);
   const refreshPage = () => {
     setLoading(true);
     resetAllData();
-
     localStorage.setItem("generatePdfAfterReload", "true");
-
     window.location.reload();
   };
 

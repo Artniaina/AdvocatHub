@@ -10,31 +10,32 @@ import { IoStatsChartSharp } from "react-icons/io5";
 import Guide from "./Guide";
 import GuideAffaire from "./Affaire/GuideAffaire";
 
-const Generalite = ({formulaire}) => { 
+
+const Generalite = ({ formulaire }) => {
   return (
     <>
       <div>
-        <Guide/>
+        <Guide />
         <GuideAffaire />
       </div>
-      <div className="cardGeneralité">
-        <div className="mainTitle">GENERALITES</div>
+      <section className="cardGeneralité">
+        <h1 className="mainTitle">GENERALITES</h1>
         <Avocat />
-        <Clients />
+        <Clients clientsDataToModify={formulaire?.sClientsData} />
+        
         <h2 className="miniTitle">
-          {" "}
           <FaUsers style={{ fontSize: "30px", marginRight: "7px" }} />
-          Les collaborateurs ayant participé à la réalisation des prestations{" "}
+          Les collaborateurs ayant participé à la réalisation des prestations
         </h2>
         <Collaborateurs />
         <Prestataires />
+        
         <h2 className="miniTitle">
-          {" "}
           <IoStatsChartSharp style={{ fontSize: "30px", marginRight: "7px" }} />
           AFFAIRE
         </h2>
         <Affaire />
-      </div>
+      </section>
     </>
   );
 };

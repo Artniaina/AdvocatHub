@@ -243,7 +243,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
           </button>
         </form>
 
-        <div className="tablediv">
+        <div className="table-container">
           <table className="tavleInfo">
             <thead>
               <tr>
@@ -281,7 +281,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   )}
                 </th>
                 ))}
-                <th>Actions</th>
+               
               </tr>
             </thead>
             <tbody>
@@ -303,11 +303,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                       />
                       <FaFileSignature
                         onClick={() => handleUpdateData(index)}
-                        style={{
-                          color: "blue",
-                          cursor: "pointer",
-                          marginLeft: "5px",
-                        }}
                       />
                     </td>
                   </tr>

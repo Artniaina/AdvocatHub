@@ -13,8 +13,14 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     { label: "Nombre de minutes facturées", key: "minutes" },
     { label: "Taux horaires HTVA facturés", key: "tauxHorairesfacturés" },
     { label: "Total des honoraires HTVA facturés", key: "totalHonoraireHTVA" },
-    { label: "Total des frais de constitution de dossier HTVA", key: "fraisConstitutionDossier" },
-    { label: "Total des honoraires et des frais de dossier HTVA", key: "totalHonoraireFraisDossier" },
+    {
+      label: "Total des frais de constitution de dossier HTVA",
+      key: "fraisConstitutionDossier",
+    },
+    {
+      label: "Total des honoraires et des frais de dossier HTVA",
+      key: "totalHonoraireFraisDossier",
+    },
     { label: "Taux de TVA", key: "tauxTVA" },
     { label: "Montant de la TVA", key: "montantTVA" },
     { label: "Total des honoraires TTC", key: "totalHonoraireTTC" },
@@ -47,7 +53,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   });
 
   const [tableData, setTableData] = useState(noteHonoraire);
-  const [editIndex, setEditIndex] = useState(null); // Track index for editing
+  const [editIndex, setEditIndex] = useState(null);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});
@@ -57,7 +63,8 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     const { totalHonoraireFraisDossier, tauxTVA } = formData;
     if (totalHonoraireFraisDossier && tauxTVA) {
       const montantTVA = (
-        (parseFloat(totalHonoraireFraisDossier) * parseFloat(tauxTVA)) / 100
+        (parseFloat(totalHonoraireFraisDossier) * parseFloat(tauxTVA)) /
+        100
       ).toFixed(2);
       setFormData((prevData) => ({ ...prevData, montantTVA }));
     }
@@ -93,7 +100,10 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   const filteredData = tableData.filter((row) =>
     Object.keys(filters).every((key) =>
       filters[key]
-        ? row[key]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        ? row[key]
+            ?.toString()
+            .toLowerCase()
+            .includes(filters[key].toLowerCase())
         : true
     )
   );
@@ -102,17 +112,14 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     e.preventDefault();
     setEditIndex(null);
     if (editIndex !== null) {
-
       const updatedData = [...tableData];
       updatedData[editIndex] = formData;
       setTableData(updatedData);
-      setEditIndex(null); 
+      setEditIndex(null);
     } else {
-
       setTableData([...tableData, formData]);
     }
 
- 
     setFormData({
       id: generateId(),
       date: "",
@@ -135,16 +142,14 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   };
 
   const handleEditClick = (index) => {
-    // Load data into form for editing
     setFormData(tableData[index]);
-    setEditIndex(index); // Set index to edit mode
+    setEditIndex(index);
   };
 
   const handleSendData = () => {
     onSubmitData(tableData);
     onClose();
   };
-
 
   return (
     <div className="overlay">
@@ -381,7 +386,6 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
             </div>
- 
           </div>
 
           <button className="addButton" type="submit">
@@ -389,7 +393,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
           </button>
         </form>
 
-        <div className="tablediv">
+        <div className="table-container">
           <table className="tavleInfo">
             <thead>
               <tr>
@@ -421,31 +425,29 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((data, index) => (
+              {filteredData.map((data, index) =>
                 index === editIndex ? null : (
-                <tr key={index}>
-                  <td>{data.hours}</td>
-                  <td>{data.minutes}</td>
-                  <td>{data.tauxHorairesfacturés}</td>
-                  <td>{data.totalHonoraireHTVA}</td>
-                  <td>{data.fraisConstitutionDossier}</td>
-                  <td>{data.totalHonoraireFraisDossier}</td>
-                  <td>{data.tauxTVA}</td>
-                  <td>{data.montantTVA}</td>
-                  <td>{data.totalHonoraireTTC}</td>
-                  <td>{data.fraisDivers}</td>
-                  <td>{data.provisionsTTC}</td>
-                  <td>{data.remise}</td>
-                  <td>{data.noteTTC}</td>
-                  <td>{data.restantDu}</td>
-                  <td>
-                    <FaFileSignature
-                      onClick={() => handleEditClick(index)}
-                      className="signature-icon"
-                    />
-                  </td>
-                </tr>
-              )))}
+                  <tr key={index}>
+                    <td>{data.hours}</td>
+                    <td>{data.minutes}</td>
+                    <td>{data.tauxHorairesfacturés}</td>
+                    <td>{data.totalHonoraireHTVA}</td>
+                    <td>{data.fraisConstitutionDossier}</td>
+                    <td>{data.totalHonoraireFraisDossier}</td>
+                    <td>{data.tauxTVA}</td>
+                    <td>{data.montantTVA}</td>
+                    <td>{data.totalHonoraireTTC}</td>
+                    <td>{data.fraisDivers}</td>
+                    <td>{data.provisionsTTC}</td>
+                    <td>{data.remise}</td>
+                    <td>{data.noteTTC}</td>
+                    <td>{data.restantDu}</td>
+                    <td>
+                      <FaFileSignature onClick={() => handleEditClick(index)} />
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>

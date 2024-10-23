@@ -19,17 +19,7 @@ const Affaire = () => {
   const { formData, setFormData } = useGeneraliteContext();
   const { showOptions, setShowOptions } = useGeneraliteContext();
   const popupRef = useRef(null);
-  const textareaRef = useRef(null);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
-  const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
-  const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
-  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
-  const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
-  const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
-  const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
-  const [selectedAmount, setSelectedAmount] = useState("");
-  const [selectedComment, setSelectedComment] = useState("");
+
   const [showWarningLength, setShowWarningLength] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [id, setId] = useState("");
@@ -52,6 +42,17 @@ const Affaire = () => {
   const closePopup = () => {
     setShowWarningLength(false);
   };
+  const textareaRef = useRef(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupMontantVisible, setIsPopupMontantVisible] = useState(false);
+  const [isPopupHonoraireVisible, setIsPopupHonoraireVisible] = useState(false);
+  const [isPopupProvisionVisible, setIsPopupProvisionVisible] = useState(false);
+  const [selectedHonoraireDate, setSelectedHonoraireDate] = useState("");
+  const [selectedProvisionDate, setSelectedProvisionDate] = useState("");
+  const [uniqueHonoraireDates, setUniqueHonoraireDates] = useState([]);
+  const [uniqueProvisionDates, setUniqueProvisionDates] = useState([]);
+  const [selectedAmount, setSelectedAmount] = useState("");
+  const [selectedComment, setSelectedComment] = useState("");
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -183,8 +184,11 @@ const Affaire = () => {
 
     if (id === "dateFin" || id === "dateDebut" || id === "datecontest") {
       validateDate(newValue, id);
-    } else if (id !== "nomAffaire" || id !== "client") {
+    } else if (id == "nomAffaire" || id == "client") {
+      //Do nothing haha
+    } else {
       setContentTextarea(newValue);
+      console.log(`Ito ny id:${id} Dia ito ny value ${newValue}`);
       contentRef.current = newValue;
     }
   };
@@ -193,10 +197,13 @@ const Affaire = () => {
     if (textareaRef.current && !textareaRef.current.contains(event.target)) {
       if (contentRef.current === "") {
         setShowWarningLength(false);
+        console.log("Valid: empty is also Gwenchanaaaaaa.");
       } else if (contentRef.current.length < 6) {
         setShowWarningLength(true);
+        console.log("Invalid: Not Daijobuuu");
       } else {
         setShowWarningLength(false);
+        console.log("Valid: Length is Gwenchanaaaaaa.");
       }
     }
   };

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
 
-const Clients = () => {
-  const [selectedOption, setSelectedOption] = useState("");
-  const { clientData, setClientData } = useGeneraliteContext();
+const Clients = ({ clientsDataToModify }) => {
+  const [clientData, setClientData] = useState(clientsDataToModify || []);
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState("");
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -31,7 +32,13 @@ const Clients = () => {
   const flattenedClients = clientData.flat();
   const selectedClient =
     flattenedClients.find((client) => client.id === selectedOption) || {};
+  console.log(flattenedClients);
 
+  useEffect(() => {
+    if (selectedClient.selectedOption) {
+      setSelectedOptions(selectedClient.selectedOption);
+    }
+  }, [selectedClient]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,13 +81,15 @@ const Clients = () => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
         </div>
+
         <div className="radio-group">
           <label>
             <input
               type="radio"
               value="Particulier"
-              checked={selectedOption === "Particulier"}
-              disabled={true}
+              checked={selectedOptions === "Particulier"}
+              onChange={handleOptionChange}
+              disabled
             />
             Particulier
           </label>
@@ -89,8 +98,9 @@ const Clients = () => {
             <input
               type="radio"
               value="Société/Entité"
-              checked={selectedOption === "Société/Entité"}
-              disabled={true}
+              checked={selectedOptions === "Société/Entité"}
+              onChange={handleOptionChange}
+              disabled
             />
             Société/Entité
           </label>
@@ -232,6 +242,7 @@ const Clients = () => {
         <PopupClients
           onClose={handleClosePopup}
           onSelectClient={handleClientSelection}
+          defaultClient={clientsDataToModify}
         />
       )}
     </div>

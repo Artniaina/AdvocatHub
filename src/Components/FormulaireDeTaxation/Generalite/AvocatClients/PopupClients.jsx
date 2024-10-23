@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
@@ -27,11 +27,11 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     key: null,
     direction: "ascending",
   });
-  
+
   const [filters, setFilters] = useState({});
   const [filterActive, setFilterActive] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
- 
+
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
@@ -402,7 +402,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
             Ajouter
           </button>
         </form>
-        <div className="table-container">
+        <div className="table-container" style={{ width: "96%" }}>
           <table className="tavleInfo">
             <thead>
               <tr>
