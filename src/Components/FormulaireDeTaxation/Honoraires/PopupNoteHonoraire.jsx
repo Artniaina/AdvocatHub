@@ -7,20 +7,14 @@ import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 import { FaFileSignature } from "react-icons/fa6";
 
 const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
-  const {noteHonoraire, setNoteHonoraire}= useGeneraliteContext()
+  const { noteHonoraire } = useGeneraliteContext();
   const tableHeaders = [
     { label: "Nombre d'heures facturées", key: "hours" },
     { label: "Nombre de minutes facturées", key: "minutes" },
     { label: "Taux horaires HTVA facturés", key: "tauxHorairesfacturés" },
     { label: "Total des honoraires HTVA facturés", key: "totalHonoraireHTVA" },
-    {
-      label: "Total des frais de constitution de dossier HTVA",
-      key: "fraisConstitutionDossier",
-    },
-    {
-      label: "Total des honoraires et des frais de dossier HTVA",
-      key: "totalHonoraireFraisDossier",
-    },
+    { label: "Total des frais de constitution de dossier HTVA", key: "fraisConstitutionDossier" },
+    { label: "Total des honoraires et des frais de dossier HTVA", key: "totalHonoraireFraisDossier" },
     { label: "Taux de TVA", key: "tauxTVA" },
     { label: "Montant de la TVA", key: "montantTVA" },
     { label: "Total des honoraires TTC", key: "totalHonoraireTTC" },
@@ -46,13 +40,14 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     montantTVA: "",
     totalHonoraireTTC: "",
     fraisDivers: "",
-    provisionsTTC: "", 
+    provisionsTTC: "",
     remise: "",
     noteTTC: "",
     restantDu: "",
   });
 
   const [tableData, setTableData] = useState(noteHonoraire);
+  const [editIndex, setEditIndex] = useState(null); // Track index for editing
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});
@@ -62,8 +57,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     const { totalHonoraireFraisDossier, tauxTVA } = formData;
     if (totalHonoraireFraisDossier && tauxTVA) {
       const montantTVA = (
-        (parseFloat(totalHonoraireFraisDossier) * parseFloat(tauxTVA)) /
-        100
+        (parseFloat(totalHonoraireFraisDossier) * parseFloat(tauxTVA)) / 100
       ).toFixed(2);
       setFormData((prevData) => ({ ...prevData, montantTVA }));
     }
@@ -99,18 +93,28 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   const filteredData = tableData.filter((row) =>
     Object.keys(filters).every((key) =>
       filters[key]
-        ? row[key]
-            ?.toString()
-            .toLowerCase()
-            .includes(filters[key].toLowerCase())
+        ? row[key]?.toString().toLowerCase().includes(filters[key].toLowerCase())
         : true
     )
   );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTableData([...tableData, formData]);
+    setEditIndex(null);
+    if (editIndex !== null) {
+
+      const updatedData = [...tableData];
+      updatedData[editIndex] = formData;
+      setTableData(updatedData);
+      setEditIndex(null); 
+    } else {
+
+      setTableData([...tableData, formData]);
+    }
+
+ 
     setFormData({
+      id: generateId(),
       date: "",
       reference: "",
       hours: "",
@@ -130,10 +134,17 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     });
   };
 
+  const handleEditClick = (index) => {
+    // Load data into form for editing
+    setFormData(tableData[index]);
+    setEditIndex(index); // Set index to edit mode
+  };
+
   const handleSendData = () => {
     onSubmitData(tableData);
     onClose();
   };
+
 
   return (
     <div className="overlay">
@@ -370,10 +381,11 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
             </div>
+ 
           </div>
 
           <button className="addButton" type="submit">
-            Ajouter
+            {editIndex !== null ? "Modifier" : "Ajouter"}
           </button>
         </form>
 
@@ -410,6 +422,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
             </thead>
             <tbody>
               {filteredData.map((data, index) => (
+                index === editIndex ? null : (
                 <tr key={index}>
                   <td>{data.hours}</td>
                   <td>{data.minutes}</td>
@@ -425,9 +438,14 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   <td>{data.remise}</td>
                   <td>{data.noteTTC}</td>
                   <td>{data.restantDu}</td>
-                  <td></td>
+                  <td>
+                    <FaFileSignature
+                      onClick={() => handleEditClick(index)}
+                      className="signature-icon"
+                    />
+                  </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>

@@ -25,7 +25,7 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const handleChange = (e, setState) => {
     const value = e.target.value;
     setState(value);
-  };
+  }; 
 
   const handleUpdateData = (index) => {
     const prestataireToEdit = Prestataires[index];
