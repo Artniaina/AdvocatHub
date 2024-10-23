@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
@@ -22,16 +22,16 @@ const PopupClients = ({ onClose, onSelectClient }) => {
   const [localitebp, setLocalitebp] = useState("");
   const [pays, setPays] = useState("");
   const [email, setEmail] = useState("");
-  const [clients, setClients] = useState( []);
+  const [clients, setClients] = useState(clientData || []);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
   });
+  
   const [filters, setFilters] = useState({});
   const [filterActive, setFilterActive] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
-
-
+ 
   const [selectedCountry, setSelectedCountry] = useState("+261");
   const handleCountryCodeChange = (e) => {
     setSelectedCountry(e.target.value);
@@ -134,14 +134,13 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     }
   };
   const handleClientSelection = () => {
-    const selectedClients = [...clients, ...clientData];
+    const selectedClients = [...clients];
     onSelectClient(selectedClients);
-    console.log(clientData);
     console.log(selectedClients);
   };
 
   const sortedClients = React.useMemo(() => {
-    let sortableClients = [...clients, ...clientData];
+    let sortableClients = [...clients];
     if (sortConfig !== null) {
       sortableClients.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {

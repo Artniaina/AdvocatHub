@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
-import { FaFilter } from "react-icons/fa";
+import { FaFileSignature } from "react-icons/fa6";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const PopupPrestataires = ({ onClose, onSubmitData }) => {
@@ -18,37 +18,67 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
   const [Prestataires, setPrestataires] = useState(prestataires || []);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [filterActive, setFilterActive] = useState(null);
   const [filters, setFilters] = useState({});
+  const [editingIndex, setEditingIndex] = useState(null); // Track editing index
 
   const handleChange = (e, setState) => {
     const value = e.target.value;
     setState(value);
   };
 
-  const handleInvalid = (e) => {
-    e.target.setCustomValidity("Veuillez entrer au moins 6 caractères.");
+  const handleUpdateData = (index) => {
+    const prestataireToEdit = Prestataires[index];
+
+    if (prestataireToEdit) {
+      setName(prestataireToEdit.name);
+      setPrenom(prestataireToEdit.prenom);
+      setEmail(prestataireToEdit.email);
+      setEtude(prestataireToEdit.setude);
+      setTitrePro(prestataireToEdit.titrePro);
+      setFormationExp(prestataireToEdit.formationExp);
+      setAutresInfo(prestataireToEdit.autresInfo);
+      setEditingIndex(index); // Set the editing index
+    }
   };
 
-  const handleInput = (e) => {
-    e.target.setCustomValidity("");
-  };
   const handleSubmitTable = (e) => {
     e.preventDefault();
-    setPrestataires([
-      ...Prestataires,
-      {
-        name,
-        prenom,
-        email,
-        setude,
-        titrePro,
-        formationExp,
-        autresInfo,
-        checked: true,
-      },
-    ]);
 
+    if (editingIndex !== null) {
+      const updatedPrestataires = Prestataires.map((prestataire, index) =>
+        index === editingIndex
+          ? {
+              ...prestataire,
+              name,
+              prenom,
+              email,
+              setude,
+              titrePro,
+              formationExp,
+              autresInfo,
+            }
+          : prestataire
+      );
+
+      setPrestataires(updatedPrestataires);
+      setEditingIndex(null); // Reset editing index
+    } else {
+      setPrestataires([
+        ...Prestataires,
+        {
+          name,
+          prenom,
+          email,
+          setude,
+          titrePro,
+          formationExp,
+          autresInfo,
+          checked: true,
+        },
+      ]);
+    }
+
+    // Reset input fields
     setName("");
     setPrenom("");
     setEmail("");
@@ -73,29 +103,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
     onClose();
   };
 
-  const requestSort = (key) => {
-    const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
-    const sortedPrestataires = [...Prestataires].sort((a, b) => {
-      if (a[key] < b[key]) return order === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return order === "asc" ? 1 : -1;
-      return 0;
-    });
-    setSortKey(key);
-    setSortOrder(order);
-    setPrestataires(sortedPrestataires);
-  };
-
-  const handleFilterChange = (e, key) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: e.target.value,
-    }));
-  };
-
-  const handleFilterClick = (key) => {
-    setFilterActive(key);
-  };
-
   const filteredPrestataires = Prestataires.filter((Prestataire) =>
     Object.keys(filters).every((key) =>
       Prestataire[key]
@@ -109,17 +116,14 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
       <div className="popupTax">
         <div className="titleCard">
           PRESTATAIRE(S) EXTERIEUR
-          <button
-            className="close-button"
-            style={{ marginTop: "-5px" }}
-            onClick={onClose}
-          >
+          <button className="close-button" onClick={onClose}>
             &times;
           </button>
         </div>
 
         <form onSubmit={handleSubmitTable}>
           <div className="avocatForm2">
+            {/* Form for adding/updating prestataire */}
             <div className="prestataire">
               <div className="formGroup">
                 <label htmlFor="name">Nom*:</label>
@@ -131,7 +135,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   required
                 />
               </div>
-
               <div className="formGroup">
                 <label htmlFor="prenom">Prénom* :</label>
                 <input
@@ -142,7 +145,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   required
                 />
               </div>
-
               <div className="formGroup">
                 <label htmlFor="etude">Etude/Société tierce*:</label>
                 <input
@@ -153,7 +155,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   required
                 />
               </div>
-
               <div className="formGroup">
                 <label htmlFor="email">Email*:</label>
                 <input
@@ -165,7 +166,6 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                 />
               </div>
             </div>
-
             <div className="prestataire">
               <div className="formGroup">
                 <label htmlFor="titrePro">Titre Professionnel*:</label>
@@ -177,42 +177,28 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   required
                 />
               </div>
-
               <div className="formGroup">
                 <label htmlFor="autreInfo">Autre informations:</label>
                 <textarea
                   id="autreInfo"
                   value={autresInfo}
-                  onChange={(e) =>
-                    handleChange(e, setAutresInfo)
-                  }
+                  onChange={(e) => handleChange(e, setAutresInfo)}
                   style={{ height: "50px" }}
-                  minLength={6}
-                  onInvalid={handleInvalid}
-                  onInput={handleInput}
                 />
               </div>
-
               <div className="formGroup">
                 <label htmlFor="formationExp">Formation et Expérience:</label>
                 <textarea
                   id="formationExp"
                   value={formationExp}
-                  onChange={(e) =>
-                    handleChange(e, setFormationExp)
-                  }
+                  onChange={(e) => handleChange(e, setFormationExp)}
                   style={{ height: "50px" }}
-                  minLength={6}
-                  onInvalid={handleInvalid}
-                  onInput={handleInput}
                 />
-          
               </div>
             </div>
           </div>
-
           <button className="addButton" type="submit">
-            Ajouter
+            {editingIndex !== null ? "Mettre à jour" : "Ajouter"}
           </button>
         </form>
 
@@ -224,64 +210,56 @@ const PopupPrestataires = ({ onClose, onSubmitData }) => {
                   "name",
                   "prenom",
                   "email",
-                  "etude",
+                  "setude",
                   "titrePro",
                   "formationExp",
                   "autresInfo",
-                  "choix",
                 ].map((key) => (
-                  <th key={key} onClick={() => requestSort(key)}>
+                  <th key={key}>
                     <span className="sort-icon">
                       <PiCaretUpDownFill />
                     </span>
                     {key.charAt(0).toUpperCase() + key.slice(1)}
-                    <span
-                      className="filter-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFilterClick(key);
-                      }}
-                    >
-                      <FaFilter />
-                    </span>
-                    {filterActive === key && (
-                      <input
-                        type="text"
-                        placeholder={`Filter by ${key}`}
-                        value={filters[key] || ""}
-                        onChange={(e) => handleFilterChange(e, key)}
-                      />
-                    )}
                   </th>
                 ))}
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredPrestataires.map((Prestataire, index) => (
-                <tr key={index}>
-                  <td>{Prestataire.name}</td>
-                  <td>{Prestataire.prenom}</td>
-                  <td>{Prestataire.email}</td>
-                  <td>{Prestataire.setude}</td>
-                  <td>{Prestataire.titrePro}</td>
-                  <td>{Prestataire.formationExp}</td>
-                  <td>{Prestataire.autresInfo}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={Prestataire.checked}
-                      onChange={() => handleCheckboxChange(index)}
-                    />
-                  </td>
-                </tr>
+              {filteredPrestataires.map((prestataire, index) => (
+                // Conditionally hide the row if it's being edited
+                editingIndex === index ? null : (
+                  <tr key={index}>
+                    <td>{prestataire.name}</td>
+                    <td>{prestataire.prenom}</td>
+                    <td>{prestataire.email}</td>
+                    <td>{prestataire.setude}</td>
+                    <td>{prestataire.titrePro}</td>
+                    <td>{prestataire.formationExp}</td>
+                    <td>{prestataire.autresInfo}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={prestataire.checked}
+                        onChange={() => handleCheckboxChange(index)}
+                      />
+                      <FaFileSignature
+                        onClick={() => handleUpdateData(index)}
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          marginLeft: "5px",
+                        }}
+                      />
+                    </td>
+                  </tr>
+                )
               ))}
             </tbody>
           </table>
         </div>
 
-        <button className="sendButton" onClick={handleSendData}>
-          Envoyer les données
-        </button>
+        <button onClick={handleSendData}>Envoyer</button>
       </div>
     </div>
   );
