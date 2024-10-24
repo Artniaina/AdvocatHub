@@ -14,12 +14,13 @@ const Clients = ({ clientsDataToModify }) => {
   const handleOptionChange = (event) => {
     const selectedId = parseInt(event.target.value);
     setSelectedOption(selectedId);
-    const selectedClient = clientData.find((client) => client.id === selectedId);
+    const selectedClient = clientData.find(
+      (client) => client.id === selectedId
+    );
     if (selectedClient) {
-      setSelectedOptions(selectedClient.selectedOption); 
+      setSelectedOptions(selectedClient.selectedOption);
     }
   };
-  
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -29,13 +30,12 @@ const Clients = ({ clientsDataToModify }) => {
     setShowPopup(false);
   };
 
-
   // console.log(clientData);
   // console.log(selectedClient);
   // console.log(Object.keys(selectedClient).length > 0);
 
-
-  const selectedClient = clientData.find((client) => client.id === selectedOption) || {};
+  const selectedClient =
+    clientData.find((client) => client.id === selectedOption) || {};
 
   const handleClientSelection = (data) => {
     setClientData(data);
@@ -49,7 +49,6 @@ const Clients = ({ clientsDataToModify }) => {
       setSelectedOption(clientData[0].id);
     }
   }, [clientData, selectedOption]);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,14 +91,12 @@ const Clients = ({ clientsDataToModify }) => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
           </div>
         </div>
-
         <div className="radio-group">
           <label>
             <input
               type="radio"
               value="Particulier"
-              checked={selectedOptions === "Particulier"}
-              onChange={handleOptionChange}
+              checked={selectedOptions === "Particulier"} 
               disabled
             />
             Particulier
@@ -109,8 +106,7 @@ const Clients = ({ clientsDataToModify }) => {
             <input
               type="radio"
               value="Société/Entité"
-              checked={selectedOptions === "Société/Entité"}
-              onChange={handleOptionChange}
+              checked={selectedOptions === "Société/Entité"} 
               disabled
             />
             Société/Entité
@@ -131,12 +127,7 @@ const Clients = ({ clientsDataToModify }) => {
 
         <div className="formGroup">
           <label htmlFor="name">Nom:</label>
-          <input
-            type="text"
-            id="name"
-            value={selectedClient.name}
-            readOnly
-          />
+          <input type="text" id="name" value={selectedClient.name} readOnly />
         </div>
 
         <div className="formGroup">

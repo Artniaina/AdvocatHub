@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupPrestataires from "./PopUpPresta";
 
-const Prestataires = ({prestatairesDataToModify}) => {
-  const [ prestataires, setPrestataires ] =useState(prestatairesDataToModify || []);
+const Prestataires = ({ prestatairesDataToModify }) => {
+  const [prestataires, setPrestataires] = useState(prestatairesDataToModify || []);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");
@@ -29,26 +28,24 @@ const Prestataires = ({prestatairesDataToModify}) => {
     e.preventDefault();
   };
 
-  const resetData = () =>{ 
-      setName('');
-       setPrenom('');
-       setEtude('');
-       setEmail('');
-       setTitrePro('');
-       setAutresInfo('');
-       setFormationExp('');
-       setSelectedPrestataire(null);
-     } 
-  
+  const resetData = () => {
+    setName("");
+    setPrenom("");
+    setEtude("");
+    setEmail("");
+    setTitrePro("");
+    setAutresInfo("");
+    setFormationExp("");
+    setSelectedPrestataire(null);
+  };
+
   const handleDataFromPopup = (prestataireData) => {
     if (prestataireData.length === 0) {
-      console.log("null", prestataireData);
-      resetData()
+      resetData();
     }
     if (prestataireData.length > 0) {
       setPrestataires(prestataireData);
       const firstChecked = prestataireData.find((p) => p.checked);
-      console.log("not null", prestataireData);
       if (firstChecked) {
         setSelectedPrestataire(prestataireData.indexOf(firstChecked));
         setName(firstChecked.name);
@@ -58,13 +55,13 @@ const Prestataires = ({prestatairesDataToModify}) => {
         setTitrePro(firstChecked.titrePro);
         setAutresInfo(firstChecked.autresInfo);
         setFormationExp(firstChecked.formationExp);
-      } else{
-        resetData()
+      } else {
+        resetData();
       }
     }
     setShowPopup(false);
   };
-  
+
   const handlePrestataireChange = (e) => {
     const selectedIndex = e.target.value;
     if (selectedIndex !== "") {
@@ -78,19 +75,24 @@ const Prestataires = ({prestatairesDataToModify}) => {
       setFormationExp(selected.formationExp);
       setSelectedPrestataire(selectedIndex);
     } else {
-      setName('');
-      setPrenom('');
-      setEtude('');
-      setEmail('');
-      setTitrePro('');
-      setAutresInfo('');
-      setFormationExp('');
-      setSelectedPrestataire(null);
+      resetData();
     }
   };
-  
-  const checkedPrestataires = prestataires.filter((p) => p.checked);
 
+  const checkedPrestataires = prestataires.filter((p) => p.checked);
+  useEffect(() => {
+    if (checkedPrestataires.length > 0) {
+      const firstChecked = checkedPrestataires[0];
+      setSelectedPrestataire(0); 
+      setName(firstChecked.name);
+      setPrenom(firstChecked.prenom);
+      setEtude(firstChecked.setude);
+      setEmail(firstChecked.email);
+      setTitrePro(firstChecked.titrePro);
+      setAutresInfo(firstChecked.autresInfo);
+      setFormationExp(firstChecked.formationExp);
+    }
+  }, [prestataires]);
   return (
     <div>
       <div className="titleCard">
@@ -99,26 +101,21 @@ const Prestataires = ({prestatairesDataToModify}) => {
       </div>
       <form onSubmit={handleSubmit} className="avocatForm">
         <div className="clientsForm">
-          <label style={{ display: "inline" }} htmlFor="client">
-            Prestataire(s) extérieur(s):*{" "}
+          <label htmlFor="client" style={{ display: "inline" }}>
+            Prestataire(s) extérieur(s):*
           </label>
           <select
             id="client"
-            style={{ width: "23vw"}}
+            style={{ width: "23vw" }}
             onChange={handlePrestataireChange}
             value={selectedPrestataire || ""}
           >
-            {checkedPrestataires.length > 0 && selectedPrestataire === "" ? (
-              <option value="">
-                {checkedPrestataires[0].name} {checkedPrestataires[0].prenom}
+            
+            {checkedPrestataires.map((prestataire, index) => (
+              <option key={index} value={index}>
+                {prestataire.name} {prestataire.prenom}
               </option>
-            ) : (
-              checkedPrestataires.map((prestataire, index) => (
-                <option key={index} value={index}>
-                  {prestataire.name} {prestataire.prenom}
-                </option>
-              ))
-            )}
+            ))}
           </select>
 
           <div className="btnAdd" onClick={handleShowPopup}>
@@ -141,9 +138,7 @@ const Prestataires = ({prestatairesDataToModify}) => {
         </div>
 
         <div className="formGroup">
-          <label htmlFor="formation">
-            Formation et expérience professionnelle:
-          </label>
+          <label htmlFor="formation">Formation et expérience professionnelle:</label>
           <textarea id="formation" value={formationExp} readOnly />
         </div>
 
