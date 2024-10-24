@@ -8,7 +8,7 @@ const editors = [
   { id: "c1", label: <div style={{ textDecoration: "underline" }}>1) Mentionner les faits: *</div> },
   {
     id: "c2",
-    label: (
+    label: ( 
       <>
         Enjeux de l'affaire* : <br />
         <span className="spanish">
@@ -73,17 +73,19 @@ const editors = [
   },
 ];
 
-const CaseDescription = () => {
-  const { editorContents, setEditorContents } = useGeneraliteContext();
-  const [showWarnings, setShowWarnings] = useState({});
+const CaseDescription = ({ formulaire }) => {
+  const [editorContents, setEditorContents] = useState({
+    c1: formulaire?.sContenu1 || "<p>lorem</p>",
+    c2: formulaire?.sContenu2 || "<p>lorem </p>",
+    c3: formulaire?.sContenu3 || "<p>lorem </p>",
+    c4: formulaire?.sContenu4 || "<p>lorem </p>",
+    c5: formulaire?.sContenu5 || "<p>lorem </p>",
+    c6: formulaire?.sContenu6 || "<p>lorem </p>",
+  });
+
   const editorRefs = useRef({});
 
-  useEffect(() => {
-    editors.forEach(({ id }) => {
-      editorRefs.current[id] = React.createRef();
-    });
-  }, []);
-
+  const [showWarnings, setShowWarnings] = useState({});
   const handleClickOutside = (event) => {
     let clickedOutsideAllEditors = true;
 
@@ -146,6 +148,7 @@ const CaseDescription = () => {
             <p className="spanish">{label}</p>
             <Editor
               id={id}
+              value={editorRefs.current.c1} 
               onChange={(content) => handleEditorChange(id, content)}
               onBlur={() => handleEditorBlur(id)} 
             />
@@ -173,6 +176,7 @@ const CaseDescription = () => {
           <div key={id} ref={editorRefs.current[id]}>
             <Editor
               id={id}
+              value={editorContents[id]} 
               onChange={(content) => handleEditorChange(id, content)}
               onBlur={() => handleEditorBlur(id)} 
             />

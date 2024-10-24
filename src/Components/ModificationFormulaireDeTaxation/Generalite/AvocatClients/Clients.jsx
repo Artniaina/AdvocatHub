@@ -10,6 +10,7 @@ const Clients = ({ clientsDataToModify }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptions, setSelectedOptions] = useState("");
+  const [defaultData, setDefaultData] = useState({ name: "" });
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -25,14 +26,29 @@ const Clients = ({ clientsDataToModify }) => {
 
   const handleClientSelection = (data) => {
     setClientData(data);
-    setSelectedOption(data[0]?.id || "");
+    setSelectedOption(data[0]?.id || ""); // Set the selected option based on the new data
     handleClosePopup();
   };
 
-  const flattenedClients = clientData.flat();
   const selectedClient =
-    flattenedClients.find((client) => client.id === selectedOption) || {};
-  console.log(flattenedClients);
+    clientData.find((client) => client.id === selectedOption) || {};
+
+  useEffect(() => {
+    // Set default data based on the selected client or first client if none is selected
+    if (Object.keys(selectedClient).length > 0) {
+      setDefaultData({ name: selectedClient.name });
+    } else if (clientData.length > 0) {
+      setDefaultData({ name: clientData[0].name }); // Display first client's name
+      setSelectedOption(clientData[0].id); // Optionally set the selected option to the first client
+    } else {
+      setDefaultData({ name: "" }); // Handle case with no clients
+    }
+  }, [selectedClient, clientData]); // Add clientData as a dependency
+
+  console.log(clientData);
+  console.log(selectedClient);
+  console.log(Object.keys(selectedClient).length > 0);
+  console.log("Default Client :", defaultData.name);
 
   useEffect(() => {
     if (selectedClient.selectedOption) {
@@ -70,7 +86,7 @@ const Clients = ({ clientsDataToModify }) => {
             value={selectedOption}
             onChange={handleOptionChange}
           >
-            {flattenedClients.map((client) => (
+            {clientData.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name + " " + client.prenom}
               </option>
@@ -123,7 +139,7 @@ const Clients = ({ clientsDataToModify }) => {
           <input
             type="text"
             id="name"
-            value={selectedClient.name || ""}
+            value={defaultData.name}
             readOnly
           />
         </div>
@@ -140,7 +156,7 @@ const Clients = ({ clientsDataToModify }) => {
 
         <div className="three">
           <div className="formGroup">
-            <label htmlFor="numVoie"> Numéro voie:</label>
+            <label htmlFor="numVoie">Numéro voie:</label>
             <input
               type="text"
               id="numVoie"
@@ -150,7 +166,7 @@ const Clients = ({ clientsDataToModify }) => {
           </div>
 
           <div className="formGroup">
-            <label htmlFor="rue"> Rue:</label>
+            <label htmlFor="rue">Rue:</label>
             <input
               className="two"
               type="text"
@@ -161,7 +177,7 @@ const Clients = ({ clientsDataToModify }) => {
           </div>
 
           <div className="formGroup">
-            <label htmlFor="cp"> CP:</label>
+            <label htmlFor="cp">CP:</label>
             <input
               type="text"
               id="cp"
