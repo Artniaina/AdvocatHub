@@ -4,9 +4,12 @@ import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 
-const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollaborators }) => {
+const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborators }) => {
+  console.log(selectedCollaborator);
+  
   const [filters, setFilters] = useState({});
   const [avocat, setAvocat] = useState([]);
+    const [selectedCollaborators, setSelectedCollaborators] = useState(selectedCollaborator); 
   const [filterActive, setFilterActive] = useState(null);
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -14,7 +17,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => { 
       try {
         const response = await fetch(
           "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
@@ -41,6 +44,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     Email: "m_sEmail", 
   };
 
+  
   const sortedAvocat = useMemo(() => {
     let sortableAvocat = [...avocat];
 
@@ -109,6 +113,8 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     onSelectCollaborators(selectedCollaborators, necessaryData);
     onClose();
   };
+
+
   
 
   return (

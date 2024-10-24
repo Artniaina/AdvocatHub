@@ -7,6 +7,8 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Collaborateurs = () => {
   const { selectedAvocats, setSelectedAvocats } = useGeneraliteContext();
+
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");
@@ -48,6 +50,7 @@ const Collaborateurs = () => {
     };
 
     if (selectedAvocat) {
+      setId(selectedAvocat.Id || "");
       setName(selectedAvocat.Nom || "");
       setPrenom(selectedAvocat.Prenom || "");
       setEtude(selectedAvocat.Etude || ""); 
@@ -63,6 +66,7 @@ const Collaborateurs = () => {
   };
 
   const resetFields = () => {
+    setId("");
     setName("");
     setPrenom("");
     setEtude("");
@@ -83,7 +87,6 @@ const Collaborateurs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
  
   return (

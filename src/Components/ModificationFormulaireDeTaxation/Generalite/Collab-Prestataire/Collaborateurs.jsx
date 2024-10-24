@@ -20,9 +20,10 @@ const Collaborateurs = ({collaboratorsToModify}) => {
 
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => {
-    resetFields(); 
+    resetFields();  
     setShowPopup(false);
-  };
+  }; 
+
 
   const handleSelectCollaborators = (collaborators, avocatsData) => {
     setSelectedCollaborators(collaborators);
@@ -85,7 +86,15 @@ const Collaborateurs = ({collaboratorsToModify}) => {
     e.preventDefault();
     console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
- 
+
+  let collaboratorIds;
+  if (selectedCollaborators.length === 0) {
+    collaboratorIds = selectedAvocats.map(collaborator => collaborator.id);
+  } else {
+    collaboratorIds = selectedCollaborators;
+  }
+
+  
   return (
     <div>
       <div className="titleCard">
@@ -201,7 +210,7 @@ const Collaborateurs = ({collaboratorsToModify}) => {
       {showPopup && (
         <PopupCollaborateurs
           onClose={handleClosePopup}
-          selectedCollaborators={selectedCollaborators}
+          selectedCollaborator={collaboratorIds}
           onSelectCollaborators={handleSelectCollaborators}
         />
       )}

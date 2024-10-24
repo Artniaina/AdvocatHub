@@ -95,8 +95,8 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
   }, [avocat, selectedCollaborators]);
 
   const handleSubmit = () => {
- 
     const necessaryData = selectedAvocats.map((avocat) => ({
+      id: avocat.m_nIDAvocat_PP,
       Nom: avocat.m_sNom,
       Prenom: avocat.m_sPrenom,
       Etude: avocat.m_sDénominationEtude,
@@ -108,6 +108,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     }));
     onSelectCollaborators(selectedCollaborators, necessaryData);
     onClose();
+    console.log(necessaryData);
   };
   
 
