@@ -38,7 +38,7 @@ const PopupCollaborateurs = ({
     fetchData();
   }, []);
 
-  // Update selectedCollaborators when selectedCollaborator prop changes
+
   useEffect(() => {
     setSelectedCollaborators(selectedCollaborator);
   }, [selectedCollaborator]);
@@ -116,6 +116,7 @@ const PopupCollaborateurs = ({
 
   const handleSubmit = () => {
     const necessaryData = selectedAvocats.map((avocat) => ({
+      id: avocat.m_nIDAvocat_PP,
       Nom: avocat.m_sNom,
       Prenom: avocat.m_sPrenom,
       Etude: avocat.m_sDénominationEtude,

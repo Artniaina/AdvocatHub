@@ -4,12 +4,11 @@ import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
 
-
-const Collaborateurs = ({collaboratorsToModify}) => {
-  const [selectedAvocats, setSelectedAvocats]  = useState(collaboratorsToModify ||[]);
+const Collaborateurs = ({ collaboratorsToModify }) => {
+  const [selectedAvocats, setSelectedAvocats] = useState(collaboratorsToModify || []);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [setude, setEtude] = useState("");
+  const [etude, setEtude] = useState("");
   const [adresseEtude, setAdresseEtude] = useState("");
   const [dateAssermentation, setDateAssermentation] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -20,10 +19,9 @@ const Collaborateurs = ({collaboratorsToModify}) => {
 
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => {
-    resetFields();  
+    resetFields();
     setShowPopup(false);
-  }; 
-
+  };
 
   const handleSelectCollaborators = (collaborators, avocatsData) => {
     setSelectedCollaborators(collaborators);
@@ -36,9 +34,7 @@ const Collaborateurs = ({collaboratorsToModify}) => {
   };
 
   const populateFields = (selectedID) => {
-    const selectedAvocat = (selectedAvocats || []).find(
-      (collaborator) => collaborator.IDAvocat === selectedID 
-    );
+    const selectedAvocat = selectedAvocats.find((collaborator) => collaborator.id === selectedID);
 
     const formatDate = (dateString) => {
       if (!dateString) return "";
@@ -49,18 +45,17 @@ const Collaborateurs = ({collaboratorsToModify}) => {
     };
 
     if (selectedAvocat) {
-      setName(selectedAvocat.Nom || "");
-      setPrenom(selectedAvocat.Prenom || "");
-      setEtude(selectedAvocat.Etude || ""); 
-      setAdresseEtude(selectedAvocat.Adresse || ""); 
-      setDateAssermentation(formatDate(selectedAvocat.DateAssermentation));
-      setTelephone(selectedAvocat.Telephone || ""); 
-      setEmail(selectedAvocat.Email || ""); 
+      setName(selectedAvocat.nom || ""); 
+      setPrenom(selectedAvocat.prenom || ""); 
+      setEtude(selectedAvocat.etude || ""); 
+      setAdresseEtude(selectedAvocat.adresse || ""); 
+      setDateAssermentation(formatDate(selectedAvocat.dateAssermentation)); 
+      setTelephone(selectedAvocat.telephone || ""); 
+      setEmail(selectedAvocat.email || ""); 
       setIsInscrit(selectedAvocat.isInscrit === "Inscrit");
     } else {
       resetFields();
     }
- 
   };
 
   const resetFields = () => {
@@ -80,20 +75,26 @@ const Collaborateurs = ({collaboratorsToModify}) => {
     } else {
       resetFields(); 
     }
-  }, [selectedCollaborators, selectedAvocats]); 
+  }, [selectedCollaborators, selectedAvocats]);
+
+  useEffect(() => {
+    if (selectedAvocats.length > 0) {
+      populateFields(selectedAvocats[0].id);
+    }
+  }, [selectedAvocats]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
 
-  let collaboratorIds
-  if (selectedCollaborators.length == 0) {
-    collaboratorIds = selectedAvocats.map(collaborator => collaborator.id);
+  let collaboratorIds;
+  if (selectedCollaborators.length === 0) {
+    collaboratorIds = selectedAvocats.map((collaborator) => collaborator.id);
   } else {
     collaboratorIds = selectedCollaborators;
   }
-  
+
   return (
     <div>
       <div className="titleCard">
@@ -113,10 +114,10 @@ const Collaborateurs = ({collaboratorsToModify}) => {
           >
             {(selectedAvocats || []).map((collaborator) => (
               <option
-                key={collaborator.IDAvocat} 
-                value={collaborator.IDAvocat} 
+                key={collaborator.id}
+                value={collaborator.id}
               >
-                {`${collaborator.Nom || ""} ${collaborator.Prenom || ""}`}
+                {`${collaborator.nom || ""} ${collaborator.prenom || ""}`}
               </option>
             ))}
           </select>
@@ -150,7 +151,7 @@ const Collaborateurs = ({collaboratorsToModify}) => {
           <input
             type="text"
             id="etude"
-            value={setude}
+            value={etude}
             onChange={(e) => setEtude(e.target.value)}
             readOnly
           />
