@@ -125,7 +125,7 @@ const PopupCollaborateurs = ({
       Telephone: avocat.m_sTelephone,
       Email: avocat.m_emailbarreau,
       IDAvocat: avocat.m_nIDAvocat_PP,
-    }));
+    })); 
     onSelectCollaborators(selectedCollaborators, necessaryData);
     onClose();
   };

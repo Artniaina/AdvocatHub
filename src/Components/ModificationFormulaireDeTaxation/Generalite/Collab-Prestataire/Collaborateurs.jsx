@@ -27,6 +27,8 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
     setSelectedCollaborators(collaborators);
     setSelectedAvocats(avocatsData);
   };
+  
+console.log(selectedAvocats);
 
   const handleSelectCollaborator = (e) => {
     const selectedID = parseInt(e.target.value, 10);
@@ -45,14 +47,14 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
     };
 
     if (selectedAvocat) {
-      setName(selectedAvocat.nom || ""); 
-      setPrenom(selectedAvocat.prenom || ""); 
-      setEtude(selectedAvocat.etude || ""); 
-      setAdresseEtude(selectedAvocat.adresse || ""); 
-      setDateAssermentation(formatDate(selectedAvocat.dateAssermentation)); 
-      setTelephone(selectedAvocat.telephone || ""); 
-      setEmail(selectedAvocat.email || ""); 
-      setIsInscrit(selectedAvocat.isInscrit === "Inscrit");
+      setName(selectedAvocat.Nom || ""); 
+      setPrenom(selectedAvocat.Prenom || ""); 
+      setEtude(selectedAvocat.Etude || ""); 
+      setAdresseEtude(selectedAvocat.Adresse || ""); 
+      setDateAssermentation(formatDate(selectedAvocat.DateAssermentation)); 
+      setTelephone(selectedAvocat.Telephone || ""); 
+      setEmail(selectedAvocat.Email || ""); 
+      setIsInscrit(selectedAvocat.IsInscrit === "Inscrit");
     } else {
       resetFields();
     }
@@ -117,7 +119,7 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
                 key={collaborator.id}
                 value={collaborator.id}
               >
-                {`${collaborator.nom || ""} ${collaborator.prenom || ""}`}
+                {`${collaborator.Nom || ""} ${collaborator.Prenom || ""}`}
               </option>
             ))}
           </select>
