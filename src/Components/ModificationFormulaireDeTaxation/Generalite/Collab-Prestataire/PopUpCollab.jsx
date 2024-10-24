@@ -4,12 +4,16 @@ import "../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 
-const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborators }) => {
+const PopupCollaborateurs = ({
+  onClose,
+  selectedCollaborator,
+  onSelectCollaborators,
+}) => {
   console.log(selectedCollaborator);
-  
+
   const [filters, setFilters] = useState({});
   const [avocat, setAvocat] = useState([]);
-    const [selectedCollaborators, setSelectedCollaborators] = useState(selectedCollaborator); 
+  const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [filterActive, setFilterActive] = useState(null);
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -17,7 +21,7 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
   });
 
   useEffect(() => {
-    const fetchData = async () => { 
+    const fetchData = async () => {
       try {
         const response = await fetch(
           "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
@@ -34,6 +38,11 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
     fetchData();
   }, []);
 
+  // Update selectedCollaborators when selectedCollaborator prop changes
+  useEffect(() => {
+    setSelectedCollaborators(selectedCollaborator);
+  }, [selectedCollaborator]);
+
   const keyMapping = {
     Nom: "m_sNom",
     Prenom: "m_sPrenom",
@@ -41,10 +50,9 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
     Adresse: "m_sadressecomplet",
     DateAssermentation: "m_dDateAssermentation",
     Telephone: "m_sTelephone",
-    Email: "m_sEmail", 
+    Email: "m_sEmail",
   };
 
-  
   const sortedAvocat = useMemo(() => {
     let sortableAvocat = [...avocat];
 
@@ -55,8 +63,10 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
         const aLower = aValue.toLowerCase();
         const bLower = bValue.toLowerCase();
 
-        if (aLower < bLower) return sortConfig.direction === "ascending" ? -1 : 1;
-        if (aLower > bLower) return sortConfig.direction === "ascending" ? 1 : -1;
+        if (aLower < bLower)
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        if (aLower > bLower)
+          return sortConfig.direction === "ascending" ? 1 : -1;
         return 0;
       });
     }
@@ -64,7 +74,9 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
     return sortableAvocat.filter((client) =>
       Object.keys(filters).every((key) =>
         client[keyMapping[key]]
-          ? client[keyMapping[key]].toLowerCase().includes(filters[key].toLowerCase())
+          ? client[keyMapping[key]]
+              .toLowerCase()
+              .includes(filters[key].toLowerCase())
           : false
       )
     );
@@ -87,35 +99,35 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
   };
 
   const handleCheckboxChange = (code) => {
-    const updatedSelection = selectedCollaborators.includes(code)
-      ? selectedCollaborators.filter((id) => id !== code)
-      : [...selectedCollaborators, code];
-
-    onSelectCollaborators(updatedSelection);
+    setSelectedCollaborators((prevSelected) => {
+      if (prevSelected.includes(code)) {
+        return prevSelected.filter((id) => id !== code);
+      } else {
+        return [...prevSelected, code];
+      }
+    });
   };
 
   const selectedAvocats = useMemo(() => {
-    return avocat.filter((item) => selectedCollaborators.includes(item.m_nIDAvocat_PP));
+    return avocat.filter((item) =>
+      selectedCollaborators.includes(item.m_nIDAvocat_PP)
+    );
   }, [avocat, selectedCollaborators]);
 
   const handleSubmit = () => {
- 
     const necessaryData = selectedAvocats.map((avocat) => ({
       Nom: avocat.m_sNom,
       Prenom: avocat.m_sPrenom,
       Etude: avocat.m_sDénominationEtude,
       Adresse: avocat.m_sadressecomplet,
-      DateAssermentation: avocat.m_dDateAssermentation, 
+      DateAssermentation: avocat.m_dDateAssermentation,
       Telephone: avocat.m_sTelephone,
-      Email: avocat.m_emailbarreau, 
+      Email: avocat.m_emailbarreau,
       IDAvocat: avocat.m_nIDAvocat_PP,
     }));
     onSelectCollaborators(selectedCollaborators, necessaryData);
     onClose();
   };
-
-
-  
 
   return (
     <div className="overlay">
@@ -134,34 +146,36 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
           <table className="tavleInfo">
             <thead>
               <tr>
-                {["Nom", "Prenom", "Etude", "Adresse", "Sélection"].map((key) => (
-                  <th key={key}>
-                    <span
-                      className="sort-icon"
-                      onClick={() => requestSort(key)}
-                    >
-                      <PiCaretUpDownFill />
-                    </span>
-                    {key}
-                    <span
-                      className="filter-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFilterClick(key);
-                      }}
-                    >
-                      <FaFilter />
-                    </span>
-                    {filterActive === key && (
-                      <input
-                        type="text"
-                        placeholder={`Filter by ${key}`}
-                        value={filters[key] || ""}
-                        onChange={(e) => handleFilterChange(e, key)}
-                      />
-                    )}
-                  </th>
-                ))}
+                {["Nom", "Prenom", "Etude", "Adresse", "Sélection"].map(
+                  (key) => (
+                    <th key={key}>
+                      <span
+                        className="sort-icon"
+                        onClick={() => requestSort(key)}
+                      >
+                        <PiCaretUpDownFill />
+                      </span>
+                      {key}
+                      <span
+                        className="filter-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFilterClick(key);
+                        }}
+                      >
+                        <FaFilter />
+                      </span>
+                      {filterActive === key && (
+                        <input
+                          type="text"
+                          placeholder={`Filter by ${key}`}
+                          value={filters[key] || ""}
+                          onChange={(e) => handleFilterChange(e, key)}
+                        />
+                      )}
+                    </th>
+                  )
+                )}
               </tr>
             </thead>
             <tbody>
@@ -176,15 +190,19 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
                       <input
                         type="checkbox"
                         value={avocat.m_nIDAvocat_PP}
-                        checked={selectedCollaborators.includes(avocat.m_nIDAvocat_PP)}
-                        onChange={() => handleCheckboxChange(avocat.m_nIDAvocat_PP)}
+                        checked={selectedCollaborators.includes(
+                          avocat.m_nIDAvocat_PP
+                        )} 
+                        onChange={() =>
+                          handleCheckboxChange(avocat.m_nIDAvocat_PP)
+                        } 
                       />
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">Aucune donnée </td>
+                  <td colSpan="5">Aucune donnée</td>
                 </tr>
               )}
             </tbody>
@@ -192,7 +210,10 @@ const PopupCollaborateurs = ({ onClose,selectedCollaborator, onSelectCollaborato
         </div>
         <div className="footerListe">
           <div>
-            <p>Nombre d'avocats: <br />{avocat.length}</p>
+            <p>
+              Nombre d'avocats: <br />
+              {avocat.length}
+            </p>
           </div>
           <div>
             <button onClick={handleSubmit}>Enregistrer</button>

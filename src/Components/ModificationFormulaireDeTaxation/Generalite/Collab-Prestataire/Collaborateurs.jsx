@@ -3,10 +3,10 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
+
 
 const Collaborateurs = ({collaboratorsToModify}) => {
-  const  [selectedAvocats, setSelectedAvocats]  = useState(collaboratorsToModify);
+  const [selectedAvocats, setSelectedAvocats]  = useState(collaboratorsToModify ||[]);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");
@@ -87,13 +87,12 @@ const Collaborateurs = ({collaboratorsToModify}) => {
     console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
 
-  let collaboratorIds;
-  if (selectedCollaborators.length === 0) {
+  let collaboratorIds
+  if (selectedCollaborators.length == 0) {
     collaboratorIds = selectedAvocats.map(collaborator => collaborator.id);
   } else {
     collaboratorIds = selectedCollaborators;
   }
-
   
   return (
     <div>
