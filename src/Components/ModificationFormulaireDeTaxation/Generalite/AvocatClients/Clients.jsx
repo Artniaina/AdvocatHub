@@ -10,11 +10,16 @@ const Clients = ({ clientsDataToModify }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptions, setSelectedOptions] = useState("");
-  const [defaultData, setDefaultData] = useState({ name: "" });
 
   const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+    const selectedId = parseInt(event.target.value);
+    setSelectedOption(selectedId);
+    const selectedClient = clientData.find((client) => client.id === selectedId);
+    if (selectedClient) {
+      setSelectedOptions(selectedClient.selectedOption); 
+    }
   };
+  
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -24,37 +29,27 @@ const Clients = ({ clientsDataToModify }) => {
     setShowPopup(false);
   };
 
+
+  // console.log(clientData);
+  // console.log(selectedClient);
+  // console.log(Object.keys(selectedClient).length > 0);
+
+
+  const selectedClient = clientData.find((client) => client.id === selectedOption) || {};
+
   const handleClientSelection = (data) => {
     setClientData(data);
-    setSelectedOption(data[0]?.id || ""); // Set the selected option based on the new data
+    setSelectedOption(data[0]?.id || "");
+
     handleClosePopup();
   };
 
-  const selectedClient =
-    clientData.find((client) => client.id === selectedOption) || {};
-
   useEffect(() => {
-    // Set default data based on the selected client or first client if none is selected
-    if (Object.keys(selectedClient).length > 0) {
-      setDefaultData({ name: selectedClient.name });
-    } else if (clientData.length > 0) {
-      setDefaultData({ name: clientData[0].name }); // Display first client's name
-      setSelectedOption(clientData[0].id); // Optionally set the selected option to the first client
-    } else {
-      setDefaultData({ name: "" }); // Handle case with no clients
+    if (clientData.length > 0 && !selectedOption) {
+      setSelectedOption(clientData[0].id);
     }
-  }, [selectedClient, clientData]); // Add clientData as a dependency
+  }, [clientData, selectedOption]);
 
-  console.log(clientData);
-  console.log(selectedClient);
-  console.log(Object.keys(selectedClient).length > 0);
-  console.log("Default Client :", defaultData.name);
-
-  useEffect(() => {
-    if (selectedClient.selectedOption) {
-      setSelectedOptions(selectedClient.selectedOption);
-    }
-  }, [selectedClient]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -139,7 +134,7 @@ const Clients = ({ clientsDataToModify }) => {
           <input
             type="text"
             id="name"
-            value={defaultData.name}
+            value={selectedClient.name}
             readOnly
           />
         </div>
@@ -258,7 +253,7 @@ const Clients = ({ clientsDataToModify }) => {
         <PopupClients
           onClose={handleClosePopup}
           onSelectClient={handleClientSelection}
-          defaultClient={clientsDataToModify}
+          defaultClient={clientData}
         />
       )}
     </div>
