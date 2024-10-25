@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
 
@@ -10,6 +9,15 @@ const Clients = ({ clientsDataToModify }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptions, setSelectedOptions] = useState("");
+
+  useEffect(() => {
+  if (clientData.length > 0) {
+    const initialClient = clientData[0];
+    setSelectedOption(initialClient.id);
+    setSelectedOptions(initialClient.selectedOption || "");
+  }
+}, [clientData]);
+
 
   const handleOptionChange = (event) => {
     const selectedId = parseInt(event.target.value);
@@ -40,7 +48,7 @@ const Clients = ({ clientsDataToModify }) => {
   const handleClientSelection = (data) => {
     setClientData(data);
     setSelectedOption(data[0]?.id || "");
-
+    setSelectedOptions(data[0]?.selectedOption || "");
     handleClosePopup();
   };
 

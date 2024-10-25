@@ -28,15 +28,15 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
     setSelectedAvocats(avocatsData);
   };
   
-console.log(selectedAvocats);
-
+  
   const handleSelectCollaborator = (e) => {
     const selectedID = parseInt(e.target.value, 10);
     populateFields(selectedID);
   };
-
+  
   const populateFields = (selectedID) => {
     const selectedAvocat = selectedAvocats.find((collaborator) => collaborator.id === selectedID);
+    console.log(selectedAvocat);
 
     const formatDate = (dateString) => {
       if (!dateString) return "";
@@ -47,14 +47,14 @@ console.log(selectedAvocats);
     };
 
     if (selectedAvocat) {
-      setName(selectedAvocat.Nom || ""); 
-      setPrenom(selectedAvocat.Prenom || ""); 
-      setEtude(selectedAvocat.Etude || ""); 
-      setAdresseEtude(selectedAvocat.Adresse || ""); 
-      setDateAssermentation(formatDate(selectedAvocat.DateAssermentation)); 
-      setTelephone(selectedAvocat.Telephone || ""); 
-      setEmail(selectedAvocat.Email || ""); 
-      setIsInscrit(selectedAvocat.IsInscrit === "Inscrit");
+      setName(selectedAvocat.nom || ""); 
+      setPrenom(selectedAvocat.prenom || ""); 
+      setEtude(selectedAvocat.etude || ""); 
+      setAdresseEtude(selectedAvocat.adresse || ""); 
+      setDateAssermentation(formatDate(selectedAvocat.dateAssermentation)); 
+      setTelephone(selectedAvocat.telephone || ""); 
+      setEmail(selectedAvocat.email || ""); 
+      setIsInscrit(selectedAvocat.isInscrit === "Inscrit");
     } else {
       resetFields();
     }
@@ -119,7 +119,7 @@ console.log(selectedAvocats);
                 key={collaborator.id}
                 value={collaborator.id}
               >
-                {`${collaborator.Nom || ""} ${collaborator.Prenom || ""}`}
+                {`${collaborator.nom || ""} ${collaborator.prenom || ""}`}
               </option>
             ))}
           </select>
@@ -191,6 +191,7 @@ console.log(selectedAvocats);
         <div className="formGroup">
           <label htmlFor="email">Email:</label>
           <input
+          
             type="email"
             id="email"
             value={email}
