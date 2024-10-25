@@ -13,20 +13,20 @@ import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
 const Affaire = ({formulaire}) => {
   const domaineArray = formulaire?.sDomaineJuridique.split(',');
   const[ selectedDomains, setSelectedDomains ] = useState(domaineArray || []);
-  const { honoraireData, setHonoraireData } = useGeneraliteContext();
+  const  [honoraireData, setHonoraireData ] = useState(formulaire?.sHonoraireData || []);
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
-  const { provisionData, setProvisionData } = useGeneraliteContext();
-  const { montantData, setMontantData } = useGeneraliteContext();
+  const [ provisionData, setProvisionData]= useState(formulaire?.sProvision || []);
+  const [ montantData, setMontantData ] = useState(formulaire?.sMontant || []);
 
   const [ showOptions, setShowOptions ] = useState({
-      note: formulaire?.sNoteHonoraire && formulaire.sNoteHonoraire !== "non"? "oui" : "non",
-      termesHonoraires: formulaire?.sTermesHonoraire? "oui" : "non",
-      etatAvancement: formulaire?.sEtatAvancement && formulaire.sEtatAvancement !== "non"? "oui" : "non",
-      conciliation: formulaire?.sConciliation && formulaire.sConciliation !== "non"? "oui" : "non",
-      relative: formulaire?.sProcedureRelative && formulaire.sProcedureRelative !== "non"? "oui" : "non",
-      conserv: formulaire?.sMesureConservatoire && formulaire.sMesureConservatoire !== "non"? "oui" : "non",
-      mediation: formulaire?.sMediation && formulaire.sMediation !== "non"? "oui" : "non",
-      mediationChoix:formulaire?.sMediationChoix && formulaire.sMediationChoix !== "non"? "oui" : "non" || "non",
+      notes: formulaire?.sMontant.length !== 0 && formulaire?.sMontant !== "non" ? "oui" : "non",
+      termesHonoraires: formulaire?.sTermesHonoraires && formulaire?.sTermesHonoraires !== "non"? "oui" : "non",
+      etatAvancement: formulaire?.sEtatAvancement && formulaire?.sEtatAvancement !== "non"? "oui" : "non",
+      conciliation: formulaire?.sConciliation && formulaire?.sConciliation !== "non"? "oui" : "non",
+      relative: formulaire?.sProcedureRelative && formulaire?.sProcedureRelative !== "non"? "oui" : "non",
+      conserv: formulaire?.sMesureConservatoire && formulaire?.sMesureConservatoire !== "non"? "oui" : "non",
+      mediation: formulaire?.sMediation && formulaire?.sMediation !== "non"? "oui" : "non",
+      mediationChoix:formulaire?.sMediationChoix && formulaire?.sMediationChoix !== "non"? "oui" : "non" || "non",
     });
     
   const popupRef = useRef(null);
@@ -294,7 +294,6 @@ const Affaire = ({formulaire}) => {
           readOnly
           rows={selectedDomains.length}
         />
-        
         <IoAddCircle
           onClick={() => setIsPopupVisible(!isPopupVisible)}
           style={{
@@ -526,6 +525,7 @@ const Affaire = ({formulaire}) => {
                 onOpen={() => {
                   setIsPopupHonoraireVisible(true);
                 }}
+                honoraireData={honoraireData}
                 onSubmit={handlePopupHonoraireSubmit}
               />
             </div>
@@ -608,6 +608,7 @@ const Affaire = ({formulaire}) => {
             <div className="popupContainer" ref={popupRef}>
               <PopupProvision
                 onClose={handlePopupClose}
+                provisionData={provisionData}
                 onSubmit={handlePopupProvisionSubmit}
               />
             </div>
@@ -670,6 +671,7 @@ const Affaire = ({formulaire}) => {
               <div className="popupContainer" ref={popupRef}>
                 <PopupMontant
                   onClose={handlePopupClose}
+                  montantData={montantData}
                   onSubmit={handlePopupMontantSubmit}
                 />
               </div>

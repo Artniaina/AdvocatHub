@@ -7,9 +7,8 @@ import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 
-const PopupProvision = ({ onClose, onSubmit }) => {
-  const { provisionData } = useGeneraliteContext();
-
+const PopupProvision = ({ onClose, onSubmit,provisionData }) => {
+  
   const initialData = Array.from({ length: 5 }, () => ({
     date: "",
     reference: "",

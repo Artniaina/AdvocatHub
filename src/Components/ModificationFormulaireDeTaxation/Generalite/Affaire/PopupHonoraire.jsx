@@ -7,7 +7,7 @@ import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 
-const PopupHonoraire = ({ onClose, onSubmit }) => {
+const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningDateIndex, setWarningDateIndex] = useState(null);
   const [rowsData, setRowsData] = useState(
@@ -19,7 +19,6 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     }))
   );
 
-  const { honoraireData } = useGeneraliteContext();
 
   useEffect(() => {
     if (honoraireData && honoraireData.length > 0) {

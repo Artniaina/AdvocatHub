@@ -5,8 +5,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
-const PopupMontant = ({ onClose, onSubmit }) => {
-  const { montantData } = useGeneraliteContext();
+const PopupMontant = ({ onClose, onSubmit, montantData }) => {
   const initialData = Array.from({ length: 5 }, () => ({
     amount: "",
     comment: "",
