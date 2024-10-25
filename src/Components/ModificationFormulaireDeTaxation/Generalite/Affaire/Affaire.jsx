@@ -10,19 +10,51 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
 
-const Affaire = () => {
-  const { selectedDomains, setSelectedDomains } = useGeneraliteContext();
+const Affaire = ({formulaire}) => {
+  const domaineArray = formulaire?.sDomaineJuridique.split(',');
+  const[ selectedDomains, setSelectedDomains ] = useState(domaineArray || []);
   const { honoraireData, setHonoraireData } = useGeneraliteContext();
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
   const { provisionData, setProvisionData } = useGeneraliteContext();
   const { montantData, setMontantData } = useGeneraliteContext();
-  const { formData, setFormData } = useGeneraliteContext();
-  const { showOptions, setShowOptions } = useGeneraliteContext();
-  const popupRef = useRef(null);
 
+  const [ showOptions, setShowOptions ] = useState({
+      note: formulaire?.sNoteHonoraire && formulaire.sNoteHonoraire !== "non"? "oui" : "non",
+      termesHonoraires: formulaire?.sTermesHonoraire? "oui" : "non",
+      etatAvancement: formulaire?.sEtatAvancement && formulaire.sEtatAvancement !== "non"? "oui" : "non",
+      conciliation: formulaire?.sConciliation && formulaire.sConciliation !== "non"? "oui" : "non",
+      relative: formulaire?.sProcedureRelative && formulaire.sProcedureRelative !== "non"? "oui" : "non",
+      conserv: formulaire?.sMesureConservatoire && formulaire.sMesureConservatoire !== "non"? "oui" : "non",
+      mediation: formulaire?.sMediation && formulaire.sMediation !== "non"? "oui" : "non",
+      mediationChoix:formulaire?.sMediationChoix && formulaire.sMediationChoix !== "non"? "oui" : "non" || "non",
+    });
+    
+  const popupRef = useRef(null);
+  
   const [showWarningLength, setShowWarningLength] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [id, setId] = useState("");
+
+   const [formData, setFormData] = useState({
+    domaine: [],
+    honoraire: [],
+    provision: [],
+    montant: [],
+    nomAffaire: formulaire?.sNomAffaire || "",
+    termesHonoraires:formulaire?.sTermesHonoraires || "",
+    absenceTerm: formulaire?.sAbsenceTermes || "",
+    datecontest: formulaire?.sDateContestation || "",
+    dateDebut:formulaire?.sDateDebutMandat || "",
+    dateFin: formulaire?.sDateFinMandat || "",
+    etatAvancement: formulaire?.sEtatAvancement || "",
+    conserv: formulaire?.sMesureConservatoire || "",
+    mediation: formulaire?.sMediation || "",
+    relative: formulaire?.sProcedureRelative || "",
+    conciliation: formulaire?.sConciliation || "",
+    
+  });
+
+
 
   const validateDate = (selectedDate, id) => {
     const currentDate = new Date();
@@ -262,6 +294,7 @@ const Affaire = () => {
           readOnly
           rows={selectedDomains.length}
         />
+        
         <IoAddCircle
           onClick={() => setIsPopupVisible(!isPopupVisible)}
           style={{

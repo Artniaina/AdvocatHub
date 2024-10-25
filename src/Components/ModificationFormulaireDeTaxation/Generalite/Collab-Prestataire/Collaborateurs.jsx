@@ -8,7 +8,7 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
   const [selectedAvocats, setSelectedAvocats] = useState(collaboratorsToModify || []);
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [etude, setEtude] = useState("");
+  const [setude, setEtude] = useState("");
   const [adresseEtude, setAdresseEtude] = useState("");
   const [dateAssermentation, setDateAssermentation] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -49,7 +49,7 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
     if (selectedAvocat) {
       setName(selectedAvocat.nom || ""); 
       setPrenom(selectedAvocat.prenom || ""); 
-      setEtude(selectedAvocat.etude || ""); 
+      setEtude(selectedAvocat.setude || ""); 
       setAdresseEtude(selectedAvocat.adresse || ""); 
       setDateAssermentation(formatDate(selectedAvocat.dateAssermentation)); 
       setTelephone(selectedAvocat.telephone || ""); 
@@ -153,7 +153,7 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
           <input
             type="text"
             id="etude"
-            value={etude}
+            value={setude}
             onChange={(e) => setEtude(e.target.value)}
             readOnly
           />
@@ -190,8 +190,7 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
         </div>
         <div className="formGroup">
           <label htmlFor="email">Email:</label>
-          <input
-          
+          <input     
             type="email"
             id="email"
             value={email}
