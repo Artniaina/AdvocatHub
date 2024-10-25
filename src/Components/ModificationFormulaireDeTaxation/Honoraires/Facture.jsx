@@ -4,9 +4,8 @@ import { IoAddCircle } from "react-icons/io5";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
  
 const Facture = ({noteHonoraireToModify}) => {
-  const  [noteHonoraire, setNoteHonoraire]  = useState(noteHonoraireToModify || []);
-  const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
-    useGeneraliteContext();
+  const [noteHonoraire, setNoteHonoraire] = useState(noteHonoraireToModify || []);
+  const { noteHonoraireToCompare, setNoteHonoraireToCompare } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedData, setSelectedData] = useState({
@@ -40,6 +39,7 @@ const Facture = ({noteHonoraireToModify}) => {
     setNoteHonoraire(data);
     handleClosePopup();
   };
+
   useEffect(() => {
     if (noteHonoraire.length > 0) {
       const noteHonoraireData = noteHonoraire.map(
@@ -50,8 +50,29 @@ const Facture = ({noteHonoraireToModify}) => {
         })
       );
       setNoteHonoraireToCompare(noteHonoraireData);
+
+      setSelectedDate(noteHonoraire[0].date);
+      setSelectedData(noteHonoraire[0]);
     } else {
       setNoteHonoraireToCompare([]);
+      setSelectedData({
+        date: "",
+        reference: "",
+        hours: "",
+        minutes: "",
+        tauxHorairesfacturés: "",
+        totalHonoraireHTVA: "",
+        fraisConstitutionDossier: "",
+        totalHonoraireFraisDossier: "",
+        tauxTVA: "",
+        montantTVA: "",
+        totalHonoraireTTC: "",
+        fraisDivers: "",
+        provisionsTTC: "",
+        remise: "",
+        noteTTC: "",
+        restantDu: "",
+      });
     }
   }, [noteHonoraire]);
 
@@ -99,7 +120,6 @@ const Facture = ({noteHonoraireToModify}) => {
             value={selectedDate}
             onChange={handleDateChange}
           >
-            <option value="">-- Choisissez une date --</option>
             {noteHonoraire.map((data) => (
               <option key={data.date} value={data.date}>
                 {data.date}

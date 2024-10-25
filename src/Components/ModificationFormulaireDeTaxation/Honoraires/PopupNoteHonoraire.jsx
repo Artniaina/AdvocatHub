@@ -4,7 +4,7 @@ import "../../../Styles/TaxationForm/Popup.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
-import { FaFileSignature } from "react-icons/fa6"; 
+import { FaFileSignature } from "react-icons/fa6";
 
 const PopupNoteHonoraire = ({ onClose, onSubmitData, noteHonoraire }) => {
   const tableHeaders = [
