@@ -9,11 +9,13 @@ import CaseDescription from '../Components/ModificationFormulaireDeTaxation/Case
 import Honoraires from '../Components/ModificationFormulaireDeTaxation/Honoraires/Honoraires';
 import UploadFile from '../Components/ModificationFormulaireDeTaxation/UploadFile';
 import PrisedePosition from '../Components/ModificationFormulaireDeTaxation/PrisedePosition';
+import { useUpdateDataContext } from '../Hooks/UpdatedDataContext';
 
 const UpdateTaxationFormPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const formulaireId = location.state?.id; 
+  const formulaireId = location.state?.id;
+  const { setFormulaire } = useUpdateDataContext();
 
   const { formulaire, status, error } = useSelector((state) => state.formulaire);
 
@@ -23,6 +25,12 @@ const UpdateTaxationFormPage = () => {
     }
   }, [dispatch, formulaireId]);
 
+  useEffect(() => {
+    if (formulaire.length > 0) {
+      setFormulaire(formulaire); 
+    }
+  }, [formulaire, setFormulaire]); 
+
   if (status === 'loading') {
     return <div>Loading...</div>;
   }
@@ -31,25 +39,24 @@ const UpdateTaxationFormPage = () => {
     return <div>Error: {error}</div>;
   }
 
-
   return (
     <>
       <Navbar />
       <Intro />
       <div>
-        <Generalite formulaire={formulaire} /> 
+        <Generalite formulaire={formulaire || {}} /> 
       </div>
       <div>
-        <CaseDescription formulaire={formulaire} /> 
+        <CaseDescription formulaire={formulaire  || {}} /> 
       </div>
       <div>
-        <Honoraires formulaire={formulaire} /> 
+        <Honoraires formulaire={formulaire || {}} /> 
       </div>
       <div>
-        <PrisedePosition formulaire={formulaire} /> 
+        <PrisedePosition formulaire={formulaire || {}} /> 
       </div>
       <div>
-        <UploadFile formulaire={formulaire} /> 
+        <UploadFile formulaire={formulaire || {}} /> 
       </div>
     </>
   );
