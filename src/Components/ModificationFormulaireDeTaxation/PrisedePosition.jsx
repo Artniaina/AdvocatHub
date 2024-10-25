@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import Editor from "./TextEditor/EditeurHTML";
 import "../../Styles/TaxationForm/CardInfo.css";
-import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 import PopupHTMLEditorWarning from "./TextEditor/PopupHTMLEditorWarning";
 
-const PrisedePosition = () => {
-  const { editorContents, setEditorContents } = useGeneraliteContext();
+const PrisedePosition = ({formulaire}) => {
+  const [ editorContents, setEditorContents ] = useState({position:formulaire?.sPositionAvocat});
   const [showWarning, setShowWarning] = useState(false);
   const priseDePosition = useRef(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(editorContents.position);
+
+  console.log(content);
 
   const handleClosePopup = () => {
     setShowWarning(false);
@@ -46,7 +47,7 @@ const PrisedePosition = () => {
   }, [content]);
 
   return (
-    <div className="cardGeneralité" ref={priseDePosition} style={{ display: "block" }}>
+    <div className="cardGeneralité"  style={{ display: "block" }}>
       <div className="mainTitle">PRISE DE POSITION DE L'AVOCAT</div>
       <p>
         (au regard des contestations du client, de la facturation réalisée, du
@@ -55,8 +56,9 @@ const PrisedePosition = () => {
         dans son appréciation du dossier et ce qu’il vous parait important à
         souligner)
       </p>
-      <div>
+      <div ref={priseDePosition}>
         <Editor
+        
           key="position"
           id="position"
           onChange={(content) => handleEditorChange("position", content)}

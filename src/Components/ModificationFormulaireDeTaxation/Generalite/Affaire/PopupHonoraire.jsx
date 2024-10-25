@@ -10,19 +10,28 @@ import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningDateIndex, setWarningDateIndex] = useState(null);
-  const [rowsData, setRowsData] = useState(
-    Array.from({ length: 10 }, () => ({
-      date: "",
-      reference: "",
-      amount: "",
-      paye: "non",
-    }))
-  );
+  const [isModified, setIsModified] = useState(false);
 
+  const initialData = Array.from({ length: 10 }, () => ({
+    date: "",
+    reference: "",
+    amount: "",
+    paye: "non",
+  }));
+  
+  const [rowsData, setRowsData] = useState(initialData);
+  const [initialRowsData, setInitialRowsData] = useState(initialData);
 
   useEffect(() => {
     if (honoraireData && honoraireData.length > 0) {
-      setRowsData(honoraireData);
+ 
+      const updatedRows = initialData.map((row, index) => ({
+        ...row,
+        ...(honoraireData[index] || {})
+      }));
+      setRowsData(updatedRows);
+    } else {
+      setRowsData(initialData); 
     }
   }, [honoraireData]);
 
@@ -55,6 +64,10 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
     );
   };
 
+  useEffect(() => {
+    setIsModified(checkIfModified());
+  }, [rowsData]);
+
   const handleToggle = (index, value) => {
     setRowsData((prevState) =>
       prevState.map((row, i) => (i === index ? { ...row, paye: value } : row))
@@ -81,14 +94,36 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(rowsData);
-    onClose();
+  const checkIfModified = () => {
+    return rowsData.some((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
   };
 
-  const areAllFieldsEmpty = (row) => {
-    return !row.date && !row.reference && !row.amount;
+  const getModifiedData = () => {
+    return rowsData.filter((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const modifiedData = getModifiedData();
+    onSubmit(modifiedData);
+    console.log("Données mises à jour", modifiedData);
+    onClose();
   };
 
   return (
@@ -107,7 +142,7 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
               <thead>
                 <tr>
                   <th>Date*</th>
-                  <th>Référence*</th>
+                  <th>Référence</th>
                   <th>Montant*</th>
                   <th>Payée?</th>
                 </tr>
@@ -122,7 +157,7 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
                         onChange={(e) =>
                           handleInputChange(index, "date", e.target.value)
                         }
-                        required={!areAllFieldsEmpty(row)}
+                        required={row.date || row.amount}
                       />
                     </td>
                     <td>
@@ -132,7 +167,6 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
                         onChange={(e) =>
                           handleInputChange(index, "reference", e.target.value)
                         }
-                        required={!areAllFieldsEmpty(row)}
                       />
                     </td>
                     <td>
@@ -142,10 +176,10 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
                         onChange={(e) =>
                           handleInputChange(index, "amount", e.target.value)
                         }
-                        required={!areAllFieldsEmpty(row)}
+                        required={row.amount || row.date}
                       />
                     </td>
-                    <td style={{ display: "flex", alignItems: "center" }}>
+                    <td style={{ display: "flex" }}>
                       <ToggleButton
                         name={`paye-${index}`}
                         checkedValue={row.paye}
@@ -173,7 +207,7 @@ const PopupHonoraire = ({ onClose, onSubmit, honoraireData }) => {
       {showWarning && warningDateIndex !== null && (
         <PopupValidationDate
           onClose={handleCloseWarning}
-          date={rowsData[warningDateIndex].date}
+          date={rowsData[warningDateIndex]?.date} 
         />
       )}
     </>

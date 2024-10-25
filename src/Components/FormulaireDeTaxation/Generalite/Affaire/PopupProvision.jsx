@@ -13,7 +13,7 @@ const PopupProvision = ({ onClose, onSubmit }) => {
   const initialData = Array.from({ length: 5 }, () => ({
     date: "",
     reference: "",
-    amount: "",
+    amount: "", 
     paye: "non",
   }));
 

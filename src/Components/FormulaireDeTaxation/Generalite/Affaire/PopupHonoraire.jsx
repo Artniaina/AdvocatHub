@@ -10,16 +10,18 @@ import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 const PopupHonoraire = ({ onClose, onSubmit }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningDateIndex, setWarningDateIndex] = useState(null);
-  const [rowsData, setRowsData] = useState(
-    Array.from({ length: 10 }, () => ({
-      date: "",
-      reference: "",
-      amount: "",
-      paye: "non",
-    }))
-  );
-
   const { honoraireData } = useGeneraliteContext();
+  const [isModified, setIsModified] = useState(false);
+
+  const initialData = Array.from({ length: 10}, () => ({
+    date: "",
+    reference: "",
+    amount: "",
+    paye: "non",
+  }));
+  
+  const [rowsData, setRowsData] = useState(initialData);
+  const [initialRowsData, setInitialRowsData] = useState(initialData);
 
   useEffect(() => {
     if (honoraireData && honoraireData.length > 0) {
@@ -45,7 +47,7 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
     }
   };
 
-  const handleInputChange = (index, field, value) => {
+const handleInputChange = (index, field, value) => {
     if (field === "date") {
       validateDate(value, index);
     }
@@ -55,6 +57,10 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
       )
     );
   };
+  useEffect(() => {
+    setIsModified(checkIfModified());
+  }, [rowsData]);
+
 
   const handleToggle = (index, value) => {
     setRowsData((prevState) =>
@@ -81,17 +87,57 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
       setWarningDateIndex(null);
     }
   };
+  
+  useEffect(() => {
+    if (honoraireData && honoraireData.length > 0) {
+      setRowsData((prevRowsData) => {
+        const updatedData = [...prevRowsData];
+        honoraireData.forEach((provision, index) => {
+          if (updatedData[index]) {
+            updatedData[index] = { ...updatedData[index], ...provision };
+          }
+        });
+        return updatedData;
+      });
+    }
+    setInitialRowsData(rowsData);
+  }, [honoraireData]);
 
+  const checkIfModified = () => {
+    return rowsData.some((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
+  };
+
+  const getModifiedData = () => {
+    return rowsData.filter((row, index) => {
+      const initialRow = initialRowsData[index];
+      return (
+        row.date !== initialRow.date ||
+        row.reference !== initialRow.reference ||
+        row.amount !== initialRow.amount ||
+        row.paye !== initialRow.paye
+      );
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(rowsData);
+
+    const modifiedData = getModifiedData();
+    const updateHonoraireData = [...modifiedData];
+
+    onSubmit(updateHonoraireData);
+    console.log("Données mises à jour", updateHonoraireData);
     onClose();
   };
 
-  const areAllFieldsEmpty = (row) => {
-    return !row.date && !row.reference && !row.amount;
-  };
-
+  const rows = Array.from({ length: 10 });
   return (
     <>
       <div className="overlay" onClick={onClose}>
@@ -104,71 +150,70 @@ const PopupHonoraire = ({ onClose, onSubmit }) => {
             <IoCloseCircle />
           </button>
           <form onSubmit={handleSubmit}>
-            <table className="domainTable">
-              <thead>
-                <tr>
-                  <th>Date*</th>
-                  <th>Référence*</th>
-                  <th>Montant*</th>
-                  <th>Payée?</th>
+          <table className="domainTable">
+            <thead>
+              <tr>
+                <th>Date*</th>
+                <th>Référence</th>
+                <th>Montant*</th>
+                <th>Payée?</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((_, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="date"
+                      value={rowsData[index].date}
+                      onChange={(e) =>
+                        handleInputChange(index, "date", e.target.value)
+                      }
+                      required={rowsData[index].date || rowsData[index].amount}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={rowsData[index].reference}
+                      onChange={(e) =>
+                        handleInputChange(index, "reference", e.target.value)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={rowsData[index].amount}
+                      onChange={(e) =>
+                        handleInputChange(index, "amount", e.target.value)
+                      }
+                      required={rowsData[index].amount || rowsData[index].date}
+                    />
+                  </td>
+                  <td style={{ display: "flex" }}>
+                    <ToggleButton
+                      name={`paye-${index}`}
+                      checkedValue={rowsData[index].paye}
+                      onChange={(value) => handleToggle(index, value)}
+                    />
+                    <TiDelete
+                      style={{
+                        color: "red",
+                        fontSize: "50px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleReset(index)}
+                    />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {rowsData.map((row, index) => (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        type="date"
-                        value={row.date}
-                        onChange={(e) =>
-                          handleInputChange(index, "date", e.target.value)
-                        }
-                        required={!areAllFieldsEmpty(row)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.reference}
-                        onChange={(e) =>
-                          handleInputChange(index, "reference", e.target.value)
-                        }
-                        required={!areAllFieldsEmpty(row)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.amount}
-                        onChange={(e) =>
-                          handleInputChange(index, "amount", e.target.value)
-                        }
-                        required={!areAllFieldsEmpty(row)}
-                      />
-                    </td>
-                    <td style={{ display: "flex", alignItems: "center" }}>
-                      <ToggleButton
-                        name={`paye-${index}`}
-                        checkedValue={row.paye}
-                        onChange={(value) => handleToggle(index, value)}
-                      />
-                      <TiDelete
-                        style={{
-                          color: "red",
-                          fontSize: "50px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleReset(index)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <button type="submit" className="submitButton">
-              Valider
-            </button>
-          </form>
+              ))}
+            </tbody>
+          </table>
+          <button type="submit" className="submitButton">
+            Valider
+          </button>
+        </form>
         </div>
       </div>
       {showWarning && warningDateIndex !== null && (
