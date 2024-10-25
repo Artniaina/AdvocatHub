@@ -10,51 +10,77 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
 
-const Affaire = ({formulaire}) => {
-  const domaineArray = formulaire?.sDomaineJuridique.split(',');
-  const[ selectedDomains, setSelectedDomains ] = useState(domaineArray || []);
-  const  [honoraireData, setHonoraireData ] = useState(formulaire?.sHonoraireData || []);
+const Affaire = ({ formulaire }) => {
+  const domaineArray = formulaire?.sDomaineJuridique.split(",");
+  const [selectedDomains, setSelectedDomains] = useState(domaineArray || []);
+  const [honoraireData, setHonoraireData] = useState(
+    formulaire?.sHonoraireData || []
+  );
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
-  const [ provisionData, setProvisionData]= useState(formulaire?.sProvision || []);
-  const [ montantData, setMontantData ] = useState(formulaire?.sMontant || []);
+  const [provisionData, setProvisionData] = useState(
+    formulaire?.sProvision || []
+  );
+  const [montantData, setMontantData] = useState(formulaire?.sMontant || []);
 
-  const [ showOptions, setShowOptions ] = useState({
-      notes: formulaire?.sMontant.length !== 0 && formulaire?.sMontant !== "non" ? "oui" : "non",
-      termesHonoraires: formulaire?.sTermesHonoraires && formulaire?.sTermesHonoraires !== "non"? "oui" : "non",
-      etatAvancement: formulaire?.sEtatAvancement && formulaire?.sEtatAvancement !== "non"? "oui" : "non",
-      conciliation: formulaire?.sConciliation && formulaire?.sConciliation !== "non"? "oui" : "non",
-      relative: formulaire?.sProcedureRelative && formulaire?.sProcedureRelative !== "non"? "oui" : "non",
-      conserv: formulaire?.sMesureConservatoire && formulaire?.sMesureConservatoire !== "non"? "oui" : "non",
-      mediation: formulaire?.sMediation && formulaire?.sMediation !== "non"? "oui" : "non",
-      mediationChoix:formulaire?.sMediationChoix && formulaire?.sMediationChoix !== "non"? "oui" : "non" || "non",
-    });
-    
+  const [showOptions, setShowOptions] = useState({
+    notes:
+      formulaire?.sMontant.length !== 0 && formulaire?.sMontant !== "non"
+        ? "oui"
+        : "non",
+    termesHonoraires:
+      formulaire?.sTermesHonoraires && formulaire?.sTermesHonoraires !== "non"
+        ? "oui"
+        : "non",
+    etatAvancement:
+      formulaire?.sEtatAvancement && formulaire?.sEtatAvancement !== "non"
+        ? "oui"
+        : "non",
+    conciliation:
+      formulaire?.sConciliation && formulaire?.sConciliation !== "non"
+        ? "oui"
+        : "non",
+    relative:
+      formulaire?.sProcedureRelative && formulaire?.sProcedureRelative !== "non"
+        ? "oui"
+        : "non",
+    conserv:
+      formulaire?.sMesureConservatoire &&
+      formulaire?.sMesureConservatoire !== "non"
+        ? "oui"
+        : "non",
+    mediation:
+      formulaire?.sMediation && formulaire?.sMediation !== "non"
+        ? "oui"
+        : "non",
+    mediationChoix:
+      formulaire?.sMediationChoix && formulaire?.sMediationChoix !== "non"
+        ? "oui"
+        : "non" || "non",
+  });
+
   const popupRef = useRef(null);
-  
+
   const [showWarningLength, setShowWarningLength] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [id, setId] = useState("");
 
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     domaine: [],
     honoraire: [],
     provision: [],
     montant: [],
     nomAffaire: formulaire?.sNomAffaire || "",
-    termesHonoraires:formulaire?.sTermesHonoraires || "",
+    termesHonoraires: formulaire?.sTermesHonoraires || "",
     absenceTerm: formulaire?.sAbsenceTermes || "",
     datecontest: formulaire?.sDateContestation || "",
-    dateDebut:formulaire?.sDateDebutMandat || "",
+    dateDebut: formulaire?.sDateDebutMandat || "",
     dateFin: formulaire?.sDateFinMandat || "",
     etatAvancement: formulaire?.sEtatAvancement || "",
     conserv: formulaire?.sMesureConservatoire || "",
     mediation: formulaire?.sMediation || "",
     relative: formulaire?.sProcedureRelative || "",
     conciliation: formulaire?.sConciliation || "",
-    
   });
-
-
 
   const validateDate = (selectedDate, id) => {
     const currentDate = new Date();
@@ -240,7 +266,6 @@ const Affaire = ({formulaire}) => {
     }
   };
 
-
   useEffect(() => {
     const handleOutsideClick = (event) => {
       handleClickOutsideTextarea(event);
@@ -283,6 +308,19 @@ const Affaire = ({formulaire}) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (honoraireData.length > 0) {
+      setSelectedHonoraireDate(honoraireData[0].date);
+      const uniqueDates = [...new Set(honoraireData.map((item) => item.date))];
+      setUniqueHonoraireDates(uniqueDates);
+    }
+    if (provisionData.length > 0) {
+      setSelectedProvisionDate(provisionData[0].date);
+      const uniqueDates = [...new Set(provisionData.map((item) => item.date))];
+      setUniqueProvisionDates(uniqueDates);
+    }
+  }, [honoraireData, provisionData]);
 
   return (
     <div>
