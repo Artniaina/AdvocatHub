@@ -6,7 +6,7 @@ import { LuPencilLine } from "react-icons/lu";
 import GuideHonoraires from './GuideHonoraires';
 
 
-const Honoraires = () => {
+const Honoraires = ({formulaire}) => {
   
   return ( 
     <>
@@ -16,7 +16,7 @@ const Honoraires = () => {
     </div>
       <div className="cardGeneralité" style={{display:"block"}}>
         <div className="mainTitle">HONORAIRES</div>
-        <Facture />
+        <Facture noteHonoraireToModify={formulaire?.sNoteHonoraire}/>
         <h2 className="miniTitle" style={{border:"none"}}>
           {" "}<LuPencilLine style={{marginRight:"10px", fontSize:"30px"}} />
           Observations particulières : prise en charge totale ou partielle par un tiers/assurance protection juridique du client 
