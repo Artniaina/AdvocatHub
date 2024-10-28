@@ -9,10 +9,10 @@ export const UpdateDataProvider = ({ children }) => {
   const { user } = useAuth();
 
   const initialFormData = {
-    domaine: [],
-    honoraire: [],
-    provision: [],
-    montant: [],
+    domaine: domaineArray || [],
+    honoraire: formulaireData?.sHonoraireData || [],
+    provision: formulaireData?.sProvision || [],
+    montant: formulaireData?.sMontant || [],
     nomAffaire: formulaireData?.sNomAffaire || "",
     termesHonoraires: formulaireData?.sTermesHonoraires || "",
     absenceTerm: formulaireData?.sAbsenceTermes || "",
@@ -69,7 +69,7 @@ export const UpdateDataProvider = ({ children }) => {
       setShowOptions(initialShowOptions);
       setClientData(formulaireData?.sClientsData || []);
       setSelectedAvocats(formulaireData?.sCollaboratorsData || []);
-      setSelectedDomains(domaineArray);
+      setSelectedDomains(domaineArray ||[]);
       setPrestataires(formulaireData?.sPrestataireData || []);
       setMontantData(formulaireData?.sMontant || []);
       setProvisionData(formulaireData?.sProvision || []);
@@ -105,7 +105,12 @@ export const UpdateDataProvider = ({ children }) => {
     setEditorContents({ observation: "", position: "", c1: "", c2: "", c3: "", c4: "", c5: "", c6: "" });
   };
 
-  const currentDate = new Date().toISOString();
+  const currentDate = new Date();
+  const formattedDate = 
+    String(currentDate.getDate()).padStart(2, '0') +
+    String(currentDate.getMonth() + 1).padStart(2, '0') +
+    currentDate.getFullYear();
+
 
   const jsonToUpdate = {
     sStatutFormulaire: "non transmis",
@@ -139,7 +144,7 @@ export const UpdateDataProvider = ({ children }) => {
     sCollaboratorsData: selectedAvocats,
     sAvocatsData: avocatsData,
     sClientsData: clientData,
-    sSubmited_at: currentDate,
+    sSubmited_at: formattedDate,
   };
 
   return (

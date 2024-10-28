@@ -83,8 +83,7 @@ const UploadFile = () => {
       setShowPopupDifference(true);
       return false;
     }
-    console.log(honoraireToCompare);
-    console.log(noteHonoraireToCompare);
+
 
     return true;
   };
@@ -255,11 +254,16 @@ const UploadFile = () => {
             style={{ display: "none" }}
             onChange={handleFileChange}
             multiple
+
           />
           <div>
             <button onClick={updateFormData}>
               <FaCheck style={{ color: "green", fontSize: "30px" }} />
               Envoyer
+            </button>
+            <button onClick={generateAndViewPdf}>
+              <FaCheck style={{ color: "green", fontSize: "30px" }} />
+              Generer le pdf 
             </button>
             {showPopup && (
               <RequiredMessage
