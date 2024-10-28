@@ -81,7 +81,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
 
   const handleSubmitTable = (e) => {
     e.preventDefault();
-
+  
     if (selectedClientId) {
       setClients((prevClients) =>
         prevClients.map((client) =>
@@ -105,11 +105,11 @@ const PopupClients = ({ onClose, onSelectClient }) => {
             : client
         )
       );
-
+  
       setHiddenClients((prevHidden) =>
         prevHidden.filter((id) => id !== selectedClientId)
       );
-
+  
       setSelectedClientId(null);
     } else {
       setClients([
@@ -132,7 +132,27 @@ const PopupClients = ({ onClose, onSelectClient }) => {
         },
       ]);
     }
+  
+    resetForm(); 
   };
+  
+  const resetForm = () => {
+    setSelectedOption("Particulier");
+    setDenomination("");
+    setName("");
+    setPrenom("");
+    setNumVoie("");
+    setRue("");
+    setCp("");
+    setLocalite("");
+    setBp("");
+    setLocalitebp("");
+    setPays("");
+    setEmail("");
+    setPhoneNumber("");
+    setSelectedCountry("+261");
+  };
+  
   const handleClientSelection = () => {
     const selectedClients = [...clients];
     onSelectClient(selectedClients);

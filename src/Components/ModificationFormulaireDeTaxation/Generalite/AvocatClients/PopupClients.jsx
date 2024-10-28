@@ -81,7 +81,7 @@ const PopupClients = ({ onClose, onSelectClient, defaultClient }) => {
 
   const handleSubmitTable = (e) => {
     e.preventDefault();
-
+  
     if (selectedClientId) {
       setClients((prevClients) =>
         prevClients.map((client) =>
@@ -105,11 +105,11 @@ const PopupClients = ({ onClose, onSelectClient, defaultClient }) => {
             : client
         )
       );
-
+  
       setHiddenClients((prevHidden) =>
         prevHidden.filter((id) => id !== selectedClientId)
       );
-
+  
       setSelectedClientId(null);
     } else {
       setClients([
@@ -132,6 +132,25 @@ const PopupClients = ({ onClose, onSelectClient, defaultClient }) => {
         },
       ]);
     }
+  
+    resetForm(); 
+  };
+  
+  const resetForm = () => {
+    setSelectedOption("Particulier");
+    setDenomination("");
+    setName("");
+    setPrenom("");
+    setNumVoie("");
+    setRue("");
+    setCp("");
+    setLocalite("");
+    setBp("");
+    setLocalitebp("");
+    setPays("");
+    setEmail("");
+    setPhoneNumber("");
+    setSelectedCountry("+261");
   };
   const handleClientSelection = () => {
     const selectedClients = [...clients];
@@ -308,7 +327,6 @@ const PopupClients = ({ onClose, onSelectClient, defaultClient }) => {
               />
             </div>
           </div>
-
           <div className="two">
             <div className="formGroup">
               <label htmlFor="localitebp">Localité BP:</label>
@@ -482,3 +500,4 @@ const PopupClients = ({ onClose, onSelectClient, defaultClient }) => {
 };
 
 export default PopupClients;
+ 

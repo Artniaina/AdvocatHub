@@ -11,12 +11,10 @@ export const useNavigation = () => {
 
 export const NavigationProvider = ({ children }) => {
   const location = useLocation();
-  const [wasFormTaxation, setWasFormTaxation] = useState(false);
   const [prevLocation, setPrevLocation] = useState(location.pathname);
-  const [draftData, setDraftData] = useState({});
 
-  const { jsonToSend } = useGeneraliteContext();
-  const { jsonToUpdate, resetAllData, formulaireData } = useUpdateDataContext();
+  const { jsonToSend, resetAllData } = useGeneraliteContext();
+  const { jsonToUpdate, formulaireData } = useUpdateDataContext();
 
   useEffect(() => {
     if (
@@ -37,7 +35,7 @@ export const NavigationProvider = ({ children }) => {
       location.pathname !== "/home/ListeFormulaire"
     ) {
       UpdateDraftData(jsonToUpdate);
-      console.log("Attempting to submit jsonToUpdate:", jsonToUpdate);
+      
     }
 
     setPrevLocation(location.pathname);
@@ -108,13 +106,10 @@ export const NavigationProvider = ({ children }) => {
   return (
     <NavigationContext.Provider
       value={{
-        wasFormTaxation,
         prevLocation,
         setPrevLocation,
         submitDraftData,
         UpdateDraftData,
-        draftData,
-        setDraftData,
       }}
     >
       {children}
