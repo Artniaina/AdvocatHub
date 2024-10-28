@@ -26,7 +26,7 @@ const UploadFile = () => {
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const {formulaireData} = useUpdateDataContext()
-  const { jsonToSend } = useUpdateDataContext();
+  const { jsonToUpdate } = useUpdateDataContext();
   const { resetAllData } = useUpdateDataContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
   useGeneraliteContext();
@@ -45,7 +45,6 @@ const UploadFile = () => {
     provisionData,
     clientData,
   } = useUpdateDataContext();
-
   const { fileInfos, setFileInfos } = useUpdateDataContext();
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupDifference, setShowPopupDifference] = useState(false);
@@ -114,8 +113,8 @@ const UploadFile = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ...jsonToSend,
-            sStatutFormulaire: "non transmis",
+            ...jsonToUpdate,
+            sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
           }),
         }

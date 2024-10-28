@@ -107,7 +107,7 @@ export const UpdateDataProvider = ({ children }) => {
 
   const currentDate = new Date().toISOString();
 
-  const jsonToSend = {
+  const jsonToUpdate = {
     sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user ? user.email : "",
     sDomaineJuridique: formData.domaine.join(","),
@@ -172,7 +172,7 @@ export const UpdateDataProvider = ({ children }) => {
         formData,
         setFormData,
         resetAllData,
-        jsonToSend,
+        jsonToUpdate,
         formulaireData,
         setFormulaireData,
       }}
