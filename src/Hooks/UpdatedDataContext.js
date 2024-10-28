@@ -37,6 +37,17 @@ export const UpdateDataProvider = ({ children }) => {
     mediationChoix: formulaireData?.sMediationChoix !== "non" ? "oui" : "non",
   };
 
+  const initialEditorContents={
+    observation: formulaireData?.sObservations || "",
+    position: formulaireData?.sPositionAvocat || "", 
+    c1:formulaireData?.sContenu1 ||  "", 
+    c2:formulaireData?.sContenu2 ||  "", 
+    c3:formulaireData?.sContenu3 ||  "", 
+    c4:formulaireData?.sContenu4 ||  "", 
+    c5:formulaireData?.sContenu5 ||  "", 
+    c6:formulaireData?.sContenu6 ||  "" 
+  }
+
   const [clientData, setClientData] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
   const [prestataires, setPrestataires] = useState([]);
@@ -50,7 +61,7 @@ export const UpdateDataProvider = ({ children }) => {
   const [showOptions, setShowOptions] = useState(initialShowOptions);
   const [formData, setFormData] = useState(initialFormData);
 
-  const [editorContents, setEditorContents] = useState({ observation: "", position: "", c1: "", c2: "", c3: "", c4: "", c5: "", c6: "" });
+  const [editorContents, setEditorContents] = useState(initialEditorContents);
 
   useEffect(() => {
     if (formulaireData) {
@@ -63,6 +74,8 @@ export const UpdateDataProvider = ({ children }) => {
       setMontantData(formulaireData?.sMontant || []);
       setProvisionData(formulaireData?.sProvision || []);
       setHonoraireData(formulaireData?.sHonoraireData || []);
+      setNoteHonoraire(formulaireData?.sNoteHonoraire || []);
+      setEditorContents(initialEditorContents);
     }
   }, [formulaireData]);
 
@@ -93,6 +106,8 @@ export const UpdateDataProvider = ({ children }) => {
   };
 
   const currentDate = new Date().toISOString();
+
+  
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user?.email || "",

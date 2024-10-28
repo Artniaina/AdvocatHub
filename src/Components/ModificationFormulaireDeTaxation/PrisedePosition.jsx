@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Editor from "./TextEditor/EditeurHTML";
 import "../../Styles/TaxationForm/CardInfo.css";
 import PopupHTMLEditorWarning from "./TextEditor/PopupHTMLEditorWarning";
+import { useUpdateDataContext } from "../../Hooks/UpdatedDataContext";
 
 const PrisedePosition = ({formulaire}) => {
-  const [ editorContents, setEditorContents ] = useState({position:formulaire?.sPositionAvocat});
+  const  {editorContents, setEditorContents } = useUpdateDataContext();
   const [showWarning, setShowWarning] = useState(false);
   const priseDePosition = useRef(null);
   const [content, setContent] = useState(editorContents.position);

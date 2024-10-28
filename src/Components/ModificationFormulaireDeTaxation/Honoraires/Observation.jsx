@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Editor from "../TextEditor/EditeurHTML";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 import PopupHTMLEditorWarning from "../TextEditor/PopupHTMLEditorWarning"; 
+import { useUpdateDataContext } from "../../../Hooks/UpdatedDataContext";
 
 const Observation = () => {
-  const { editorContents, setEditorContents } = useGeneraliteContext();
+  const { editorContents, setEditorContents } = useUpdateDataContext();
   const [showWarning, setShowWarning] = useState(false);
   const observationRef = useRef(null);
   const [content, setContent] = useState(""); 

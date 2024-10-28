@@ -3,6 +3,7 @@ import Editor from "../TextEditor/EditeurHTML";
 import "../../../Styles/TaxationForm/CardInfo.css";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 import PopupHTMLEditorWarning from "../TextEditor/PopupHTMLEditorWarning";
+import { useUpdateDataContext } from "../../../Hooks/UpdatedDataContext";
 
 const editors = [
   { id: "c1", label: <div style={{ textDecoration: "underline" }}>1) Mentionner les faits: *</div> },
@@ -74,7 +75,7 @@ const editors = [
 ];
 
 const CaseDescription = () => {
-  const { editorContents, setEditorContents } = useGeneraliteContext();
+  const { editorContents, setEditorContents } = useUpdateDataContext();
   const [showWarnings, setShowWarnings] = useState({});
   const editorRefs = useRef({});
 

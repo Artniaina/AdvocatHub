@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { json, useLocation, useNavigate } from "react-router-dom";
 import "../../Styles/TaxationForm/CardInfo.css";
 import RequiredMessage from "../PopUp/RequiredMessage";
 import NoteHonoraireWarning from "../PopUp/NoteHonoraireWarning";
@@ -7,7 +7,7 @@ import Image from "../../assets/icons8-fichier-67.png";
 import { FaCheck } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
-import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
+import { useUpdateDataContext } from "../../Hooks/UpdatedDataContext";
 import UploadFileGuide from "./UploadFileGuide";
 import FormulaireDeTaxationPDF from "../PDF/FormulaireDeTaxationPDF";
 import pdfMake from "pdfmake/build/pdfmake";
@@ -16,6 +16,7 @@ import htmlToPdfmake from "html-to-pdfmake";
 import { useAuth } from "../../Hooks/AuthContext";
 import { useNavigation } from "../../Hooks/NavigationListenerContext";
 import "../../Styles/spinner.css";
+import { useGeneraliteContext } from "../../Hooks/GeneraliteContext";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -24,10 +25,10 @@ const UploadFile = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
-  const { jsonToSend } = useGeneraliteContext();
-  const { resetAllData } = useGeneraliteContext();
+  const { jsonToSend } = useUpdateDataContext();
+  const { resetAllData } = useUpdateDataContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
-    useGeneraliteContext();
+  useGeneraliteContext();
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
 
   const {
@@ -42,9 +43,9 @@ const UploadFile = () => {
     showOptions,
     provisionData,
     clientData,
-  } = useGeneraliteContext();
+  } = useUpdateDataContext();
 
-  const { fileInfos, setFileInfos } = useGeneraliteContext();
+  const { fileInfos, setFileInfos } = useUpdateDataContext();
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupDifference, setShowPopupDifference] = useState(false);
   const [fieldName, setFieldName] = useState("");
@@ -97,41 +98,44 @@ const UploadFile = () => {
     window.location.reload();
   };
 
-  const submitFormData = async () => {
-    if (!validateFormData()) {
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await fetch(
-        "http://192.168.10.10/Utilisateur/DossierTaxation",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...jsonToSend,
-            sStatutFormulaire: "transmis",
-            sFichiersJoints: filesName.join(","),
-          }),
-        }
-      );
+  // const submitFormData = async () => {
+  //   if (!validateFormData()) {
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   try {
+  //     const response = await fetch(
+  //       "http://192.168.10.10/Utilisateur/DossierTaxation",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           ...jsonToSend,
+  //           sStatutFormulaire: "transmis",
+  //           sFichiersJoints: filesName.join(","),
+  //         }),
+  //       }
+  //     );
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Form submitted successfully:", result);
-        refreshPage();
-      } else {
-        console.error("Failed to submit form:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error while submitting form:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log("Form submitted successfully:", result);
+  //       refreshPage();
+  //     } else {
+  //       console.error("Failed to submit form:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error while submitting form:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+const submitFormData = ()=>{
+  console.log(jsonToSend);
+  
+}
   const generateAndViewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"

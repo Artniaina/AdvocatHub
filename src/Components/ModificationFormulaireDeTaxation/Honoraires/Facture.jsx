@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import PopupNoteHonoraire from "./PopupNoteHonoraire";
 import { IoAddCircle } from "react-icons/io5";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
+import { useUpdateDataContext } from "../../../Hooks/UpdatedDataContext";
  
-const Facture = ({noteHonoraireToModify}) => {
-  const [noteHonoraire, setNoteHonoraire] = useState(noteHonoraireToModify || []);
+const Facture = () => {
+  const {noteHonoraire, setNoteHonoraire} = useUpdateDataContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
