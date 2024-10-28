@@ -11,52 +11,14 @@ import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
 import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
-const Affaire = ({formulaire}) => {
-  const {selectedDomains, setSelectedDomains} = useUpdateDataContext();
-  const [honoraireData, setHonoraireData] = useState(
-    formulaire?.sHonoraireData || []
-  );
+const Affaire = () => {
+  const { selectedDomains, setSelectedDomains } = useUpdateDataContext();
+  const { honoraireData, setHonoraireData } = useUpdateDataContext();
   const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
-  const [provisionData, setProvisionData] = useState(
-    formulaire?.sProvision || []
-  );
-  const [montantData, setMontantData] = useState(formulaire?.sMontant || []);
+  const { provisionData, setProvisionData } = useUpdateDataContext();
+  const { montantData, setMontantData } = useUpdateDataContext();
 
-  const [showOptions, setShowOptions] = useState({
-    notes:
-      formulaire?.sMontant.length !== 0 && formulaire?.sMontant !== "non"
-        ? "oui"
-        : "non",
-    termesHonoraires:
-      formulaire?.sTermesHonoraires && formulaire?.sTermesHonoraires !== "non"
-        ? "oui"
-        : "non",
-    etatAvancement:
-      formulaire?.sEtatAvancement && formulaire?.sEtatAvancement !== "non"
-        ? "oui"
-        : "non",
-    conciliation:
-      formulaire?.sConciliation && formulaire?.sConciliation !== "non"
-        ? "oui"
-        : "non",
-    relative:
-      formulaire?.sProcedureRelative && formulaire?.sProcedureRelative !== "non"
-        ? "oui"
-        : "non",
-    conserv:
-      formulaire?.sMesureConservatoire &&
-      formulaire?.sMesureConservatoire !== "non"
-        ? "oui"
-        : "non",
-    mediation:
-      formulaire?.sMediation && formulaire?.sMediation !== "non"
-        ? "oui"
-        : "non",
-    mediationChoix:
-      formulaire?.sMediationChoix && formulaire?.sMediationChoix !== "non"
-        ? "oui"
-        : "non" || "non",
-  });
+  const { showOptions, setShowOptions } = useUpdateDataContext();
 
   const popupRef = useRef(null);
 
@@ -64,23 +26,7 @@ const Affaire = ({formulaire}) => {
   const [showWarning, setShowWarning] = useState(false);
   const [id, setId] = useState("");
 
-  const [formData, setFormData] = useState({
-    domaine: [],
-    honoraire: [],
-    provision: [],
-    montant: [],
-    nomAffaire: formulaire?.sNomAffaire || "",
-    termesHonoraires: formulaire?.sTermesHonoraires || "",
-    absenceTerm: formulaire?.sAbsenceTermes || "",
-    datecontest: formulaire?.sDateContestation || "",
-    dateDebut: formulaire?.sDateDebutMandat || "",
-    dateFin: formulaire?.sDateFinMandat || "",
-    etatAvancement: formulaire?.sEtatAvancement || "",
-    conserv: formulaire?.sMesureConservatoire || "",
-    mediation: formulaire?.sMediation || "",
-    relative: formulaire?.sProcedureRelative || "",
-    conciliation: formulaire?.sConciliation || "",
-  });
+  const {formData, setFormData} = useUpdateDataContext();
 
   const validateDate = (selectedDate, id) => {
     const currentDate = new Date();

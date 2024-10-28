@@ -4,91 +4,78 @@ import { useAuth } from "./AuthContext";
 const UpdateDataContext = createContext();
 
 export const UpdateDataProvider = ({ children }) => {
-
-const [formulaireData, setFormulaireData] = useState({});
-const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
-
+  const [formulaireData, setFormulaireData] = useState({});
+  const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
   const { user } = useAuth();
-  const [clientData, setClientData] = useState(formulaireData?.sClientsData || []);
-  const [selectedAvocats, setSelectedAvocats] = useState(formulaireData?.sCollaboratorsData || []);
-  const [prestataires, setPrestataires] = useState(formulaireData?.sPrestataireData || []);
-  const [selectedDomains, setSelectedDomains] = useState(domaineArray );
-  const [montantData, setMontantData] = useState(formulaireData?.sMontant || []);
-  const [honoraireData, setHonoraireData] = useState(formulaireData?.sHonoraireData || []);
-  const [provisionData, setProvisionData] = useState(formulaireData?.sProvision || []);
-  const [noteHonoraire, setNoteHonoraire] = useState(formulaireData?.sNoteHonoraire || []);
-  const [fileInfos, setFileInfos] = useState([]);
-  const [avocatsData, setAvocatsData] = useState([
-    {
-      nom: "",
-      prenom: "",
-      setude: "",
-      adresseEtude: "",
-      telephone: "",
-      email: "",
-      dateAssermentation: "",
-      isSocieteChecked: "",
-    },
-  ]);
-  const [showOptions, setShowOptions] = useState({
-    mediationChoix: "non",
-  });
-  const [formData, setFormData] = useState({
+
+  const initialFormData = {
     domaine: [],
     honoraire: [],
     provision: [],
     montant: [],
-    nomAffaire: "",
-    termesHonoraires: "",
-    absenceTerm: "",
-    datecontest: "",
-    dateDebut: "",
-    dateFin: "",
-    etatAvancement: "",
-    conserv: "",
-    mediation: "",
-    relative: "",
-    conciliation: "",
-  });
+    nomAffaire: formulaireData?.sNomAffaire || "",
+    termesHonoraires: formulaireData?.sTermesHonoraires || "",
+    absenceTerm: formulaireData?.sAbsenceTermes || "",
+    datecontest: formulaireData?.sDateContestation || "",
+    dateDebut: formulaireData?.sDateDebutMandat || "",
+    dateFin: formulaireData?.sDateFinMandat || "",
+    etatAvancement: formulaireData?.sEtatAvancement || "",
+    conserv: formulaireData?.sMesureConservatoire || "",
+    mediation: formulaireData?.sMediation || "",
+    relative: formulaireData?.sProcedureRelative || "",
+    conciliation: formulaireData?.sConciliation || "",
+  };
 
-  const [editorContents, setEditorContents] = useState({
-    observation: "",
-    position: "",
-    c1: "",
-    c2: "",
-    c3: "",
-    c4: "",
-    c5: "",
-    c6: "",
-  });
+  const initialShowOptions = {
+    notes: formulaireData?.sMontant?.length ? "oui" : "non",
+    termesHonoraires: formulaireData?.sTermesHonoraires !== "non" ? "oui" : "non",
+    etatAvancement: formulaireData?.sEtatAvancement !== "non" ? "oui" : "non",
+    conciliation: formulaireData?.sConciliation !== "non" ? "oui" : "non",
+    relative: formulaireData?.sProcedureRelative !== "non" ? "oui" : "non",
+    conserv: formulaireData?.sMesureConservatoire !== "non" ? "oui" : "non",
+    mediation: formulaireData?.sMediation !== "non" ? "oui" : "non",
+    mediationChoix: formulaireData?.sMediationChoix !== "non" ? "oui" : "non",
+  };
+
+  const [clientData, setClientData] = useState([]);
+  const [selectedAvocats, setSelectedAvocats] = useState([]);
+  const [prestataires, setPrestataires] = useState([]);
+  const [selectedDomains, setSelectedDomains] = useState(domaineArray);
+  const [montantData, setMontantData] = useState([]);
+  const [honoraireData, setHonoraireData] = useState([]);
+  const [provisionData, setProvisionData] = useState([]);
+  const [noteHonoraire, setNoteHonoraire] = useState([]);
+  const [fileInfos, setFileInfos] = useState([]);
+  const [avocatsData, setAvocatsData] = useState([{ nom: "", prenom: "", setude: "", adresseEtude: "", telephone: "", email: "", dateAssermentation: "", isSocieteChecked: "" }]);
+  const [showOptions, setShowOptions] = useState(initialShowOptions);
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [editorContents, setEditorContents] = useState({ observation: "", position: "", c1: "", c2: "", c3: "", c4: "", c5: "", c6: "" });
 
   useEffect(() => {
-    setClientData(formulaireData?.sClientsData || []);
-    setSelectedAvocats(formulaireData?.sCollaboratorsData || []);
-    setSelectedDomains(domaineArray || []);
-    setPrestataires(formulaireData?.sPrestataireData || []);
-    setMontantData(formulaireData?.sMontant || []);
-    setProvisionData(formulaireData?.sProvision || []);
-    setHonoraireData(formulaireData?.sHonoraireData || []);
-    setNoteHonoraire(formulaireData?.sNoteHonoraire || []);
-    
-  }, [formulaireData?.sClientsData]);
-  
-  
+    if (formulaireData) {
+      setFormData((prev) => ({ ...initialFormData, ...formulaireData }));
+      setShowOptions(initialShowOptions);
+      setClientData(formulaireData?.sClientsData || []);
+      setSelectedAvocats(formulaireData?.sCollaboratorsData || []);
+      setSelectedDomains(domaineArray);
+      setPrestataires(formulaireData?.sPrestataireData || []);
+      setMontantData(formulaireData?.sMontant || []);
+      setProvisionData(formulaireData?.sProvision || []);
+      setHonoraireData(formulaireData?.sHonoraireData || []);
+    }
+  }, [formulaireData]);
 
-
-  const [honoraireToCompare, setHonoraireToCompare] = useState([]);
-  const [noteHonoraireToCompare, setNoteHonoraireToCompare] = useState([]);
-  const resetClientData = () => setClientData([]);
-  const resetSelectedAvocats = () => setSelectedAvocats([]);
-  const resetPrestataires = () => setPrestataires([]);
-  const resetSelectedDomains = () => setSelectedDomains([]);
-  const resetMontantData = () => setMontantData([]);
-  const resetHonoraireData = () => setHonoraireData([]);
-  const resetProvisionData = () => setProvisionData([]);
-  const resetNoteHonoraire = () => setNoteHonoraire([]);
-  const resetFileInfos = () => setFileInfos([]);
-  const resetShowOptions = () =>
+  const resetAllData = () => {
+    setClientData([]);
+    setSelectedAvocats([]);
+    setPrestataires([]);
+    setSelectedDomains([]);
+    setMontantData([]);
+    setHonoraireData([]);
+    setProvisionData([]);
+    setNoteHonoraire([]);
+    setFileInfos([]);
     setShowOptions({
       affaire: "non",
       honoraires: "non",
@@ -101,57 +88,16 @@ const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
       mediation: "non",
       mediationChoix: "non",
     });
-
-  const resetFormData = () =>
-    setFormData({
-      domaine: [],
-      honoraire: [],
-      provision: [],
-      montant: [],
-      nomAffaire: "",
-      termesHonoraires: "non",
-      absenceTerm: "",
-      datecontest: "",
-      dateDebut: "",
-      dateFin: "",
-      etatAvancement: "non",
-      conserv: "non",
-      mediation: "non",
-      relative: "non",
-      conciliation: "non",
-      mediationChoix: "non",
-    });
-
-  const resetEditorContents = () =>
-    setEditorContents({
-      observation: "",
-      position: "",
-      c1: "",
-      c2: "",
-      c3: "",
-      c4: "",
-      c5: "",
-      c6: "",
-    });
+    setFormData(initialFormData);
+    setEditorContents({ observation: "", position: "", c1: "", c2: "", c3: "", c4: "", c5: "", c6: "" });
+  };
 
   const currentDate = new Date().toISOString();
-
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
-    sEmailUtilisateur: user ? user.email : "",
+    sEmailUtilisateur: user?.email || "",
     sDomaineJuridique: formData.domaine.join(","),
-    sNomAffaire: formData.nomAffaire,
-    sTermesHonoraires: formData.termesHonoraires,
-    sAbsenceTermes: formData.absenceTerm,
-    sDateContestation: formData.datecontest,
-    sDateDebutMandat: formData.dateDebut,
-    sDateFinMandat: formData.dateFin,
-    sEtatAvancement: formData.etatAvancement,
-    sMesureConservatoire: formData.conserv,
-    sMediation: formData.mediation,
-    sMediationChoix: showOptions.mediationChoix,
-    sConciliation: formData.conciliation,
-    sProcedureRelative: formData.relative,
+    ...formData,
     sObservations: editorContents.observation,
     sPositionAvocat: editorContents.position,
     sContenu1: editorContents.c1,
@@ -169,21 +115,6 @@ const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
     sAvocatsData: avocatsData,
     sClientsData: clientData,
     sSubmited_at: currentDate,
-  };
-
-  const resetAllData = () => {
-    resetClientData();
-    resetSelectedAvocats();
-    resetPrestataires();
-    resetSelectedDomains();
-    resetMontantData();
-    resetHonoraireData();
-    resetProvisionData();
-    resetNoteHonoraire();
-    resetFileInfos();
-    resetShowOptions();
-    resetFormData();
-    resetEditorContents();
   };
 
   return (
@@ -209,10 +140,6 @@ const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
         setAvocatsData,
         noteHonoraire,
         setNoteHonoraire,
-        honoraireToCompare,
-        setHonoraireToCompare,
-        noteHonoraireToCompare,
-        setNoteHonoraireToCompare,
         editorContents,
         setEditorContents,
         fileInfos,
@@ -221,7 +148,8 @@ const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
         setFormData,
         resetAllData,
         jsonToSend,
-        formulaireData, setFormulaireData
+        formulaireData,
+        setFormulaireData,
       }}
     >
       {children}
@@ -229,6 +157,4 @@ const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
   );
 };
 
-export const useUpdateDataContext = () => {
-  return useContext(UpdateDataContext);
-};
+export const useUpdateDataContext = () => useContext(UpdateDataContext);
