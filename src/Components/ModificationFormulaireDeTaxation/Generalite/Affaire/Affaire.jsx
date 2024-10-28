@@ -9,10 +9,10 @@ import PopupMontant from "./PopupMontant";
 import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 import PopupValidationDate from "../../../PopUp/PopupValidationDate";
 import PopupHTMLEditorWarning from "../../TextEditor/PopupHTMLEditorWarning";
+import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
-const Affaire = ({ formulaire }) => {
-  const domaineArray = formulaire?.sDomaineJuridique.split(",");
-  const [selectedDomains, setSelectedDomains] = useState(domaineArray || []);
+const Affaire = ({formulaire}) => {
+  const {selectedDomains, setSelectedDomains} = useUpdateDataContext();
   const [honoraireData, setHonoraireData] = useState(
     formulaire?.sHonoraireData || []
   );

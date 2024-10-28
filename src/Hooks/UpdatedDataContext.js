@@ -1,24 +1,22 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 const UpdateDataContext = createContext();
 
 export const UpdateDataProvider = ({ children }) => {
 
-
-    const [formulaire, setFormulaire] = useState(null);
-
-    console.log("Dans le contexte ",formulaire);
+const [formulaireData, setFormulaireData] = useState({});
+const domaineArray = formulaireData?.sDomaineJuridique?.split(",") || [];
 
   const { user } = useAuth();
-  const [clientData, setClientData] = useState([]);
-  const [selectedAvocats, setSelectedAvocats] = useState([]);
-  const [prestataires, setPrestataires] = useState([]);
-  const [selectedDomains, setSelectedDomains] = useState([]);
-  const [montantData, setMontantData] = useState([]);
-  const [honoraireData, setHonoraireData] = useState([]);
-  const [provisionData, setProvisionData] = useState([]);
-  const [noteHonoraire, setNoteHonoraire] = useState([]);
+  const [clientData, setClientData] = useState(formulaireData?.sClientsData || []);
+  const [selectedAvocats, setSelectedAvocats] = useState(formulaireData?.sCollaboratorsData || []);
+  const [prestataires, setPrestataires] = useState(formulaireData?.sPrestataireData || []);
+  const [selectedDomains, setSelectedDomains] = useState(domaineArray );
+  const [montantData, setMontantData] = useState(formulaireData?.sMontant || []);
+  const [honoraireData, setHonoraireData] = useState(formulaireData?.sHonoraireData || []);
+  const [provisionData, setProvisionData] = useState(formulaireData?.sProvision || []);
+  const [noteHonoraire, setNoteHonoraire] = useState(formulaireData?.sNoteHonoraire || []);
   const [fileInfos, setFileInfos] = useState([]);
   const [avocatsData, setAvocatsData] = useState([
     {
@@ -32,17 +30,7 @@ export const UpdateDataProvider = ({ children }) => {
       isSocieteChecked: "",
     },
   ]);
-
   const [showOptions, setShowOptions] = useState({
-    affaire: "non",
-    honoraires: "non",
-    notes: "non",
-    termesHonoraires: "non",
-    etatAvancement: "non",
-    conciliation: "non",
-    relative: "non",
-    conserv: "non",
-    mediation: "non",
     mediationChoix: "non",
   });
   const [formData, setFormData] = useState({
@@ -73,6 +61,21 @@ export const UpdateDataProvider = ({ children }) => {
     c5: "",
     c6: "",
   });
+
+  useEffect(() => {
+    setClientData(formulaireData?.sClientsData || []);
+    setSelectedAvocats(formulaireData?.sCollaboratorsData || []);
+    setSelectedDomains(domaineArray || []);
+    setPrestataires(formulaireData?.sPrestataireData || []);
+    setMontantData(formulaireData?.sMontant || []);
+    setProvisionData(formulaireData?.sProvision || []);
+    setHonoraireData(formulaireData?.sHonoraireData || []);
+    setNoteHonoraire(formulaireData?.sNoteHonoraire || []);
+    
+  }, [formulaireData?.sClientsData]);
+  
+  
+
 
   const [honoraireToCompare, setHonoraireToCompare] = useState([]);
   const [noteHonoraireToCompare, setNoteHonoraireToCompare] = useState([]);
@@ -218,7 +221,7 @@ export const UpdateDataProvider = ({ children }) => {
         setFormData,
         resetAllData,
         jsonToSend,
-        formulaire, setFormulaire
+        formulaireData, setFormulaireData
       }}
     >
       {children}

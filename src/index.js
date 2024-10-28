@@ -7,7 +7,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./Hooks/AuthContext";
 import { GeneraliteProvider } from "./Hooks/GeneraliteContext";
-
 import { BrowserRouter as Router } from 'react-router-dom';
 import { NavigationProvider } from "./Hooks/NavigationListenerContext";
 import { UpdateDataProvider } from "./Hooks/UpdatedDataContext";

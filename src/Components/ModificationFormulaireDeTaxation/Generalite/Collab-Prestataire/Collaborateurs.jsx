@@ -3,9 +3,10 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa6";
 import PopupCollaborateurs from "./PopUpCollab";
+import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
-const Collaborateurs = ({ collaboratorsToModify }) => {
-  const [selectedAvocats, setSelectedAvocats] = useState(collaboratorsToModify || []);
+const Collaborateurs = () => {
+  const {selectedAvocats, setSelectedAvocats} = useUpdateDataContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");
@@ -16,7 +17,6 @@ const Collaborateurs = ({ collaboratorsToModify }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [isInscrit, setIsInscrit] = useState(false);
-
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => {
     resetFields();

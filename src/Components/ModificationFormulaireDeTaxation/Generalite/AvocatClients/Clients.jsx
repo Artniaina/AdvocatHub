@@ -3,9 +3,10 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-avocat-24.png";
 import { IoAddCircle } from "react-icons/io5";
 import PopupClients from "./PopupClients";
+import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
 const Clients = ({ clientsDataToModify }) => {
-  const [clientData, setClientData] = useState(clientsDataToModify || []);
+  const {clientData, setClientData} = useUpdateDataContext();
   const [showPopup, setShowPopup] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptions, setSelectedOptions] = useState("");

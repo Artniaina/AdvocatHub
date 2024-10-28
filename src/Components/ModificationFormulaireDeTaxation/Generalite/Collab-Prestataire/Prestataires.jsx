@@ -3,9 +3,10 @@ import "../../../../Styles/TaxationForm/CardInfo.css";
 import { IoAddCircle } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi2";
 import PopupPrestataires from "./PopUpPresta";
+import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
-const Prestataires = ({ prestatairesDataToModify }) => {
-  const [prestataires, setPrestataires] = useState(prestatairesDataToModify || []);
+const Prestataires = () => {
+  const {prestataires, setPrestataires} = useUpdateDataContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [setude, setEtude] = useState("");

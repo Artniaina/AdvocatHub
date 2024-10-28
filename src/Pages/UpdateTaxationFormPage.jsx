@@ -15,8 +15,7 @@ const UpdateTaxationFormPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const formulaireId = location.state?.id;
-  const { setFormulaire } = useUpdateDataContext();
-
+  const { formulaireData, setFormulaireData } = useUpdateDataContext();
   const { formulaire, status, error } = useSelector((state) => state.formulaire);
 
   useEffect(() => {
@@ -26,10 +25,10 @@ const UpdateTaxationFormPage = () => {
   }, [dispatch, formulaireId]);
 
   useEffect(() => {
-    if (formulaire.length > 0) {
-      setFormulaire(formulaire); 
+    if (status === 'succeeded' && formulaire) {
+      setFormulaireData(formulaire);
     }
-  }, [formulaire, setFormulaire]); 
+  }, [status, formulaire, setFormulaireData]);
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -44,19 +43,19 @@ const UpdateTaxationFormPage = () => {
       <Navbar />
       <Intro />
       <div>
-        <Generalite formulaire={formulaire || {}} /> 
+        <Generalite formulaire={formulaire} />
       </div>
       <div>
-        <CaseDescription formulaire={formulaire  || {}} /> 
+        <CaseDescription formulaire={formulaire} />
       </div>
       <div>
-        <Honoraires formulaire={formulaire || {}} /> 
+        <Honoraires formulaire={formulaire} />
       </div>
       <div>
-        <PrisedePosition formulaire={formulaire || {}} /> 
+        <PrisedePosition formulaire={formulaire} />
       </div>
       <div>
-        <UploadFile formulaire={formulaire || {}} /> 
+        <UploadFile formulaire={formulaire} />
       </div>
     </>
   );
