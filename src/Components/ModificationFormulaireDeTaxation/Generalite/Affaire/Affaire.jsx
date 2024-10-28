@@ -192,7 +192,6 @@ const Affaire = () => {
       //Do nothing haha
     } else {
       setContentTextarea(newValue);
-      console.log(`Ito ny id:${id} Dia ito ny value ${newValue}`);
       contentRef.current = newValue;
     }
   };
@@ -201,13 +200,10 @@ const Affaire = () => {
     if (textareaRef.current && !textareaRef.current.contains(event.target)) {
       if (contentRef.current === "") {
         setShowWarningLength(false);
-        console.log("Valid: empty is also Gwenchanaaaaaa.");
       } else if (contentRef.current.length < 6) {
         setShowWarningLength(true);
-        console.log("Invalid: Not Daijobuuu");
       } else {
         setShowWarningLength(false);
-        console.log("Valid: Length is Gwenchanaaaaaa.");
       }
     }
   };

@@ -107,12 +107,22 @@ export const UpdateDataProvider = ({ children }) => {
 
   const currentDate = new Date().toISOString();
 
-  
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
-    sEmailUtilisateur: user?.email || "",
+    sEmailUtilisateur: user ? user.email : "",
     sDomaineJuridique: formData.domaine.join(","),
-    ...formData,
+    sNomAffaire: formData.nomAffaire,
+    sTermesHonoraires: formData.termesHonoraires,
+    sAbsenceTermes: formData.absenceTerm,
+    sDateContestation: formData.datecontest,
+    sDateDebutMandat: formData.dateDebut,
+    sDateFinMandat: formData.dateFin,
+    sEtatAvancement: formData.etatAvancement,
+    sMesureConservatoire: formData.conserv,
+    sMediation: formData.mediation,
+    sMediationChoix: showOptions.mediationChoix,
+    sConciliation: formData.conciliation,
+    sProcedureRelative: formData.relative,
     sObservations: editorContents.observation,
     sPositionAvocat: editorContents.position,
     sContenu1: editorContents.c1,

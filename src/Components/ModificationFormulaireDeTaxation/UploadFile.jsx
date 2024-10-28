@@ -25,6 +25,7 @@ const UploadFile = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
+  const {formulaireData} = useUpdateDataContext()
   const { jsonToSend } = useUpdateDataContext();
   const { resetAllData } = useUpdateDataContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
@@ -98,44 +99,43 @@ const UploadFile = () => {
     window.location.reload();
   };
 
-  // const submitFormData = async () => {
-  //   if (!validateFormData()) {
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch(
-  //       "http://192.168.10.10/Utilisateur/DossierTaxation",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           ...jsonToSend,
-  //           sStatutFormulaire: "transmis",
-  //           sFichiersJoints: filesName.join(","),
-  //         }),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const result = await response.json();
-  //       console.log("Form submitted successfully:", result);
-  //       refreshPage();
-  //     } else {
-  //       console.error("Failed to submit form:", response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error while submitting form:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-const submitFormData = ()=>{
-  console.log(jsonToSend);
+  const updateFormData = async () => {
+    const idFormulaire = formulaireData?.sIDFormulaire;
   
-}
+    
+    
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`, 
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...jsonToSend,
+            sStatutFormulaire: "non transmis",
+            sFichiersJoints: filesName.join(","),
+          }),
+        }
+      );
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Form submitted successfully:", result);
+      } else {
+        const errorBody = await response.text(); 
+        console.error("Failed to submit form:", response.status, errorBody);
+      }
+    } catch (error) {
+      console.error("Error while submitting form:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
+  
+
   const generateAndViewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -258,7 +258,7 @@ const submitFormData = ()=>{
             multiple
           />
           <div>
-            <button onClick={submitFormData}>
+            <button onClick={updateFormData}>
               <FaCheck style={{ color: "green", fontSize: "30px" }} />
               Envoyer
             </button>
