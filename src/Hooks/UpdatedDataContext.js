@@ -28,7 +28,8 @@ export const UpdateDataProvider = ({ children }) => {
 
   const initialShowOptions = {
     notes: formulaireData?.sMontant?.length ? "oui" : "non",
-    termesHonoraires: formulaireData?.sTermesHonoraires !== "non" ? "oui" : "non",
+    termesHonoraires:
+      formulaireData?.sTermesHonoraires !== "non" ? "oui" : "non",
     etatAvancement: formulaireData?.sEtatAvancement !== "non" ? "oui" : "non",
     conciliation: formulaireData?.sConciliation !== "non" ? "oui" : "non",
     relative: formulaireData?.sProcedureRelative !== "non" ? "oui" : "non",
@@ -37,16 +38,29 @@ export const UpdateDataProvider = ({ children }) => {
     mediationChoix: formulaireData?.sMediationChoix !== "non" ? "oui" : "non",
   };
 
-  const initialEditorContents={
+  const initialEditorContents = {
     observation: formulaireData?.sObservations || "",
-    position: formulaireData?.sPositionAvocat || "", 
-    c1:formulaireData?.sContenu1 ||  "", 
-    c2:formulaireData?.sContenu2 ||  "", 
-    c3:formulaireData?.sContenu3 ||  "", 
-    c4:formulaireData?.sContenu4 ||  "", 
-    c5:formulaireData?.sContenu5 ||  "", 
-    c6:formulaireData?.sContenu6 ||  "" 
-  }
+    position: formulaireData?.sPositionAvocat || "",
+    c1: formulaireData?.sContenu1 || "",
+    c2: formulaireData?.sContenu2 || "",
+    c3: formulaireData?.sContenu3 || "",
+    c4: formulaireData?.sContenu4 || "",
+    c5: formulaireData?.sContenu5 || "",
+    c6: formulaireData?.sContenu6 || "",
+  };
+ 
+  const AvocatArray= formulaireData?.sAvocatsData || []
+  const initialAvocatsData = AvocatArray.map((avocat) => ({
+    nom: avocat.nom || "",
+    prenom: avocat.prenom || "",
+    setude: avocat.setude || "",
+    adresseEtude: avocat.adresseEtude || "",
+    telephone: avocat.telephone || "",
+    email: avocat.email || "",
+    dateAssermentation: avocat.dateAssermentation || "",
+    isSocieteChecked: avocat.isSocieteChecked || false,
+  }));
+  
 
   const [clientData, setClientData] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
@@ -57,11 +71,13 @@ export const UpdateDataProvider = ({ children }) => {
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
   const [fileInfos, setFileInfos] = useState([]);
-  const [avocatsData, setAvocatsData] = useState([{ nom: "", prenom: "", setude: "", adresseEtude: "", telephone: "", email: "", dateAssermentation: "", isSocieteChecked: "" }]);
+  const [avocatsData, setAvocatsData] = useState(initialAvocatsData || []);
   const [showOptions, setShowOptions] = useState(initialShowOptions);
   const [formData, setFormData] = useState(initialFormData);
-
   const [editorContents, setEditorContents] = useState(initialEditorContents);
+  const allIsSocieteChecked = initialAvocatsData.map((avocat) => avocat.isSocieteChecked);
+  const singleValue = allIsSocieteChecked[0]; 
+  const [isSocieteChecked, setIsSocieteChecked] = useState(singleValue);
 
   useEffect(() => {
     if (formulaireData) {
@@ -69,48 +85,25 @@ export const UpdateDataProvider = ({ children }) => {
       setShowOptions(initialShowOptions);
       setClientData(formulaireData?.sClientsData || []);
       setSelectedAvocats(formulaireData?.sCollaboratorsData || []);
-      setSelectedDomains(domaineArray ||[]);
+      setSelectedDomains(domaineArray || []);
       setPrestataires(formulaireData?.sPrestataireData || []);
       setMontantData(formulaireData?.sMontant || []);
       setProvisionData(formulaireData?.sProvision || []);
       setHonoraireData(formulaireData?.sHonoraireData || []);
       setNoteHonoraire(formulaireData?.sNoteHonoraire || []);
       setEditorContents(initialEditorContents);
+      setAvocatsData(initialAvocatsData );
+      setIsSocieteChecked(singleValue);
     }
   }, [formulaireData]);
 
-  const resetAllData = () => {
-    setClientData([]);
-    setSelectedAvocats([]);
-    setPrestataires([]);
-    setSelectedDomains([]);
-    setMontantData([]);
-    setHonoraireData([]);
-    setProvisionData([]);
-    setNoteHonoraire([]);
-    setFileInfos([]);
-    setShowOptions({
-      affaire: "non",
-      honoraires: "non",
-      notes: "non",
-      termesHonoraires: "non",
-      etatAvancement: "non",
-      conciliation: "non",
-      relative: "non",
-      conserv: "non",
-      mediation: "non",
-      mediationChoix: "non",
-    });
-    setFormData(initialFormData);
-    setEditorContents({ observation: "", position: "", c1: "", c2: "", c3: "", c4: "", c5: "", c6: "" });
-  };
+console.log(singleValue);
 
   const currentDate = new Date();
-  const formattedDate = 
-    String(currentDate.getDate()).padStart(2, '0') +
-    String(currentDate.getMonth() + 1).padStart(2, '0') +
+  const formattedDate =
+    String(currentDate.getDate()).padStart(2, "0") +
+    String(currentDate.getMonth() + 1).padStart(2, "0") +
     currentDate.getFullYear();
-
 
   const jsonToUpdate = {
     sStatutFormulaire: "non transmis",
@@ -168,6 +161,7 @@ export const UpdateDataProvider = ({ children }) => {
         setShowOptions,
         avocatsData,
         setAvocatsData,
+        isSocieteChecked, setIsSocieteChecked,
         noteHonoraire,
         setNoteHonoraire,
         editorContents,
@@ -176,7 +170,6 @@ export const UpdateDataProvider = ({ children }) => {
         setFileInfos,
         formData,
         setFormData,
-        resetAllData,
         jsonToUpdate,
         formulaireData,
         setFormulaireData,

@@ -16,6 +16,7 @@ const styles = {
     borderStyle: "solid",
     backgroundColor: "#fff",
   },
+  
   remarkText: {
     marginTop: "30px",
     fontSize: "20px",

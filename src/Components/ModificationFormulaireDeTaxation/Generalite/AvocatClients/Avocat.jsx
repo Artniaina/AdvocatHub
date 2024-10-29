@@ -4,15 +4,15 @@ import { useAuth } from "../../../../Hooks/AuthContext";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import Image from "../../../../assets/icons8-user-menu-male-40.png";
 import { fetchAvocatInfo, fetchEtudeInfo } from "../../../../Store/AvocatSlice";
-import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
+import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
 const Avocat = () => {
   const dispatch = useDispatch();
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
-  const [isSocieteChecked, setIsSocieteChecked] = useState(false);
-  const { avocatsData, setAvocatsData } = useGeneraliteContext();
+  const { isSocieteChecked, setIsSocieteChecked } = useUpdateDataContext();
+  const { avocatsData, setAvocatsData } = useUpdateDataContext();
 
   const handleCheckboxChange = (e) => {
     setIsSocieteChecked(e.target.checked);
@@ -35,7 +35,7 @@ const Avocat = () => {
   useEffect(() => {
     if (avocatInfo) {
       setId(avocatInfo.m_nidetude);
-    }
+    }                                                                
   }, [avocatInfo]);
 
   const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
@@ -114,7 +114,6 @@ const Avocat = () => {
     isSocieteChecked,
     setAvocatsData,
   ]);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();

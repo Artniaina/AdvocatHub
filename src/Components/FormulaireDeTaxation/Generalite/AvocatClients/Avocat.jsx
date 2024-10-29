@@ -11,12 +11,7 @@ const Avocat = () => {
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
-  const [isSocieteChecked, setIsSocieteChecked] = useState(false);
   const { avocatsData, setAvocatsData } = useGeneraliteContext();
-
-  const handleCheckboxChange = (e) => {
-    setIsSocieteChecked(e.target.checked);
-  };
 
   useEffect(() => {
     if (user?.email) {
@@ -25,7 +20,6 @@ const Avocat = () => {
   }, [dispatch, user]);
 
   const [id, setId] = useState(avocatInfo?.m_nidetude);
-
   useEffect(() => {
     if (avocatInfo?.m_nidetude) {
       dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
@@ -49,14 +43,11 @@ const Avocat = () => {
   );
   const [telephone, setTelephone] = useState(avocatInfo?.m_stelephonetri || "");
   const [email, setEmail] = useState(avocatInfo?.m_emailbarreau || "");
+  const [isSocieteChecked, setIsSocieteChecked] = useState(false);
 
   useEffect(() => {
     if (etudeInfo) {
       setEtude(etudeInfo.m_sDénominationEtude);
-    }
-  }, [etudeInfo]);
-  useEffect(() => {
-    if (etudeInfo) {
       setAdresseEtude(etudeInfo.m_sadressecomplet);
     }
   }, [etudeInfo]);
@@ -64,30 +55,12 @@ const Avocat = () => {
   useEffect(() => {
     if (avocatInfo) {
       setNom(avocatInfo.m_sNom);
-    }
-  }, [avocatInfo]);
-
-  useEffect(() => {
-    if (avocatInfo) {
       setPrenom(avocatInfo.m_sPrenom);
-    }
-  }, [avocatInfo]);
-
-  useEffect(() => {
-    if (avocatInfo) {
       setDateAssermentation(avocatInfo.m_dDateAssermentation);
-    }
-  }, [avocatInfo]);
-
-  useEffect(() => {
-    if (avocatInfo) {
       setTelephone(avocatInfo.m_stelephonetri);
-    }
-  }, [avocatInfo]);
-  useEffect(() => {
-    if (avocatInfo) {
       setEmail(avocatInfo.m_emailbarreau);
     }
+
   }, [avocatInfo]);
 
   useEffect(() => {
@@ -103,18 +76,11 @@ const Avocat = () => {
         isSocieteChecked,
       },
     ]);
-  }, [
-    nom,
-    prenom,
-    setude,
-    adresseEtude,
-    dateAssermentation,
-    telephone,
-    email,
-    isSocieteChecked,
-    setAvocatsData,
-  ]);
+  }, [nom, prenom, setude, adresseEtude, dateAssermentation, telephone, email, isSocieteChecked, setAvocatsData]);
 
+  const handleCheckboxChange = (e) => {
+    setIsSocieteChecked(e.target.checked);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -182,7 +148,6 @@ const Avocat = () => {
             type="checkbox"
             id="societe"
             name="societe"
-            value="societe"
             checked={isSocieteChecked}
             onChange={handleCheckboxChange}
           />
