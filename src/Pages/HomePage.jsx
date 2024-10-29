@@ -21,9 +21,9 @@ const HomePage = () => {
   }, [dispatch, user]);
 
   useEffect(() => {
-    if (avocatInfo?.m_nidetude) {
-      dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
-    }
+    // if (avocatInfo?.m_nidetude) {
+      dispatch(fetchEtudeInfo(1));
+    // }
   }, [dispatch, avocatInfo]);
 
   return (

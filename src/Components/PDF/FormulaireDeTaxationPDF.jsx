@@ -297,6 +297,7 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
                 Dénomination étude:
               </td>
               <td colspan="29" style={styles.tableCell}>
+                
               </td>
             </tr>
             <tr>

@@ -8,10 +8,23 @@ import { useGeneraliteContext } from "../../../../Hooks/GeneraliteContext";
 
 const Avocat = () => {
   const dispatch = useDispatch();
-  const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
-  const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
   const { user } = useAuth();
   const { avocatsData, setAvocatsData } = useGeneraliteContext();
+
+  const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
+  const etudeInfo = useSelector((state) => state.avocat.etudeInfo);
+
+  const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
+  const [prenom, setPrenom] = useState(avocatInfo?.m_sPrenom || "");
+  const [setude, setEtude] = useState(etudeInfo?.m_sDénominationEtude || "");
+  const [adresseEtude, setAdresseEtude] = useState(etudeInfo?.m_sadressecomplet || "");
+  const [dateAssermentation, setDateAssermentation] = useState(avocatInfo?.m_dDateAssermentation || "");
+  const [telephone, setTelephone] = useState(avocatInfo?.m_stelephone ||"");
+  const [email, setEmail] = useState(avocatInfo?.m_emailbarreau || "");
+  const [denomination, setDenomination] = useState(etudeInfo?.m_sDénominationEtude || "");
+  const [adressePro, setAdressePro] = useState(etudeInfo?.m_sadressecomplet || "");
+  const [dateInscription, setDateInscription] = useState(etudeInfo?.m_dDateInscription || "");
+  const [isSocieteChecked, setIsSocieteChecked] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
@@ -19,64 +32,43 @@ const Avocat = () => {
     }
   }, [dispatch, user]);
 
-  const [id, setId] = useState(avocatInfo?.m_nidetude);
+
   useEffect(() => {
-    if (avocatInfo?.m_nidetude) {
-      dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
-    }
+    // if (avocatInfo?.m_nidetude) {
+      // dispatch(fetchEtudeInfo(avocatInfo.m_nidetude));
+      dispatch(fetchEtudeInfo(1));
+    // }
   }, [dispatch, avocatInfo]);
 
-  useEffect(() => {
-    if (avocatInfo) {
-      setId(avocatInfo.m_nidetude);
-    }
-  }, [avocatInfo]);
-
-  const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
-  const [prenom, setPrenom] = useState(avocatInfo?.m_sPrenom || "");
-  const [setude, setEtude] = useState(etudeInfo?.m_sDénominationEtude || "");
-  const [adresseEtude, setAdresseEtude] = useState(
-    etudeInfo?.m_sadressecomplet || ""
-  );
-  const [dateAssermentation, setDateAssermentation] = useState(
-    avocatInfo?.m_dDateAssermentation || ""
-  );
-  const [telephone, setTelephone] = useState(avocatInfo?.m_stelephonetri || "");
-  const [email, setEmail] = useState(avocatInfo?.m_emailbarreau || "");
-  const [isSocieteChecked, setIsSocieteChecked] = useState(false);
-
-  useEffect(() => {
-    if (etudeInfo) {
-      setEtude(etudeInfo.m_sDénominationEtude);
-      setAdresseEtude(etudeInfo.m_sadressecomplet);
-    }
-  }, [etudeInfo]);
-
+  
   useEffect(() => {
     if (avocatInfo) {
       setNom(avocatInfo.m_sNom);
       setPrenom(avocatInfo.m_sPrenom);
       setDateAssermentation(avocatInfo.m_dDateAssermentation);
-      setTelephone(avocatInfo.m_stelephonetri);
+      setTelephone(etudeInfo?.m_stelephone);
       setEmail(avocatInfo.m_emailbarreau);
+      setDenomination(etudeInfo?.m_sDénominationEtude || "");
+      setAdressePro(etudeInfo?.m_sadressecomplet || "");
+      setDateInscription(etudeInfo?.m_dDateInscription || "");
     }
-
-  }, [avocatInfo]);
+  }, [avocatInfo, etudeInfo]);
 
   useEffect(() => {
-    setAvocatsData([
-      {
-        nom,
-        prenom,
-        setude,
-        adresseEtude,
-        dateAssermentation,
-        telephone,
-        email,
-        isSocieteChecked,
-      },
-    ]);
-  }, [nom, prenom, setude, adresseEtude, dateAssermentation, telephone, email, isSocieteChecked, setAvocatsData]);
+    setAvocatsData([{
+      nom,
+      prenom,
+      setude,
+      adresseEtude,
+      dateAssermentation,
+      telephone,
+      email,
+      dateInscription,
+      adressePro,
+      denomination,
+      isSocieteChecked,
+    }]);
+  }, [nom, prenom, setude, adresseEtude, dateAssermentation, telephone, email, dateInscription, adressePro, denomination, isSocieteChecked, setAvocatsData]);
 
   const handleCheckboxChange = (e) => {
     setIsSocieteChecked(e.target.checked);
@@ -84,6 +76,7 @@ const Avocat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Handle form submission logic here
   };
 
   return (
@@ -125,12 +118,7 @@ const Avocat = () => {
 
         <div className="formGroup">
           <label htmlFor="dateAssermentation">Date d'assermentation:</label>
-          <input
-            type="text"
-            id="dateAssermentation"
-            value={dateAssermentation}
-            readOnly
-          />
+          <input type="text" id="dateAssermentation" value={dateAssermentation} readOnly />
         </div>
 
         <div className="formGroup">
