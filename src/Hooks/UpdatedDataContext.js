@@ -48,19 +48,20 @@ export const UpdateDataProvider = ({ children }) => {
     c5: formulaireData?.sContenu5 || "",
     c6: formulaireData?.sContenu6 || "",
   };
- 
-  const AvocatArray= formulaireData?.sAvocatsData || []
+
+  const AvocatArray = formulaireData?.sAvocatsData || [];
   const initialAvocatsData = AvocatArray.map((avocat) => ({
     nom: avocat.nom || "",
     prenom: avocat.prenom || "",
-    setude: avocat.setude || "",
     adresseEtude: avocat.adresseEtude || "",
     telephone: avocat.telephone || "",
     email: avocat.email || "",
     dateAssermentation: avocat.dateAssermentation || "",
     isSocieteChecked: avocat.isSocieteChecked || false,
+    dateInscription: avocat.dateInscription ||"",
+    adressePro: avocat.adressePro ||"",
+    denomination: avocat.denomination ||"",
   }));
-  
 
   const [clientData, setClientData] = useState([]);
   const [selectedAvocats, setSelectedAvocats] = useState([]);
@@ -75,8 +76,10 @@ export const UpdateDataProvider = ({ children }) => {
   const [showOptions, setShowOptions] = useState(initialShowOptions);
   const [formData, setFormData] = useState(initialFormData);
   const [editorContents, setEditorContents] = useState(initialEditorContents);
-  const allIsSocieteChecked = initialAvocatsData.map((avocat) => avocat.isSocieteChecked);
-  const singleValue = allIsSocieteChecked[0]; 
+  const allIsSocieteChecked = initialAvocatsData.map(
+    (avocat) => avocat.isSocieteChecked
+  );
+  const singleValue = allIsSocieteChecked[0];
   const [isSocieteChecked, setIsSocieteChecked] = useState(singleValue);
 
   useEffect(() => {
@@ -92,12 +95,12 @@ export const UpdateDataProvider = ({ children }) => {
       setHonoraireData(formulaireData?.sHonoraireData || []);
       setNoteHonoraire(formulaireData?.sNoteHonoraire || []);
       setEditorContents(initialEditorContents);
-      setAvocatsData(initialAvocatsData );
+      setAvocatsData(initialAvocatsData);
       setIsSocieteChecked(singleValue);
     }
   }, [formulaireData]);
 
-console.log(singleValue);
+  console.log(singleValue);
 
   const currentDate = new Date();
   const formattedDate =
@@ -161,7 +164,8 @@ console.log(singleValue);
         setShowOptions,
         avocatsData,
         setAvocatsData,
-        isSocieteChecked, setIsSocieteChecked,
+        isSocieteChecked,
+        setIsSocieteChecked,
         noteHonoraire,
         setNoteHonoraire,
         editorContents,

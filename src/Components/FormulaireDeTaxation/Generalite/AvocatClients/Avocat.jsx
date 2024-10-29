@@ -16,7 +16,6 @@ const Avocat = () => {
 
   const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
   const [prenom, setPrenom] = useState(avocatInfo?.m_sPrenom || "");
-  const [setude, setEtude] = useState(etudeInfo?.m_sDénominationEtude || "");
   const [adresseEtude, setAdresseEtude] = useState(etudeInfo?.m_sadressecomplet || "");
   const [dateAssermentation, setDateAssermentation] = useState(avocatInfo?.m_dDateAssermentation || "");
   const [telephone, setTelephone] = useState(avocatInfo?.m_stelephone ||"");
@@ -51,6 +50,7 @@ const Avocat = () => {
       setDenomination(etudeInfo?.m_sDénominationEtude || "");
       setAdressePro(etudeInfo?.m_sadressecomplet || "");
       setDateInscription(etudeInfo?.m_dDateInscription || "");
+      setAdresseEtude(etudeInfo?.m_dDateInscription || "")
     }
   }, [avocatInfo, etudeInfo]);
 
@@ -58,7 +58,6 @@ const Avocat = () => {
     setAvocatsData([{
       nom,
       prenom,
-      setude,
       adresseEtude,
       dateAssermentation,
       telephone,
@@ -68,7 +67,7 @@ const Avocat = () => {
       denomination,
       isSocieteChecked,
     }]);
-  }, [nom, prenom, setude, adresseEtude, dateAssermentation, telephone, email, dateInscription, adressePro, denomination, isSocieteChecked, setAvocatsData]);
+  }, [nom, prenom, adresseEtude, dateAssermentation, telephone, email, dateInscription, adressePro, denomination, isSocieteChecked, setAvocatsData]);
 
   const handleCheckboxChange = (e) => {
     setIsSocieteChecked(e.target.checked);
@@ -108,7 +107,7 @@ const Avocat = () => {
 
         <div className="formGroup">
           <label htmlFor="etude">Etude:</label>
-          <input type="text" id="etude" value={setude} readOnly />
+          <input type="text" id="etude" value={denomination} readOnly />
         </div>
 
         <div className="formGroup">

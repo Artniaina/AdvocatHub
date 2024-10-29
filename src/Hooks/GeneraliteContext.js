@@ -18,7 +18,6 @@ export const GeneraliteProvider = ({ children }) => {
     {
       nom: "",
       prenom: "",
-      setude: "",
       adresseEtude: "",
       telephone: "",
       email: "",
