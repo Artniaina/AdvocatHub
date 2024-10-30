@@ -38,8 +38,6 @@ const Avocat = () => {
     // }
   }, [dispatch, avocatInfo]);
 
-  console.log(avocatsData);
-  
   useEffect(() => {
     if (avocatInfo) {
       setNom(avocatInfo.m_sNom);

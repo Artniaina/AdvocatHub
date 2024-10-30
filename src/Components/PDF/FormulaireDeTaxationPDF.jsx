@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import '../../../node_modules/quill/dist/quill.snow.css';
 
 const styles = {
   container: {
