@@ -9,8 +9,6 @@ const PopupCollaborateurs = ({
   selectedCollaborator,
   onSelectCollaborators,
 }) => {
-  console.log(selectedCollaborator);
-
   const [filters, setFilters] = useState({});
   const [avocat, setAvocat] = useState([]);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
@@ -127,6 +125,7 @@ const PopupCollaborateurs = ({
       IDAvocat: avocat.m_nIDAvocat_PP,
     })); 
     onSelectCollaborators(selectedCollaborators, necessaryData);
+    
     onClose();
   };
 

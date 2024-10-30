@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 
+
 const styles = {
   container: {
     padding: "50px",
     width: "1500px",
   },
+
   header: {
     fontSize: "25px",
     marginBottom: "10px",

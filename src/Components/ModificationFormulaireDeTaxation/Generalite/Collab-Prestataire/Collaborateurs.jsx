@@ -6,10 +6,10 @@ import PopupCollaborateurs from "./PopUpCollab";
 import { useUpdateDataContext } from "../../../../Hooks/UpdatedDataContext";
 
 const Collaborateurs = () => {
-  const {selectedAvocats, setSelectedAvocats} = useUpdateDataContext();
+  const { selectedAvocats, setSelectedAvocats } = useUpdateDataContext();
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [setude, setEtude] = useState("");
+  const [etude, setEtude] = useState("");
   const [adresseEtude, setAdresseEtude] = useState("");
   const [dateAssermentation, setDateAssermentation] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -17,6 +17,7 @@ const Collaborateurs = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCollaborators, setSelectedCollaborators] = useState([]);
   const [isInscrit, setIsInscrit] = useState(false);
+
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => {
     resetFields();
@@ -27,17 +28,15 @@ const Collaborateurs = () => {
     setSelectedCollaborators(collaborators);
     setSelectedAvocats(avocatsData);
   };
-  
-  
+
   const handleSelectCollaborator = (e) => {
     const selectedID = parseInt(e.target.value, 10);
     populateFields(selectedID);
   };
-  
+
   const populateFields = (selectedID) => {
     const selectedAvocat = selectedAvocats.find((collaborator) => collaborator.id === selectedID);
-    console.log(selectedAvocat);
-
+  
     const formatDate = (dateString) => {
       if (!dateString) return "";
       const year = dateString.substring(0, 4);
@@ -45,20 +44,25 @@ const Collaborateurs = () => {
       const day = dateString.substring(6, 8);
       return `${day}/${month}/${year}`;
     };
-
+  
     if (selectedAvocat) {
-      setName(selectedAvocat.nom || ""); 
-      setPrenom(selectedAvocat.prenom || ""); 
-      setEtude(selectedAvocat.setude || ""); 
-      setAdresseEtude(selectedAvocat.adresse || ""); 
-      setDateAssermentation(formatDate(selectedAvocat.dateAssermentation)); 
-      setTelephone(selectedAvocat.telephone || ""); 
-      setEmail(selectedAvocat.email || ""); 
-      setIsInscrit(selectedAvocat.isInscrit === "Inscrit");
+      setName(selectedAvocat.Nom || "");
+      setPrenom(selectedAvocat.Prenom || "");
+      setEtude(selectedAvocat.Etude || "");
+      setAdresseEtude(selectedAvocat.Adresse || "");
+      setDateAssermentation(formatDate(selectedAvocat.DateAssermentation || ""));
+      setTelephone(selectedAvocat.Telephone || "");
+      setEmail(selectedAvocat.Email || "");
+      setIsInscrit(selectedAvocat.IsInscrit === "Inscrit");
+
+      
     } else {
-      resetFields();
+      console.warn("Selected Avocat not found for ID:", selectedID);
+      resetFields(); 
     }
   };
+  
+  console.log("name",name);
 
   const resetFields = () => {
     setName("");
@@ -73,21 +77,16 @@ const Collaborateurs = () => {
 
   useEffect(() => {
     if (selectedCollaborators.length > 0) {
-      populateFields(selectedCollaborators[0]); 
+      populateFields(selectedCollaborators[0]);
+    } else if (selectedAvocats.length > 0) {
+      populateFields(selectedAvocats[0].id);
     } else {
-      resetFields(); 
+      resetFields();
     }
   }, [selectedCollaborators, selectedAvocats]);
 
-  useEffect(() => {
-    if (selectedAvocats.length > 0) {
-      populateFields(selectedAvocats[0].id);
-    }
-  }, [selectedAvocats]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Selected Collaborator IDs:", selectedCollaborators);
   };
 
   let collaboratorIds;
@@ -119,7 +118,7 @@ const Collaborateurs = () => {
                 key={collaborator.id}
                 value={collaborator.id}
               >
-                {`${collaborator.nom || ""} ${collaborator.prenom || ""}`}
+                {`${collaborator.Nom || ""} ${collaborator.Prenom || ""}`}
               </option>
             ))}
           </select>
@@ -153,7 +152,7 @@ const Collaborateurs = () => {
           <input
             type="text"
             id="etude"
-            value={setude}
+            value={etude}
             onChange={(e) => setEtude(e.target.value)}
             readOnly
           />
@@ -190,7 +189,7 @@ const Collaborateurs = () => {
         </div>
         <div className="formGroup">
           <label htmlFor="email">Email:</label>
-          <input     
+          <input
             type="email"
             id="email"
             value={email}
