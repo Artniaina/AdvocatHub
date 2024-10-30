@@ -205,7 +205,7 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
                 Adresse professionnelle:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                {avocat.adresseEtude || ""}
+                {avocat.adressePro || ""}
               </td>
             </tr>
             <tr>
@@ -285,53 +285,59 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
       </div>
 
       <div style={styles.sectionDivider}></div>
-      <div style={{ marginBottom: "10px" }}>
-        <p style={styles.subSectionTitle}>
-          b) Société d'avocats (à remplir uniquement si le mandat lui a été
-          attribué)
-        </p>
-        <table style={styles.table}>
-          <tbody>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Dénomination étude:
-              </td>
-              <td colspan="29" style={styles.tableCell}>
-                
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Date d'inscription:
-              </td>
-              <td colspan="29" style={styles.tableCell}>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                {" "}
-                Adresse professionnelle:
-              </td>
-              <td colspan="29" style={styles.tableCell}>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Téléphone:
-              </td>
-              <td colspan="29" style={styles.tableCell}>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="28" style={styles.tableCellBold}>
-                Email barreau:
-              </td>
-              <td colspan="29" style={styles.tableCell}>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {avocat?.isSocieteChecked && (
+  <div style={{ marginBottom: "10px" }}>
+    <p style={styles.subSectionTitle}>
+      b) Société d'avocats (à remplir uniquement si le mandat lui a été
+      attribué)
+    </p>
+    <table style={styles.table}>
+      <tbody>
+        <tr>
+          <td colSpan="28" style={styles.tableCellBold}>
+            Dénomination étude:
+          </td>
+          <td colSpan="29" style={styles.tableCell}>
+            {avocat?.denomination || ""}
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="28" style={styles.tableCellBold}>
+            Date d'inscription:
+          </td>
+          <td colSpan="29" style={styles.tableCell}>
+            {formatDate(avocat?.dateInscription) || ""}
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="28" style={styles.tableCellBold}>
+            Adresse professionnelle:
+          </td>
+          <td colSpan="29" style={styles.tableCell}>
+            {avocat?.adressePro || ""}
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="28" style={styles.tableCellBold}>
+            Téléphone:
+          </td>
+          <td colSpan="29" style={styles.tableCell}>
+            {avocat?.telephone || ""}
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="28" style={styles.tableCellBold}>
+            Email barreau:
+          </td>
+          <td colSpan="29" style={styles.tableCell}>
+            {avocat?.email || ""}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+)}
+
 
       <div style={styles.sectionDivider}></div>
 

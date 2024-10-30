@@ -16,7 +16,6 @@ const Avocat = () => {
 
   const [nom, setNom] = useState(avocatInfo?.m_sNom || "");
   const [prenom, setPrenom] = useState(avocatInfo?.m_sPrenom || "");
-  const [adresseEtude, setAdresseEtude] = useState(etudeInfo?.m_sadressecomplet || "");
   const [dateAssermentation, setDateAssermentation] = useState(avocatInfo?.m_dDateAssermentation || "");
   const [telephone, setTelephone] = useState(avocatInfo?.m_stelephone ||"");
   const [email, setEmail] = useState(avocatInfo?.m_emailbarreau || "");
@@ -39,6 +38,7 @@ const Avocat = () => {
     // }
   }, [dispatch, avocatInfo]);
 
+  console.log(avocatsData);
   
   useEffect(() => {
     if (avocatInfo) {
@@ -49,16 +49,13 @@ const Avocat = () => {
       setEmail(avocatInfo.m_emailbarreau);
       setDenomination(etudeInfo?.m_sDénominationEtude || "");
       setAdressePro(etudeInfo?.m_sadressecomplet || "");
-      setDateInscription(etudeInfo?.m_dDateInscription || "");
-      setAdresseEtude(etudeInfo?.m_dDateInscription || "")
-    }
+      setDateInscription(etudeInfo?.m_dDateInscription || "");    }
   }, [avocatInfo, etudeInfo]);
 
   useEffect(() => {
     setAvocatsData([{
       nom,
       prenom,
-      adresseEtude,
       dateAssermentation,
       telephone,
       email,
@@ -67,7 +64,7 @@ const Avocat = () => {
       denomination,
       isSocieteChecked,
     }]);
-  }, [nom, prenom, adresseEtude, dateAssermentation, telephone, email, dateInscription, adressePro, denomination, isSocieteChecked, setAvocatsData]);
+  }, [nom, prenom,  dateAssermentation, telephone, email, dateInscription, adressePro, denomination, isSocieteChecked, setAvocatsData]);
 
   const handleCheckboxChange = (e) => {
     setIsSocieteChecked(e.target.checked);
@@ -112,7 +109,7 @@ const Avocat = () => {
 
         <div className="formGroup">
           <label htmlFor="adresseEtude">Adresse de l'étude:</label>
-          <input type="text" id="adresseEtude" value={adresseEtude} readOnly />
+          <input type="text" id="adresseEtude" value={adressePro} readOnly />
         </div>
 
         <div className="formGroup">

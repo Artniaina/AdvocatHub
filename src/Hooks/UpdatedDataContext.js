@@ -53,7 +53,6 @@ export const UpdateDataProvider = ({ children }) => {
   const initialAvocatsData = AvocatArray.map((avocat) => ({
     nom: avocat.nom || "",
     prenom: avocat.prenom || "",
-    adresseEtude: avocat.adresseEtude || "",
     telephone: avocat.telephone || "",
     email: avocat.email || "",
     dateAssermentation: avocat.dateAssermentation || "",
