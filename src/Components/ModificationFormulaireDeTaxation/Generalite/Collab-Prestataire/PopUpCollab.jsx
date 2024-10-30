@@ -42,13 +42,13 @@ const PopupCollaborateurs = ({
   }, [selectedCollaborator]);
 
   const keyMapping = {
-    Nom: "m_sNom",
-    Prenom: "m_sPrenom",
-    Etude: "m_sDénominationEtude",
-    Adresse: "m_sadressecomplet",
-    DateAssermentation: "m_dDateAssermentation",
-    Telephone: "m_sTelephone",
-    Email: "m_sEmail",
+    nom: "m_sNom",
+    prenom: "m_sPrenom",
+    etude: "m_sDénominationEtude",
+    adresse: "m_sadressecomplet",
+    dateAssermentation: "m_dDateAssermentation",
+    telephone: "m_sTelephone",
+    email: "m_sEmail",
   };
 
   const sortedAvocat = useMemo(() => {
@@ -115,13 +115,13 @@ const PopupCollaborateurs = ({
   const handleSubmit = () => {
     const necessaryData = selectedAvocats.map((avocat) => ({
       id: avocat.m_nIDAvocat_PP,
-      Nom: avocat.m_sNom,
-      Prenom: avocat.m_sPrenom,
-      Etude: avocat.m_sDénominationEtude,
-      Adresse: avocat.m_sadressecomplet,
-      DateAssermentation: avocat.m_dDateAssermentation,
-      Telephone: avocat.m_sTelephone,
-      Email: avocat.m_emailbarreau,
+      nom: avocat.m_sNom,
+      prenom: avocat.m_sPrenom,
+      etude: avocat.m_sDénominationEtude,
+      adresse: avocat.m_sadressecomplet,
+      dateAssermentation: avocat.m_dDateAssermentation,
+      telephone: avocat.m_sTelephone,
+      email: avocat.m_emailbarreau,
       IDAvocat: avocat.m_nIDAvocat_PP,
     })); 
     onSelectCollaborators(selectedCollaborators, necessaryData);

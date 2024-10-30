@@ -58,16 +58,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData, noteHonoraire }) => {
   const [filters, setFilters] = useState({});
   const [filterActive, setFilterActive] = useState(null);
 
-  useEffect(() => {
-    const { totalHonoraireFraisDossier, tauxTVA } = formData;
-    if (totalHonoraireFraisDossier && tauxTVA) {
-      const montantTVA = (
-        (parseFloat(totalHonoraireFraisDossier) * parseFloat(tauxTVA)) /
-        100
-      ).toFixed(2);
-      setFormData((prevData) => ({ ...prevData, montantTVA }));
-    }
-  }, [formData.totalHonoraireFraisDossier, formData.tauxTVA]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

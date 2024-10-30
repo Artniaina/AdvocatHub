@@ -46,14 +46,14 @@ const Collaborateurs = () => {
     };
   
     if (selectedAvocat) {
-      setName(selectedAvocat.Nom || "");
-      setPrenom(selectedAvocat.Prenom || "");
-      setEtude(selectedAvocat.Etude || "");
-      setAdresseEtude(selectedAvocat.Adresse || "");
-      setDateAssermentation(formatDate(selectedAvocat.DateAssermentation || ""));
-      setTelephone(selectedAvocat.Telephone || "");
-      setEmail(selectedAvocat.Email || "");
-      setIsInscrit(selectedAvocat.IsInscrit === "Inscrit");
+      setName(selectedAvocat.nom || "");
+      setPrenom(selectedAvocat.prenom || "");
+      setEtude(selectedAvocat.etude || "");
+      setAdresseEtude(selectedAvocat.adresse || "");
+      setDateAssermentation(formatDate(selectedAvocat.dateAssermentation || ""));
+      setTelephone(selectedAvocat.telephone || "");
+      setEmail(selectedAvocat.email || "");
+      setIsInscrit(selectedAvocat.isInscrit === "Inscrit");
 
       
     } else {
@@ -118,7 +118,7 @@ const Collaborateurs = () => {
                 key={collaborator.id}
                 value={collaborator.id}
               >
-                {`${collaborator.Nom || ""} ${collaborator.Prenom || ""}`}
+                {`${collaborator.nom || ""} ${collaborator.prenom || ""}`}
               </option>
             ))}
           </select>
