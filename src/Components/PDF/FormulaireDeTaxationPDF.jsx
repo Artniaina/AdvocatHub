@@ -16,7 +16,7 @@ const styles = {
     borderStyle: "solid",
     backgroundColor: "#fff",
   },
-  
+
   remarkText: {
     marginTop: "30px",
     fontSize: "20px",
@@ -108,55 +108,66 @@ const FormulaireDeTaxationPDF = () => {
   const [formulaire, setFormulaire] = useState(null);
   const [status, setStatus] = useState("idle");
 
-useEffect(() => {
-  const fetchFormulaires = async () => {
-    setStatus("loading");
-    try {
-      const response = await fetch("http://192.168.10.10/Utilisateur/Formulaire/FormTransmis");
-
-      if (!response.ok) {
-        throw new Error(`Network response was not ok. Status: ${response.status}`);
-      }
-      const text = await response.text(); 
-      if (!text) {
-        console.log("Response is empty");
-        setFormulaire(null);
-        setStatus("succeeded");
-        return;
-      }
-
+  useEffect(() => {
+    const fetchFormulaires = async () => {
+      setStatus("loading");
       try {
-        const data = JSON.parse(text); 
-        setFormulaire(data.length ? data[0] : null); 
-        setStatus("succeeded");
-      } catch (jsonError) {
-        console.error("Error parsing JSON:", jsonError.message);
-        throw new Error("Failed to parse response as JSON.");
+        const response = await fetch(
+          "http://192.168.10.10/Utilisateur/Formulaire/FormTransmis"
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok. Status: ${response.status}`
+          );
+        }
+        const text = await response.text();
+        if (!text) {
+          console.log("Response is empty");
+          setFormulaire(null);
+          setStatus("succeeded");
+          return;
+        }
+
+        try {
+          const data = JSON.parse(text);
+          setFormulaire(data.length ? data[0] : null);
+          setStatus("succeeded");
+        } catch (jsonError) {
+          console.error("Error parsing JSON:", jsonError.message);
+          throw new Error("Failed to parse response as JSON.");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setStatus("failed");
       }
+    };
 
-    } catch (error) {
-      console.error("Fetch error:", error);
-      setStatus("failed");
+    if (status === "idle") {
+      fetchFormulaires();
     }
-  };
+  }, [status]);
 
-  if (status === "idle") {
-    fetchFormulaires();
-  }
-}, [status]);
+  const avocat = formulaire?.sAvocatsData?.[0] || {};
+  const collaborateurs = formulaire?.sCollaboratorsData || [];
+  const clients = formulaire?.sClientsData || [];
+  const noteHonoraire = formulaire?.sNoteHonoraire || [];
 
-const avocat = formulaire?.sAvocatsData?.[0] || {}; 
-const collaborateurs = formulaire?.sCollaboratorsData || [];
-const clients = formulaire?.sClientsData || [];
-const noteHonoraire = formulaire?.sNoteHonoraire || [];
-
-  const formatDate = (dateString) => { 
+  const emailAvocat = avocat.email;
+  const emailClient = clients.email;
+  const formatDate = (dateString) => {
     if (!dateString) return "";
     const year = dateString.slice(0, 4);
     const month = dateString.slice(4, 6);
     const day = dateString.slice(6, 8);
     return `${day}/${month}/${year}`;
   };
+  function decouperEmail(email) {
+    if (email.length >= 14) {
+      return [email.substring(0, 14) + " ", email.substring(14)];
+    }
+    return [email, ""];
+  }
 
   return (
     <div style={styles.container}>
@@ -229,7 +240,7 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
                 Email:
               </td>
               <td colspan="29" style={styles.tableCell}>
-                {avocat.email || ""}
+                {decouperEmail(emailAvocat || "")}
               </td>
             </tr>
           </tbody>
@@ -285,59 +296,58 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
       </div>
 
       <div style={styles.sectionDivider}></div>
-      {avocat?.isSocieteChecked && (
-  <div style={{ marginBottom: "10px" }}>
-    <p style={styles.subSectionTitle}>
-      b) Société d'avocats (à remplir uniquement si le mandat lui a été
-      attribué)
-    </p>
-    <table style={styles.table}>
-      <tbody>
-        <tr>
-          <td colSpan="28" style={styles.tableCellBold}>
-            Dénomination étude:
-          </td>
-          <td colSpan="29" style={styles.tableCell}>
-            {avocat?.denomination || ""}
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="28" style={styles.tableCellBold}>
-            Date d'inscription:
-          </td>
-          <td colSpan="29" style={styles.tableCell}>
-            {formatDate(avocat?.dateInscription) || ""}
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="28" style={styles.tableCellBold}>
-            Adresse professionnelle:
-          </td>
-          <td colSpan="29" style={styles.tableCell}>
-            {avocat?.adressePro || ""}
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="28" style={styles.tableCellBold}>
-            Téléphone:
-          </td>
-          <td colSpan="29" style={styles.tableCell}>
-            {avocat?.telephone || ""}
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="28" style={styles.tableCellBold}>
-            Email barreau:
-          </td>
-          <td colSpan="29" style={styles.tableCell}>
-            {avocat?.email || ""}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-)}
-
+      <div style={{ marginBottom: "10px" }}>
+        <p style={styles.subSectionTitle}>
+          b) Société d'avocats (à remplir uniquement si le mandat lui a été
+          attribué)
+        </p>
+        <table style={styles.table}>
+          <tbody>
+            <tr>
+              <td colSpan="28" style={styles.tableCellBold}>
+                Dénomination étude:
+              </td>
+              <td colSpan="29" style={styles.tableCell}>
+                {avocat?.isSocieteChecked ? avocat?.denomination || "" : ""}
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="28" style={styles.tableCellBold}>
+                Date d'inscription:
+              </td>
+              <td colSpan="29" style={styles.tableCell}>
+                {avocat?.isSocieteChecked
+                  ? formatDate(avocat?.dateInscription) || ""
+                  : ""}
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="28" style={styles.tableCellBold}>
+                Adresse professionnelle:
+              </td>
+              <td colSpan="29" style={styles.tableCell}>
+                {avocat?.isSocieteChecked ? avocat?.adressePro || "" : ""}
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="28" style={styles.tableCellBold}>
+                Téléphone:
+              </td>
+              <td colSpan="29" style={styles.tableCell}>
+                {avocat?.isSocieteChecked ? avocat?.telephone || "" : ""}
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="28" style={styles.tableCellBold}>
+                Email barreau:
+              </td>
+              <td colSpan="29" style={styles.tableCell}>
+                {avocat?.isSocieteChecked ? avocat?.email || "" : ""}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div style={styles.sectionDivider}></div>
 
@@ -351,7 +361,9 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
                 Dénomination Sociale / Organe représentatif
               </th>
               <th style={styles.tableHeader}>Nom et Prénom</th>
-              <th style={styles.tableHeader}>Adresse</th>
+              <th style={styles.tableHeader} colSpan="15">
+                Adresse
+              </th>
               <th style={styles.tableHeader}>Téléphone</th>
               <th style={styles.tableHeader}>Email</th>
             </tr>
@@ -366,15 +378,21 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
                 <td
                   style={styles.tableCellCenter}
                 >{`${client.name} ${client.prenom}`}</td>
-                <td style={styles.tableCellCenter}>
-                  {`${client.numVoie || ""} ${client.rue || ""}, ${
-                    client.cp || ""
-                  } ${client.localite || ""}, ${client.pays || ""}`}
+                <td colSpan="15" style={styles.tableCellCenter}>
+                  {`Numéro voie :${client.numVoie || ""}; Rue: ${
+                    client.rue || ""
+                  }; Code postal: ${client.cp || ""}; Localité: ${
+                    client.localite || ""
+                  }; Localité BP:${client.localitebp || ""}; BP:${
+                    client.bp || ""
+                  }. Pays:${client.pays || ""}`}
                 </td>
                 <td style={styles.tableCellCenter}>
                   {client.contactInfo || ""}
                 </td>
-                <td style={styles.tableCellCenter}>{client.email || ""}</td>
+                <td style={styles.tableCellCenter}>
+                  {decouperEmail(emailAvocat || "")}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -486,7 +504,6 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
               <td style={styles.tableCellBold}>
                 Une procédure relative au recouvrement des honoraires a-t'elle
                 été introduite ?{" "}
-                
               </td>
               <td style={styles.tableCell}>
                 {formulaire?.sProcedureRelative || ""}
@@ -525,7 +542,9 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
         <p style={styles.editorTitle}>a) Description de l'affaire</p>
         <div>
           <p style={styles.editorHeader}>1) Mentionner les faits</p>
-          <div>{formulaire?.sContenu1 || ""}</div>
+          <div
+            dangerouslySetInnerHTML={{ __html: formulaire?.sContenu1 || "" }}
+          />{" "}
         </div>
 
         <div>
@@ -538,7 +557,9 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
             </p>
           </p>
 
-          <div>{formulaire?.sConten2 || ""}</div>
+          <div
+            dangerouslySetInnerHTML={{ __html: formulaire?.sContenu2 || "" }}
+          />
         </div>
 
         <div>
@@ -551,7 +572,9 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
             </p>
           </p>
 
-          <div>{formulaire?.sContenu3 || ""}</div>
+          <div
+            dangerouslySetInnerHTML={{ __html: formulaire?.sContenu3 || "" }}
+          />
         </div>
         <div>
           <p style={styles.editorHeader}>
@@ -563,7 +586,9 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
             </p>
           </p>
 
-          <div>{formulaire?.sContenu4 || ""}</div>
+          <div
+            dangerouslySetInnerHTML={{ __html: formulaire?.sContenu4 || "" }}
+          />
         </div>
         <div>
           <p style={styles.editorHeader}>
@@ -574,7 +599,9 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
             </p>
           </p>
 
-          <div>{formulaire?.sContenu5 || ""}</div>
+          <div
+            dangerouslySetInnerHTML={{ __html: formulaire?.sContenu5 || "" }}
+          />
         </div>
         <div>
           <p style={styles.editorTitle}>b)Le travail effectué</p>
@@ -586,150 +613,152 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
             ainsi que le total des honoraires)
           </p>
 
-          <div>{formulaire?.sContenu6 || ""}</div>
+          <div
+            dangerouslySetInnerHTML={{ __html: formulaire?.sContenu6 || "" }}
+          />
         </div>
       </div>
 
       <div>
         <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           3. HONORAIRES
-        </p>        {noteHonoraire.map((note, index) => (
-
-        <div>
-          <p>
-            <span style={{ fontWeight: "bold", marginRight: "10px" }}>
-              Date
-            </span>
-            : {note.date || ""}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span
-              style={{
-                fontWeight: "bold",
-                marginRight: "10px",
-                marginLeft: "10px",
-              }}
-            >
-              Référence:
-            </span>{" "}
-            {note.reference || ""}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style={{ fontWeight: "bold", marginLeft: "10px" }}>
-              Montant TTC
-            </span>{" "}
-            {note.totalHonoraireTTC || ""}
-          </p>
-          <table key={note.id} style={styles.table}>
-            <tbody>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Nombre d'heures facturées:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.hours}h{note.minutes}mn
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Taux horaires HTVA facturés:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.tauxHorairesfacturés}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total des honoraires HTVA facturés:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.totalHonoraireHTVA}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total des frais de constitution de dossier et des frais de
-                  bureau HTVA facturés:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.fraisConstitutionDossier}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total des honoraires et frais de dossiers HTVA:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.totalHonoraireFraisDossier}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Taux TVA:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.tauxTVA}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Montant de la TVA (honoraires et frais compris):
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.montantTVA}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total des honoraires TTC:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.noteTTC}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Frais huissiers, d'expertise, de traduction, de RCS... (TTC):
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.totalHonoraireFraisDossier}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total des provisions TTC payées:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.provisionTTC}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Remise / note de crédit:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.remise}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total de la note d'honoraires TTC:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.noteTTC}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="28" style={styles.tableCellBold}>
-                  Total du montant restant dû TTC:
-                </td>
-                <td colSpan="15" style={styles.tableCell}>
-                  {note.restantDu}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        </p>{" "}
+        {noteHonoraire.map((note, index) => (
+          <div>
+            <p>
+              <span style={{ fontWeight: "bold", marginRight: "10px" }}>
+                Date
+              </span>
+              : {note.date || ""}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span
+                style={{
+                  fontWeight: "bold",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                }}
+              >
+                Référence:
+              </span>{" "}
+              {note.reference || ""}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style={{ fontWeight: "bold", marginLeft: "10px" }}>
+                Montant TTC
+              </span>{" "}
+              {note.totalHonoraireTTC || ""}
+            </p>
+            <table key={note.id} style={styles.table}>
+              <tbody>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Nombre d'heures facturées:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.hours}h{note.minutes}mn
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Taux horaires HTVA facturés:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.tauxHorairesfacturés}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total des honoraires HTVA facturés:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.totalHonoraireHTVA}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total des frais de constitution de dossier et des frais de
+                    bureau HTVA facturés:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.fraisConstitutionDossier}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total des honoraires et frais de dossiers HTVA:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.totalHonoraireFraisDossier}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Taux TVA:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.tauxTVA}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Montant de la TVA (honoraires et frais compris):
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.montantTVA}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total des honoraires TTC:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.noteTTC}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Frais huissiers, d'expertise, de traduction, de RCS...
+                    (TTC):
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.totalHonoraireFraisDossier}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total des provisions TTC payées:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.provisionTTC}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Remise / note de crédit:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.remise}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total de la note d'honoraires TTC:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.noteTTC}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="28" style={styles.tableCellBold}>
+                    Total du montant restant dû TTC:
+                  </td>
+                  <td colSpan="15" style={styles.tableCell}>
+                    {note.restantDu}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         ))}
-
         <p style={{ fontSize: "13px", marginLeft: "10px" }}>
           <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
             Observation particulières:
@@ -737,9 +766,14 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
           (prise en charge totale ou partielle par un tiers/assurance protection
           juridique du client,...)
         </p>
-        <div>{formulaire?.sObservations || ""}</div>
+        <div
+          dangerouslySetInnerHTML={{ __html: formulaire?.sObservations || "" }}
+        />
       </div>
-      <div>
+      <div  style={{
+            marginTop: "100px",
+            marginBottom: "0px",
+          }} >
         <p
           style={{
             ...styles.sectionTitle,
@@ -766,8 +800,11 @@ const noteHonoraire = formulaire?.sNoteHonoraire || [];
           protection juridique du client,…)
         </p>
 
-
-        <div>{formulaire?.sPositionAvocat || ""}</div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: formulaire?.sPositionAvocat || "",
+          }}
+        />
       </div>
 
       <div>
