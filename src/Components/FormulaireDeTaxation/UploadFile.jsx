@@ -131,20 +131,28 @@ const UploadFile = () => {
       setLoading(false);
     }
   };
-
   const generateAndViewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
     ).innerHTML;
-
+  
     try {
       const pdfDoc = htmlToPdfmake(htmlContent);
       const docDefinition = { content: pdfDoc };
-      pdfMake.createPdf(docDefinition).open();
+  
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      
+      pdfDocGenerator.getBase64((data) => {
+        const base64String = data;
+        sendEmail(base64String); 
+      });
+      
+      pdfDocGenerator.open();
     } catch (error) {
       console.error("Error while generating PDF:", error);
     }
   };
+  
 
   setTimeout(() => {
     if (localStorage.getItem("generatePdfAfterReload") == "true") {
@@ -175,6 +183,37 @@ const UploadFile = () => {
 
   const triggerFileUpload = () => {
     document.getElementById("file-upload").click();
+  };
+
+  const sendEmail = async () => {
+    const emailData = {
+      sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+      sFullName: "ANDRIAHARINIAINA Kanto Fitiavana",
+      sNomAvocat: "ANDRIAHARINIAINA",
+      sDateSys: "20241030",
+      sReferencepdf: "20241029-14-36-14-89_ANDRIAHARINIAINA Kanto_Formulaire taxation ordinaire",
+      spdfBase64: "",   
+      
+      };
+
+    try {
+      const response = await fetch("http://192.168.10.10/Utilisateur/Email/InfoEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Email sent successfully:", result);
+      } else {
+        console.error("Failed to send email:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error while sending email:", error);
+    }
   };
 
   return (
@@ -225,8 +264,7 @@ const UploadFile = () => {
                   >
                     <TiDelete
                       style={{ color: "#e73737b2", fontSize: "40px" }}
-                    />
-                  </button>
+                    />                  </button>
                 </div>
               ))}
             </div>
@@ -246,17 +284,73 @@ const UploadFile = () => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
             Parcourir
           </button>
+
           <input
             id="file-upload"
             type="file"
             style={{ display: "none" }}
             onChange={handleFileChange}
             multiple
-          />
+          />  
           <div>
-            <button onClick={submitFormData}>
-              <FaCheck style={{ color: "green", fontSize: "30px" }} />
-              Envoyer
+          <button
+            type="button"
+            onClick={triggerFileUpload}
+            style={{
+              marginTop: "10px",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              background: "blue",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+          
+            <IoAddCircle style={{ marginRight: "5px" }} />
+            Ajouter un fichier
+          </button>
+          <button
+            onClick={submitFormData}
+            style={{
+              marginTop: "10px",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              background: "green",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Envoyer le formulaire
+          </button>
+          <button
+            onClick={generateAndViewPdf}
+            style={{
+              marginTop: "10px",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              background: "orange",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Générer le PDF
+          </button>
+          <button
+            onClick={sendEmail}
+            style={{
+              marginTop: "10px",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              background: "purple",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Envoyer email
             </button>
             {showPopup && (
               <RequiredMessage
@@ -283,9 +377,9 @@ const UploadFile = () => {
               );
             })}
           </div>
+          </div>
         </div>
-      </div>
-      <div id="taxation-form-content" style={{ display: "none" }}>
+        <div id="taxation-form-content" style={{ display: "none" }}>
         <FormulaireDeTaxationPDF />
       </div>
     </>
