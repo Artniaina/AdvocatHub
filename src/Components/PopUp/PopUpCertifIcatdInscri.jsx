@@ -140,6 +140,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
       ) : contentLoaded ? (
         <SuccessPopup
           onGenerateAndSendPDF={handleViewPdf}
+          content={"Certificat"}
         />
       ) : (
         <>

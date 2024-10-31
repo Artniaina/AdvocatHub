@@ -45,8 +45,6 @@ const UploadFile = () => {
     clientData,
   } = useGeneraliteContext();
 
-  
-
   const { fileInfos, setFileInfos } = useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupDifference, setShowPopupDifference] = useState(false);
@@ -104,6 +102,7 @@ const UploadFile = () => {
     // if (!validateFormData()) {
     //   return;
     // }
+
     setLoading(true);
     try {
       const response = await fetch(
@@ -124,7 +123,6 @@ const UploadFile = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
-        refreshPage();
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
@@ -134,35 +132,25 @@ const UploadFile = () => {
       setLoading(false);
     }
   };
-const viewPdf = () => {
-  const htmlContent = document.getElementById("taxation-form-content").innerHTML;
 
-  try {
-    const pdfDoc = htmlToPdfmake(htmlContent);
-    const docDefinition = { content: pdfDoc };
-
-    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-    pdfDocGenerator.open();  // This will open the PDF in a new window/tab or viewer
-  } catch (error) {
-    console.error("Error while viewing PDF:", error);
-  }
-};
 
 
   const generatePdf = () => {
-    const htmlContent = document.getElementById("taxation-form-content").innerHTML;
-  
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
+
     return new Promise((resolve, reject) => {
       try {
         const pdfDoc = htmlToPdfmake(htmlContent);
         const docDefinition = { content: pdfDoc };
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-  
+
         pdfDocGenerator.getBase64((data) => {
-          resolve(data);  
+          resolve(data);          
         });
       } catch (error) {
-        reject(error);  
+        reject(error);
         console.error("Error while generating PDF:", error);
       }
     });
@@ -198,7 +186,7 @@ const viewPdf = () => {
     document.getElementById("file-upload").click();
   };
 
-  const generateDateSys=()=> {
+  const generateDateSys = () => {
     const now = new Date();
 
     const year = now.getFullYear();
@@ -212,34 +200,38 @@ const viewPdf = () => {
       .slice(0, 2);
 
     return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
-  }
+  };
 
   const DateSys = generateDateSys();
   const fullName = `${avocatsData[0].nom} ${avocatsData[0].prenom}`;
   const referencepdf = `${DateSys}_${fullName}_Formulaire taxation ordinaire`;
   const name = avocatsData[0].nom;
-  
+
+
   const sendEmail = async () => {
     try {
-      const pdfBase64 = await generatePdf(); 
-  
+      const pdfBase64 = await generatePdf();
+
       const emailData = {
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,
         sNomAvocat: name,
         sDateSys: DateSys,
         sReferencepdf: referencepdf,
-        spdfBase64: pdfBase64, 
+        spdfBase64: pdfBase64,
       };
-  
-      const response = await fetch("http://192.168.10.10/Utilisateur/Email/InfoEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailData),
-      });
-  
+
+      const response = await fetch(
+        "http://192.168.10.10/Utilisateur/Email/InfoEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailData),
+        }
+      );
+
       if (response.ok) {
         const result = await response.json();
         console.log("Email sent successfully:", result);
@@ -250,6 +242,81 @@ const viewPdf = () => {
       console.error("Error while sending email:", error);
     }
   };
+
+  const generateAndViewPdf = () => {
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
+  
+    try {
+      const pdfDoc = htmlToPdfmake(htmlContent);
+      const docDefinition = { content: pdfDoc };
+  
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      
+      pdfDocGenerator.getBase64((data) => {
+        const base64String = data;
+      });
+      
+      pdfDocGenerator.open();
+    } catch (error) {
+      console.error("Error while generating PDF:", error);
+    }
+  };
+  
+  const viewPdf = () => {
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
+
+    try {
+      const pdfDoc = htmlToPdfmake(htmlContent);
+      const docDefinition = { content: pdfDoc };
+
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      pdfDocGenerator.open();
+    } catch (error) {
+      console.error("Error while viewing PDF:", error);
+    }
+  };
+
+
+
+  const allInOne = async () => {
+    try {
+      await submitFormData();
+      
+      localStorage.setItem("shouldGeneratePdfAndSendEmail", "true");
+      
+      window.location.reload();
+    } catch (error) {
+      console.error("Une erreur est survenue:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const handlePostReload = async () => {
+      const shouldProcess = localStorage.getItem("shouldGeneratePdfAndSendEmail");
+      
+      if (shouldProcess === "true") {
+        try {
+          const pdfBase64 = await generatePdf();
+          await sendEmail();
+
+          localStorage.removeItem("shouldGeneratePdfAndSendEmail");
+        } catch (error) {
+          console.error("Error in post-reload processing:", error);
+        }
+      }
+    };
+
+    setTimeout(() => {
+      handlePostReload();
+    }, 1000);
+  }, []);
+
+  
 
   return (
     <>
@@ -360,7 +427,7 @@ const viewPdf = () => {
               Envoyer le formulaire
             </button>
             <button
-              onClick={viewPdf}
+              onClick={generatePdf}
               style={{
                 marginTop: "10px",
                 padding: "10px 20px",
@@ -374,7 +441,21 @@ const viewPdf = () => {
               Générer le PDF
             </button>
             <button
-              onClick={sendEmail}
+              onClick={viewPdf}
+              style={{
+                marginTop: "10px",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "5px",
+                background: "orange",
+                color: "white",
+                cursor: "pointer",
+              }}
+            >
+              view le PDF
+            </button>
+            <button
+              onClick={allInOne}
               style={{
                 marginTop: "10px",
                 padding: "10px 20px",
