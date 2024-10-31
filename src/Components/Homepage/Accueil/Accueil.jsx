@@ -9,7 +9,6 @@ import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
 const Accueil = ({ avocatInfo, etudeInfo }) => {
   const dispatch = useDispatch();
-console.log(etudeInfo);
 
   useEffect(() => {
     dispatch(fetchActivities());
