@@ -97,7 +97,7 @@ const UploadFile = () => {
     resetAllData();
     localStorage.setItem("generatePdfAfterReload", "true");
     window.location.reload();
-  };
+  }; 
 
   const submitFormData = async () => {
     // if (!validateFormData()) {
@@ -293,10 +293,7 @@ const UploadFile = () => {
         }
       }
     };
-
-    setTimeout(() => {
       handlePostReload();
-    }, 1000);
   }, []);
 
   return (

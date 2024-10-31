@@ -22,7 +22,9 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
   const location = useLocation();
+  const[isEmailSent, setIsEmailSent]= useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingEmail, setLoadingEmail] = useState(false);
   const { user } = useAuth();
   const { updateJsonData } = useNavigation();
   const {formulaireData} = useUpdateDataContext()
@@ -45,6 +47,7 @@ const UploadFile = () => {
     provisionData,
     clientData,
   } = useUpdateDataContext();
+
   const { fileInfos, setFileInfos } = useUpdateDataContext();
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupDifference, setShowPopupDifference] = useState(false);
@@ -97,17 +100,18 @@ const UploadFile = () => {
     window.location.reload();
   };
 
-  const updateFormData = async () => {
+  const submitFormData = async () => {
+    // if (!validateFormData()) {
+    //   return;
+    // }
     const idFormulaire = formulaireData?.sIDFormulaire;
-  
-    
-    
+
     setLoading(true);
     try {
       const response = await fetch(
-        `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`, 
+        `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -118,20 +122,54 @@ const UploadFile = () => {
           }),
         }
       );
-  
+
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
       } else {
-        const errorBody = await response.text(); 
-        console.error("Failed to submit form:", response.status, errorBody);
+        console.error("Failed to submit form:", response.statusText);
       }
     } catch (error) {
       console.error("Error while submitting form:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
+  // const updateFormData = async () => {
+  //   const idFormulaire = formulaireData?.sIDFormulaire;
+  
+    
+    
+  //   setLoading(true);
+  //   try {
+  //     const response = await fetch(
+  //       `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`, 
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           ...jsonToUpdate,
+  //           sStatutFormulaire: "transmis",
+  //           sFichiersJoints: filesName.join(","),
+  //         }),
+  //       }
+  //     );
+  
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log("Form submitted successfully:", result);
+  //     } else {
+  //       const errorBody = await response.text(); 
+  //       console.error("Failed to submit form:", response.status, errorBody);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error while submitting form:", error);
+  //   } finally {
+  //     setLoading(false); 
+  //   }
+  // };
   
 
   const generateAndViewPdf = () => {
@@ -148,9 +186,35 @@ const UploadFile = () => {
     }
   };
 
+
+
+
+
+  const generatePdf = () => {
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
+
+    return new Promise((resolve, reject) => {
+      try {
+        const pdfDoc = htmlToPdfmake(htmlContent);
+        const docDefinition = { content: pdfDoc };
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+
+        pdfDocGenerator.getBase64((data) => {
+          resolve(data);
+        });
+      } catch (error) {
+        reject(error);
+        console.error("Error while generating PDF:", error);
+      }
+    });
+  };
+
+
   setTimeout(() => {
     if (localStorage.getItem("generatePdfAfterReload") == "true") {
-      generateAndViewPdf();
+      viewPdf();
       localStorage.removeItem("generatePdfAfterReload");
     }
   }, 1000);
@@ -179,9 +243,122 @@ const UploadFile = () => {
     document.getElementById("file-upload").click();
   };
 
+  const generateDateSys = () => {
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    const milliseconds = String(now.getMilliseconds())
+      .padStart(3, "0")
+      .slice(0, 2);
+
+    return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
+  };
+  const DateSys = generateDateSys();
+  const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
+  const referencepdf = `${DateSys}_${fullName}_Formulaire taxation ordinaire`;
+  const name = avocatsData[0]?.nom;
+
+
+  const sendEmail = async () => {
+    setLoadingEmail(true); 
+    try {
+      const pdfBase64 = await generatePdf();
+
+      const emailData = {
+        sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+        sFullName: fullName,
+        sNomAvocat: name,
+        sDateSys: DateSys,
+        sReferencepdf: referencepdf,
+        spdfBase64: pdfBase64,
+      };
+
+ 
+      const response = await fetch(
+        "http://192.168.10.10/Utilisateur/Email/InfoEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailData),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Email sent successfully:", result);
+        setIsEmailSent(true);
+      } else {
+        console.error("Failed to send email:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error while sending email:", error);
+    } finally {
+      setLoadingEmail(false);  
+    }
+  };
+
+  const viewPdf = () => {
+    const htmlContent = document.getElementById(
+      "taxation-form-content"
+    ).innerHTML;
+
+    try {
+      const pdfDoc = htmlToPdfmake(htmlContent);
+      const docDefinition = { content: pdfDoc };
+
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      pdfDocGenerator.open();
+      setIsEmailSent(false)
+    } catch (error) {
+      console.error("Error while viewing PDF:", error);
+    }
+  };
+
+  const allInOne = async () => {
+    try {
+      await submitFormData();
+      console.log("the data is okkkk, the page will reload but it s gwenchana");
+
+      localStorage.setItem("shouldGeneratePdfAndSendEmail", "true");
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Une erreur est survenue:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const handlePostReload = async () => {
+      const shouldProcess = localStorage.getItem(
+        "shouldGeneratePdfAndSendEmail"
+      );
+
+      if (shouldProcess === "true") {
+        try {
+          const pdfBase64 = await generatePdf();
+          await sendEmail();
+
+          localStorage.removeItem("shouldGeneratePdfAndSendEmail");
+        } catch (error) {
+          console.error("Error in post-reload processing:", error);
+        }
+      }
+    };
+      handlePostReload();
+  }, []);
+
   return (
     <>
       {loading && <div className="loading-spinner1"></div>}
+      {loadingEmail && <div className="loading-spinner1"></div>}
       <div>
         <UploadFileGuide />
       </div>
@@ -257,13 +434,25 @@ const UploadFile = () => {
 
           />
           <div>
-            <button onClick={updateFormData}>
+            <button onClick={submitFormData}>
               <FaCheck style={{ color: "green", fontSize: "30px" }} />
               Envoyer
             </button>
-            <button onClick={generateAndViewPdf}>
+            <button onClick={generatePdf}>
               <FaCheck style={{ color: "green", fontSize: "30px" }} />
               Generer le pdf 
+            </button>
+            <button onClick={sendEmail}>
+              <FaCheck style={{ color: "green", fontSize: "30px" }} />
+              email
+            </button>
+            <button onClick={viewPdf}>
+              <FaCheck style={{ color: "green", fontSize: "30px" }} />
+              view le pdf 
+            </button>
+            <button onClick={allInOne}>
+              <FaCheck style={{ color: "green", fontSize: "30px" }} />
+              all in one le pdf 
             </button>
             {showPopup && (
               <RequiredMessage
