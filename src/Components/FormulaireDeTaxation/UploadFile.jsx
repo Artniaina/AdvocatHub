@@ -16,15 +16,16 @@ import htmlToPdfmake from "html-to-pdfmake";
 import { useAuth } from "../../Hooks/AuthContext";
 import { useNavigation } from "../../Hooks/NavigationListenerContext";
 import "../../Styles/spinner.css";
+import SuccessPopup  from "../PopUp/PopUpSuccess"
+
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
   const location = useLocation();
-  const [base64String, setBase64String] = useState("");
+  const[isEmailSent, setIsEmailSent]= useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
-  const { updateJsonData } = useNavigation();
+  const [loadingEmail, setLoadingEmail] = useState(false);
   const { jsonToSend } = useGeneraliteContext();
   const { resetAllData } = useGeneraliteContext();
   const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
@@ -133,8 +134,6 @@ const UploadFile = () => {
     }
   };
 
-
-
   const generatePdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -147,7 +146,7 @@ const UploadFile = () => {
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
 
         pdfDocGenerator.getBase64((data) => {
-          resolve(data);          
+          resolve(data);
         });
       } catch (error) {
         reject(error);
@@ -207,8 +206,8 @@ const UploadFile = () => {
   const referencepdf = `${DateSys}_${fullName}_Formulaire taxation ordinaire`;
   const name = avocatsData[0].nom;
 
-
   const sendEmail = async () => {
+    setLoadingEmail(true); 
     try {
       const pdfBase64 = await generatePdf();
 
@@ -235,35 +234,18 @@ const UploadFile = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Email sent successfully:", result);
+        setIsEmailSent(true);
       } else {
         console.error("Failed to send email:", response.statusText);
       }
     } catch (error) {
       console.error("Error while sending email:", error);
+    } finally {
+      setLoadingEmail(false);  
     }
   };
 
-  const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById(
-      "taxation-form-content"
-    ).innerHTML;
-  
-    try {
-      const pdfDoc = htmlToPdfmake(htmlContent);
-      const docDefinition = { content: pdfDoc };
-  
-      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-      
-      pdfDocGenerator.getBase64((data) => {
-        const base64String = data;
-      });
-      
-      pdfDocGenerator.open();
-    } catch (error) {
-      console.error("Error while generating PDF:", error);
-    }
-  };
-  
+
   const viewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -275,19 +257,18 @@ const UploadFile = () => {
 
       const pdfDocGenerator = pdfMake.createPdf(docDefinition);
       pdfDocGenerator.open();
+      setIsEmailSent(false)
     } catch (error) {
       console.error("Error while viewing PDF:", error);
     }
   };
 
-
-
   const allInOne = async () => {
     try {
       await submitFormData();
-      
+
       localStorage.setItem("shouldGeneratePdfAndSendEmail", "true");
-      
+
       window.location.reload();
     } catch (error) {
       console.error("Une erreur est survenue:", error);
@@ -297,8 +278,10 @@ const UploadFile = () => {
 
   useEffect(() => {
     const handlePostReload = async () => {
-      const shouldProcess = localStorage.getItem("shouldGeneratePdfAndSendEmail");
-      
+      const shouldProcess = localStorage.getItem(
+        "shouldGeneratePdfAndSendEmail"
+      );
+
       if (shouldProcess === "true") {
         try {
           const pdfBase64 = await generatePdf();
@@ -316,11 +299,10 @@ const UploadFile = () => {
     }, 1000);
   }, []);
 
-  
-
   return (
     <>
       {loading && <div className="loading-spinner1"></div>}
+      {loadingEmail && <div className="loading-spinner1"></div>}
       <div>
         <UploadFileGuide />
       </div>
@@ -397,81 +379,27 @@ const UploadFile = () => {
           />
           <div>
             <button
-              type="button"
-              onClick={triggerFileUpload}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                background: "blue",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              <IoAddCircle style={{ marginRight: "5px" }} />
-              Ajouter un fichier
-            </button>
-            <button
-              onClick={submitFormData}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                background: "green",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              Envoyer le formulaire
-            </button>
-            <button
-              onClick={generatePdf}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                background: "orange",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              Générer le PDF
-            </button>
-            <button
-              onClick={viewPdf}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                background: "orange",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              view le PDF
-            </button>
-            <button
               onClick={allInOne}
               style={{
                 marginTop: "10px",
                 padding: "10px 20px",
-                border: "none",
                 borderRadius: "5px",
-                background: "purple",
-                color: "white",
                 cursor: "pointer",
               }}
             >
-              Envoyer email
+              <FaCheck style={{ color: "green", fontSize: "40px" }} />
+              Envoyer
             </button>
             {showPopup && (
               <RequiredMessage
                 onClose={handleClosePopup}
                 nomChamp={fieldName}
+              />
+            )}
+              {isEmailSent && (
+              <SuccessPopup
+                onGenerateAndSendPDF={viewPdf}
+                content={"Formulaire taxation ordinaire"}
               />
             )}
             {honoraireToCompare.map((data, index) => {
@@ -494,6 +422,7 @@ const UploadFile = () => {
             })}
           </div>
         </div>
+
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
         <FormulaireDeTaxationPDF />

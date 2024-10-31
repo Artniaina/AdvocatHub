@@ -23,7 +23,7 @@
   }
   
   .success-popup-content2 {
-    background: white;
+    background-color: white;
     padding: 70px;
     width: 500px;
     border-radius: 4px;
@@ -36,7 +36,7 @@
   }
   
   .success-popup-button {
-    background: #6e1992;
+    background-color: #6e1992;
     color: white;
     border: none;
     padding: 10px 20px;
