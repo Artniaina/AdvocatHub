@@ -264,6 +264,7 @@ const UploadFile = () => {
   const name = avocatsData[0]?.nom;
 
 
+
   const sendEmail = async () => {
     setLoadingEmail(true); 
     try {
@@ -352,7 +353,9 @@ const UploadFile = () => {
         }
       }
     };
+    setTimeout(() => {
       handlePostReload();
+    }, 5000);
   }, []);
 
   return (

@@ -10,8 +10,6 @@ const PrisedePosition = ({formulaire}) => {
   const priseDePosition = useRef(null);
   const [content, setContent] = useState(editorContents.position);
 
-  console.log(content);
-
   const handleClosePopup = () => {
     setShowWarning(false);
   };

@@ -61,8 +61,7 @@ const Collaborateurs = () => {
       resetFields(); 
     }
   };
-  
-  console.log("name",name);
+
 
   const resetFields = () => {
     setName("");

@@ -12,7 +12,6 @@ import GuideAffaire from "./Affaire/GuideAffaire";
 
 
 const Generalite = ({ formulaire }) => {
-  console.log(formulaire);
   
   return (
     <>

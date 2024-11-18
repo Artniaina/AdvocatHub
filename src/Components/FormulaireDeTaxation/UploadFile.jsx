@@ -202,9 +202,9 @@ const UploadFile = () => {
   };
 
   const DateSys = generateDateSys();
-  const fullName = `${avocatsData[0].nom} ${avocatsData[0].prenom}`;
+  const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
   const referencepdf = `${DateSys}_${fullName}_Formulaire taxation ordinaire`;
-  const name = avocatsData[0].nom;
+  const name = avocatsData[0]?.nom;
 
   const sendEmail = async () => {
     setLoadingEmail(true); 
@@ -219,7 +219,11 @@ const UploadFile = () => {
         sReferencepdf: referencepdf,
         spdfBase64: pdfBase64,
       };
-
+      
+if (!emailData) {
+  console.log("tsa mety");
+  
+}
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/Email/InfoEmail",
         {
@@ -293,7 +297,10 @@ const UploadFile = () => {
         }
       }
     };
+    setTimeout(() => {
+      
       handlePostReload();
+    }, 1000);
   }, []);
 
   return (
