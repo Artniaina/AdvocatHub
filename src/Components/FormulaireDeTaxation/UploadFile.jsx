@@ -201,26 +201,42 @@ const UploadFile = () => {
     return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
   };
   const [dateSys, setDateSys] = useState(localStorage.getItem("dateSys") || generateDateSys());
-  const [fullName, setFullName] = useState(localStorage.getItem("fullName") || "");
-  const [referencePdf, setReferencePdf] = useState(localStorage.getItem("referencePdf") || "");
-  const [name, setName] = useState(localStorage.getItem("name") || "");
-
-  const sendEmail = async () => {
+  const [fullName, setFullName] = useState(localStorage.getItem("fullName") || `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`);
+  const [referencePdf, setReferencePdf] = useState(localStorage.getItem("referencePdf") || `${dateSys}_${fullName}_Formulaire taxation ordinaire`);
+  const [name, setName] = useState(localStorage.getItem("name") || avocatsData[0]?.nom);
+  
+  useEffect(() => {
     if (avocatsData && avocatsData[0]) {
       const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
       const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
+      const name = avocatsData[0]?.nom;
+  
       setFullName(fullName);
       setReferencePdf(referencePdf);
-      setName(avocatsData[0]?.nom);
-
+      setName(name);
+  
       localStorage.setItem("fullName", fullName);
       localStorage.setItem("referencePdf", referencePdf);
-      localStorage.setItem("name", avocatsData[0]?.nom);
+      localStorage.setItem("name", name);
       localStorage.setItem("dateSys", dateSys);
     }
+  }, [avocatsData, dateSys]);  
 
+  const sendEmail = async () => {
     setLoadingEmail(true);
+  
     try {
+      // Ensure you get the values from localStorage
+      const fullName = localStorage.getItem("fullName");
+      const referencePdf = localStorage.getItem("referencePdf");
+      const name = localStorage.getItem("name");
+      const dateSys = localStorage.getItem("dateSys");
+  
+      if (!fullName || !referencePdf || !name || !dateSys) {
+        console.error("Some required data is missing.");
+        return;
+      }
+  
       const pdfBase64 = await generatePdf();
       const emailData = {
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
@@ -230,7 +246,8 @@ const UploadFile = () => {
         sReferencepdf: referencePdf,
         spdfBase64: pdfBase64,
       };
-
+  
+      // Ensure all data is available
       if (
         !emailData.sEmailRecepteur ||
         !emailData.sFullName ||
@@ -242,8 +259,7 @@ const UploadFile = () => {
         console.error("Certaines données sont manquantes :", emailData);
         return;
       }
-
-      // Envoi de l'email
+  
       const response = await fetch("http://192.168.10.10/Utilisateur/Email/InfoEmail", {
         method: "POST",
         headers: {
@@ -251,12 +267,13 @@ const UploadFile = () => {
         },
         body: JSON.stringify(emailData),
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         console.log("Email envoyé avec succès :", result);
         setIsEmailSent(true);
-
+  
+        // Clean up localStorage after email is successfully sent
         localStorage.removeItem("fullName");
         localStorage.removeItem("referencePdf");
         localStorage.removeItem("name");
@@ -270,6 +287,7 @@ const UploadFile = () => {
       setLoadingEmail(false);
     }
   };
+  
 
 
   const viewPdf = () => {
