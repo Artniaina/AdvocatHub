@@ -205,28 +205,11 @@ const UploadFile = () => {
   const [referencePdf, setReferencePdf] = useState(localStorage.getItem("referencePdf") || `${dateSys}_${fullName}_Formulaire taxation ordinaire`);
   const [name, setName] = useState(localStorage.getItem("name") || avocatsData[0]?.nom);
   
-  useEffect(() => {
-    if (avocatsData && avocatsData[0]) {
-      const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
-      const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
-      const name = avocatsData[0]?.nom;
-  
-      setFullName(fullName);
-      setReferencePdf(referencePdf);
-      setName(name);
-  
-      localStorage.setItem("fullName", fullName);
-      localStorage.setItem("referencePdf", referencePdf);
-      localStorage.setItem("name", name);
-      localStorage.setItem("dateSys", dateSys);
-    }
-  }, [avocatsData, dateSys]);  
-
+ 
   const sendEmail = async () => {
     setLoadingEmail(true);
   
     try {
-      // Ensure you get the values from localStorage
       const fullName = localStorage.getItem("fullName");
       const referencePdf = localStorage.getItem("referencePdf");
       const name = localStorage.getItem("name");
@@ -308,6 +291,23 @@ const UploadFile = () => {
   };
 
   const allInOne = async () => {
+
+      if (avocatsData && avocatsData[0]) {
+        const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
+        const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
+        const name = avocatsData[0]?.nom;
+    
+        setFullName(fullName);
+        setReferencePdf(referencePdf);
+        setName(name);
+    
+        localStorage.setItem("fullName", fullName);
+        localStorage.setItem("referencePdf", referencePdf);
+        localStorage.setItem("name", name);
+        localStorage.setItem("dateSys", dateSys);
+      }
+ 
+  
     try {
       await submitFormData();
 

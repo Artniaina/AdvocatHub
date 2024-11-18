@@ -223,14 +223,11 @@ const UploadFile = () => {
 
     return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
   };
-  const Full = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
-  const nom = avocatsData[0]?.nom;
+
   const [dateSys, setDateSys] = useState(localStorage.getItem("dateSys") || generateDateSys());
-  const [fullName, setFullName] = useState( Full || localStorage.getItem("fullName") );
-  const [referencePdf, setReferencePdf] = useState(`${dateSys}_${fullName}_Formulaire taxation ordinaire` || localStorage.getItem("referencePdf"));
-  const [name, setName] = useState(nom || localStorage.getItem("name")  );
-
-
+  const [fullName, setFullName] = useState( localStorage.getItem("fullName" || `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`) );
+  const [referencePdf, setReferencePdf] = useState( localStorage.getItem("referencePdf") || `${dateSys}_${fullName}_Formulaire taxation ordinaire` );
+  const [name, setName] = useState( localStorage.getItem("name") ||avocatsData[0]?.nom );
 
 
   const sendEmail = async () => {
@@ -238,23 +235,6 @@ const UploadFile = () => {
       console.log("Email has already been sent.");
       return;  
     }
-
-    if (avocatsData && avocatsData[0]) {
-      const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
-      const referencepdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
-      const name = avocatsData[0]?.nom;
-  
-      if (!localStorage.getItem("fullName")) {
-        setFullName(fullName);
-        setReferencePdf(referencepdf);
-        setName(name);
-        localStorage.setItem("fullName", fullName);
-        localStorage.setItem("referencePdf", referencepdf);
-        localStorage.setItem("name", name);
-        localStorage.setItem("dateSys", dateSys);
-      }
-    }
-  
     setLoadingEmail(true); 
     try {
       const pdfBase64 = await generatePdf();
@@ -314,6 +294,23 @@ const UploadFile = () => {
   };
 
   const allInOne = async () => {
+    
+    if (avocatsData && avocatsData[0]) {
+      const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
+      const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
+      const name = avocatsData[0]?.nom;
+  
+      setFullName(fullName);
+      setReferencePdf(referencePdf);
+      setName(name);
+  
+      localStorage.setItem("fullName", fullName);
+      localStorage.setItem("referencePdf", referencePdf);
+      localStorage.setItem("name", name);
+      localStorage.setItem("dateSys", dateSys);
+    }
+
+
     try {
       await submitFormData(); 
       console.log("the data is okkkk, the page will reload but it s gwenchana");
