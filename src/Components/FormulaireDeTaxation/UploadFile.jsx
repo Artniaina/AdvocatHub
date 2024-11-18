@@ -24,6 +24,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const UploadFile = () => {
   const location = useLocation();
   const[isEmailSent, setIsEmailSent]= useState(false);
+  
   const [loading, setLoading] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const { jsonToSend } = useGeneraliteContext();
@@ -187,7 +188,6 @@ const UploadFile = () => {
 
   const generateDateSys = () => {
     const now = new Date();
-
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const day = String(now.getDate()).padStart(2, "0");
@@ -200,52 +200,74 @@ const UploadFile = () => {
 
     return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
   };
-
-  const DateSys = generateDateSys();
-  const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
-  const referencepdf = `${DateSys}_${fullName}_Formulaire taxation ordinaire`;
-  const name = avocatsData[0]?.nom;
+  const [dateSys, setDateSys] = useState(localStorage.getItem("dateSys") || generateDateSys());
+  const [fullName, setFullName] = useState(localStorage.getItem("fullName") || "");
+  const [referencePdf, setReferencePdf] = useState(localStorage.getItem("referencePdf") || "");
+  const [name, setName] = useState(localStorage.getItem("name") || "");
 
   const sendEmail = async () => {
-    setLoadingEmail(true); 
+    if (avocatsData && avocatsData[0]) {
+      const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
+      const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
+      setFullName(fullName);
+      setReferencePdf(referencePdf);
+      setName(avocatsData[0]?.nom);
+
+      localStorage.setItem("fullName", fullName);
+      localStorage.setItem("referencePdf", referencePdf);
+      localStorage.setItem("name", avocatsData[0]?.nom);
+      localStorage.setItem("dateSys", dateSys);
+    }
+
+    setLoadingEmail(true);
     try {
       const pdfBase64 = await generatePdf();
-
       const emailData = {
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,
         sNomAvocat: name,
-        sDateSys: DateSys,
-        sReferencepdf: referencepdf,
+        sDateSys: dateSys,
+        sReferencepdf: referencePdf,
         spdfBase64: pdfBase64,
       };
-      
-if (!emailData) {
-  console.log("tsa mety");
-  
-}
-      const response = await fetch(
-        "http://192.168.10.10/Utilisateur/Email/InfoEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(emailData),
-        }
-      );
+
+      if (
+        !emailData.sEmailRecepteur ||
+        !emailData.sFullName ||
+        !emailData.sNomAvocat ||
+        !emailData.sDateSys ||
+        !emailData.sReferencepdf ||
+        !emailData.spdfBase64
+      ) {
+        console.error("Certaines données sont manquantes :", emailData);
+        return;
+      }
+
+      // Envoi de l'email
+      const response = await fetch("http://192.168.10.10/Utilisateur/Email/InfoEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Email sent successfully:", result);
+        console.log("Email envoyé avec succès :", result);
         setIsEmailSent(true);
+
+        localStorage.removeItem("fullName");
+        localStorage.removeItem("referencePdf");
+        localStorage.removeItem("name");
+        localStorage.removeItem("dateSys");
       } else {
-        console.error("Failed to send email:", response.statusText);
+        console.error("Échec de l'envoi de l'email :", response.statusText);
       }
     } catch (error) {
-      console.error("Error while sending email:", error);
+      console.error("Erreur lors de l'envoi de l'email :", error);
     } finally {
-      setLoadingEmail(false);  
+      setLoadingEmail(false);
     }
   };
 
