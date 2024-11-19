@@ -23,6 +23,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const UploadFile = () => {
   const location = useLocation();
   const[isEmailSent, setIsEmailSent]= useState(false);
+
   const [loading, setLoading] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const { user } = useAuth();
@@ -230,11 +231,12 @@ const UploadFile = () => {
   const [name, setName] = useState( localStorage.getItem("name") ||avocatsData[0]?.nom );
 
 
-  const sendEmail = async () => {
-    if (isEmailSent) {
-      console.log("Email has already been sent.");
-      return;  
-    }
+const sendEmail = async () => {
+  if (isEmailSent) {
+    console.log("Email has already been sent.");
+    return;  
+  }
+  
     setLoadingEmail(true); 
     try {
       const pdfBase64 = await generatePdf();
@@ -259,9 +261,8 @@ const UploadFile = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Email sent successfully:", result);
-        setIsEmailSent(true);  // Update the flag to prevent duplicate sends
-  
-        // Remove the email-related data from localStorage after email is sent
+        setIsEmailSent(true);
+
         localStorage.removeItem("fullName");
         localStorage.removeItem("referencePdf");
         localStorage.removeItem("name");
@@ -275,7 +276,6 @@ const UploadFile = () => {
       setLoadingEmail(false);  
     }
   };
-  
   const viewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -326,27 +326,26 @@ const UploadFile = () => {
     }
   };
   
-
   useEffect(() => {
     const handlePostReload = async () => {
+     
       const shouldProcess = localStorage.getItem("shouldGeneratePdfAndSendEmail");
-  
+      
       if (shouldProcess === "true" && !isEmailSent) { 
         try {
           const pdfBase64 = await generatePdf();
           await sendEmail(); 
   
           localStorage.removeItem("shouldGeneratePdfAndSendEmail");
-          setIsEmailSent(true); 
         } catch (error) {
           console.error("Error in post-reload processing:", error);
         }
       }
     };
-    setTimeout(() => {
-      handlePostReload(); 
-    }, 1000);
-  }, [isEmailSent]);
+  
+    handlePostReload();
+  }, [isEmailSent]); 
+  
   
 
   return (

@@ -105,9 +105,9 @@ const Login = () => {
     <div className="headerAuthent">
       <h2 className="AppAuthent">Login</h2>
       <form onSubmit={handleSubmit} className="loginForm">
-        <div>
+        <div >
           <label className="label">Email:</label>
-          <br />
+        
           <input
             className="input"
             type="email"
@@ -130,7 +130,7 @@ const Login = () => {
               }}
             />
           )}
-          <br />
+        
           <div className="passwordInputContainer">
             <input
               className="input"

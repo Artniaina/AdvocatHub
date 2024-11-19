@@ -144,7 +144,7 @@ const CaseDescription = () => {
         <h3>a) Description de l'affaire</h3>
         {editors.slice(0, 5).map(({ id, label }) => (
           <div key={id} ref={editorRefs.current[id]}>
-            <p className="spanish">{label}</p>
+            <div className="spanish">{label}</div>
             <Editor
               id={id}
               onChange={(content) => handleEditorChange(id, content)}

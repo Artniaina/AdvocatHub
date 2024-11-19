@@ -3,10 +3,11 @@ import PopupNoteHonoraire from "./PopupNoteHonoraire";
 import { IoAddCircle } from "react-icons/io5";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
 import { useUpdateDataContext } from "../../../Hooks/UpdatedDataContext";
- 
+
 const Facture = () => {
-  const {noteHonoraire, setNoteHonoraire} = useUpdateDataContext();
-  const { noteHonoraireToCompare, setNoteHonoraireToCompare } = useGeneraliteContext();
+  const { noteHonoraire, setNoteHonoraire } = useUpdateDataContext();
+  const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
+    useGeneraliteContext();
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedData, setSelectedData] = useState({
@@ -129,42 +130,22 @@ const Facture = () => {
           </select>
         </div>
       )}
-      <div>
-        <p style={{ display: "flex" }}>
-          Ajouter une note d'honoraire{" "}
-          <div
-            className="btnAdd"
-            onClick={handleShowPopup}
-            style={{
-              color: "green",
-              fontSize: "40px",
-              marginLeft: "12px",
-              marginBottom: "-45px",
-            }}
-          >
-            <IoAddCircle />
-          </div>
-        </p>
-        <div style={{ display: "flex" }}>
-          <p>Nombre d'heures facturées:</p>
-          <div>
-            <input
-              className="hour"
-              type="text"
-              placeholder="0h"
-              value={selectedData.hours}
-              readOnly
-            />
-            <input
-              className="hour"
-              type="text"
-              placeholder="0mn"
-              value={selectedData.minutes}
-              readOnly
-            />
-          </div>
+      <div style={{ display: "flex" }}>
+        Ajouter une note d'honoraire{" "}
+        <div
+          className="btnAdd"
+          onClick={handleShowPopup}
+          style={{
+            color: "green",
+            fontSize: "40px",
+            marginLeft: "12px",
+            marginBottom: "-45px",
+          }}
+        >
+          <IoAddCircle />
         </div>
       </div>
+
       <div className="honoraires ">
         <form onSubmit={handleSubmit}>
           <label htmlFor="honorairesHtva">Aux horaires HTVA facturés :</label>
@@ -294,7 +275,7 @@ const Facture = () => {
         </form>
         {showPopup && (
           <PopupNoteHonoraire
-          noteHonoraire={noteHonoraire}
+            noteHonoraire={noteHonoraire}
             onClose={handleClosePopup}
             onSubmitData={handleDataFromPopup}
           />

@@ -93,6 +93,7 @@
   max-height: 100vh;
   width: 400px;
   display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
   flex-direction: column;

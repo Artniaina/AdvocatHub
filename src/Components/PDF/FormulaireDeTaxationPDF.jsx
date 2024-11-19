@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import '../../../node_modules/quill/dist/quill.snow.css';
+import "../../../node_modules/quill/dist/quill.snow.css";
 
 const styles = {
   container: {
@@ -175,73 +175,75 @@ const FormulaireDeTaxationPDF = () => {
     <div style={styles.container}>
       <div style={{ marginBottom: "10px" }}>
         <table style={styles.header}>
-          <tr>
-            <th style={{ margin: "25px", backgroundColor: "#fff" }}>
-              {" "}
-              DEMANDE D'INFORMATIONS POUR TAXATION
-            </th>
-          </tr>
+          <thead>
+            <tr>
+              <th style={{ margin: "25px", backgroundColor: "#fff" }}>
+                DEMANDE D'INFORMATIONS POUR TAXATION
+              </th>
+            </tr>
+          </thead>
         </table>
-        <p style={styles.remarkText}>
+
+        <div style={styles.remarkText}>
           <span style={styles.remark}>REMARQUE:</span> LA TAXATION NE POURRA
           ÊTRE TRAITÉE SI LE FORMULAIRE EST INCOMPLET ET/OU SI LES DOCUMENTS
           LISTÉS NE SONT PAS JOINTS !
-        </p>
+        </div>
       </div>
       <div style={styles.sectionDivider}></div>
 
       <div style={{ marginBottom: "10px" }}>
-        <p style={styles.sectionTitle}>1. GENERALITE</p>
-        <p style={styles.subSectionTitle}>a) AVOCAT (Titulaire du dossier)</p>
+        <div style={styles.sectionTitle}>1. GENERALITE</div>
+        <div style={styles.subSectionTitle}>a) AVOCAT (Titulaire du dossier)</div>
 
         <table style={styles.table}>
           <tbody>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>
+              <td colSpan="28" style={styles.tableCellBold}>
                 Nom:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colSpan="29" style={styles.tableCell}>
                 {avocat.nom || ""}
               </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>
+              <td colSpan="28" style={styles.tableCellBold}>
                 Prénom:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colSpan="29" style={styles.tableCell}>
                 {avocat.prenom || ""}
               </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>
+              <td colSpan="28" style={styles.tableCellBold}>
                 {" "}
                 Adresse professionnelle:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colSpan="29" style={styles.tableCell}>
                 {avocat.adressePro || ""}
               </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>
+              <td colSpan="28" style={styles.tableCellBold}>
                 Date d'assermentation:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colSpan="29" style={styles.tableCell}>
                 {formatDate(avocat?.dateAssermentation) || ""}
               </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>
+              <td colSpan="28" style={styles.tableCellBold}>
                 Téléphone:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colSpan="29" style={styles.tableCell}>
                 {avocat.telephone || ""}
               </td>
             </tr>
             <tr>
-              <td colspan="28" style={styles.tableCellBold}>
+              <td colSpan="28" style={styles.tableCellBold}>
                 Email:
               </td>
-              <td colspan="29" style={styles.tableCell}>
+              <td colSpan="29" style={styles.tableCell}>
                 {decouperEmail(emailAvocat || "")}
               </td>
             </tr>
@@ -252,9 +254,9 @@ const FormulaireDeTaxationPDF = () => {
       <div style={styles.sectionDivider}></div>
 
       <div style={{ marginBottom: "10px" }}>
-        <p style={styles.subSectionTitle2}>
+        <div style={styles.subSectionTitle2}>
           Les collaborateurs ayant participé à la réalisation des prestations:
-        </p>
+        </div>
         <table style={styles.table}>
           <thead>
             <tr>
@@ -299,10 +301,10 @@ const FormulaireDeTaxationPDF = () => {
 
       <div style={styles.sectionDivider}></div>
       <div style={{ marginBottom: "10px" }}>
-        <p style={styles.subSectionTitle}>
+        <div style={styles.subSectionTitle}>
           b) Société d'avocats (à remplir uniquement si le mandat lui a été
           attribué)
-        </p>
+        </div>
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -354,7 +356,7 @@ const FormulaireDeTaxationPDF = () => {
       <div style={styles.sectionDivider}></div>
 
       <div style={{ marginBottom: "10px" }}>
-        <p style={styles.subSectionTitle}>c) CLIENT(S)</p>
+        <div style={styles.subSectionTitle}>c) CLIENT(S)</div>
         <table style={styles.table}>
           <thead>
             <tr>
@@ -403,7 +405,7 @@ const FormulaireDeTaxationPDF = () => {
       <div style={styles.sectionDivider}></div>
 
       <div style={{ marginBottom: "10px" }}>
-        <p style={styles.subSectionTitle}>d)AFFAIRE</p>
+        <div style={styles.subSectionTitle}>d)AFFAIRE</div>
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -538,26 +540,26 @@ const FormulaireDeTaxationPDF = () => {
 
       <div style={styles.sectionDivider}></div>
       <div>
-        <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
+        <div style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           2. DESCRIPTION DE L'AFFAIRE ET DES PRESTATIONS
-        </p>
-        <p style={styles.editorTitle}>a) Description de l'affaire</p>
+        </div>
+        <div style={styles.editorTitle}>a) Description de l'affaire</div>
         <div>
-          <p style={styles.editorHeader}>1) Mentionner les faits</p>
+          <div style={styles.editorHeader}>1) Mentionner les faits</div>
           <div
             dangerouslySetInnerHTML={{ __html: formulaire?.sContenu1 || "" }}
           />{" "}
         </div>
 
         <div>
-          <p style={styles.editorHeader}>
+          <div style={styles.editorHeader}>
             Enjeu de l'affaire
-            <p style={styles.miniText}>
+            <div style={styles.miniText}>
               (par exemple : l'enjeu financier de l'affaire, l'importance et le
               degré de difficulté de l'affaire, reprise de mandat en cours de
               procédure, etc.)
-            </p>
-          </p>
+            </div>
+          </div>
 
           <div
             dangerouslySetInnerHTML={{ __html: formulaire?.sContenu2 || "" }}
@@ -565,55 +567,55 @@ const FormulaireDeTaxationPDF = () => {
         </div>
 
         <div>
-          <p style={styles.editorHeader}>
+          <div style={styles.editorHeader}>
             Le(s) résultat(s) obtenu(s){" "}
-            <p style={styles.miniText}>
+            <div style={styles.miniText}>
               (par exemple : revirement jurisprudentiel ou jurisprudence
               constante, résultat exceptionnel, autorisations ou agréments
               obtenus...)
-            </p>
-          </p>
+            </div>
+          </div>
 
           <div
             dangerouslySetInnerHTML={{ __html: formulaire?.sContenu3 || "" }}
           />
         </div>
         <div>
-          <p style={styles.editorHeader}>
+          <div style={styles.editorHeader}>
             L'expérience et la notoriété de l'avocat{" "}
-            <p style={styles.miniText}>
+            <div style={styles.miniText}>
               (par exemple : spécialisation en lien avec la matiËre traitée,
               expérience professionnelle, autre(s) activité(s) en lien avec la
               profession, publications/ouvrages...)
-            </p>
-          </p>
+            </div>
+          </div>
 
           <div
             dangerouslySetInnerHTML={{ __html: formulaire?.sContenu4 || "" }}
           />
         </div>
         <div>
-          <p style={styles.editorHeader}>
+          <div style={styles.editorHeader}>
             La situation de fortune du client
-            <p style={styles.miniText}>
+            <div style={styles.miniText}>
               (assistance judiciaire abordée et/ou sollicitée, estimation des
               revenus moyens du mandant, risque de faillite...)
-            </p>
-          </p>
+            </div>
+          </div>
 
           <div
             dangerouslySetInnerHTML={{ __html: formulaire?.sContenu5 || "" }}
           />
         </div>
         <div>
-          <p style={styles.editorTitle}>b)Le travail effectué</p>
+          <div style={styles.editorTitle}>b)Le travail effectué</div>
 
-          <p style={{ ...styles.miniText, marginLeft: "50px" }}>
+          <div style={{ ...styles.miniText, marginLeft: "50px" }}>
             (prière de regrouper par types de prestations : par exemple
             correspondances, procédures, rédaction de documents, recherches,
             audiences, etc. et indiquer le temps mis en compte par catégories
             ainsi que le total des honoraires)
-          </p>
+          </div>
 
           <div
             dangerouslySetInnerHTML={{ __html: formulaire?.sContenu6 || "" }}
@@ -622,12 +624,12 @@ const FormulaireDeTaxationPDF = () => {
       </div>
 
       <div>
-        <p style={{ ...styles.sectionTitle, marginTop: "0px" }}>
+        <div style={{ ...styles.sectionTitle, marginTop: "0px" }}>
           3. HONORAIRES
-        </p>{" "}
+        </div>{" "}
         {noteHonoraire.map((note, index) => (
           <div>
-            <p>
+            <div>
               <span style={{ fontWeight: "bold", marginRight: "10px" }}>
                 Date
               </span>
@@ -648,7 +650,7 @@ const FormulaireDeTaxationPDF = () => {
                 Montant TTC
               </span>{" "}
               {note.totalHonoraireTTC || ""}
-            </p>
+            </div>
             <table key={note.id} style={styles.table}>
               <tbody>
                 <tr>
@@ -761,22 +763,24 @@ const FormulaireDeTaxationPDF = () => {
             </table>
           </div>
         ))}
-        <p style={{ fontSize: "13px", marginLeft: "10px" }}>
+        <div style={{ fontSize: "13px", marginLeft: "10px" }}>
           <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
             Observation particulières:
           </span>
           (prise en charge totale ou partielle par un tiers/assurance protection
           juridique du client,...)
-        </p>
+        </div>
         <div
           dangerouslySetInnerHTML={{ __html: formulaire?.sObservations || "" }}
         />
       </div>
-      <div  style={{
-            marginTop: "100px",
-            marginBottom: "0px",
-          }} >
-        <p
+      <div
+        style={{
+          marginTop: "100px",
+          marginBottom: "0px",
+        }}
+      >
+        <div
           style={{
             ...styles.sectionTitle,
             marginTop: "10px",
@@ -784,8 +788,8 @@ const FormulaireDeTaxationPDF = () => {
           }}
         >
           4. PRISE DE POSITION DE L'AVOCAT
-        </p>
-        <p
+        </div>
+        <div
           style={{
             ...styles.miniText,
             fontSize: "16px",
@@ -800,7 +804,7 @@ const FormulaireDeTaxationPDF = () => {
           dans son appréciation du dossier et ce qu'il vous parait important à
           souligner) prise en charge totale ou partielle par un tiers/assurance
           protection juridique du client,…)
-        </p>
+        </div>
 
         <div
           dangerouslySetInnerHTML={{
@@ -810,7 +814,7 @@ const FormulaireDeTaxationPDF = () => {
       </div>
 
       <div>
-        <p
+        <div
           style={{
             textDecoration: "underline",
             fontStyle: "italic",
@@ -820,7 +824,7 @@ const FormulaireDeTaxationPDF = () => {
         >
           {" "}
           Fichier(s) importé(s)
-        </p>
+        </div>
         <ul>
           <li>{formulaire?.sFichiersJoints || ""}</li>
         </ul>

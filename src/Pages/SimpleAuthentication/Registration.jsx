@@ -115,7 +115,7 @@ const Registration = () => {
           <label htmlFor="username" className="label">
             Username:
           </label>
-          <br />
+         
           <input
             id="username"
             className="input"
@@ -130,7 +130,7 @@ const Registration = () => {
           <label htmlFor="email" className="label">
             Email:
           </label>
-          <br />
+         
           <input
             id="email"
             className="input"
@@ -145,7 +145,6 @@ const Registration = () => {
           <label htmlFor="password" className="label">
             Password:
           </label>
-          <br />
           <div className="passwordInputContainer">
             <input
               id="password"
@@ -175,7 +174,7 @@ const Registration = () => {
           <label htmlFor="confirmPassword" className="label">
             Confirm Password:
           </label>
-          <br />
+         
           <div className="passwordInputContainer">
             <input
               id="confirmPassword"

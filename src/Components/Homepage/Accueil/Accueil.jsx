@@ -53,20 +53,20 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
     }
   };
 
-
   const formatPhoneNumber = (number) => {
     number = number || "";
     number = number.replace(/\D/g, "");
-  
+
     const formattedNumber = number.replace(
       /^(\d{3})(\d{2})(\d{2})(\d{3})(\d{2})$/,
       "+$1 $2 $3 $4 $5"
     );
-  
+
     return formattedNumber;
   };
-  const telephoneMobile=formatPhoneNumber(avocatInfo && avocatInfo.m_stelephoneMobile)
-
+  const telephoneMobile = formatPhoneNumber(
+    avocatInfo && avocatInfo.m_stelephoneMobile
+  );
 
   useEffect(() => {
     setIsDispensed(aj);
@@ -82,26 +82,26 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
         <div className="containerInfo">
           <p>
             Nom:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sNom}</strong>
           </p>
           <p>
             Prénom:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sPrenom}</strong>
           </p>
           <div className="p">
             <div className="b1" style={{ marginLeft: -5 }}>
               <p>
                 Genre:
-                <br />
+                
                 <strong>{avocatInfo && avocatInfo.m_sSexe}</strong>
               </p>
             </div>
             <div className="b">
               <p>
                 Nationalité:
-                <br />
+                
                 <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
               </p>
             </div>
@@ -109,39 +109,39 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           <hr />
           <p>
             Date de naissance:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_dDateNaissance}</strong>
           </p>
           <hr />
           <p>
             Lieu de naissance:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
           <p style={{ height: "200px" }}>
             Adresse privée:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
           </p>
           <p>
             Téléphone mobile:
-            <br />
+            
             <strong>{telephoneMobile}</strong>
           </p>
 
           <p>
             E-mail privé:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sEmailSecondaire}</strong>
           </p>
           <p>
             IBAN:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_IBAN}</strong>
           </p>
           <p>
             Code BIC:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_BIC}</strong>
           </p>
         </div>
@@ -156,59 +156,59 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
         <div className="containerInfo middle">
           <p>
             Identifiant Interne:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_NumInterne}</strong>
           </p>
           <p>
             Liste:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sLibelleliste}</strong>
           </p>
           <p>
             E-mail barreau:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_emailbarreau}</strong>
           </p>
           <p>
             E-mail professionnel:
-            <br />
+            
             <strong>{avocatInfo && avocatInfo.m_sEmailPro}</strong>
           </p>
           <p>
             Date d'assermentation:
-            <br />
+            
             <strong>
               {avocatInfo && formatDate(avocatInfo.m_dDateAssermentation)}
             </strong>
           </p>
           <p>
             Date d'avoué:
-            <br />
+            
             <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
           <p style={{ minHeight: "150px" }}>
             Langue parlées:
-            <br />
+            
             {langues.map((langue, index) => (
               <React.Fragment key={index}>
                 <strong>{langue}</strong>
-                <br />
+                
               </React.Fragment>
             ))}
           </p>
           <p style={{ height: "200px" }}>
             Activités préférentielles:
-            <br />
+            
             {activityNames.map((name, index) => (
               <React.Fragment key={index}>
                 <strong>{name}</strong>
-                <br />
+                
               </React.Fragment>
             ))}
           </p>
 
-          <p>
-            Assistance Judiciaire:
+          <div>
+            <p>Assistance Judiciaire:</p>
             <div className="bout">
               {aj == 1 ? (
                 <>
@@ -222,7 +222,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
                 </>
               )}
             </div>
-          </p>
+          </div>
         </div>
       </div>
       <div className="container" style={{ marginRight: "30px" }}>
@@ -235,62 +235,62 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
             <>
               <p>
                 Dénomination:
-                <br />
+                
                 <strong>{etudeInfo.m_sDénominationEtude}</strong>
               </p>
               <p>
                 Numéro voie:
-                <br />
+                
                 <strong>{etudeInfo.m_nNumVoie}</strong>
               </p>
               <p>
                 Adresse:
-                <br />
+                
                 <strong>{etudeInfo.m_sAdresse}</strong>
               </p>
               <p>
                 Complement d'adresse:
-                <br />
+                
                 <strong>{etudeInfo.m_sAdresseSuite}</strong>
               </p>
               <p>
                 Code postal:
-                <br />
+                
                 <strong>{etudeInfo.m_sCodePostale}</strong>
               </p>
               <p>
                 Localité:
-                <br />
+                
                 <strong>{etudeInfo.m_sLocalite}</strong>
               </p>
               <p>
                 BP:
-                <br />
+                
                 <strong>{etudeInfo.m_sboitepostal}</strong>
               </p>
               <p>
                 Code postal BP:
-                <br />
+                
                 <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
               </p>
               <p>
                 Localité BP:
-                <br />
+                
                 <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
               </p>
               <p>
                 Telehone fixe:
-                <br />
+                
                 <strong>{etudeInfo.m_IBAN}</strong>
               </p>
               <p>
                 Fax:
-                <br />
+                
                 <strong>{etudeInfo.m_sfax}</strong>
               </p>
               <p>
                 Site web:
-                <br />
+                
                 <strong>{etudeInfo.m_ssite}</strong>
               </p>
             </>
