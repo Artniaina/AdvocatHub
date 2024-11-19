@@ -20,8 +20,8 @@ const ListeFormulairePage = () => {
   const error = useSelector((state) => state.formulaireDraft.error);
 
   const [formulaires, setFormulaires] = useState([]);
-  const [showPopup, setShowPopup] = useState(false); // Pour afficher ou masquer le popup
-  const [formulaireToDelete, setFormulaireToDelete] = useState(null); // Stocke l'ID à supprimer
+  const [showPopup, setShowPopup] = useState(false); 
+  const [formulaireToDelete, setFormulaireToDelete] = useState(null); 
 
   useEffect(() => {
     if (user?.email) {

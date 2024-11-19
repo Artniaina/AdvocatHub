@@ -13,14 +13,12 @@ import FormulaireDeTaxationPDF from "../PDF/FormulaireDeTaxationPDF";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfmake from "html-to-pdfmake";
-import { useAuth } from "../../Hooks/AuthContext";
-import { useNavigation } from "../../Hooks/NavigationListenerContext";
 import "../../Styles/spinner.css";
 import SuccessPopup  from "../PopUp/PopUpSuccess"
 
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
+ 
 const UploadFile = () => {
   const location = useLocation();
   const[isEmailSent, setIsEmailSent]= useState(false);
@@ -230,8 +228,8 @@ const UploadFile = () => {
         spdfBase64: pdfBase64,
       };
   
-      // Ensure all data is available
-      if (
+
+      if ( 
         !emailData.sEmailRecepteur ||
         !emailData.sFullName ||
         !emailData.sNomAvocat ||
@@ -256,7 +254,7 @@ const UploadFile = () => {
         console.log("Email envoyé avec succès :", result);
         setIsEmailSent(true);
   
-        // Clean up localStorage after email is successfully sent
+
         localStorage.removeItem("fullName");
         localStorage.removeItem("referencePdf");
         localStorage.removeItem("name");

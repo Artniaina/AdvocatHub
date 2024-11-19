@@ -24,6 +24,13 @@ const UploadFile = () => {
   const location = useLocation();
   const[isEmailSent, setIsEmailSent]= useState(false);
 
+  const [count, setCount] = useState(0);
+
+  const refreshUI = () => {
+    setCount(count + 1); 
+    console.log("the data is refreshed");
+    // Increment state to refresh
+  };
   const [loading, setLoading] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const { user } = useAuth();
@@ -112,7 +119,7 @@ const UploadFile = () => {
       const response = await fetch(
         `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -136,24 +143,6 @@ const UploadFile = () => {
       setLoading(false);
     }
   };
-
-
-  const generateAndViewPdf = () => {
-    const htmlContent = document.getElementById(
-      "taxation-form-content"
-    ).innerHTML;
-
-    try {
-      const pdfDoc = htmlToPdfmake(htmlContent);
-      const docDefinition = { content: pdfDoc };
-      pdfMake.createPdf(docDefinition).open();
-    } catch (error) {
-      console.error("Error while generating PDF:", error);
-    }
-  };
-
-
-
 
 
   const generatePdf = () => {
@@ -230,17 +219,23 @@ const UploadFile = () => {
   const [referencePdf, setReferencePdf] = useState( localStorage.getItem("referencePdf") || `${dateSys}_${fullName}_Formulaire taxation ordinaire` );
   const [name, setName] = useState( localStorage.getItem("name") ||avocatsData[0]?.nom );
 
-
-const sendEmail = async () => {
-  if (isEmailSent) {
-    console.log("Email has already been sent.");
-    return;  
-  }
+  const sendEmail = async () => {
+    setLoadingEmail(true);
   
-    setLoadingEmail(true); 
     try {
-      const pdfBase64 = await generatePdf();
+      const fullName = localStorage.getItem("fullName");
+      const referencePdf = localStorage.getItem("referencePdf");
+      const name = localStorage.getItem("name");
+      const dateSys = localStorage.getItem("dateSys");
   
+      if (!fullName || !referencePdf || !name || !dateSys) {
+        console.error("Some required data is missing.");
+        return;
+      }
+  
+      const pdfBase64 = await generatePdf();
+
+
       const emailData = {
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,
@@ -249,6 +244,19 @@ const sendEmail = async () => {
         sReferencepdf: referencePdf,
         spdfBase64: pdfBase64,
       };
+  
+
+      if ( 
+        !emailData.sEmailRecepteur ||
+        !emailData.sFullName ||
+        !emailData.sNomAvocat ||
+        !emailData.sDateSys ||
+        !emailData.sReferencepdf ||
+        !emailData.spdfBase64
+      ) {
+        console.error("Certaines données sont manquantes :", emailData);
+        return;
+      }
   
       const response = await fetch("http://192.168.10.10/Utilisateur/Email/InfoEmail", {
         method: "POST",
@@ -260,22 +268,25 @@ const sendEmail = async () => {
   
       if (response.ok) {
         const result = await response.json();
-        console.log("Email sent successfully:", result);
+        console.log("Email envoyé avec succès :", result);
         setIsEmailSent(true);
-
+  
         localStorage.removeItem("fullName");
         localStorage.removeItem("referencePdf");
         localStorage.removeItem("name");
         localStorage.removeItem("dateSys");
       } else {
-        console.error("Failed to send email:", response.statusText);
+        console.error("Échec de l'envoi de l'email :", response.statusText);
       }
     } catch (error) {
-      console.error("Error while sending email:", error);
+      console.error("Erreur lors de l'envoi de l'email :", error);
     } finally {
-      setLoadingEmail(false);  
+      setLoadingEmail(false);
     }
   };
+
+
+
   const viewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -430,6 +441,10 @@ const sendEmail = async () => {
             <button onClick={submitFormData}>
               <FaCheck style={{ color: "green", fontSize: "30px" }} />
               Envoyer
+            </button>
+            <button onClick={refreshUI}>
+              <FaCheck style={{ color: "green", fontSize: "30px" }} />
+              refresh
             </button>
 
             <button onClick={allInOne}>

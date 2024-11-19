@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setUser(null);
       }
-      setIsLoading(false);
+      setIsLoading(false); 
     };
     checkAuth();
   }, []);

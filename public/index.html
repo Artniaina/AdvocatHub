@@ -5,39 +5,64 @@
     <link rel="icon" href="%PUBLIC_URL%/icons8-palais-de-justice-64.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <title>Avocat</title>
+    <style>
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid #520f79;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+      }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Info</title>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <script>
+      window.addEventListener('beforeunload', function () {
+        localStorage.setItem('pageReloadFlag', 'true');
+      });
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      window.addEventListener('load', function () {
+        const pageReloadFlag = localStorage.getItem('pageReloadFlag');
+
+        if (pageReloadFlag) {
+          const loaderDiv = document.createElement('div');
+          loaderDiv.id = 'page-transition-loader';
+          loaderDiv.style.position = 'fixed';
+          loaderDiv.style.top = '0';
+          loaderDiv.style.left = '0';
+          loaderDiv.style.width = '100%';
+          loaderDiv.style.height = '100%';
+          loaderDiv.style.background = 'rgba(255, 255, 255, 0.8)';
+          loaderDiv.style.display = 'flex';
+          loaderDiv.style.justifyContent = 'center';
+          loaderDiv.style.alignItems = 'center';
+          loaderDiv.style.zIndex = '9999';
+
+          const spinner = document.createElement('div');
+          spinner.className = 'loader-spinner';
+          loaderDiv.appendChild(spinner);
+
+          document.body.appendChild(loaderDiv);
+
+          setTimeout(() => {
+            document.body.removeChild(loaderDiv); 
+            localStorage.removeItem('pageReloadFlag'); 
+          }, 1000);
+        }
+      });
+    </script>
   </body>
 </html>
