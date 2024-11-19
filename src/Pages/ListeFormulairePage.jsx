@@ -6,8 +6,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { GrUpdate } from "react-icons/gr";
 import { PiNotePencil } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
-import "../Styles/TaxationForm/ListeForm.css"; 
-import { useAuth } from "../Hooks/AuthContext"; 
+import "../Styles/TaxationForm/ListeForm.css";
+import { useAuth } from "../Hooks/AuthContext";
 import { fetchFormulaireByEmail } from "../Store/TaxationDraftListeSlice";
 
 const ListeFormulairePage = () => {
@@ -18,8 +18,10 @@ const ListeFormulairePage = () => {
   const originalFormulaires = useSelector((state) => state.formulaireDraft.formulaireDraft);
   const status = useSelector((state) => state.formulaireDraft.status);
   const error = useSelector((state) => state.formulaireDraft.error);
-  
+
   const [formulaires, setFormulaires] = useState([]);
+  const [showPopup, setShowPopup] = useState(false); // Pour afficher ou masquer le popup
+  const [formulaireToDelete, setFormulaireToDelete] = useState(null); // Stocke l'ID à supprimer
 
   useEffect(() => {
     if (user?.email) {
@@ -36,35 +38,50 @@ const ListeFormulairePage = () => {
     }
   }, [originalFormulaires, navigate]);
 
-  const deleteFormulaire = async (idFormulaire) => {
+  const handleDeleteClick = (idFormulaire) => {
+    setFormulaireToDelete(idFormulaire);
+    setShowPopup(true);
+  };
+
+  const confirmDelete = async () => {
     try {
-      const response = await fetch(`http://192.168.10.10/Utilisateur/DeleteForm/${idFormulaire}`, {
-        method: 'DELETE',
+      const response = await fetch(`http://192.168.10.10/Utilisateur/DeleteForm/${formulaireToDelete}`, {
+        method: "DELETE",
       });
-  
+
       if (response.ok) {
         if (response.status === 204) {
-          console.log(`Formulaire with ID ${idFormulaire} deleted successfully.`);
+          console.log(`Formulaire with ID ${formulaireToDelete} deleted successfully.`);
         } else {
           const data = await response.json();
-          console.log('Delete response data:', data);
+          console.log("Delete response data:", data);
         }
-  
-        setFormulaires((prevFormulaires) => 
-          prevFormulaires.filter((formulaire) => formulaire.sIDFormulaire !== idFormulaire)
+
+        setFormulaires((prevFormulaires) =>
+          prevFormulaires.filter((formulaire) => formulaire.sIDFormulaire !== formulaireToDelete)
         );
-  
-        const updatedFormulaires = formulaires.filter((formulaire) => formulaire.sIDFormulaire !== idFormulaire);
-  
+
+        const updatedFormulaires = formulaires.filter(
+          (formulaire) => formulaire.sIDFormulaire !== formulaireToDelete
+        );
+
         if (updatedFormulaires.length === 0) {
-            navigate("/home/formTaxation");
+          navigate("/home/formTaxation");
         }
       } else {
-        throw new Error('Failed to delete the form');
+        throw new Error("Failed to delete the form");
       }
     } catch (error) {
-      console.error('Error deleting formulaire:', error);
+      console.error("Error deleting formulaire:", error);
+    } finally {
+      setShowPopup(false);
+      setFormulaireToDelete(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+    setFormulaireToDelete(null);
   };
 
   const handleNavigateAddNew = () => {
@@ -72,9 +89,8 @@ const ListeFormulairePage = () => {
   };
 
   const handleNavigate = (formulaireId) => {
-    navigate('/home/UpdateformTaxation', { state: { id: formulaireId } });
+    navigate("/home/UpdateformTaxation", { state: { id: formulaireId } });
   };
-  
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -120,12 +136,29 @@ const ListeFormulairePage = () => {
               <td>{formulaire.sIDFormulaire}</td>
               <td className="actions">
                 <PiNotePencil onClick={() => handleNavigate(formulaire.sIDFormulaire)} />
-                <RiDeleteBin5Line onClick={() => deleteFormulaire(formulaire.sIDFormulaire)} />
+                <RiDeleteBin5Line onClick={() => handleDeleteClick(formulaire.sIDFormulaire)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Confirmer la suppression</h3>
+            <p>Voulez-vous vraiment supprimer ce formulaire ? Cette action est irréversible.</p>
+            <div className="popup-actions">
+              <button className="confirm-button" onClick={confirmDelete}>
+               Supprimer
+              </button>
+              <button className="cancel-button" onClick={cancelDelete}>
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
