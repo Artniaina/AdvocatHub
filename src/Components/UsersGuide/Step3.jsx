@@ -10,7 +10,6 @@ const Step3 = ({ handlePrevious, currentStep }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, setIsAdminAuthenticated } = useAuth();
-  const [isAlreadyAuthenticated, setIsAlreadyAuthenticated] = useState(false);
   const { email = "", password = "" } = location.state || {};
   const [codeOTP, setCodeOTP] = useState("");
 
@@ -38,15 +37,13 @@ const Step3 = ({ handlePrevious, currentStep }) => {
         throw new Error("Échec de la requête API.");
       }
       const data = await response.json();
-      if (data && data.svalideOTP === "1") {
+      if (data && data.svalideOTP == true) {
         const role = data.sRole;
         const dateSys = new Date().toISOString();
         login(data.SUsername + `${dateSys}`, {
           email: email,
           role: data.sRole,
         });
-        setIsAlreadyAuthenticated(true);
-        localStorage.setItem(`user:${email}:isAlreadyAuthenticated`, "true");
         if (role === "Admin") {
           setIsAdminAuthenticated(true);
           navigate("/userlist");

@@ -30,7 +30,7 @@ const Login = () => {
       alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
       return;
     }
-    try {
+    try { 
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
@@ -61,9 +61,7 @@ const Login = () => {
 
           login(totpKey, user);
 
-          const storedIsAlreadyAuthenticated = localStorage.getItem(
-            `user:${email}:isAlreadyAuthenticated`
-          );
+          const storedIsAlreadyAuthenticated = data.sVerify
 
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {

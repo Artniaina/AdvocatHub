@@ -42,7 +42,7 @@ const ValidationOTP = () => {
 
       const data = await response.json();
 
-      if (data && data.svalideOTP === "1") {
+      if (data && data.svalideOTP == true) {
         const dateSys = new Date().toISOString();
         login(data.SUsername + `${dateSys}`, {
             email: email,
