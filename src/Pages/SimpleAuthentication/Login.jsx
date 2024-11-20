@@ -7,6 +7,9 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import "../../Styles/Authentification/Form.css";
 import { useAuth } from "../../Hooks/AuthContext";
+import "../../Styles/Authentification/Log.css";
+import Img from "../../assets/reg.png";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -100,79 +103,62 @@ const Login = () => {
   };
 
   return (
-    <div className="headerAuthent">
-      <h2 className="AppAuthent">Login</h2>
-      <form onSubmit={handleSubmit} className="loginForm">
-        <div >
-          <label className="label">Email:</label>
-        
-          <input
-            className="input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <MdOutlineEmail
-            style={{ position: "absolute", top: 65, right: 50, fontSize: 30 }}
-          />
-        </div>
-        <div style={{ position: "relative", left: 12 }}>
-          <label className="label">Mot de passe:</label>
-          {capsLockOn && (
-            <RiErrorWarningFill
-              style={{
-                color: "orange",
-                position: "absolute",
-                left: "300px",
-                top: "9px",
-              }}
-            />
-          )}
-        
-          <div className="passwordInputContainer">
+    <div className="login-container">
+    <div className="login-box">
+      <div className="login-left">
+        <h2 style={{textAlign:"center"}}>Connexion</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <MdOutlineEmail className="icon" />
             <input
-              className="input"
+              type="email"
+              placeholder="Adresse email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <RiLockPasswordLine className="icon" />
+            <input
               type={showPassword ? "text" : "password"}
+              placeholder="Mot de passe"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={handlePasswordKeyDown}
+              required
             />
-            <span
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="tooglePassword"
-            >
-              {showPassword ? (
-                <BsEyeSlash style={{ fontSize: 30 }} />
-              ) : (
-                <BsEye style={{ fontSize: 30 }} />
-              )}
+            <span onClick={togglePasswordVisibility} className="toggle-password">
+              {showPassword ? <BsEyeSlash /> : <BsEye />}
             </span>
           </div>
-          <Link
-            className="link"
-            to="/verifemail"
-            style={{ position: "relative", left: 180 }}
-          >
-            <RiLockPasswordLine />
-            Mot de passe oublié?
+          
+          <Link className="forgot-password" to="/verifemail">
+            Mot de passe oublié ?
           </Link>
-        </div>
-        <ReCAPTCHA
-          sitekey="6LdoI58pAAAAAA16dmiIJYPPd1LxM_D0esNeIudx"
-          onChange={handleCaptchaChange}
-          style={{ margin: 25 }}
-        />
-        <button className="button" type="submit">
-          Login
-        </button>
-        <p>
-          <Link className="link" to="/registration">
-            Pas encore de compte? Créer un compte
-          </Link>
-        </p>
-      </form>
+          <div className="flex">
+
+          <ReCAPTCHA
+            sitekey="6LdoI58pAAAAAA16dmiIJYPPd1LxM_D0esNeIudx"
+            onChange={handleCaptchaChange}
+            style={{ margin: "20px 0" }}
+          />
+          <button type="submit" className="login-btn">
+            Se connecter
+          </button>
+          <p>
+            Pas encore de compte ?{" "}
+            <Link className="register-link" to="/registration">
+              Créer un compte
+            </Link>
+          </p>
+          </div>
+        </form>
+      </div>
+      <div className="login-right">
+        <img src={Img} alt="Illustration de connexion" />
+      </div>
     </div>
+  </div>
   );
 };
 
