@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { HiArrowSmallLeft } from "react-icons/hi2";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
+
 const ModifMdp = ({ email }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -14,8 +15,25 @@ const ModifMdp = ({ email }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
-  const [capsLockActive, setCapsLockActive] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState(""); 
+
+  const Modal = ({ message, onClose, type }) => {
+    return (
+      <div style={styles.modalOverlay}>
+        <div style={styles.modal}>
+          <h3 style={{ color: type === "error" ? "#ff4d4f" : "#5E1675" }}>
+            {type === "error" ? "Erreur" : "Succès"}
+          </h3>
+          <p>{message}</p>
+          <button onClick={onClose} style={styles.modalButton}>
+            Fermer
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,30 +47,36 @@ const ModifMdp = ({ email }) => {
     navigate(-1);
   };
 
-  const validateForm = () => {
-    const errors = {};
-    if (!formData.password) {
-      errors.password = "Le mot de passe est requis.";
-    } else if (
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(
-        formData.password
-      )
-    ) {
-      errors.password =
-        "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.";
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = "Les mots de passe ne correspondent pas.";
-    }
-
-    setErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm() || !captchaValue) return;
+
+    if (formData.password !== formData.confirmPassword) {
+      setModalMessage("Les mots de passe ne correspondent pas.");
+      setModalType("error");
+      setModalVisible(true);
+      return;
+    }
+
+    if (!captchaValue) {
+      setModalMessage("Veuillez cocher la case\"Je ne suis pas un robot\"");
+      setModalType("error");
+      setModalVisible(true);
+      return;
+    }
+
+    if (!formData.password) {
+      setModalMessage("Veuillez remplir tout les champs");
+      setModalType("error");
+      setModalVisible(true);
+      return;
+    } else if (
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(formData.password)
+    ) {
+      setModalMessage("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.");
+      setModalType("error");
+      setModalVisible(true);
+      return;
+    }
 
     try {
       const response = await fetch("http://192.168.10.10/Utilisateur/Modif", {
@@ -69,18 +93,29 @@ const ModifMdp = ({ email }) => {
       if (!response.ok) {
         throw new Error("Échec lors du changement du mot de passe");
       }
-      alert("Mot de passe changé avec succès !");
+      setModalMessage("Mot de passe changé avec succès !");
+      setModalType("success");
+      setModalVisible(true);
       navigate("/");
     } catch (error) {
-      alert("Une erreur est survenue, veuillez réessayer.");
+      setModalMessage("Une erreur est survenue, veuillez réessayer.");
+      setModalType("error");
+      setModalVisible(true);
       console.error(error);
     }
   };
 
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
   return (
     <div style={styles.container}>
+      {modalVisible && (
+        <Modal message={modalMessage} onClose={handleModalClose} type={modalType} />
+      )}
       <button onClick={handleGoBack} style={styles.goBackButton}>
-            <HiArrowSmallLeft style={{ fontSize: 20 }} />
+        <HiArrowSmallLeft style={{ fontSize: 20 }} />
       </button>
       <div style={styles.card}>
         <h2 style={styles.title}>Nouveau mot de passe</h2>
@@ -122,9 +157,6 @@ const ModifMdp = ({ email }) => {
                 {showPassword ? <BsEyeSlash /> : <BsEye />} 
               </span>
             </div>
-            {errors.password && (
-              <p style={styles.errorText}>{errors.password}</p>
-            )}
           </div>
 
           <div style={styles.formGroup}>
@@ -148,9 +180,6 @@ const ModifMdp = ({ email }) => {
                 {showConfirmPassword ? <BsEyeSlash /> : <BsEye />} 
               </span>
             </div>
-            {errors.confirmPassword && (
-              <p style={styles.errorText}>{errors.confirmPassword}</p>
-            )}
           </div>
 
           <div style={styles.captchaContainer}>
@@ -171,7 +200,33 @@ const ModifMdp = ({ email }) => {
 
 const styles = {
   container: {
-    // position: "relative",
+  },
+  modalOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
+  },
+  modal: {
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "5px",
+    textAlign: "center",
+    width: "300px",
+  },
+  modalButton: {
+    padding: "10px 15px",
+    backgroundColor: "#5E1675",
+    color: "#fff",
+    border: "none",
+    cursor: "pointer",
+    borderRadius: "5px",
   },
   card: {
     backgroundColor: "#fff",
@@ -216,7 +271,7 @@ const styles = {
   },
   input: {
     width: "100%",
-    padding: "10px 30px", // Added padding for the icons
+    padding: "10px 30px",
     fontSize: "14px",
     borderRadius: "5px",
     border: "1px solid #ddd",
@@ -227,38 +282,27 @@ const styles = {
   passwordContainer: {
     position: "relative",
   },
-  errorText: {
-    color: "#ff4d4f",
-    fontSize: "12px",
-    marginTop: "5px",
-  },
   captchaContainer: {
-    display: "flex",
-    justifyContent: "center",
-    margin: "15px 0",
+    marginBottom: "15px",
   },
   submitButton: {
-    width: "70%",
-    padding: "12px",
     backgroundColor: "#5E1675",
     color: "#fff",
-    fontSize: "16px",
-    borderRadius: "5px",
-    cursor: "pointer",
+    padding: "10px 20px",
     border: "none",
-    outline: "none",
-    transition: "background-color 0.3s",
-    margin: "auto 50px",
+    borderRadius: "5px",
+    width: "100%",
+    cursor: "pointer",
+    fontSize: "16px",
+    transition: "background-color 0.3s ease",
   },
   goBackButton: {
-      position: "absolute",
-      top: "20px",
-      left: "20px",
-      backgroundColor: "transparent",
-      border: "none",
-      cursor: "pointer",
-      color: "#5E1675",
-  
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    backgroundColor: "transparent",
+    border: "none",
+    cursor: "pointer",
   },
 };
 
