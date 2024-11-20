@@ -2,23 +2,26 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
-import { IoWarningOutline } from "react-icons/io5";
+import ReCAPTCHA from "react-google-recaptcha";
 import { FaRegUser } from "react-icons/fa";
 import { MdMailOutline } from "react-icons/md";
+import "../../Styles/Authentification/Log.css";
+import Img from "../../assets/reg.png";
 
 const Registration = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [capsLockActive, setCapsLockActive] = useState(false);
-
+  const [captchaValue, setCaptchaValue] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -26,7 +29,9 @@ const Registration = () => {
       [name]: value,
     }));
   };
-
+  const handleCaptchaChange = (value) => {
+    setCaptchaValue(value);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,15 +40,17 @@ const Registration = () => {
     if (!username || !email || !password || !confirmPassword) {
       alert("Tous les champs doivent être remplis.");
       return;
-    } 
-     if (password !== confirmPassword) {
+    }
+    if (password !== confirmPassword) {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et peut contenir d'autres caractères spéciaux.")
+      alert(
+        "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et peut contenir d'autres caractères spéciaux."
+      );
       return;
     }
 
@@ -54,13 +61,16 @@ const Registration = () => {
         sMotdePasse: password,
       };
 
-      const response = await fetch("http://192.168.10.10/Utilisateur/Register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formattedData),
-      });
+      const response = await fetch(
+        "http://192.168.10.10/Utilisateur/Register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formattedData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Erreur lors de la création du compte.");
@@ -93,112 +103,101 @@ const Registration = () => {
   };
 
   return (
-    <div className="headerAuthent">
-    <h2 className="AppAuthent">
-        Sign up
-      </h2>
-      {error && (
-        <p
-          style={{
-            color: "red",
-            fontWeight: "bold",
-            textAlign: "center",
-            fontSize: 15,
-          }}
-        >
-          {error}
-        </p>
-      )}
-
-      <form onSubmit={handleSubmit} className="loginForm">
-        <div>
-          <label htmlFor="username" className="label">
-            Username:
-          </label>
-         
-          <input
-            id="username"
-            className="input"
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          <FaRegUser/>
+    <div className="login-container">
+      <div className="login-box">
+        <div className="login-right">
+          <img src={Img} alt="Registration Illustration" />
         </div>
-        <div>
-          <label htmlFor="email" className="label">
-            Email:
-          </label>
-         
-          <input
-            id="email"
-            className="input"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <MdMailOutline />
-        </div>
-        <div>
-          <label htmlFor="password" className="label">
-            Password:
-          </label>
-          <div className="passwordInputContainer">
-            <input
-              id="password"
-              className="input"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-            />
-            <span className="togglePassword" onClick={togglePasswordVisibility}>
-              {showPassword ? <BsEyeSlash /> : <BsEye />}
-            </span>
-          </div>
-          {capsLockActive && (
-            <RiErrorWarningFill
+        <div className="login-left">
+          <h2 style={{ textAlign: "center" }}>Sign up</h2>
+          {error && (
+            <p
               style={{
-                color: "orange",
-                position: "absolute",
-                left: "370px",
-                top: "220px",
+                color: "red",
+                fontWeight: "bold",
+                textAlign: "center",
+                fontSize: 15,
               }}
-            />
+            >
+              {error}
+            </p>
           )}
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <FaRegUser className="icon" />
+              <input
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="input-group">
+              <MdMailOutline className="icon" />
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="input-group">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+              <span
+                className="toggle-password"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <BsEyeSlash /> : <BsEye />}
+              </span>
+            </div>
+            <div className="input-group">
+              <input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+              <span
+                className="toggle-password"
+                onClick={toggleConfirmPasswordVisibility}
+              >
+                {showConfirmPassword ? <BsEyeSlash /> : <BsEye />}
+              </span>
+            </div>
+            <div className="flex">
+              <ReCAPTCHA
+                sitekey="6LdoI58pAAAAAA16dmiIJYPPd1LxM_D0esNeIudx"
+                onChange={handleCaptchaChange}
+                style={{ margin: "20px 0" }}
+              />
+              <button type="submit" className="login-btn">
+                Créer
+              </button>
+              <p>
+                <Link className="register-link" to="/">
+                  Vous avez déjà un compte ?
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-        <div>
-          <label htmlFor="confirmPassword" className="label">
-            Confirm Password:
-          </label>
-         
-          <div className="passwordInputContainer">
-            <input
-              id="confirmPassword"
-              className="input"
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-            />
-            <span className="togglePassword" onClick={toggleConfirmPasswordVisibility}>
-              {showConfirmPassword ? <BsEyeSlash /> : <BsEye />}
-            </span>
-          </div>
-        </div>
-        <button className="button" type="submit">
-          Créer
-        </button>
-        <p>
-          <Link className="link" to="/">
-            Vous avez déjà un compte ?
-          </Link>
-        </p>
-      </form>
+      </div>
     </div>
   );
 };
