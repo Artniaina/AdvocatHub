@@ -5,144 +5,151 @@ import { HiArrowSmallLeft } from "react-icons/hi2";
 
 const VerifEmail = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-  });
+  const [formData, setFormData] = useState({ email: "" });
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const handleGoBack = () => {
-    navigate(-1);
-  };
+
+  const handleGoBack = () => navigate(-1);
+
+  const handleBackToLogin = () => navigate("/login");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!formData.email) {
-      setError("Tous les champs doivent être remplis.");
+      setError("Veuillez entrer votre email.");
       return;
     }
 
     try {
-      const formattedData = {
-        SAdresseEmail: formData.email,
-      };
-
       const response = await fetch("http://192.168.10.10/Utilisateur/Modif", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formattedData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ SAdresseEmail: formData.email }),
       });
 
-      if (!response.ok) {
-        throw new Error("Email inexistante");
-      }
+      if (!response.ok) throw new Error("Email inexistante");
 
       setSuccessMessage("Compte modifié avec succès !");
-      console.log(`Succès, données: email: ${formData.email}`);
     } catch (error) {
-      alert("Email non trouvé");
-      console.log("Email non trouvé :", error);
+      setError("Email non trouvé.");
     }
   };
 
   return (
-    <div className="headerAuthent">
+    <div style={styles.wrapper}>
       {!successMessage && (
-        <>
-          <button onClick={handleGoBack} style={styles.buttongoback}>
+        <div style={styles.formContainer}>
+          <button onClick={handleGoBack} style={styles.backButton}>
             <HiArrowSmallLeft style={{ fontSize: 20 }} />
           </button>
-          <h2 className="App"> Mot de passe oublié?</h2>
-          {error && (
-            <p
-              style={{ color: "red", fontWeight: "bold", textAlign: "center" }}
-            >
-              {error}
-            </p>
-          )}
-          <form onSubmit={handleSubmit} style={styles.container}>
-            <div>
-              <label htmlFor="email" className="label">
-                Vérification de votre email
-              </label>
-              <br />
-              <input
-                id="email"
-                className="input"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </div>
-            <button style={styles.button} type="submit">
+          <h2 style={styles.title}>Mot de passe oublié ?</h2>
+          {error && <p style={styles.error}>{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email" style={styles.label}>
+              Vérification de votre email
+            </label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              style={styles.input}
+            />
+            <button type="submit" style={styles.submitButton}>
               Vérifier
             </button>
           </form>
-        </>
+    
+        </div>
       )}
       {successMessage && <ModifMdp email={formData.email} />}
     </div>
   );
 };
+
 const styles = {
-  container: {
+  wrapper: {
     display: "flex",
-    maxWidth: "1000px",
-    margin: "0 auto",
-    textAlign: "center",
-    padding: "40px",
-    border: "1px solid #ddd",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "#f9f9f9",
+    padding: "20px",
+  },
+  formContainer: {
+    backgroundColor: "#fff",
+    padding: "30px",
     borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    textAlign: "center",
+    width: "100%",
+    maxWidth: "400px",
+  },
+  title: {
+    fontSize: "22px",
+    color: "#5E1675",
+    marginBottom: "20px",
+    fontWeight: "bold",
+  },
+  label: {
+    display: "block",
+    fontSize: "14px",
+    marginBottom: "10px",
+    color: "#333",
+    textAlign: "left",
   },
   input: {
-    width: "450px",
-    padding: "20px",
-    fontSize: "16px",
+    width: "100%",
+    padding: "10px",
+    fontSize: "14px",
+    borderRadius: "4px",
     border: "1px solid #ddd",
-    borderRadius: "8px",
-    boxSizing: "border-box",
-    marginBottom: "12px",
-    height: "50px",
-    marginRight: "12px",
-  },
-  button: {
-    backgroundColor: "#73A9AD",
-    color: "#fff",
-    padding: "12px 24px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    border: "none",
+    marginBottom: "20px",
     outline: "none",
-    marginTop: 44,
-    height: 50,
   },
-  buttongoback: {
-    backgroundColor: "#73A9AD",
+  submitButton: {
+    width: "100%",
+    padding: "10px",
+    fontSize: "14px",
+    backgroundColor: "#5E1675",
     color: "#fff",
-    padding: "12px 24px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
     border: "none",
-    outline: "none",
-    marginTop: -20,
+    borderRadius: "4px",
+    cursor: "pointer",
+    marginBottom: "10px",
+    transition: "background-color 0.3s",
+  },
+  loginButton: {
+    width: "100%",
+    padding: "10px",
+    fontSize: "14px",
+    backgroundColor: "#E1E1E1",
+    color: "#5E1675",
+    border: "1px solid #5E1675",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+  },
+  backButton: {
     position: "absolute",
-    top: 290,
-    left:480,
-    height: 50,
+    top: "20px",
+    left: "20px",
+    backgroundColor: "transparent",
+    border: "none",
+    cursor: "pointer",
+    color: "#5E1675",
+  },
+  error: {
+    color: "red",
+    fontSize: "14px",
+    marginBottom: "20px",
   },
 };
+
 export default VerifEmail;

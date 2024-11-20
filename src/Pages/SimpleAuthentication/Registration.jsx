@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import { RiErrorWarningFill } from "react-icons/ri";
+import { RiLockPasswordLine } from "react-icons/ri";
 import ReCAPTCHA from "react-google-recaptcha";
 import { FaRegUser } from "react-icons/fa";
 import { MdMailOutline } from "react-icons/md";
@@ -15,7 +15,6 @@ const Registration = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -129,7 +128,7 @@ const Registration = () => {
                 id="username"
                 type="text"
                 name="username"
-                placeholder="Username"
+                placeholder="Nom"
                 value={formData.username}
                 onChange={handleChange}
               />
@@ -147,11 +146,12 @@ const Registration = () => {
               />
             </div>
             <div className="input-group">
+            <RiLockPasswordLine className="icon" />
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Password"
+                placeholder="Mot de passe"
                 value={formData.password}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
@@ -164,11 +164,12 @@ const Registration = () => {
               </span>
             </div>
             <div className="input-group">
+            <RiLockPasswordLine className="icon" />
               <input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
-                placeholder="Confirm Password"
+                placeholder="Confirmation de mot de passe"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}

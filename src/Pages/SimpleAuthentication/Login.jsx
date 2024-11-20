@@ -37,6 +37,7 @@ const Login = () => {
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
+        sCodeOTP: false,
       };
       const response = await fetch("http://192.168.10.10/Utilisateur/Authent", {
         method: "POST",
@@ -65,6 +66,7 @@ const Login = () => {
           login(totpKey, user);
 
           const storedIsAlreadyAuthenticated = data.sVerify
+
 
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
