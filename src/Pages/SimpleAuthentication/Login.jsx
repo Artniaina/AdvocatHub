@@ -9,7 +9,6 @@ import "../../Styles/Authentification/Form.css";
 import { useAuth } from "../../Hooks/AuthContext";
 import "../../Styles/Authentification/Log.css";
 import Img from "../../assets/reg.png";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
