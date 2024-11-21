@@ -16,7 +16,7 @@ const VerifEmail = () => {
 
   const handleGoBack = () => navigate(-1);
 
-  const handleBackToLogin = () => navigate("/login");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +31,6 @@ const VerifEmail = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ SAdresseEmail: formData.email }),
       });
-
       if (!response.ok) throw new Error("Email inexistante");
 
       setSuccessMessage("Compte modifié avec succès !");
@@ -53,6 +52,7 @@ const VerifEmail = () => {
             <label htmlFor="email" style={styles.label}>
               Vérification de votre email
             </label>
+
             <input
               id="email"
               type="email"

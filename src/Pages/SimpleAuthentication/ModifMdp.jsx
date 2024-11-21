@@ -57,13 +57,6 @@ const ModifMdp = ({ email }) => {
       return;
     }
 
-    if (!captchaValue) {
-      setModalMessage("Veuillez cocher la case\"Je ne suis pas un robot\"");
-      setModalType("error");
-      setModalVisible(true);
-      return;
-    }
-
     if (!formData.password) {
       setModalMessage("Veuillez remplir tout les champs");
       setModalType("error");
@@ -77,7 +70,12 @@ const ModifMdp = ({ email }) => {
       setModalVisible(true);
       return;
     }
-
+    if (!captchaValue) {
+      setModalMessage("Veuillez cocher la case\"Je ne suis pas un robot\"");
+      setModalType("error");
+      setModalVisible(true);
+      return;
+    }
     try {
       const response = await fetch("http://192.168.10.10/Utilisateur/Modif", {
         method: "PUT",

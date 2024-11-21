@@ -7,7 +7,7 @@ import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 
 const Step3 = ({ handlePrevious, currentStep }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const location = useLocation();
   const { login, setIsAdminAuthenticated } = useAuth();
   const { email = "", password = "" } = location.state || {};

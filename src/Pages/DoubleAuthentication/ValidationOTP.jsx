@@ -9,12 +9,32 @@ const ValidationOTP = () => {
   const { login, setIsAdminAuthenticated } = useAuth();
 
   const { email = "", password = "" } = location.state || {};
-  const [codeOTP, setCodeOTP] = useState("");
+  const [otp, setOtp] = useState(Array(6).fill(""));
+
+  const handleInputChange = (value, index) => {
+    if (/^\d$/.test(value) || value === "") {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+
+      // Focus on the next input automatically
+      if (value !== "" && index < 5) {
+        document.getElementById(`otp-${index + 1}`).focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && otp[index] === "" && index > 0) {
+      document.getElementById(`otp-${index - 1}`).focus();
+    }
+  };
 
   const handleSubmit = async () => {
+    const codeOTP = otp.join("");
     try {
-      if (!codeOTP) {
-        alert("Veuillez remplir le champ");
+      if (codeOTP.length !== 6) {
+        alert("Veuillez remplir les 6 cases avec des chiffres.");
         return;
       }
       if (!email || !password) {
@@ -42,11 +62,11 @@ const ValidationOTP = () => {
 
       const data = await response.json();
 
-      if (data && data.svalideOTP == true) {
+      if (data && data.svalideOTP === true) {
         const dateSys = new Date().toISOString();
         login(data.SUsername + `${dateSys}`, {
-            email: email,
-            role: data.sRole,
+          email: email,
+          role: data.sRole,
         });
 
         if (data.sRole === "Admin") {
@@ -66,19 +86,28 @@ const ValidationOTP = () => {
 
   return (
     <div className="headerAuthent">
-      <h2 className="AppAuthent">Saisir le code OTP à 6 chiffres</h2>
       <div className="container">
-        <div className="inputContainer">
-          <input
-            type="text"
-            placeholder="Saisir le code OTP à 6 chiffres"
-            value={codeOTP}
-            onChange={(e) => setCodeOTP(e.target.value)}
-            className="inputtext"
-          />
-          <button onClick={handleSubmit} className="button">
-            Valider
-          </button>
+        <h2 className="AppAuthent">Saisissez votre code OTP</h2>
+        <p className="description">Entrez le code à 6 chiffres de votre téléphone</p>
+        <div className="otpContainer">
+          {otp.map((digit, index) => (
+            <input
+              key={index}
+              id={`otp-${index}`}
+              type="text"
+              maxLength="1"
+              value={digit}
+              onChange={(e) => handleInputChange(e.target.value, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className="otpInput"
+            />
+          ))}
+        </div>
+        <div style={{display:"flex", alignItems:'center', justifyContent:"center"}}>
+
+        <button onClick={handleSubmit} className="button">
+          Valider
+        </button>
         </div>
       </div>
     </div>
