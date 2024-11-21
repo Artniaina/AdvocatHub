@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
 import { useAuth } from "../../Hooks/AuthContext";
-import Logo2FA from "../../assets/logo.webp"
+import Logo2FA from "../../assets/logo.webp";
+import { HiArrowSmallLeft } from "react-icons/hi2";
 
 const ValidationOTP = () => {
   const navigate = useNavigate();
@@ -83,14 +84,19 @@ const ValidationOTP = () => {
       alert("Code OTP non valide.");
     }
   };
+  const handleGoBack = () => navigate(-1);
 
   return (
     <div className="headerAuthent">
-
-      <div className="container">
-        <img src={Logo2FA}/>
+      <button onClick={handleGoBack} className="backButton">
+        <HiArrowSmallLeft style={{ fontSize: 20 }} />
+      </button>
+      <div className="container2FA">
+        <img src={Logo2FA} />
         <h2 className="AppAuthent">Saisissez votre code OTP</h2>
-        <p className="description">Entrez le code à 6 chiffres de votre téléphone</p>
+        <p className="description">
+          Entrez le code à 6 chiffres de votre téléphone
+        </p>
         <div className="otpContainer">
           {otp.map((digit, index) => (
             <input
@@ -105,11 +111,16 @@ const ValidationOTP = () => {
             />
           ))}
         </div>
-        <div style={{display:"flex", alignItems:'center', justifyContent:"center"}}>
-
-        <button onClick={handleSubmit} className="button">
-          Valider
-        </button>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <button onClick={handleSubmit} className="button">
+            Valider
+          </button>
         </div>
       </div>
     </div>
