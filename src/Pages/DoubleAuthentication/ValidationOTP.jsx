@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../Styles/Authentification/Validationotp.css";
 import { useAuth } from "../../Hooks/AuthContext";
+import Logo2FA from "../../assets/logo.webp"
 
 const ValidationOTP = () => {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ const ValidationOTP = () => {
       newOtp[index] = value;
       setOtp(newOtp);
 
-      // Focus on the next input automatically
       if (value !== "" && index < 5) {
         document.getElementById(`otp-${index + 1}`).focus();
       }
@@ -86,7 +86,9 @@ const ValidationOTP = () => {
 
   return (
     <div className="headerAuthent">
+
       <div className="container">
+        <img src={Logo2FA}/>
         <h2 className="AppAuthent">Saisissez votre code OTP</h2>
         <p className="description">Entrez le code à 6 chiffres de votre téléphone</p>
         <div className="otpContainer">
