@@ -68,7 +68,7 @@ const Login = () => {
 
 
           if (storedIsAlreadyAuthenticated) {
-            navigate("/validationotp", {
+            navigate("/scanqrcode", {
               state: { url, email, role, password },
             });
           } else {

@@ -99,8 +99,8 @@ function MainRoutes() {
         </Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION */}
-        <Route element={<PartialProtectedRoute />}>
           <Route exact path="/scanqrcode" element={<UsersGuide />} />
+        <Route element={<PartialProtectedRoute />}>
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
 
