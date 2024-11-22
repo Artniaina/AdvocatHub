@@ -4,6 +4,8 @@ import Typography from "@mui/joy/Typography";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import QRCode from "qrcode.react";
+import { GrLinkNext } from "react-icons/gr";
+import { GrLinkPrevious } from "react-icons/gr";
 
 export default function Step2({
   handleNext,
@@ -68,10 +70,10 @@ export default function Step2({
           onClick={handlePrevious}
           disabled={currentStep === 1}
         >
-          Précédent
+          <GrLinkPrevious /> Précedent
         </Button>
         <Button
-          style={{ marginLeft: "22vw" }}
+          style={{ marginLeft: "19vw" }}
           variant="solid"
           sx={{
             backgroundColor: "#5E1675",
@@ -81,7 +83,7 @@ export default function Step2({
           }}
           onClick={handleNext}
         >
-          Suivant
+          Suivant <GrLinkNext />
         </Button>
       </div>
     </div>

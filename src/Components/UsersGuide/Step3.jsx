@@ -4,6 +4,7 @@ import "../../Styles/Authentification/Validationotp.css";
 import { useAuth } from "../../Hooks/AuthContext";
 import Logo2FA from "../../assets/logo.webp";
 import Button from "@mui/joy/Button";
+import { GrLinkPrevious } from "react-icons/gr";
 
 const Step3 = ({ handlePrevious, currentStep }) => {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ const Step3 = ({ handlePrevious, currentStep }) => {
   };
 
   return (
-    <div className="headerAuthent" style={{backgroundColor:"transparent"}}>
+    <div className="headerAuthent" style={{ backgroundColor: "transparent" }}>
       <div className="container2FA">
         <img src={Logo2FA} />
         <h2 className="AppAuthent">Saisissez votre code OTP</h2>
@@ -119,30 +120,29 @@ const Step3 = ({ handlePrevious, currentStep }) => {
           </button>
         </div>
         <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "16px",
-        }}
-      >
-      </div>
-      </div>
-              <Button
-          variant="outlined"
-          style={{marginRight:"34vw"}}
-          sx={{
-            color: "#5E1675",
-            borderColor: "#5E1675",
-            ":hover": {
-              borderColor: "#7f1da0",
-              backgroundColor: "rgba(94, 22, 117, 0.1)",
-            },
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "16px",
           }}
-          onClick={handlePrevious}
-          disabled={currentStep === 1}
-        >
-          Précédent
-        </Button>
+        ></div>
+      </div>
+      <Button
+        variant="outlined"
+        style={{ marginRight: "34vw" }}
+        sx={{
+          color: "#5E1675",
+          borderColor: "#5E1675",
+          ":hover": {
+            borderColor: "#7f1da0",
+            backgroundColor: "rgba(94, 22, 117, 0.1)",
+          },
+        }}
+        onClick={handlePrevious}
+        disabled={currentStep === 1}
+      >
+        <GrLinkPrevious /> Précedent{" "}
+      </Button>
     </div>
   );
 };

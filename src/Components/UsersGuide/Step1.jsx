@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
-import Image from "../../assets/TOTP.png";
+import Image from "../../assets/2fa.avif";
 
 const Step1 = ({ handleNext }) => {
   return (
@@ -14,7 +14,34 @@ const Step1 = ({ handleNext }) => {
           justifyContent: "center",
           alignItems: "center",
         }}
+      > <div>
+      <Card
+        size="lg"
+        variant="plain"
+        orientation="vertical"
+        sx={{
+          textAlign: "left",
+          maxWidth: "100%",
+          width: 500,
+          height: 600,
+          padding: 3,
+          boxShadow: 1,
+          borderRadius: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
+        <img
+          src={Image}
+          alt="TOTP image"
+          style={{
+            width: 500,
+            height: 500,
+          }}
+        />
+      </Card>
+    </div>
         <div>
           {" "}
           <Card
@@ -59,40 +86,14 @@ const Step1 = ({ handleNext }) => {
             </Typography>
           </Card>
         </div>
-        <div>
-          <Card
-            size="lg"
-            variant="plain"
-            orientation="vertical"
-            sx={{
-              textAlign: "left",
-              maxWidth: "100%",
-              width: 500,
-              height: 600,
-              padding: 3,
-              boxShadow: 1,
-              borderRadius: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              src={Image}
-              alt="TOTP image"
-              style={{
-                width: 500,
-                height: 500,
-              }}
-            />
-          </Card>
-        </div>
+       
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end", width:750, marginTop: 20 }}>
         <Button
           onClick={handleNext}
           variant="solid"
           color="primary"
+          style={{backgroundColor:"#5E1675"}}
         >
           Commencer
         </Button>
