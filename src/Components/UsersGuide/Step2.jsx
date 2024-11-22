@@ -6,6 +6,8 @@ import Button from "@mui/joy/Button";
 import QRCode from "qrcode.react";
 import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
+import "../../Styles/Authentification/UsersGuide/usersGuide.css";
+import Logo2FA from "../../assets/logo.webp";
 
 export default function Step2({
   handleNext,
@@ -21,13 +23,29 @@ export default function Step2({
         sx={{
           textAlign: "left",
           maxWidth: "100%",
-          width: 500,
-          padding: 6,
+          width: 600,
+          padding: 7,
           paddingBottom: 2,
         }}
       >
-        <Typography level="title-lg" fontWeight="lg" mb={1}>
-          2. Scannez le QR Code avec votre application
+        <img
+          src={Logo2FA}
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            position: "absolute",
+            left: "45%",
+            top:"5px"
+          }}
+        />
+        <Typography
+          level="title-lg"
+          fontWeight="lg"
+          mb={1}
+          style={{ color: "#5e1675", fontSize: "20px", textAlign: "center" }}
+        >
+          Scannez le QR Code avec votre application
         </Typography>
         <AspectRatio
           ratio="1"
@@ -35,20 +53,22 @@ export default function Step2({
           variant="plain"
           sx={{ mt: 1, mb: 2 }}
         >
-          <QRCode
-            style={{
-              height: "79%",
-              width: "75%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "auto auto",
-              position: "absolute",
-              top: "29px",
-              left: "50px",
-            }}
-            value={url}
-          />
+          <div className="boxQr" style={{ borderRadius: "0px" }}>
+            <QRCode
+              style={{
+                height: "79%",
+                width: "75%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "auto auto",
+                position: "absolute",
+                top: "29px",
+                left: "50px",
+              }}
+              value={url}
+            />
+          </div>
         </AspectRatio>
       </Card>
       <div
