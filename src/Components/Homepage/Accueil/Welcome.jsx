@@ -15,7 +15,7 @@ const Welcome = ({avocatInfo}) => {
       </div>
       <HomeNav />
     </div>
-  );
+  ); 
 };
 
 export default Welcome;

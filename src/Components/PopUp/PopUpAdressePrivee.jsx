@@ -25,7 +25,7 @@ const PopUpAdressePrivee = ({ onClose, onSubmit, value, defaultValuee }) => {
 
   return (
     <div className="overlay" ref={overlayRef}>
-      <div className="popup">
+      <div className="popupAdresse">
         <div className="head">
           <button className="closebtn" onClick={onClose}>
             <SlClose />

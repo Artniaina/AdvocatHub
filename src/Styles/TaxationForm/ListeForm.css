@@ -106,6 +106,7 @@
   align-items: center;
   transition: all 0.3s ease;
   font-family: 'Poppins', sans-serif;
+  margin-bottom: 33px;
 }
 
 .add-button svg {
