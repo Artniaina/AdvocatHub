@@ -48,9 +48,7 @@ const Navbar = () => {
         <li className="nav-item">
           <Link
             to="/home"
-            className={`nav-link ${
-              location.pathname.includes("/home") ? "active" : ""
-            }`}
+            className={`nav-link ${location.pathname.includes("/home") ? "active" : ""}`}
           >
             <AiFillHome className="icon-nav" />
             Accueil
@@ -59,9 +57,7 @@ const Navbar = () => {
         <li className="nav-item">
           <Link
             to="/document"
-            className={`nav-link ${
-              location.pathname === "/document" ? "active" : ""
-            }`}
+            className={`nav-link ${location.pathname === "/document" ? "active" : ""}`}
           >
             <IoDocumentTextOutline className="icon-nav" />
             Documents 
@@ -70,9 +66,7 @@ const Navbar = () => {
         <li className="nav-item">
           <Link
             to="/lbc"
-            className={`nav-link ${
-              location.pathname === "/lbc" ? "active" : ""
-            }`}
+            className={`nav-link ${location.pathname === "/lbc" ? "active" : ""}`}
           >
             <IoNewspaperOutline className="icon-nav" />
             LBC/FT
@@ -81,19 +75,17 @@ const Navbar = () => {
         <li className="nav-item">
           <Link
             to="/faq"
-            className={`nav-link ${
-              location.pathname === "/faq" ? "active" : ""
-            }`}
+            className={`nav-link ${location.pathname === "/faq" ? "active" : ""}`}
           >
             <TbDeviceIpadQuestion className="icon-nav" />
             FAQ
           </Link>
         </li>
       </ul>
-      <div>
+      <div className="navbar-user">
         <p className="txt">
           {fullName}
-          <FaUserCircle className="nav-user" style={{ fontSize: "35px" }} />
+          <FaUserCircle className="nav-user" />
         </p>
         <button className="btn-nav" onClick={handleLogout}>
           Déconnexion
