@@ -7,7 +7,7 @@ import QRCode from "qrcode.react";
 import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
 import "../../Styles/Authentification/UsersGuide/usersGuide.css";
-import Logo2FA from "../../assets/logo.webp";
+import { QrCode} from "lucide-react";
 
 export default function Step2({
   handleNext,
@@ -28,23 +28,18 @@ export default function Step2({
           paddingBottom: 2,
         }}
       >
-        <img
-          src={Logo2FA}
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            position: "absolute",
-            left: "45%",
-            top:"5px"
-          }}
-        />
+         <QrCode
+            className="step-icon"
+            size={32}
+            style={{ margin: "auto" }}
+          />
         <Typography
           level="title-lg"
           fontWeight="lg"
           mb={1}
           style={{ color: "#5e1675", fontSize: "20px", textAlign: "center" }}
         >
+         
           Scannez le QR Code avec votre application
         </Typography>
         <AspectRatio

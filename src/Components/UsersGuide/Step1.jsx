@@ -49,59 +49,57 @@ const Step1 = ({ handleNext }) => {
       icon: <Lock className="feature-icon" size={48} />,
       title: "Authentification unique",
       description:
-"Les codes TOTP, basés sur une clé secrète et l'heure, sont sécurisés et uniques à chaque utilisation."    },
+        "Les codes TOTP, basés sur une clé secrète et l'heure, sont sécurisés et uniques à chaque utilisation.",
+    },
   ];
 
   return (
-
-   <>
-       <div className="center-container">
-      <div>
-        <Card className="main-card">
-          <CardHeader>
-            <h1 className="main-title">
-              Sécurisez votre compte avec l'authentification à deux facteurs
-              (2FA)
-            </h1>
-          </CardHeader>
-          <CardContent>
-            <div className="flex-layout">
-             
-      
-              <div className="steps-section">
-                <h2 className="steps-title">Comment ça marche ?</h2>
-                <div className="steps-container">
-                  {steps.map((step, index) => (
-                    <div key={index} className="step-item">
-                      <div className="step-icon-container">{step.icon}</div>
-                      <div className="step-content">
-                        <h3 className="step-title">{step.title}</h3>
-                        <p className="step-description">{step.description}</p>
+    <>
+      <div className="center-container">
+        <div>
+          <Card className="main-card">
+            <CardHeader>
+              <h1 className="main-title">
+                Sécurisez votre compte avec l'authentification à deux facteurs
+                (2FA)
+              </h1>
+            </CardHeader>
+            <CardContent>
+              <div className="flex-layout">
+                <div className="steps-section">
+                  <h2 className="steps-title">Comment ça marche ?</h2>
+                  <div className="steps-container">
+                    {steps.map((step, index) => (
+                      <div key={index} className="step-item">
+                        <div className="step-icon-container">{step.icon}</div>
+                        <div className="step-content">
+                          <h3 className="step-title">{step.title}</h3>
+                          <p className="step-description">{step.description}</p>
+                        </div>
                       </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="features-column">
+                  {features.map((feature, index) => (
+                    <div key={index} className="feature-card">
+                      <div className="feature-header">
+                        {feature.icon}
+                        <h2 className="feature-title">{feature.title}</h2>
+                      </div>
+                      <p className="feature-description">
+                        {feature.description}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="features-column">
-                {features.map((feature, index) => (
-                  <div key={index} className="feature-card">
-                    <div className="feature-header">
-                      {feature.icon}
-                      <h2 className="feature-title">{feature.title}</h2>
-                    </div>
-                    <p className="feature-description">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-     
-    </div>
-     <div className="button-containerStep">
-     <Button
+      <div className="button-containerStep">
+        <Button
           style={{ marginLeft: "19vw" }}
           variant="solid"
           sx={{
@@ -112,10 +110,10 @@ const Step1 = ({ handleNext }) => {
           }}
           onClick={handleNext}
         >
-           Commencer <GrLinkNext />
+          Commencer <GrLinkNext />
         </Button>
-   </div>
-   </>
+      </div>
+    </>
   );
 };
 
