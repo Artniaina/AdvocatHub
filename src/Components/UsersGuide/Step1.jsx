@@ -1,95 +1,122 @@
-import React from 'react';
-import { ShieldCheck, Lock } from 'lucide-react';
+import React from "react";
+import { ShieldCheck, Lock, Smartphone, QrCode, Key } from "lucide-react";
+import "../../Styles/Authentification/UsersGuide/usersGuide.css";
 import Button from "@mui/joy/Button";
+import { GrLinkNext } from "react-icons/gr";
 
-const Card = ({ children, className = '' }) => (
-  <div className={`rounded-xl shadow-xl bg-white ${className}`}>
-    {children}
-  </div>
+const Card = ({ children, className = "" }) => (
+  <div className={`card ${className}`}>{children}</div>
 );
 
-const CardHeader = ({ children, className = '' }) => (
-  <div className={`p-4 border-b ${className}`}>{children}</div>
+const CardHeader = ({ children, className = "" }) => (
+  <div className={`card-header ${className}`}>{children}</div>
 );
 
-const CardContent = ({ children, className = '' }) => (
-  <div className={`p-4 ${className}`}>{children}</div>
+const CardContent = ({ children, className = "" }) => (
+  <div className={`card-content ${className}`}>{children}</div>
 );
 
-const Step1 = ({handleNext}) => {
-  const primaryColor = '#5E1675';
-  
-  const sections = [
+const Step1 = ({ handleNext }) => {
+  const steps = [
     {
-      icon: <ShieldCheck color={primaryColor} size={48} />,
-      title: "Qu'est-ce que le 2FA ?",
-      description: "L'authentification à deux facteurs est une couche de sécurité supplémentaire qui protège votre compte en demandant deux types différents de preuves d'identité."
+      icon: <QrCode className="step-icon" size={32} />,
+      title: "1. Scanner le QR Code",
+      description:
+        "Utilisez une application d'authentification (comme Google Authenticator) pour scanner le QR code unique fourni.",
     },
     {
-      icon: <Lock color={primaryColor} size={48} />,
-      title: "Comment ça fonctionne ?",
-      description: "Après avoir entré votre mot de passe, vous devez fournir une seconde preuve d'authentification, généralement via votre appareil personnel."
-    }
+      icon: <Smartphone className="step-icon" size={32} />,
+      title: "2. Générer des codes",
+      description:
+        "L'application génère automatiquement des codes TOTP (Time-based One-Time Password) qui changent toutes les 30 secondes.",
+    },
+    {
+      icon: <Key className="step-icon" size={32} />,
+      title: "3. Validation",
+      description:
+        "Entrez le code à 6 chiffres lors de chaque connexion pour prouver votre identité.",
+    },
+  ];
+
+  const features = [
+    {
+      icon: <ShieldCheck className="feature-icon" size={48} />,
+      title: "Protection renforcée",
+      description:
+        "Le 2FA sécurise votre compte en combinant un mot de passe et un code généré sur votre téléphone..",
+    },
+    {
+      icon: <Lock className="feature-icon" size={48} />,
+      title: "Authentification unique",
+      description:
+"Les codes TOTP, basés sur une clé secrète et l'heure, sont sécurisés et uniques à chaque utilisation."    },
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <Card className="w-full max-w-5xl">
-        <CardHeader>
-          <h1 
-            className="text-4xl font-bold text-center" 
-            style={{color: primaryColor}}
-          >
-            Sécurité Renforcée avec 2FA
-          </h1>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-8">
-            <div className="w-1/2 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" className="w-full rounded-xl shadow-lg">
-                <rect width="500" height="300" fill="#F4F4F4"/>
-                <rect x="100" y="120" width="150" height="100" rx="10" fill="white" stroke="#5E1675" strokeWidth="3"/>
-                <rect x="120" y="140" width="110" height="60" fill="#E0E0E0"/>
-                <rect x="300" y="140" width="80" height="130" rx="10" fill="white" stroke="#5E1675" strokeWidth="3"/>
-                <circle cx="340" cy="230" r="15" fill="#E0E0E0"/>
-                <path d="M250,170 Q320,130 300,180" fill="none" stroke="#5E1675" strokeWidth="3"/>
-              </svg>
-            </div>
 
-            <div className="w-1/2 space-y-6">
-              {sections.map((section, index) => (
-                <div 
-                  key={index} 
-                  className="bg-gray-50 rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center mb-4">
-                    {section.icon}
-                    <h2 className="ml-4 text-2xl font-semibold" style={{color: primaryColor}}>
-                      {section.title}
-                    </h2>
+   <>
+       <div className="center-container">
+      <div>
+        <Card className="main-card">
+          <CardHeader>
+            <h1 className="main-title">
+              Sécurisez votre compte avec l'authentification à deux facteurs
+              (2FA)
+            </h1>
+          </CardHeader>
+          <CardContent>
+            <div className="flex-layout">
+             
+      
+              <div className="steps-section">
+                <h2 className="steps-title">Comment ça marche ?</h2>
+                <div className="steps-container">
+                  {steps.map((step, index) => (
+                    <div key={index} className="step-item">
+                      <div className="step-icon-container">{step.icon}</div>
+                      <div className="step-content">
+                        <h3 className="step-title">{step.title}</h3>
+                        <p className="step-description">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="features-column">
+                {features.map((feature, index) => (
+                  <div key={index} className="feature-card">
+                    <div className="feature-header">
+                      {feature.icon}
+                      <h2 className="feature-title">{feature.title}</h2>
+                    </div>
+                    <p className="feature-description">{feature.description}</p>
                   </div>
-                  <p className="text-gray-700 text-base">
-                    {section.description}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
 
-                </div>
- <div style={{ display: "flex", justifyContent: "flex-end", width:750, marginTop: 20 }}>
- <Button
-   onClick={handleNext}
-   variant="solid"
-   color="primary"
-   style={{backgroundColor:"#5E1675"}}
- >
-   Commencer
- </Button>
             </div>
-          </div>
-        </CardContent>
-      </Card>
- 
-</div>  );
+          </CardContent>
+        </Card>
+      </div>
+     
+    </div>
+     <div className="button-containerStep">
+     <Button
+          style={{ marginLeft: "19vw" }}
+          variant="solid"
+          sx={{
+            backgroundColor: "#5E1675",
+            ":hover": {
+              backgroundColor: "#7f1da0",
+            },
+          }}
+          onClick={handleNext}
+        >
+           Commencer <GrLinkNext />
+        </Button>
+   </div>
+   </>
+  );
 };
 
 export default Step1;

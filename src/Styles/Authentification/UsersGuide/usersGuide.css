@@ -25,3 +25,232 @@
   align-items:center;
   text-align:center;
 }
+:root {
+  --primary-color: #5E1675;
+  --primary-hover: #4a1259;
+  --background-color: #f9fafb;
+  --card-background: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+
+.main-card {
+  width: 66vw;
+  background-color: var(--card-background);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-content {
+  padding:  19px 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.flex-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.flex-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px; 
+}
+
+
+
+.steps-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+
+}
+
+.steps-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.step-icon-container {
+  background-color: var(--card-background);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.step-icon {
+  color: var(--primary-color);
+}
+
+.step-content {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.step-description {
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* TOTP Display */
+.totp-container {
+  margin-top: auto;
+  background-color: var(--card-background);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 2px dashed var(--primary-color);
+}
+
+.totp-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.totp-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.totp-code {
+  font-family: monospace;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--primary-color);
+}
+
+.totp-timer {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.button-containerStep {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 15px;
+  right: -20vw;
+}
+
+.next-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.next-button:hover {
+  background-color: var(--primary-hover);
+}
+.features-column {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.feature-card {
+  background-color: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  width: 18vw;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.feature-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.feature-icon {
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.feature-title {
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.feature-description {
+  color: var(--text-secondary);
+  flex: 1;
+}
+
