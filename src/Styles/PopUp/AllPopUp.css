@@ -9,7 +9,7 @@
   transform: translate(-50%, -50%);
   background-color: #fff;
   border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px #00000033;
   z-index: 9999;
 }
 

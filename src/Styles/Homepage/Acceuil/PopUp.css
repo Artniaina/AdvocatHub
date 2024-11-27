@@ -6,7 +6,7 @@
   background-color: #fff;
   padding: 20px;
   border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px #00000033;
   z-index: 9999;
 }
 
@@ -16,7 +16,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #00000080;
 }
 
 .close-button {

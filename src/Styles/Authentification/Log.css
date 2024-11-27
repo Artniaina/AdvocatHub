@@ -15,7 +15,6 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
 .login-left,
 .login-right {
   flex: 1;

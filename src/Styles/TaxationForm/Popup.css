@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: #00000080;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -151,7 +151,7 @@
   position: relative;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px #00000033;
   padding: 20px;
   min-width: 12vw;
   z-index: 1001;

@@ -1,61 +1,60 @@
-#adressePrivee{
-    width: 950px;
-    height: 300px;
-    outline: none;
-    font-size: 25px;
+#adressePrivee {
+  width: 950px;
+  height: 300px;
+  outline: none;
+  font-size: 25px;
 }
 .popupAdresse {
-    background: rgba(255, 255, 255);
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 63%;
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-    transition: all 0.3s ease-in-out;
-    font-family: 'Poppins', sans-serif;
-  }
-
-.head{
-    background-color:#671786 ;
-    margin-top: -21px;
-    margin-right:  -21px;
-    margin-left:  -21px;
-    height: 80px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px #00000033;
+  width: 63%;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease-in-out;
+  font-family: "Poppins", sans-serif;
 }
-.buttonPop{
-    padding: 15px;
-    margin: 10px;
-    width: 150px;
-    height: 50px;
-    font-size: 20px;
-    background-color: #671786;
-    border-radius: 10px;
-    border: none;
-    color: #ffffff;    
-margin-left: 810px;
+.head {
+  background-color: #671786;
+  margin-top: -21px;
+  margin-right: -21px;
+  margin-left: -21px;
+  height: 80px;
 }
-.btnpop{
-    text-align: center;
-    font-size: 30px;
-    color: #363333a8;
-    margin-left: 400px;
-    margin-top: -30px;
-    background-color: #ffffff;
-    border: none;
+.buttonPop {
+  padding: 15px;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+  background-color: #671786;
+  border-radius: 10px;
+  border: none;
+  color: #ffffff;
+  margin-left: 810px;
 }
-.closebtn{
-    font-size: 40px;
-    color: #000000;
-    background-color: #ffffff;
-    border: none;
-    margin-left: 950px;
-    margin-top: 20px;
-    background-color:#671786 ;
-    height: 50px;
-    color: #a7a4a4bd;
+.btnpop {
+  text-align: center;
+  font-size: 30px;
+  color: #363333a8;
+  margin-left: 400px;
+  margin-top: -30px;
+  background-color: #ffffff;
+  border: none;
 }
-.pup{
-    margin:  0;
+.closebtn {
+  font-size: 40px;
+  color: #000000;
+  background-color: #ffffff;
+  border: none;
+  margin-left: 950px;
+  margin-top: 20px;
+  background-color: #671786;
+  height: 50px;
+  color: #a7a4a4bd;
+}
+.pup {
+  margin: 0;
 }
