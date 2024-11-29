@@ -82,9 +82,17 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
     }));
   };
 
+
+  const [activeFilterKey, setActiveFilterKey] = useState(null);
+
   const handleFilterClick = (key) => {
-    setFilterActive(key);
+    setActiveFilterKey(key); 
   };
+
+  const handleFilterClose = () => {
+    setActiveFilterKey(null); 
+  };
+
 
   const filteredData = tableData.filter((row) =>
     Object.keys(filters).every((key) =>
@@ -400,35 +408,51 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
 
         <div className="invoice-table-container">
           <table className="invoice-table">
-            <thead>
-              <tr>
-                {tableHeaders.map(({ label, key }) => (
-                  <th key={key} onClick={() => requestSort(key)}>
-                    <span className="invoice-sort-icon">
-                      <PiCaretUpDownFill />
-                    </span>
-                    {label}
-                    <span
-                      className="invoice-filter-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFilterClick(key);
-                      }}
-                    >
-                      <FaFilter />
-                    </span>
-                    {filterActive === key && (
-                      <input
-                        type="text"
-                        placeholder={`Filter by ${label}`}
-                        value={filters[key] || ""}
-                        onChange={(e) => handleFilterChange(e, key)}
-                      />
-                    )}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+          <thead>
+        <tr>
+          {tableHeaders.map(({ label, key }) => (
+            <th key={key} onClick={() => requestSort(key)}>
+              {activeFilterKey === key ? (
+                <div className="invoice-filter-input-container">
+                  <input
+                    className="invoice-filter-input"
+                    type="text"
+                    placeholder={`Filtrer: ${label}`}
+                    value={filters[key] || ""}
+                    onChange={(e) => handleFilterChange(e, key)}
+                  />
+                  <span
+                    className="invoice-filter-close-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClose();
+                    }}
+                  >
+                    x
+                  </span>
+                </div>
+              ) : (
+
+                <div className="invoice-table-header-container">
+                  <span>{label}</span>
+                  <span className="invoice-sort-icon">
+                    <PiCaretUpDownFill />
+                  </span>
+                  <span
+                    className="invoice-filter-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClick(key);
+                    }}
+                  >
+                    <FaFilter />
+                  </span>
+                </div>
+              )}
+            </th>
+          ))}
+        </tr>
+      </thead>
             <tbody>
               {filteredData.map((data, index) =>
                 index === editIndex ? null : (
