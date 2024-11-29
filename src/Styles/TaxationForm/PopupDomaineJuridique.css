@@ -1,0 +1,110 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+  height: 80%;
+  padding: 20px;
+  position: relative;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #5e1675;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #8e2a8e;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.domain-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.table-header {
+  text-align: left;
+  padding: 12px 15px;
+  background-color: #5e1675;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.table-cell {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+.checkbox-input {
+  transform: scale(1.2);
+  margin: 0;
+}
+
+.submit-btn {
+  background-color: #5e1675;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #8e2a8e;
+}
+
+@media (max-width: 768px) {
+  .popup-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .table-header,
+  .table-cell {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

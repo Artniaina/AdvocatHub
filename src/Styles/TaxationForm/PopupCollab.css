@@ -7,7 +7,7 @@
 }
 
 .tableHeader {
-  background: linear-gradient(135deg, #9745b3, #9e55b6);
+  background:  #762092;
   color: white;
   padding: 12px 15px;
   text-align: left;
@@ -74,7 +74,7 @@
 .avocatCount {
   font-weight: 700;
   font-size: 28px;
-  color: #5E1675;
+  color: #2c2c2c;
   display: flex;
   align-items: center;
 }
@@ -94,7 +94,7 @@
 }
 
 .saveButton {
-  background: linear-gradient(135deg, #6f2688, #9e55b6);
+  background:#762092;
   color: white;
   border: none;
   padding: 10px 20px;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../../../Styles/TaxationForm/PopupDomaineJuridique.css'; 
 import '../../../../Styles/TaxationForm/Popup.css'; 
 import { IoCloseCircle } from "react-icons/io5";
 
@@ -39,32 +40,33 @@ const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="popupAffaire" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="closeButton"><IoCloseCircle /></button>
-        <form onSubmit={handleSubmit}>
-          <table className="domainTable" >
+      <div className="popup-container" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="close-btn"><IoCloseCircle /></button>
+        <form onSubmit={handleSubmit} className="form">
+          <table className="domain-table">
             <thead>
               <tr>
-                <th>Domaine Juridique</th>
-                <th>Choix</th>
+                <th className="table-header">Domaine Juridique</th>
+                <th className="table-header">Choix</th>
               </tr>
             </thead>
             <tbody>
               {domains.map((domain) => (
                 <tr key={domain}>
-                  <td className='td'>{domain}</td>
-                  <td>
+                  <td className="table-cell">{domain}</td>
+                  <td className="table-cell">
                     <input
                       type="checkbox"
                       checked={checkedDomains.includes(domain)}
                       onChange={() => handleCheckboxChange(domain)}
+                      className="checkbox-input"
                     />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button type="submit" className="submitButton">Valider</button>
+          <button type="submit" className="submit-btn">Valider</button>
         </form>
       </div>
     </div>
