@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../Styles/TaxationForm/CardInfo.css";
-import "../../../Styles/TaxationForm/Popup.css";
+import "../../../Styles/TaxationForm/PopupInvoice.css";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
@@ -58,8 +58,6 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});
   const [filterActive, setFilterActive] = useState(null);
-
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -143,12 +141,12 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
   };
 
   return (
-    <div className="overlay">
-      <div className="popupTax">
-        <div className="titleCard">
+    <div className="invoice-overlay">
+      <div className="invoice-popup">
+        <div className="invoice-title">
           HONORAIRES
           <button
-            className="close-button"
+            className="invoice-close-btn"
             style={{ marginTop: "-5px" }}
             onClick={onClose}
           >
@@ -157,8 +155,8 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="avocatForm2">
-            <div className="prestataire">
+          <div className="invoice-form-container">
+            <div className="invoice-form-section">
               <div style={{ display: "flex" }}>
                 <div>
                   <label htmlFor="date">Date*: </label>
@@ -166,6 +164,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                     type="date"
                     id="date"
                     name="date"
+                    className="invoice-input"
                     value={formData.date}
                     onChange={handleChange}
                     required
@@ -177,6 +176,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                     type="text"
                     id="reference"
                     name="reference"
+                    className="invoice-input"
                     value={formData.reference}
                     onChange={handleChange}
                   />
@@ -184,9 +184,9 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
               </div>
               <div>
                 <p>Nombre d'heures facturées * :</p>
-                <div style={{ display: "flex" }}>
+                <div className="invoice-hours-input">
                   <input
-                    className="hour"
+                    className="invoice-input"
                     type="text"
                     placeholder="0h"
                     name="hours"
@@ -195,7 +195,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                     required
                   />
                   <input
-                    className="hour"
+                    className="invoice-input"
                     type="text"
                     placeholder="0mn"
                     name="minutes"
@@ -205,7 +205,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   />
                 </div>
               </div>
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="tauxHorairesfacturés">
                   Taux horaires HTVA facturés * :
                 </label>
@@ -213,13 +213,14 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="tauxHorairesfacturés"
                   name="tauxHorairesfacturés"
+                  className="invoice-input"
                   value={formData.tauxHorairesfacturés}
                   onChange={handleChange}
                   placeholder="0.00 €"
                   required
                 />
               </div>
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="totalHonoraireHTVA">
                   Total des honoraires HTVA facturés * :
                 </label>
@@ -227,6 +228,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="totalHonoraireHTVA"
                   name="totalHonoraireHTVA"
+                  className="invoice-input"
                   value={formData.totalHonoraireHTVA}
                   onChange={handleChange}
                   placeholder="0.00 €"
@@ -234,7 +236,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="totalFraisConstitutionHtva">
                   Total des frais de constitution de dossier et des frais de
                   bureau HTVA facturés * :
@@ -243,6 +245,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="totalFraisConstitutionHtva"
                   name="fraisConstitutionDossier"
+                  className="invoice-input"
                   value={formData.fraisConstitutionDossier}
                   placeholder="0.00 €"
                   onChange={handleChange}
@@ -250,7 +253,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="totalHonorairesFraisDossierHtva">
                   Total des honoraires et frais de dossiers HTVA :
                 </label>
@@ -258,18 +261,20 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="totalHonorairesFraisDossierHtva"
                   name="totalHonoraireFraisDossier"
+                  className="invoice-input"
                   value={formData.totalHonoraireFraisDossier}
                   placeholder="0.00 €"
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="tauxTva">Taux de TVA :</label>
                 <input
                   type="text"
                   id="tauxTva"
                   name="tauxTVA"
+                  className="invoice-input"
                   placeholder="0.00 %"
                   value={formData.tauxTVA}
                   onChange={handleChange}
@@ -277,8 +282,8 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
               </div>
             </div>
 
-            <div className="prestataire">
-              <div className="formGroup">
+            <div className="invoice-form-section">
+              <div className="invoice-form-group">
                 <label htmlFor="montantTvaHonoraire">
                   Montant de la TVA (honoraires et frais compris) * :
                 </label>
@@ -286,6 +291,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="montantTvaHonoraire"
                   name="montantTVA"
+                  className="invoice-input"
                   value={formData.montantTVA}
                   placeholder="0.00 €"
                   onChange={handleChange}
@@ -293,7 +299,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="totalHonorairesTtc">
                   Total des honoraires TTC * :
                 </label>
@@ -301,6 +307,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="totalHonorairesTtc"
                   name="totalHonoraireTTC"
+                  className="invoice-input"
                   placeholder="0.00 €"
                   value={formData.totalHonoraireTTC}
                   onChange={handleChange}
@@ -308,15 +315,16 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="fraisHuissiersTtc">
-                  Frais d’huissiers, d’expertise, de traduction, de RCS... (TTC)
+                  Frais d'huissiers, d'expertise, de traduction, de RCS... (TTC)
                   * :
                 </label>
                 <input
                   type="text"
                   id="fraisHuissiersTtc"
                   name="fraisDivers"
+                  className="invoice-input"
                   placeholder="0.00 €"
                   value={formData.fraisDivers}
                   onChange={handleChange}
@@ -324,7 +332,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="totalProvisionsTtc">
                   Total des provisions TTC payées * :
                 </label>
@@ -332,6 +340,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="totalProvisionsTtc"
                   name="provisionsTTC"
+                  className="invoice-input"
                   placeholder="0.00 €"
                   value={formData.provisionsTTC}
                   onChange={handleChange}
@@ -339,7 +348,7 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="remiseNoteCredit">
                   Remise/note de crédit :
                 </label>
@@ -347,30 +356,33 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
                   type="text"
                   id="remiseNoteCredit"
                   name="remise"
+                  className="invoice-input"
                   placeholder="0.00%"
                   value={formData.remise}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="noteTtc">Note TTC :</label>
                 <input
                   type="text"
                   id="noteTtc"
                   name="noteTTC"
+                  className="invoice-input"
                   placeholder="0.00 €"
                   value={formData.noteTTC}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="formGroup">
+              <div className="invoice-form-group">
                 <label htmlFor="restantDu">Restant dû :</label>
                 <input
                   type="text"
                   id="restantDu"
                   name="restantDu"
+                  className="invoice-input"
                   placeholder="0.00 €"
                   value={formData.restantDu}
                   onChange={handleChange}
@@ -379,23 +391,25 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
             </div>
           </div>
 
-          <button className="addButton" type="submit">
-            {editIndex !== null ? "Modifier" : "Ajouter"}
-          </button>
+          <div className="invoice-button-container">
+            <button className="invoice-add-btn" type="submit">
+              {editIndex !== null ? "Modifier" : "Ajouter"}
+            </button>
+          </div>
         </form>
 
-        <div className="table-container">
-          <table className="tavleInfo">
+        <div className="invoice-table-container">
+          <table className="invoice-table">
             <thead>
               <tr>
                 {tableHeaders.map(({ label, key }) => (
                   <th key={key} onClick={() => requestSort(key)}>
-                    <span className="sort-icon">
+                    <span className="invoice-sort-icon">
                       <PiCaretUpDownFill />
                     </span>
                     {label}
                     <span
-                      className="filter-btn"
+                      className="invoice-filter-btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleFilterClick(key);
@@ -418,23 +432,38 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
             <tbody>
               {filteredData.map((data, index) =>
                 index === editIndex ? null : (
-                  <tr key={index}>
-                    <td>{data.hours}</td>
-                    <td>{data.minutes}</td>
-                    <td>{data.tauxHorairesfacturés}</td>
-                    <td>{data.totalHonoraireHTVA}</td>
-                    <td>{data.fraisConstitutionDossier}</td>
-                    <td>{data.totalHonoraireFraisDossier}</td>
-                    <td>{data.tauxTVA}</td>
-                    <td>{data.montantTVA}</td>
-                    <td>{data.totalHonoraireTTC}</td>
-                    <td>{data.fraisDivers}</td>
-                    <td>{data.provisionsTTC}</td>
-                    <td>{data.remise}</td>
-                    <td>{data.noteTTC}</td>
-                    <td>{data.restantDu}</td>
-                    <td>
-                      <FaFileSignature onClick={() => handleEditClick(index)} />
+                  <tr key={index} className="invoice-table-row">
+                    <td className="invoice-table-cell">{data.hours}</td>
+                    <td className="invoice-table-cell">{data.minutes}</td>
+                    <td className="invoice-table-cell">
+                      {data.tauxHorairesfacturés} €
+                    </td>
+                    <td className="invoice-table-cell">
+                      {data.totalHonoraireHTVA} €
+                    </td>
+                    <td className="invoice-table-cell">
+                      {data.fraisConstitutionDossier} €
+                    </td>
+                    <td className="invoice-table-cell">
+                      {data.totalHonoraireFraisDossier} €
+                    </td>
+                    <td className="invoice-table-cell">{data.tauxTVA} %</td>
+                    <td className="invoice-table-cell">{data.montantTVA} €</td>
+                    <td className="invoice-table-cell">
+                      {data.totalHonoraireTTC} €
+                    </td>
+                    <td className="invoice-table-cell">{data.fraisDivers} €</td>
+                    <td className="invoice-table-cell">
+                      {data.provisionsTTC} €
+                    </td>
+                    <td className="invoice-table-cell">{data.remise} %</td>
+                    <td className="invoice-table-cell">{data.noteTTC} €</td>
+                    <td className="invoice-table-cell">{data.restantDu} €</td>
+                    <td className="invoice-table-action">
+                      <FaFileSignature
+                        className="invoice-edit-icon"
+                        onClick={() => handleEditClick(index)}
+                      />
                     </td>
                   </tr>
                 )
@@ -442,10 +471,11 @@ const PopupNoteHonoraire = ({ onClose, onSubmitData }) => {
             </tbody>
           </table>
         </div>
-
-        <button className="sendButton" onClick={handleSendData}>
-          Envoyer les données
-        </button>
+        <div className="invoice-button-container">
+          <button className="invoice-send-btn" onClick={handleSendData}>
+            Envoyer les données
+          </button>
+        </div>
       </div>
     </div>
   );
