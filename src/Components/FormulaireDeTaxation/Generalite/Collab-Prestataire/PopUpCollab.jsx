@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../Styles/TaxationForm/Popup.css";
+import "../../../../Styles/TaxationForm/PopupCollab.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 
-const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollaborators }) => {
+const PopupCollaborateurs = ({
+  onClose,
+  selectedCollaborators,
+  onSelectCollaborators,
+}) => {
   const [filters, setFilters] = useState({});
   const [avocat, setAvocat] = useState([]);
   const [filterActive, setFilterActive] = useState(null);
@@ -38,7 +43,7 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     Adresse: "m_sadressecomplet",
     DateAssermentation: "m_dDateAssermentation",
     Telephone: "m_sTelephone",
-    Email: "m_sEmail", 
+    Email: "m_sEmail",
   };
 
   const sortedAvocat = useMemo(() => {
@@ -51,8 +56,10 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
         const aLower = aValue.toLowerCase();
         const bLower = bValue.toLowerCase();
 
-        if (aLower < bLower) return sortConfig.direction === "ascending" ? -1 : 1;
-        if (aLower > bLower) return sortConfig.direction === "ascending" ? 1 : -1;
+        if (aLower < bLower)
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        if (aLower > bLower)
+          return sortConfig.direction === "ascending" ? 1 : -1;
         return 0;
       });
     }
@@ -60,7 +67,9 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
     return sortableAvocat.filter((client) =>
       Object.keys(filters).every((key) =>
         client[keyMapping[key]]
-          ? client[keyMapping[key]].toLowerCase().includes(filters[key].toLowerCase())
+          ? client[keyMapping[key]]
+              .toLowerCase()
+              .includes(filters[key].toLowerCase())
           : false
       )
     );
@@ -91,7 +100,9 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
   };
 
   const selectedAvocats = useMemo(() => {
-    return avocat.filter((item) => selectedCollaborators.includes(item.m_nIDAvocat_PP));
+    return avocat.filter((item) =>
+      selectedCollaborators.includes(item.m_nIDAvocat_PP)
+    );
   }, [avocat, selectedCollaborators]);
 
   const handleSubmit = () => {
@@ -101,16 +112,15 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
       Prenom: avocat.m_sPrenom,
       Etude: avocat.m_sDénominationEtude,
       Adresse: avocat.m_sadressecomplet,
-      DateAssermentation: avocat.m_dDateAssermentation, 
+      DateAssermentation: avocat.m_dDateAssermentation,
       Telephone: avocat.m_sTelephone,
-      Email: avocat.m_emailbarreau, 
+      Email: avocat.m_emailbarreau,
       IDAvocat: avocat.m_nIDAvocat_PP,
     }));
     onSelectCollaborators(selectedCollaborators, necessaryData);
     onClose();
     console.log(necessaryData);
   };
-  
 
   return (
     <div className="overlay">
@@ -125,44 +135,49 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
             &times;
           </button>
         </div>
-        <div className="table-container">
-          <table className="tavleInfo">
+        <div className="tableContainer">
+          <table className="elegantTable">
             <thead>
               <tr>
-                {["Nom", "Prenom", "Etude", "Adresse", "Sélection"].map((key) => (
-                  <th key={key}>
-                    <span
-                      className="sort-icon"
-                      onClick={() => requestSort(key)}
-                    >
-                      <PiCaretUpDownFill />
-                    </span>
-                    {key}
-                    <span
-                      className="filter-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFilterClick(key);
-                      }}
-                    >
-                      <FaFilter />
-                    </span>
-                    {filterActive === key && (
-                      <input
-                        type="text"
-                        placeholder={`Filter by ${key}`}
-                        value={filters[key] || ""}
-                        onChange={(e) => handleFilterChange(e, key)}
-                      />
-                    )}
-                  </th>
-                ))}
+                {["Nom", "Prenom", "Etude", "Adresse", "Sélection"].map(
+                  (key) => (
+                    <th key={key} className="tableHeader">
+                      <div className="headerContent">
+                        <span
+                          className="sortIcon"
+                          onClick={() => requestSort(key)}
+                        >
+                          <PiCaretUpDownFill />
+                        </span>
+                        {key}
+                        <span
+                          className="filterIcon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleFilterClick(key);
+                          }}
+                        >
+                          <FaFilter />
+                        </span>
+                        {filterActive === key && (
+                          <input
+                            type="text"
+                            placeholder={`Filter by ${key}`}
+                            value={filters[key] || ""}
+                            className="filterInput"
+                            onChange={(e) => handleFilterChange(e, key)}
+                          />
+                        )}
+                      </div>
+                    </th>
+                  )
+                )}
               </tr>
             </thead>
             <tbody>
               {sortedAvocat.length > 0 ? (
                 sortedAvocat.map((avocat) => (
-                  <tr key={avocat.m_nIDAvocat_PP}>
+                  <tr key={avocat.m_nIDAvocat_PP} className="tableRow">
                     <td>{avocat.m_sNom}</td>
                     <td>{avocat.m_sPrenom}</td>
                     <td>{avocat.m_sDénominationEtude}</td>
@@ -171,27 +186,37 @@ const PopupCollaborateurs = ({ onClose, selectedCollaborators, onSelectCollabora
                       <input
                         type="checkbox"
                         value={avocat.m_nIDAvocat_PP}
-                        checked={selectedCollaborators.includes(avocat.m_nIDAvocat_PP)}
-                        onChange={() => handleCheckboxChange(avocat.m_nIDAvocat_PP)}
+                        className="checkboxInput"
+                        checked={selectedCollaborators.includes(
+                          avocat.m_nIDAvocat_PP
+                        )}
+                        onChange={() =>
+                          handleCheckboxChange(avocat.m_nIDAvocat_PP)
+                        }
                       />
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">Aucune donnée </td>
+                  <td colSpan="5" className="noData">
+                    Aucune donnée
+                  </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-        <div className="footerListe">
-          <div>
-            <p>Nombre d'avocats: <br />{avocat.length}</p>
+        <div className="actionButtons">
+            <button className="saveButton" onClick={handleSubmit}>
+              Enregistrer
+            </button>
           </div>
-          <div>
-            <button onClick={handleSubmit}>Enregistrer</button>
+        <div className="popupFooter">
+          <div className="avocatCount">
+            Nombre d'avocats: <span>{avocat.length}</span>
           </div>
+         
         </div>
       </div>
     </div>
