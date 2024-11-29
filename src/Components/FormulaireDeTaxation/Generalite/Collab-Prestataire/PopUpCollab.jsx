@@ -135,6 +135,11 @@ const PopupCollaborateurs = ({
             &times;
           </button>
         </div>
+        <div className="popupFooter">
+          <div className="avocatCount">
+            Nombre d'avocats: <span>{avocat.length}</span>
+          </div>
+        </div>
         <div className="tableContainer">
           <table className="elegantTable">
             <thead>
@@ -208,16 +213,11 @@ const PopupCollaborateurs = ({
           </table>
         </div>
         <div className="actionButtons">
-            <button className="saveButton" onClick={handleSubmit}>
-              Enregistrer
-            </button>
-          </div>
-        <div className="popupFooter">
-          <div className="avocatCount">
-            Nombre d'avocats: <span>{avocat.length}</span>
-          </div>
-         
+          <button className="saveButton" onClick={handleSubmit}>
+            Enregistrer
+          </button>
         </div>
+       
       </div>
     </div>
   );

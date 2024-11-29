@@ -1,117 +1,118 @@
+.elegantTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(100, 50, 150, 0.1);
+}
 
-  .elegantTable {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(100, 50, 150, 0.1);
-  }
-  
-  .tableHeader {
-    background: linear-gradient(135deg, #9745b3, #9e55b6);
-    color: white;
-    padding: 12px 15px;
-    text-align: left;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  
-  .headerContent {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .sortIcon, 
-  .filterIcon {
-    cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-  }
-  
-  .sortIcon:hover, 
-  .filterIcon:hover {
-    opacity: 1;
-  }
-  
-  .tableRow {
-    transition: background-color 0.3s ease;
-  }
-  
-  .tableRow:nth-child(even) {
-    background-color: #ede6f3;
-  }
-  
-  .tableRow:hover {
-    background-color: #ede6f3;
-  }
-  
-  .tableRow td {
-    padding: 10px 15px;
-    border-bottom: 1px solid #e0e0e8;
-  }
-  
-  .filterInput {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid white;
-    border-radius: 4px;
-  }
-  
-  .checkboxInput {
-    accent-color: #7a3688;
-    transform: scale(1.2);
-  }
-  
-  .popupFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #956b9bd8;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    margin-top: 70px;
-  }
-  
-  .avocatCount {
-    font-weight: 600;
-    color: #ffffff;
-  }
-  
-  .avocatCount span {
-      color: #ffffff;
-      margin-left: 5px;
-    }
-    
-    .actionButtons {
-        display: flex;
-        gap: 10px;
-        justify-content: end;
+.tableHeader {
+  background: linear-gradient(135deg, #9745b3, #9e55b6);
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-  }
-  
-  .saveButton {
-    background: linear-gradient(135deg, #6f2688, #9e55b6);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-top: 20px;
-    padding: 12px;
-  }
-  
-  .saveButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(100, 50, 150, 0.3);
-  }
-  
-  .noData {
-    text-align: center;
-    padding: 20px;
-    color: #623a7c;
-    font-style: italic;
-  }
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sortIcon,
+.filterIcon {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.sortIcon:hover,
+.filterIcon:hover {
+  opacity: 1;
+}
+
+.tableRow {
+  transition: background-color 0.3s ease;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #ede6f3;
+}
+
+.tableRow:hover {
+  background-color: #ede6f3;
+}
+
+.tableRow td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e8;
+}
+
+.filterInput {
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid white;
+  border-radius: 4px;
+}
+
+.checkboxInput {
+  accent-color: #7a3688;
+  transform: scale(1.2);
+}
+
+.popupFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  width: auto;
+}
+
+.avocatCount {
+  font-weight: 700;
+  font-size: 28px;
+  color: #5E1675;
+  display: flex;
+  align-items: center;
+}
+
+.avocatCount span {
+  color: #5E1675;
+  font-weight: 600;
+  margin-left: 8px;
+  font-family: "Roboto", sans-serif;
+  font-size: 30px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #6f2688, #9e55b6);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
+  padding: 12px;
+}
+
+.saveButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(100, 50, 150, 0.3);
+}
+
+.noData {
+  text-align: center;
+  padding: 20px;
+  color: #623a7c;
+  font-style: italic;
+}
