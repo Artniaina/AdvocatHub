@@ -1,0 +1,135 @@
+.upload-docs-container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 50;
+  padding: 8px 12px;
+  background-color: #5e1675;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background: linear-gradient(to bottom, #5e1675, #4a0e5e);
+  color: white;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  padding: 16px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  display: block;
+  padding: 10px 16px;
+  text-align: left;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.sidebar-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+.content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 16px;
+  background: #f9f9f9;
+  overflow-y: auto;
+}
+
+.tab-content {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.document-list {
+  list-style: none;
+  padding: 0;
+}
+
+.document-item {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.action-button {
+  padding: 5px 10px;
+  background-color: #5e1675;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.action-button:hover {
+  background-color: #4a0e5e;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

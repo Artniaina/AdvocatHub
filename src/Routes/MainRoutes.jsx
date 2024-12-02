@@ -25,6 +25,7 @@ import TaxationFormPage from "../Pages/TaxationFormPage";
 import UsersGuide from "../Pages/DoubleAuthentication/UsersGuide";
 import UpdateTaxationFormPage from "../Pages/UpdateTaxationFormPage";
 import ListeFormulairePage from "../Pages/ListeFormulairePage";
+import UploadDocs from "../Components/Document/UploadDocument/UploadDocs";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -99,8 +100,8 @@ function MainRoutes() {
         </Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION */}
-          <Route exact path="/scanqrcode" element={<UsersGuide />} />
         <Route element={<PartialProtectedRoute />}>
+          <Route exact path="/scanqrcode" element={<UsersGuide />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
 
@@ -108,6 +109,7 @@ function MainRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/home/formTaxation" element={<TaxationFormPage />} />
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
+          <Route path="/document/uploadDocument" element={<UploadDocs />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
