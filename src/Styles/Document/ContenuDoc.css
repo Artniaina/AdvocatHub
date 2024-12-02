@@ -1,0 +1,105 @@
+
+.mainContainerDoc {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .documentListTitle {
+    text-align: center;
+    font-size: 28px;
+    color: #5e1675;
+    margin-bottom: 30px;
+  }
+  
+
+  .filterSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+
+  .searchInput {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 60%;
+    max-width: 400px;
+  }
+  
+
+  .filterButtons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .filterButton {
+    padding: 10px 20px;
+    background-color: #5e1675;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filterButton:hover {
+    background-color: #450b58;
+  }
+  
+
+  .documentList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .documentCard {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .documentCard:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .documentName {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .documentDescription {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+  }
+
+  .viewButton {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #5e1675;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .viewButton:hover {
+    background-color: #450b58;
+  }
+  
