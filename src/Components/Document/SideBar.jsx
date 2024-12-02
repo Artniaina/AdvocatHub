@@ -1,41 +1,54 @@
-import React, { useState } from 'react';
-import '../../Styles/Document/UploadDocs.css';
-import { FaHome, FaFolder, FaUpload, FaShare, FaArchive, FaCog, FaUser } from 'react-icons/fa'; 
+import React, { useState } from "react";
+import "../../Styles/Document/UploadDocs.css";
+import {
+  FaFolder,
+  FaUpload,
+  FaShare,
+  FaArchive,
+  FaCog,
+  FaUser,
+} from "react-icons/fa";
 import { SlClose } from "react-icons/sl";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-
-const UploadDocs = () => {
+const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState("dashboard");
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const sidebarMenuItems = [
-    { key: 'dashboard', icon: <FaHome />, label: 'Dashboard' },
-    { key: 'documents', icon: <FaFolder />, label: 'Documents' },
-    { key: 'upload', icon: <FaUpload />, label: 'Upload' },
-    { key: 'share', icon: <FaShare />, label: 'Share' },
-    { key: 'archive', icon: <FaArchive />, label: 'Archive' },
+    { key: "documents", icon: <FaFolder />, label: "Documents" },
+    { key: "upload", icon: <FaUpload />, label: "Ajout de document" },
+    { key: "share", icon: <FaShare />, label: "Documents partagés" },
+    { key: "archive", icon: <FaArchive />, label: "Versioning des documents" },
   ];
   const bottomMenuItems = [
-    { key: 'settings', icon: <FaCog />, label: 'Settings' },
-    { key: 'profile', icon: <FaUser />, label: 'Profile' },
+    { key: "settings", icon: <FaCog />, label: "Settings" },
+    { key: "profile", icon: <FaUser />, label: "Profile" },
   ];
 
   return (
-    <div className={`ged-sidebar ${isOpen ? 'open' : 'closed'}`}>
-      <div className="sidebar-header">
-        <span className="logo">GED System</span>
-        <button onClick={toggleSidebar} className="toggle-btn">
-          {isOpen ? <SlClose /> : <GiHamburgerMenu />}
-        </button>
-      </div>
-
+    <div className={`ged-sidebar ${isOpen ? "open" : "closed"}`}>
+      {isOpen ? (
+        <div className="sidebar-header">
+          <span className="logo">Documents</span>
+          <button onClick={toggleSidebar} className="toggle-btn">
+            {isOpen ? <SlClose /> : ""}
+          </button>
+        </div>
+      ) : (
+        <div className="sidebar-hamburger">
+          <GiHamburgerMenu className="hamburger-icon" onClick={toggleSidebar} />
+          <button onClick={toggleSidebar} className="toggle-btn">
+            {isOpen ? <SlClose /> : ""}
+          </button>
+        </div>
+      )}
       <div className="menu">
-        {sidebarMenuItems.map(item => (
+        {sidebarMenuItems.map((item) => (
           <div
             key={item.key}
-            className={`menu-item ${activeTab === item.key ? 'active' : ''}`}
+            className={`menu-item ${activeTab === item.key ? "active" : ""}`}
             onClick={() => setActiveTab(item.key)}
           >
             <div className="icon">{item.icon}</div>
@@ -45,10 +58,10 @@ const UploadDocs = () => {
       </div>
 
       <div className="bottom-menu">
-        {bottomMenuItems.map(item => (
+        {bottomMenuItems.map((item) => (
           <div
             key={item.key}
-            className={`menu-item ${activeTab === item.key ? 'active' : ''}`}
+            className={`menu-item ${activeTab === item.key ? "active" : ""}`}
             onClick={() => setActiveTab(item.key)}
           >
             <div className="icon">{item.icon}</div>
@@ -60,4 +73,4 @@ const UploadDocs = () => {
   );
 };
 
-export default UploadDocs;
+export default SideBar;

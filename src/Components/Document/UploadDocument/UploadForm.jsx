@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../../Styles/Document/UploadForm.css';
-
+ 
 const UploadForm = () => {
   const [documentName, setDocumentName] = useState('');
   const [documentDescription, setDocumentDescription] = useState('');
@@ -32,7 +32,7 @@ const UploadForm = () => {
       <h2 className="upload-form-title">Upload Document</h2>
       <form className="upload-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="documentName">Document Name:</label>
+          <label htmlFor="documentName">Document Name: </label>
           <input
             type="text"
             id="documentName"
