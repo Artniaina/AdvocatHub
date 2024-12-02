@@ -25,7 +25,7 @@ const UploadDocs = () => {
     <div className={`ged-sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
         {isOpen ? (
-          <span className="logo">Gestion de documents</span>
+          <span className="logo">Documents</span>
         ) : (
           <GiHamburgerMenu className="hamburger-icon" onClick={toggleSidebar} />
         )}

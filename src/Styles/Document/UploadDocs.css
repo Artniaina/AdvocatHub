@@ -9,6 +9,7 @@
 
 .ged-sidebar.closed {
   width: 80px;
+  background-color: #f9fafb;
 }
 
 .sidebar-header {
@@ -17,6 +18,8 @@
   align-items: center;
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
+  background-color: #5E1675; 
+  color: white; 
 }
 
 .logo {
@@ -28,6 +31,12 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: 10px;
+  color: white; 
+}
+
+.toggle-btn:hover {
+  color: #e5e7eb;
 }
 
 .menu {
@@ -39,44 +48,71 @@
   align-items: center;
   padding: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .menu-item:hover {
   background-color: #e5e7eb;
+  color: #5E1675; 
 }
 
 .menu-item.active {
   background-color: #d1d5db;
+  color: #5E1675;
 }
 
 .icon {
   margin-right: 1rem;
+  color: #5E1675;
+  transition: color 0.3s;
 }
+
 
 .label {
   font-size: 1rem;
   color: #4b5563;
+  transition: color 0.3s;
 }
+
+.menu-item:hover .label {
+  color: #5E1675;
+}
+
 
 .bottom-menu {
   margin-top: auto;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
 }
+
+
 .hamburger-icon {
-    font-size: 24px;
-    cursor: pointer;
-    color: #000;
-  }
-  
-  .logo {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-  }
-  
+  font-size: 24px;
+  cursor: pointer;
+  color: #5E1675; 
+}
+
+.hamburger-icon:hover {
+  color: #e5e7eb; 
+}
+
+
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: #5E1675;
+}
+
+.toggle-btn:hover {
+  color: #e5e7eb; 
+}
+
+.menu-item .icon, .menu-item .label {
+  transition: color 0.3s ease;
+}
+
+.ged-sidebar {
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
