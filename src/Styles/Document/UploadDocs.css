@@ -3,25 +3,47 @@
   flex-direction: column;
   width: 250px;
   background-color: #f9fafb;
-  transition: width 0.3s;
+  transition: width 0.3s, background-color 0.3s ease-in-out,
+    border-radius 0.3s ease-in-out;
   height: 100vh;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 
 .ged-sidebar.closed {
   width: 80px;
   background-color: #f9fafb;
+  border-radius: 10px;
+}
+
+.ged-sidebar.open {
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  background-color: #e8defffb;
 }
 
 .sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
+  position: relative;
+  padding: 2.25rem 4.25rem;
   border-bottom: 1px solid #e5e7eb;
-  background-color: #5E1675; 
-  color: white; 
+  background-color: #5e1675;
+  color: white;
+  border-top-right-radius: 10px;
 }
-
+.sidebar-hamburger{
+    position: relative;
+    padding: 1.25rem;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #5e1675;
+    color: white;
+    border-top-right-radius: 10px;
+  }
 .logo {
   font-size: 1.25rem;
   font-weight: 600;
@@ -32,7 +54,11 @@
   border: none;
   cursor: pointer;
   padding: 10px;
-  color: white; 
+  color: #ffffff;
+  font-size: 1.5rem;
+  position: absolute ;
+  top: 5px;
+  right: 5px;
 }
 
 .toggle-btn:hover {
@@ -48,36 +74,37 @@
   align-items: center;
   padding: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s ease-in-out;
+  border-radius: 0 0 8px;
+  margin-bottom: 5px;
 }
 
 .menu-item:hover {
   background-color: #e5e7eb;
-  color: #5E1675; 
+  color: #5e1675;
+  transform: translateX(2px);
 }
 
 .menu-item.active {
   background-color: #d1d5db;
-  color: #5E1675;
+  color: #5e1675;
 }
 
 .icon {
   margin-right: 1rem;
-  color: #5E1675;
-  transition: color 0.3s;
+  color: #5e1675;
+  transition: color 0.3s ease-in-out;
 }
-
 
 .label {
   font-size: 1rem;
-  color: #4b5563;
-  transition: color 0.3s;
+  color: #180925;
+  transition: color 0.3s ease-in-out;
 }
 
 .menu-item:hover .label {
-  color: #5E1675;
+  color: #5e1675;
 }
-
 
 .bottom-menu {
   margin-top: auto;
@@ -85,34 +112,39 @@
   padding-top: 1rem;
 }
 
-
 .hamburger-icon {
   font-size: 24px;
   cursor: pointer;
-  color: #5E1675; 
+  color: #ffffff;
 }
 
 .hamburger-icon:hover {
-  color: #e5e7eb; 
+  color: #e5e7eb;
 }
-
 
 .toggle-btn {
   background: none;
   border: none;
   cursor: pointer;
   padding: 10px;
-  color: #5E1675;
+  color: #ffffff;
 }
 
 .toggle-btn:hover {
-  color: #e5e7eb; 
-}
-
-.menu-item .icon, .menu-item .label {
-  transition: color 0.3s ease;
+  color: #e5e7eb;
 }
 
 .ged-sidebar {
-  transition: width 0.3s ease, background-color 0.3s ease;
+  transition: width 0.3s ease, background-color 0.3s ease,
+    border-radius 0.3s ease-in-out;
+}
+
+.menu-item .icon,
+.menu-item .label {
+  transition: color 0.3s ease-in-out;
+}
+
+.menu-item:hover {
+  background-color: #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
