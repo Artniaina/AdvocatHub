@@ -46,8 +46,9 @@ const PopupDomaineJuridique = ({ onClose, onSubmit, selectedDomains }) => {
           <table className="domain-table">
             <thead>
               <tr>
-                <th className="table-header">Domaine Juridique</th>
+                <th className="table-header">Domaine Juridique</th>         
                 <th className="table-header">Choix</th>
+               
               </tr>
             </thead>
             <tbody>
