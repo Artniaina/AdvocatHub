@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import '../../../Styles/Document/UploadDocs.css';
+import '../../Styles/Document/UploadDocs.css';
 import { FaHome, FaFolder, FaUpload, FaShare, FaArchive, FaCog, FaUser } from 'react-icons/fa'; 
 import { SlClose } from "react-icons/sl";
 import { GiHamburgerMenu } from "react-icons/gi";
+
 
 const UploadDocs = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -24,13 +25,9 @@ const UploadDocs = () => {
   return (
     <div className={`ged-sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
-        {isOpen ? (
-          <span className="logo">Gestion de documents</span>
-        ) : (
-          <GiHamburgerMenu className="hamburger-icon" onClick={toggleSidebar} />
-        )}
+        <span className="logo">GED System</span>
         <button onClick={toggleSidebar} className="toggle-btn">
-          {isOpen ? <SlClose /> : ""}
+          {isOpen ? <SlClose /> : <GiHamburgerMenu />}
         </button>
       </div>
 
