@@ -5,8 +5,6 @@ import {
   FaUpload,
   FaShare,
   FaArchive,
-  FaCog,
-  FaUser,
 } from "react-icons/fa";
 import { SlClose } from "react-icons/sl";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -23,7 +21,7 @@ const SideBar = () => {
     { key: "documents", icon: <FaFolder />, label: "Documents" },
     { key: "upload", icon: <FaUpload />, label: "Ajout de document" },
     { key: "share", icon: <FaShare />, label: "Documents partagés" },
-    { key: "archive", icon: <FaArchive />, label: "Versioning des documents" },
+    { key: "archive", icon: <FaArchive />, label: "Versioning" },
   ];
   const bottomMenuItems = [
     { key: "return", icon: <GrLinkPrevious />, label: "Retour" },
