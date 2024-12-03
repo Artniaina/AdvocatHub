@@ -29,6 +29,7 @@ import UploadDocs from "../Components/Document/UploadDocument/UploadDocs";
 import VersionControl from "../Components/Document/VersionControl/VersionControl";
 import ListeDocumentPartages from "../Components/Document/DocumentPartages/ListeDocumentPartages";
 import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPartages";
+import DocumentListComp from "../Components/Document/DocumentList/DocumentListComp";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -125,6 +126,7 @@ function MainRoutes() {
             path="/home/listeFormulaire"
             element={<ListeFormulairePage />}
           />
+          <Route path="/documents" element={<DocumentListComp />} />
           <Route path="/shared-documents" element={<DocumentPartages />} />
           <Route path="/upload" element={<UploadDocs />} />
           <Route path="/versioning" element={<VersionControl />} />
