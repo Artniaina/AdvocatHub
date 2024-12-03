@@ -10,8 +10,11 @@ import {
 } from "react-icons/fa";
 import { SlClose } from "react-icons/sl";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { GrLinkPrevious } from "react-icons/gr";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
+  const navigate= useNavigate()
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -23,8 +26,7 @@ const SideBar = () => {
     { key: "archive", icon: <FaArchive />, label: "Versioning des documents" },
   ];
   const bottomMenuItems = [
-    { key: "settings", icon: <FaCog />, label: "Settings" },
-    { key: "profile", icon: <FaUser />, label: "Profile" },
+    { key: "return", icon: <GrLinkPrevious />, label: "Retour" },
   ];
 
   return (
@@ -62,7 +64,7 @@ const SideBar = () => {
           <div
             key={item.key}
             className={`menu-item ${activeTab === item.key ? "active" : ""}`}
-            onClick={() => setActiveTab(item.key)}
+            onClick={() => navigate("/document")}
           >
             <div className="icon">{item.icon}</div>
             {isOpen && <span className="label">{item.label}</span>}

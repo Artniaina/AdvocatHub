@@ -28,7 +28,7 @@ const UploadForm = () => {
   };
 
   return (
-    <div className="upload-form-container">
+    <div>
       <h2 className="upload-form-title">Upload Document</h2>
       <form className="upload-form" onSubmit={handleSubmit}>
         <div className="form-group">

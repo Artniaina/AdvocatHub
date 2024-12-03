@@ -1,13 +1,25 @@
+.upload-docs-container {
+  display: flex;
+}
+
+.ged-sidebar {
+  width: 250px; 
+  transition: width 0.3s ease-in-out;
+}
+
+.ged-sidebar.closed {
+  width: 80px; 
+}
+
 .upload-form-container {
-    width: 80%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
+  padding: 20px;
+  background-color: #F7F7F7; 
+  overflow-y: auto;
+  transition: margin-left 0.3s ease-in-out;
+  width: 81%;
+
+}
+
 
   .upload-form-title {
     text-align: center;
