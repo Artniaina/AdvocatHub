@@ -26,6 +26,9 @@ import UsersGuide from "../Pages/DoubleAuthentication/UsersGuide";
 import UpdateTaxationFormPage from "../Pages/UpdateTaxationFormPage";
 import ListeFormulairePage from "../Pages/ListeFormulairePage";
 import UploadDocs from "../Components/Document/UploadDocument/UploadDocs";
+import VersionControl from "../Components/Document/VersionControl/VersionControl";
+import ListeDocumentPartages from "../Components/Document/DocumentPartages/ListeDocumentPartages";
+import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPartages";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -114,8 +117,16 @@ function MainRoutes() {
           <Route path="/document" element={<Document />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
-          <Route path="/home/updateFormTaxation" element={<UpdateTaxationFormPage />} /> 
-          <Route path="/home/listeFormulaire" element={<ListeFormulairePage />} />
+          <Route
+            path="/home/updateFormTaxation"
+            element={<UpdateTaxationFormPage />}
+          />
+          <Route
+            path="/home/listeFormulaire"
+            element={<ListeFormulairePage />}
+          />
+          <Route path="/shared-documents" element={<DocumentPartages />} />
+          <Route path="/versioning" element={<VersionControl />} />
         </Route>
       </Routes>
     </>

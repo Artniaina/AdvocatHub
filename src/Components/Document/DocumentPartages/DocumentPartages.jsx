@@ -3,7 +3,7 @@ import SideBar from '../SideBar';
 import '../../../Styles/Document/UploadForm.css';
 import ListeDocumentPartages from './ListeDocumentPartages';
 
-const UploadDocs = () => {
+const DocumentPartages = () => {
   const [isSidebarClosed, setSidebarClosed] = useState(false);
 
   const toggleSidebar = () => {
@@ -20,4 +20,4 @@ const UploadDocs = () => {
   );
 };
 
-export default UploadDocs;
+export default DocumentPartages;

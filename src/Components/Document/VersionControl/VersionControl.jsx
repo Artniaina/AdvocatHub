@@ -3,7 +3,7 @@ import SideBar from '../SideBar';
 import '../../../Styles/Document/UploadForm.css';
 import VersionControlList from './VersionControlList';
 
-const UploadDocs = () => {
+const VersionControl = () => {
   const [isSidebarClosed, setSidebarClosed] = useState(false);
 
   const toggleSidebar = () => {
@@ -21,4 +21,4 @@ const UploadDocs = () => {
   );
 };
 
-export default UploadDocs;
+export default VersionControl;
