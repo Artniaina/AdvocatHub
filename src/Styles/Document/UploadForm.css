@@ -20,6 +20,14 @@
 
 }
 
+.upload-form-container .closed {
+  padding: 20px;
+  background-color: #a81111; 
+  overflow-y: auto;
+  transition: margin-left 0.3s ease-in-out;
+  width: 93%;
+}
+
 
   .upload-form-title {
     text-align: center;

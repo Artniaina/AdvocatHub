@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SideBar from '../SideBar';
-import UploadForm from './UploadForm';
 import '../../../Styles/Document/UploadForm.css';
+import VersionControlList from './VersionControlList';
 
 const UploadDocs = () => {
   const [isSidebarClosed, setSidebarClosed] = useState(false);
@@ -15,7 +15,7 @@ const UploadDocs = () => {
       <SideBar isClosed={isSidebarClosed} toggleSidebar={toggleSidebar} />
       
       <div className={`upload-form-container ${isSidebarClosed ? 'closed' : ''}`}>
-        <UploadForm />
+        <VersionControlList />
       </div>
     </div>
   );
