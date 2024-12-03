@@ -9,7 +9,7 @@ const UploadDocs = () => {
   const toggleSidebar = () => {
     setSidebarClosed(!isSidebarClosed);
   };
-
+ 
   return (
     <div className="upload-docs-container">
       <SideBar isClosed={isSidebarClosed} toggleSidebar={toggleSidebar} />
