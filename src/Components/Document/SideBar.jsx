@@ -13,7 +13,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const SideBar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // To track the current route
+  const location = useLocation(); 
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("");
 
@@ -30,7 +30,6 @@ const SideBar = () => {
     { key: "return", icon: <GrLinkPrevious />, label: "Retour", path: "/document" },
   ];
 
-  // This effect ensures the active tab is set according to the current path.
   useEffect(() => {
     const currentTab = sidebarMenuItems.find((item) => item.path === location.pathname)?.key;
     if (currentTab) {
