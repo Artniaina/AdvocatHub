@@ -126,6 +126,7 @@ function MainRoutes() {
             element={<ListeFormulairePage />}
           />
           <Route path="/shared-documents" element={<DocumentPartages />} />
+          <Route path="/upload" element={<UploadDocs />} />
           <Route path="/versioning" element={<VersionControl />} />
         </Route>
       </Routes>
