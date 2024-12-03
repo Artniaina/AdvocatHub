@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../../Styles/Document/UploadForm.css';
- 
+
 const UploadForm = () => {
   const [documentName, setDocumentName] = useState('');
   const [documentDescription, setDocumentDescription] = useState('');
@@ -13,26 +13,31 @@ const UploadForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const metadata = {
+    const documentData = {
       documentName,
       documentDescription,
       tags,
-      fileName: file?.name,
-      fileSize: file?.size,
-      fileType: file?.type,
+      file: {
+        name: file?.name,
+        size: file?.size,
+        type: file?.type,
+        data: file
+      }
     };
 
-    console.log('Document Metadata:', metadata);
-    console.log('Uploaded File:', file);
+    console.log('Document Data to Send:', documentData);
+    setDocumentName('');
+    setDocumentDescription('');
+    setTags('');
+    setFile(null);
   };
 
   return (
-    <div>
+    <div className="upload-form-container">
       <h2 className="upload-form-title">Upload Document</h2>
       <form className="upload-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="documentName">Document Name: </label>
+          <label htmlFor="documentName">Document Name:</label>
           <input
             type="text"
             id="documentName"
@@ -78,7 +83,9 @@ const UploadForm = () => {
         </div>
 
         <div className="form-group">
-          <button type="submit" className="submit-btn">Upload Document</button>
+          <button type="submit" className="submit-btn">
+            Upload Document
+          </button>
         </div>
       </form>
     </div>
