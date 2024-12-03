@@ -31,7 +31,7 @@ const SideBar = () => {
     <div className={`ged-sidebar ${isOpen ? "open" : "closed"}`}>
       {isOpen ? (
         <div className="sidebar-header">
-          <span className="logo">Documents</span>
+          <span className="logo">Logo</span>
           <button onClick={toggleSidebar} className="toggle-btn">
             {isOpen ? <SlClose /> : ""}
           </button>
