@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar";
 import PopupShare from "../DocumentPartages/PopupShare";
+import PopupUploadVersion from "../DocumentPartages/PopupUploadVersion";
 
 const VersionControlList = () => {
-    const [isPopupShown, setIsPopupShown]= useState(false)
-  
-  const showPopup = ()=>{
-    setIsPopupShown(true)
-  }
-  
+  const [isPopupShown, setIsPopupShown] = useState(false);
+  const [isPopupVersionShown, setIsPopupVersionShown] = useState(false);
+
+  const showPopup = () => {
+    setIsPopupShown(true);
+  };
+  const showVersionPopup = () => {
+    setIsPopupVersionShown(true);
+  };
+
   const documents = [
     {
       name: "Document 1",
@@ -111,6 +116,7 @@ const VersionControlList = () => {
                     borderRadius: "5px",
                     cursor: "pointer",
                   }}
+                  onClick={showVersionPopup}
                 >
                   Upload New Version
                 </button>
@@ -119,7 +125,10 @@ const VersionControlList = () => {
           ))}
         </tbody>
       </table>
-      {isPopupShown && <PopupShare/>}
+      {isPopupShown && <PopupShare onClose={() => setIsPopupShown(false)} />}
+      {isPopupVersionShown && (
+        <PopupUploadVersion onClose={() => setIsPopupVersionShown(false)} />
+      )}
     </div>
   );
 };

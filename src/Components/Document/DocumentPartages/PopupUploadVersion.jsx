@@ -27,7 +27,7 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!file) {
-      alert('Please select a file to upload');
+      alert('Veuillez sélectionner un fichier à télécharger');
       return;
     }
 
@@ -37,7 +37,7 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
       description
     };
 
-    console.log('Upload Document Version:', uploadData);
+    console.log('Téléchargement de la nouvelle version du document:', uploadData);
     onClose();
   };
 
@@ -49,11 +49,11 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
     <div className="document-version-overlay">
       <div className="document-version-container">
         <div className="document-version-header">
-          <h2>Upload New Document Version</h2>
+          <h2>Télécharger une nouvelle version du document</h2>
           <button 
             className="document-version-close" 
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Fermer"
           >
             ×
           </button>
@@ -74,8 +74,8 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
             />
             {file ? (
               <div className="document-version-file-preview">
-                <p>Selected File: {file.name}</p>
-                <p>Size: {(file.size / 1024).toFixed(2)} KB</p>
+                <p>Fichier sélectionné : {file.name}</p>
+                <p>Taille : {(file.size / 1024).toFixed(2)} Ko</p>
               </div>
             ) : (
               <div className="document-version-dropzone-content">
@@ -92,14 +92,14 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
                   <path d="M17 9l-5-5-5 5"/>
                   <path d="M12 4v12"/>
                 </svg>
-                <p>Drag and drop or click to upload</p>
-                <span>Supported formats: PDF, DOCX, TXT</span>
+                <p>Glissez-déposez ou cliquez pour télécharger</p>
+                <span>Formats supportés : PDF, DOCX, TXT</span>
               </div>
             )}
           </div>
 
           <div className="document-version-input-group">
-            <label htmlFor="document-version-name">Version Name</label>
+            <label htmlFor="document-version-name">Nom de la version</label>
             <input
               type="text"
               id="document-version-name"
@@ -111,13 +111,13 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
           </div>
 
           <div className="document-version-input-group">
-            <label htmlFor="document-version-description">Description (optional)</label>
+            <label htmlFor="document-version-description">Description (optionnelle)</label>
             <textarea
               id="document-version-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="document-version-textarea"
-              placeholder="Add notes about this version update"
+              placeholder="Ajoutez des notes sur cette mise à jour de version"
             />
           </div>
 
@@ -126,14 +126,14 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
               type="submit" 
               className="document-version-submit-btn"
             >
-              Upload New Version
+              Télécharger la nouvelle version
             </button>
             <button 
               type="button" 
               className="document-version-cancel-btn" 
               onClick={onClose}
             >
-              Cancel
+              Annuler
             </button>
           </div>
         </form>
@@ -141,5 +141,6 @@ const PopupUploadVersion = ({ onClose, currentVersion }) => {
     </div>
   );
 };
+
 
 export default PopupUploadVersion;
