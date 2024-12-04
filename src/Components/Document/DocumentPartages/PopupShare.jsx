@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../../Styles/Document/PopupShare.css';
+// import '../../../Styles/Document/PopupShare.css';
 
 const PopupShare = ({ onClose }) => {
   const [email, setEmail] = useState('');

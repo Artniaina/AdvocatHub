@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "../SearchBar";
 
 const ListeDocumentPartages = () => {
+
   const documents = [
     {
       name: "Project Proposal.pdf",

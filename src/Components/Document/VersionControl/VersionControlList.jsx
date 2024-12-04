@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar";
+import PopupShare from "../DocumentPartages/PopupShare";
 
 const VersionControlList = () => {
+    const [isPopupShown, setIsPopupShown]= useState(false)
+  
+  const showPopup = ()=>{
+    setIsPopupShown(true)
+  }
+  
   const documents = [
     {
       name: "Document 1",
@@ -78,6 +85,7 @@ const VersionControlList = () => {
                     borderRadius: "5px",
                     cursor: "pointer",
                   }}
+                  onClick={showPopup}
                 >
                   Share
                 </button>
@@ -111,6 +119,7 @@ const VersionControlList = () => {
           ))}
         </tbody>
       </table>
+      {isPopupShown && <PopupShare/>}
     </div>
   );
 };
