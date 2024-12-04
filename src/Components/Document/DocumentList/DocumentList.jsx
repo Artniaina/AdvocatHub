@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar";
 import "../../../Styles/Document/DocumentTable.css";
+import DocViewer from "react-doc-viewer";
 
 const DocumentList = () => {
   const documents = [
@@ -17,7 +18,7 @@ const DocumentList = () => {
       description: "This is a description for Document 2.",
       lastModified: "2024-12-02",
       version: "2.0",
-      pdfUrl: "",
+      wordUrl: "C:/Users/Kanto/Downloads/Memoire jo 5(2).docx",
     },
     {
       name: "Document 3",
@@ -29,6 +30,18 @@ const DocumentList = () => {
   ];
 
   const [filteredDocuments, setFilteredDocuments] = useState(documents);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentDocumentUrl, setCurrentDocumentUrl] = useState(null);
+
+  const openModal = (url) => {
+    setCurrentDocumentUrl(url);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentDocumentUrl(null);
+  };
 
   return (
     <div>
@@ -46,7 +59,7 @@ const DocumentList = () => {
               <th>Description</th>
               <th>Last Modified</th>
               <th>Version</th>
-              <th>View PDF</th>
+              <th>View Document</th>
             </tr>
           </thead>
           <tbody>
@@ -57,23 +70,56 @@ const DocumentList = () => {
                 <td>{doc.lastModified}</td>
                 <td>{doc.version}</td>
                 <td>
-                  <object
-                    data={doc.pdfUrl}
-                    type="application/pdf"
-                    width="100%"
-                    height="200px"
-                  >
-                    <p>
-                      Alternative text - include a link{" "}
-                      <a href={doc.pdfUrl}>to the PDF!</a>
-                    </p>
-                  </object>
+                  {doc.pdfUrl ? (
+                    <button
+                      onClick={() => openModal(doc.pdfUrl)}
+                      className="view-pdf-btn"
+                    >
+                      View PDF
+                    </button>
+                  ) : doc.wordUrl ? (
+                    <button
+                      onClick={() => openModal(doc.wordUrl)}
+                      className="view-doc-btn"
+                    >
+                      View Word Document
+                    </button>
+                  ) : (
+                    <span>No document available</span>
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {isModalOpen && currentDocumentUrl && (
+        <div className="modal">
+          <div className="modal-content">
+            <button className="close-modal-btn" onClick={closeModal}>
+              X
+            </button>
+            {currentDocumentUrl.includes(".pdf") ? (
+              <object
+                data={currentDocumentUrl}
+                type="application/pdf"
+                width="100%"
+                style={{ height: "90vh" }}
+              >
+                <p>
+                  Alternative text - include a link{" "}
+                  <a href={currentDocumentUrl}>to the PDF!</a>
+                </p>
+              </object>
+            ) : (
+              <DocViewer
+                documents={[{ uri: currentDocumentUrl }]}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
