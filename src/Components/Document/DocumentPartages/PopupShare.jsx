@@ -15,7 +15,7 @@ const PopupShare = ({ onClose }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError('Veuillez entrer une adresse e-mail valide');
       return;
     }
     setEmailError('');
@@ -24,7 +24,7 @@ const PopupShare = ({ onClose }) => {
       username,
       message,
     };
-    console.log('Share Document Data:', shareData);
+    console.log('Données de partage du document:', shareData);
     onClose();
   };
 
@@ -32,18 +32,18 @@ const PopupShare = ({ onClose }) => {
     <div className="document-share-overlay">
       <div className="document-share-container">
         <div className="document-share-header">
-          <h2>Share Document</h2>
+          <h2>Partager le document</h2>
           <button 
             className="document-share-close" 
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Fermer"
           >
             ×
           </button>
         </div>
         <form onSubmit={handleSubmit} className="document-share-form">
           <div className="document-share-input-group">
-            <label htmlFor="document-share-email">Email Address</label>
+            <label htmlFor="document-share-email">Adresse e-mail</label>
             <input
               type="email"
               id="document-share-email"
@@ -51,12 +51,12 @@ const PopupShare = ({ onClose }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="document-share-input"
-              placeholder="Enter recipient's email"
+              placeholder="Entrez l'e-mail du destinataire"
             />
             {emailError && <span className="document-share-error">{emailError}</span>}
           </div>
           <div className="document-share-input-group">
-            <label htmlFor="document-share-username">Username</label>
+            <label htmlFor="document-share-username">Nom d'utilisateur</label>
             <input
               type="text"
               id="document-share-username"
@@ -64,17 +64,17 @@ const PopupShare = ({ onClose }) => {
               onChange={(e) => setUsername(e.target.value)}
               required
               className="document-share-input"
-              placeholder="Enter username"
+              placeholder="Entrez le nom d'utilisateur"
             />
           </div>
           <div className="document-share-input-group">
-            <label htmlFor="document-share-message">Message (optional)</label>
+            <label htmlFor="document-share-message">Message (facultatif)</label>
             <textarea
               id="document-share-message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="document-share-textarea"
-              placeholder="Add a personal note (optional)"
+              placeholder="Ajoutez une note personnelle (facultatif)"
             />
           </div>
           <div className="document-share-actions">
@@ -82,14 +82,14 @@ const PopupShare = ({ onClose }) => {
               type="submit" 
               className="document-share-submit-btn"
             >
-              Share Document
+              Partager le document
             </button>
             <button 
               type="button" 
               className="document-share-cancel-btn" 
               onClick={onClose}
             >
-              Cancel
+              Annuler
             </button>
           </div>
         </form>
@@ -97,5 +97,6 @@ const PopupShare = ({ onClose }) => {
     </div>
   );
 };
+
 
 export default PopupShare;
