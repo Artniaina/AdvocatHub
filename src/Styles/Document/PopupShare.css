@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap");
 
 .document-share-overlay {
   position: fixed;
@@ -21,32 +21,41 @@
   width: 100%;
   max-width: 500px;
   padding: 30px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   animation: slideUp 0.4s ease-out;
 }
 
 .document-share-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 25px;
+  background-color: #5e1675;
+  border-top-left-radius: 12px;
+  position: relative;
+  top: -30px;
+  width: 35vw;
+  left: -30px;
+  justify-content: space-between;
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
 }
 
 .document-share-header h2 {
-  color: #5E1675;
+  color: #ffff;
   font-size: 24px;
   font-weight: 600;
   margin: 0;
+  padding: 20px;
 }
 
 .document-share-close {
   background: none;
   border: none;
   font-size: 30px;
-  color: #5E1675;
+  color: #ffff;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.3s ease;
+  padding-right: 20px;
 }
 
 .document-share-close:hover {
@@ -60,29 +69,29 @@
 .document-share-input-group label {
   display: block;
   margin-bottom: 8px;
-  color: #5E1675;
+  color: #5e1675;
   font-weight: 500;
 }
 
 .document-share-input,
 .document-share-textarea {
-  width: 100%;
+  width: 95%;
   padding: 12px;
-  border: 1.5px solid #E0E0E0;
+  border: 1.5px solid #e0e0e0;
   border-radius: 8px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   transition: all 0.3s ease;
 }
 
 .document-share-input:focus,
 .document-share-textarea:focus {
   outline: none;
-  border-color: #5E1675;
+  border-color: #5e1675;
   box-shadow: 0 0 0 3px rgba(94, 22, 117, 0.1);
 }
 
 .document-share-error {
-  color: #D8000C;
+  color: #d8000c;
   font-size: 14px;
   margin-top: 8px;
   display: block;
@@ -99,28 +108,28 @@
   padding: 12px;
   border: none;
   border-radius: 8px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .document-share-submit-btn {
-  background-color: #5E1675;
+  background-color: #5e1675;
   color: white;
 }
 
 .document-share-submit-btn:hover {
-  background-color: #4A1259;
+  background-color: #4a1259;
 }
 
 .document-share-cancel-btn {
-  background-color: #F0F0F0;
-  color: #5E1675;
+  background-color: #f0f0f0;
+  color: #5e1675;
 }
 
 .document-share-cancel-btn:hover {
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
 }
 
 @keyframes fadeIn {
