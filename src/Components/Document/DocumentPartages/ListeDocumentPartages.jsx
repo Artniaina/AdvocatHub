@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar";
-import "../../../Styles/Document/ListeDocumentPartages.css"
+import "../../../Styles/Document/ListeDocumentPartages.css";
 
 const ListeDocumentPartages = () => {
   const documents = [

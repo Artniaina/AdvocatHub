@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from '../SearchBar';
-
+import '../../../Styles/Document/DocumentTable.css';
 
 const DocumentList = () => {
   const documents = [
@@ -27,33 +27,33 @@ const DocumentList = () => {
   const [filteredDocuments, setFilteredDocuments] = useState(documents);
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', color: '#5E1675', padding: '20px' }}>
+    <div >
       <SearchBar documents={documents} setFilteredDocuments={setFilteredDocuments} />
 
-      <h1 style={{ textAlign: 'center', fontSize: '24px', marginBottom: '20px' }}>
-        Document List
-      </h1>
+      <h1 className="table-title">Document List</h1>
+<div className="table-container">
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="documents-table">
         <thead>
-          <tr style={{ backgroundColor: '#5E1675', color: '#ffffff' }}>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Name</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Description</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Last Modified</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Version</th>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Last Modified</th>
+            <th>Version</th>
           </tr>
         </thead>
         <tbody>
           {filteredDocuments.map((doc, index) => (
-            <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#EDE3F2' : '#CBA8DA' }}>
-              <td style={{ padding: '10px' }}>{doc.name}</td>
-              <td style={{ padding: '10px' }}>{doc.description}</td>
-              <td style={{ padding: '10px' }}>{doc.lastModified}</td>
-              <td style={{ padding: '10px' }}>{doc.version}</td>
+            <tr key={index}>
+              <td>{doc.name}</td>
+              <td>{doc.description}</td>
+              <td>{doc.lastModified}</td>
+              <td>{doc.version}</td>
             </tr>
           ))}
         </tbody>
       </table>
+</div>
     </div>
   );
 };
