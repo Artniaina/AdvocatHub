@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, NavLink } from "react-router-dom"; // Import NavLink
 import { fetchFormulaireByEmail } from "../../../Store/TaxationDraftListeSlice";
 import document from "../../../assets/icons8-document-64(1).png";
 import formulaire from "../../../assets/icons8-formulaire-64 (2).png";
@@ -14,13 +14,14 @@ import { useAuth } from "../../../Hooks/AuthContext";
 
 const HomeNav = () => {
   const navigate = useNavigate();
-  const dispatch= useDispatch()
+  const dispatch = useDispatch();
   const location = useLocation();
-  const {user}= useAuth();
+  const { user } = useAuth();
   const [showEtudePopup, setShowEtudePopup] = useState(false);
   const [showDocumentPopup, setShowDocumentPopup] = useState(false);
 
   const Formulaires = useSelector((state) => state.formulaireDraft.formulaireDraft);
+
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchFormulaireByEmail(user.email));
@@ -53,13 +54,17 @@ const HomeNav = () => {
 
   return (
     <nav className="home-nav">
-      <ul className="home-navbar-nav"> 
+      <ul className="home-navbar-nav">
         <li className="home-item">
-          <button onClick={() => navigate("/home/modifFiche")} className="nav-link2">
+          <NavLink
+            to="/home/modifFiche"
+            className="nav-link2"
+            activeClassName="active"
+          >
             <img src={modif} alt="Modification fiche avocat" />
             <br />
             Modification fiche avocat
-          </button>
+          </NavLink>
         </li>
         <li className="home-item">
           <button className="nav-link2" onClick={handleDocumentClick}>

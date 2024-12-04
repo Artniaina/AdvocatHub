@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../../Styles/Document/PopupShare.css';
 
-const PopupShare = ({ onClose }) => {
+const PopupShare = ({ onClose, documentId }) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
@@ -23,6 +23,7 @@ const PopupShare = ({ onClose }) => {
       email,
       username,
       message,
+      documentId,
     };
     console.log('Données de partage du document:', shareData);
     onClose();
@@ -97,6 +98,5 @@ const PopupShare = ({ onClose }) => {
     </div>
   );
 };
-
 
 export default PopupShare;

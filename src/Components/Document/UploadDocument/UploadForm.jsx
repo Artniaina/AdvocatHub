@@ -37,7 +37,7 @@ const UploadForm = () => {
       <h2 className="upload-form-title">Upload Document</h2>
       <form className="upload-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="documentName">Document Name:</label>
+          <label htmlFor="documentName">Document:</label>
           <input
             type="text"
             id="documentName"
@@ -49,7 +49,7 @@ const UploadForm = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="documentDescription">Document Description:</label>
+          <label htmlFor="documentDescription"> Description:</label>
           <textarea
             id="documentDescription"
             value={documentDescription}
@@ -60,7 +60,7 @@ const UploadForm = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="tags">Tags (optional):</label>
+          <label htmlFor="tags">Tags (facultatif):</label>
           <input
             type="text"
             id="tags"
@@ -71,7 +71,7 @@ const UploadForm = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="file">Upload File:</label>
+          <label htmlFor="file">Ajout du fichier :</label>
           <input
             type="file"
             id="file"
@@ -84,7 +84,7 @@ const UploadForm = () => {
 
         <div className="form-group">
           <button type="submit" className="submit-btn">
-            Upload Document
+            Télécharger Document
           </button>
         </div>
       </form>

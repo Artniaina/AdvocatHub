@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import SearchBar from "../SearchBar";
 
 const ListeDocumentPartages = () => {
-
   const documents = [
     {
       name: "Project Proposal.pdf",
@@ -10,6 +9,7 @@ const ListeDocumentPartages = () => {
       dateShared: "2024-11-15",
       link: "#",
       description: "Project proposal document",
+      status: "approved"
     },
     {
       name: "Budget Report.xlsx",
@@ -17,6 +17,7 @@ const ListeDocumentPartages = () => {
       dateShared: "2024-11-20",
       link: "#",
       description: "Budget for Q4",
+      status: "pending"
     },
     {
       name: "Client Meeting Notes.docx",
@@ -24,6 +25,7 @@ const ListeDocumentPartages = () => {
       dateShared: "2024-11-25",
       link: "#",
       description: "Meeting notes for client meeting",
+      status: "approved"
     },
     {
       name: "Website Design Mockups.png",
@@ -31,19 +33,19 @@ const ListeDocumentPartages = () => {
       dateShared: "2024-11-30",
       link: "#",
       description: "Design mockups for the website",
+      status: "pending"
     },
   ];
 
   const [filteredDocuments, setFilteredDocuments] = useState(documents);
 
-  return (
-    <div className="w-full max-w-4xl mx-auto mt-12">
-      <SearchBar documents={documents} setFilteredDocuments={setFilteredDocuments} />
-      <h2 className="text-3xl font-semibold text-gray-800 dark:text-white text-center">
-        Shared Documents
-      </h2>
+  const approvedDocuments = filteredDocuments.filter(doc => doc.status === "approved");
+  const pendingDocuments = filteredDocuments.filter(doc => doc.status === "pending");
 
-      <div className="overflow-x-auto mt-6">
+  const renderTable = (docs, title) => (
+    <>
+      <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mt-8 mb-4">{title}</h3>
+      <div className="overflow-x-auto">
         <table className="min-w-full table-auto bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
             <tr className="text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700">
@@ -54,7 +56,7 @@ const ListeDocumentPartages = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredDocuments.map((doc, index) => (
+            {docs.map((doc, index) => (
               <tr key={index} className="text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700">
                 <td className="px-4 py-2">{doc.name}</td>
                 <td className="px-4 py-2">{doc.sharedBy}</td>
@@ -67,8 +69,21 @@ const ListeDocumentPartages = () => {
           </tbody>
         </table>
       </div>
+    </>
+  );
+
+  return (
+    <div className="w-full max-w-4xl mx-auto mt-12">
+      <SearchBar documents={documents} setFilteredDocuments={setFilteredDocuments} />
+      <h2 className="text-3xl font-semibold text-gray-800 dark:text-white text-center mb-8">
+        Shared Documents
+      </h2>
+
+      {renderTable(approvedDocuments, "Approved Documents")}
+      {renderTable(pendingDocuments, "Pending Documents")}
     </div>
   );
 };
+
 
 export default ListeDocumentPartages;

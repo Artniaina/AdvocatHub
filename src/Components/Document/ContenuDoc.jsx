@@ -67,7 +67,7 @@ const ContenuDoc = () => {
   };
 
   const handleNavigate = () => {
-    navigate("/document/uploadDocument");
+    navigate("/documents");
   };
   
   return (
