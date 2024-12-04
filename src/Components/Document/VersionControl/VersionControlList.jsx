@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar";
+import "../../../Styles/Document/DocumentTable.css";
 import PopupShare from "../DocumentPartages/PopupShare";
 import PopupUploadVersion from "../DocumentPartages/PopupUploadVersion";
 
@@ -38,93 +39,46 @@ const VersionControlList = () => {
   const [filteredDocuments, setFilteredDocuments] = useState(documents);
 
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        color: "#5E1675",
-        padding: "20px",
-      }}
-    >
+    <div>
       <SearchBar
         documents={documents}
         setFilteredDocuments={setFilteredDocuments}
       />
 
-      <h1
-        style={{ textAlign: "center", fontSize: "24px", marginBottom: "20px" }}
-      >
-        Document Version Control
-      </h1>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr style={{ backgroundColor: "#5E1675", color: "#ffffff" }}>
-            <th style={{ padding: "10px", textAlign: "left" }}>Name</th>
-            <th style={{ padding: "10px", textAlign: "left" }}>Description</th>
-            <th style={{ padding: "10px", textAlign: "left" }}>
-              Last Modified
-            </th>
-            <th style={{ padding: "10px", textAlign: "left" }}>Version</th>
-            <th style={{ padding: "10px", textAlign: "center" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredDocuments.map((doc, index) => (
-            <tr
-              key={index}
-              style={{
-                backgroundColor: index % 2 === 0 ? "#EDE3F2" : "#CBA8DA",
-              }}
-            >
-              <td style={{ padding: "10px" }}>{doc.name}</td>
-              <td style={{ padding: "10px" }}>{doc.description}</td>
-              <td style={{ padding: "10px" }}>{doc.lastModified}</td>
-              <td style={{ padding: "10px" }}>{doc.version}</td>
-              <td style={{ padding: "10px", textAlign: "center" }}>
-                <button
-                  style={{
-                    marginRight: "5px",
-                    padding: "5px 10px",
-                    backgroundColor: "#5E1675",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
-                  onClick={showPopup}
-                >
-                  Share
-                </button>
-                <button
-                  style={{
-                    marginRight: "5px",
-                    padding: "5px 10px",
-                    backgroundColor: "#5E1675",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Download
-                </button>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    backgroundColor: "#5E1675",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
-                  onClick={showVersionPopup}
-                >
-                  Upload New Version
-                </button>
-              </td>
+      <h1 className="table-title">Document Version Control</h1>
+      <div className="table-container">
+        <table className="documents-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Last Modified</th>
+              <th>Version</th>
+              <th className="actions-column">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredDocuments.map((doc, index) => (
+              <tr key={index}>
+                <td>{doc.name}</td>
+                <td>{doc.description}</td>
+                <td>{doc.lastModified}</td>
+                <td>{doc.version}</td>
+                <td className="actions-column">
+                  <button className="action-button" onClick={showPopup}>
+                    Share
+                  </button>
+                  <button className="action-button">Download</button>
+                  <button className="action-button" onClick={showVersionPopup}>
+                    Upload New Version
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       {isPopupShown && <PopupShare onClose={() => setIsPopupShown(false)} />}
       {isPopupVersionShown && (
         <PopupUploadVersion onClose={() => setIsPopupVersionShown(false)} />
