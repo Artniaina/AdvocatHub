@@ -81,7 +81,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
 
   const handleSubmitTable = (e) => {
     e.preventDefault();
-  
+
     if (selectedClientId) {
       setClients((prevClients) =>
         prevClients.map((client) =>
@@ -105,11 +105,11 @@ const PopupClients = ({ onClose, onSelectClient }) => {
             : client
         )
       );
-  
+
       setHiddenClients((prevHidden) =>
         prevHidden.filter((id) => id !== selectedClientId)
       );
-  
+
       setSelectedClientId(null);
     } else {
       setClients([
@@ -132,10 +132,10 @@ const PopupClients = ({ onClose, onSelectClient }) => {
         },
       ]);
     }
-  
-    resetForm(); 
+
+    resetForm();
   };
-  
+
   const resetForm = () => {
     setSelectedOption("Particulier");
     setDenomination("");
@@ -152,7 +152,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
     setPhoneNumber("");
     setSelectedCountry("+261");
   };
-  
+
   const handleClientSelection = () => {
     const selectedClients = [...clients];
     onSelectClient(selectedClients);
@@ -248,7 +248,10 @@ const PopupClients = ({ onClose, onSelectClient }) => {
               id="denomination"
               value={denomination}
               onChange={(e) => setDenomination(e.target.value)}
-              style={selectedOption === "Particulier" ? disabledInputStyle : {}}
+              style={{
+                ...(selectedOption === "Particulier" ? disabledInputStyle : {}),
+                width: "95%",
+              }}
               disabled={selectedOption === "Particulier"}
             />
           </div>
@@ -256,6 +259,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
           <div className="formGroup">
             <label htmlFor="name">Nom*:</label>
             <input
+              style={{ width: "95%" }}
               type="text"
               id="name"
               value={name}
@@ -270,6 +274,7 @@ const PopupClients = ({ onClose, onSelectClient }) => {
               type="text"
               id="prenom"
               value={prenom}
+              style={{ width: "95%" }}
               onChange={(e) => setPrenom(e.target.value)}
               required
             />
