@@ -8,7 +8,6 @@ import {
 import PartialProtectedRoute from "./PartialProtectedRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import PrivateRoute from "./PrivateRoute";
-
 import Login from "../Pages/SimpleAuthentication/Login";
 import Page404 from "../Pages/Page404";
 import Registration from "../Pages/SimpleAuthentication/Registration";
@@ -38,13 +37,13 @@ function PageTitleUpdater() {
     let pageTitle = "";
     switch (pathname) {
       case "/":
-        pageTitle = "Login";
+        pageTitle = "LOGIN";
         break;
       case "/home":
-        pageTitle = "Accueil";
+        pageTitle = "ACCEUIL";
         break;
       case "/home/modifFiche":
-        pageTitle = "Accueil";
+        pageTitle = "ACCEUIL";
         break;
       case "/home/formTaxation":
         pageTitle = "DEMANDE D'INFORMATIONS POUR TAXATION";
@@ -53,31 +52,31 @@ function PageTitleUpdater() {
         pageTitle = "FAQ";
         break;
       case "/document":
-        pageTitle = "Documents";
+        pageTitle = "DOCUMENT";
         break;
       case "/lbc":
-        pageTitle = "Articles";
+        pageTitle = "ARTICLES";
         break;
       case "/userlist":
-        pageTitle = "User list";
+        pageTitle = "LISTE UTILISATEURS";
         break;
       case "/scanqrcode":
-        pageTitle = "Two-factor-Authentication";
+        pageTitle = "DOUBLE AUTHENTIFICATION";
         break;
       case "/registration":
-        pageTitle = "Inscription";
+        pageTitle = "INSCRIPTION";
         break;
       case "/verifemail":
-        pageTitle = "Email";
+        pageTitle = "EMAIL";
         break;
       case "/modifmdp":
-        pageTitle = "Modification";
+        pageTitle = "MODIFICATION";
         break;
       case "/validationotp":
-        pageTitle = "Two-factor-Authentication";
+        pageTitle = "DOUBLE AUTHENTIFICATION";
         break;
       default:
-        pageTitle = "AdvocatHub";
+        pageTitle = "ADVOCASE";
         break;
     }
 
@@ -103,7 +102,7 @@ function MainRoutes() {
           <Route exact path="/userlist" element={<UserList />} />
         </Route>
 
-        {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION */}
+        {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
         <Route element={<PartialProtectedRoute />}>
           <Route exact path="/scanqrcode" element={<UsersGuide />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
