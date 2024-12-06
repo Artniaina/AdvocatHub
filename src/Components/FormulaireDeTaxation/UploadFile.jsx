@@ -14,15 +14,14 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfmake from "html-to-pdfmake";
 import "../../Styles/spinner.css";
-import SuccessPopup  from "../PopUp/PopUpSuccess"
-
+import SuccessPopup from "../PopUp/PopUpSuccess";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
- 
+
 const UploadFile = () => {
   const location = useLocation();
-  const[isEmailSent, setIsEmailSent]= useState(false);
-  
+  const [isEmailSent, setIsEmailSent] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const { jsonToSend } = useGeneraliteContext();
@@ -96,7 +95,7 @@ const UploadFile = () => {
     resetAllData();
     localStorage.setItem("generatePdfAfterReload", "true");
     window.location.reload();
-  }; 
+  };
 
   const submitFormData = async () => {
     // if (!validateFormData()) {
@@ -198,26 +197,35 @@ const UploadFile = () => {
 
     return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
   };
-  const [dateSys, setDateSys] = useState(localStorage.getItem("dateSys") || generateDateSys());
-  const [fullName, setFullName] = useState(localStorage.getItem("fullName") || `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`);
-  const [referencePdf, setReferencePdf] = useState(localStorage.getItem("referencePdf") || `${dateSys}_${fullName}_Formulaire taxation ordinaire`);
-  const [name, setName] = useState(localStorage.getItem("name") || avocatsData[0]?.nom);
-  
- 
+  const [dateSys, setDateSys] = useState(
+    localStorage.getItem("dateSys") || generateDateSys()
+  );
+  const [fullName, setFullName] = useState(
+    localStorage.getItem("fullName") ||
+      `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`
+  );
+  const [referencePdf, setReferencePdf] = useState(
+    localStorage.getItem("referencePdf") ||
+      `${dateSys}_${fullName}_Formulaire taxation ordinaire`
+  );
+  const [name, setName] = useState(
+    localStorage.getItem("name") || avocatsData[0]?.nom
+  );
+
   const sendEmail = async () => {
     setLoadingEmail(true);
-  
+
     try {
       const fullName = localStorage.getItem("fullName");
       const referencePdf = localStorage.getItem("referencePdf");
       const name = localStorage.getItem("name");
       const dateSys = localStorage.getItem("dateSys");
-  
+
       if (!fullName || !referencePdf || !name || !dateSys) {
         console.error("Some required data is missing.");
         return;
       }
-  
+
       const pdfBase64 = await generatePdf();
       const emailData = {
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
@@ -227,9 +235,8 @@ const UploadFile = () => {
         sReferencepdf: referencePdf,
         spdfBase64: pdfBase64,
       };
-  
 
-      if ( 
+      if (
         !emailData.sEmailRecepteur ||
         !emailData.sFullName ||
         !emailData.sNomAvocat ||
@@ -240,20 +247,22 @@ const UploadFile = () => {
         console.error("Certaines données sont manquantes :", emailData);
         return;
       }
-  
-      const response = await fetch("http://192.168.10.10/Utilisateur/Email/InfoEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailData),
-      });
-  
+
+      const response = await fetch(
+        "http://192.168.10.10/Utilisateur/Email/InfoEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailData),
+        }
+      );
+
       if (response.ok) {
         const result = await response.json();
         console.log("Email envoyé avec succès :", result);
         setIsEmailSent(true);
-  
 
         localStorage.removeItem("fullName");
         localStorage.removeItem("referencePdf");
@@ -268,8 +277,6 @@ const UploadFile = () => {
       setLoadingEmail(false);
     }
   };
-  
-
 
   const viewPdf = () => {
     const htmlContent = document.getElementById(
@@ -282,30 +289,27 @@ const UploadFile = () => {
 
       const pdfDocGenerator = pdfMake.createPdf(docDefinition);
       pdfDocGenerator.open();
-      setIsEmailSent(false)
+      setIsEmailSent(false);
     } catch (error) {
       console.error("Error while viewing PDF:", error);
     }
   };
 
   const allInOne = async () => {
+    if (avocatsData && avocatsData[0]) {
+      const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
+      const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
+      const name = avocatsData[0]?.nom;
 
-      if (avocatsData && avocatsData[0]) {
-        const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
-        const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
-        const name = avocatsData[0]?.nom;
-    
-        setFullName(fullName);
-        setReferencePdf(referencePdf);
-        setName(name);
-    
-        localStorage.setItem("fullName", fullName);
-        localStorage.setItem("referencePdf", referencePdf);
-        localStorage.setItem("name", name);
-        localStorage.setItem("dateSys", dateSys);
-      }
- 
-  
+      setFullName(fullName);
+      setReferencePdf(referencePdf);
+      setName(name);
+      localStorage.setItem("fullName", fullName);
+      localStorage.setItem("referencePdf", referencePdf);
+      localStorage.setItem("name", name);
+      localStorage.setItem("dateSys", dateSys);
+    }
+
     try {
       await submitFormData();
 
@@ -336,7 +340,6 @@ const UploadFile = () => {
       }
     };
     setTimeout(() => {
-      
       handlePostReload();
     }, 1000);
   }, []);
@@ -438,7 +441,7 @@ const UploadFile = () => {
                 nomChamp={fieldName}
               />
             )}
-              {isEmailSent && (
+            {isEmailSent && (
               <SuccessPopup
                 onGenerateAndSendPDF={viewPdf}
                 content={"Formulaire taxation ordinaire"}
@@ -464,7 +467,6 @@ const UploadFile = () => {
             })}
           </div>
         </div>
-
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
         <FormulaireDeTaxationPDF />
