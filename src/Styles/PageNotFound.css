@@ -1,13 +1,197 @@
-.notfound {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 2rem;
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f0f0f0;
-    text-transform: uppercase;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+:root {
+  --primary-color: #5E1675;
+  --secondary-color: #8E4CA2;
+  --background-gradient: linear-gradient(135deg, #d9cadf, #dcb6e783);
+}
+
+.page-404-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--background-gradient);
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+
+.page-404-error-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(94, 22, 117, 0.2);
+  max-width: 500px;
+  width: 90%;
+  transform-style: preserve-3d;
+  animation: float 3s ease-in-out infinite, 
+             breathe 4s ease-in-out infinite alternate;
+  transition: all 0.5s ease;
+}
+
+
+.page-404-error-wrapper:hover {
+  transform: scale(1.05) rotateX(5deg);
+}
+
+.error-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  font-weight: 800;
+}
+
+.digit-4 {
+  color: var(--primary-color);
+  text-shadow: 2px 2px 4px rgba(94, 22, 117, 0.3);
+  display: inline-block;
+  animation: wiggle 1.5s infinite;
+}
+
+.error-icon {
+  margin: 0 20px;
+  color: var(--primary-color);
+  animation: 
+    shake 1.5s infinite,
+    pulse 2s infinite alternate;
+  transform-origin: center;
+}
+
+.pulse-icon:hover {
+  animation: spin 1s linear;
+}
+
+.error-title {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin: 20px 0;
+  animation: 
+    fadeIn 1s ease-out,
+    colorPulse 3s infinite alternate;
+}
+
+.error-message {
+  color: #333;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  animation: 
+    slideUp 1s ease-out,
+    subtleShake 2s infinite alternate;
+}
+
+.back-home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-home-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: all 0.5s ease;
+}
+
+.back-home-btn:hover::before {
+  left: 100%;
+}
+
+.back-home-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(94, 22, 117, 0.3);
+}
+
+.btn-icon {
+  margin-right: 10px;
+}
+
+.rotate-hover:hover {
+  animation: spin 0.5s linear;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+  20%, 40%, 60%, 80% { transform: rotate(10deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes colorPulse {
+  0%, 100% { color: var(--primary-color); }
+  50% { color: var(--secondary-color); }
+}
+
+@keyframes subtleShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+@media (max-width: 600px) {
+  
+.page-404-error-wrapper {
+    padding: 20px;
+    margin: 0 15px;
   }
-   
+  
+  .error-code {
+    font-size: 4rem;
+  }
+  
+  .error-title {
+    font-size: 2rem;
+  }
+}

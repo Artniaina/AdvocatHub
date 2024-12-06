@@ -339,37 +339,38 @@ const UploadFile = () => {
     }
   };
 
-
   useEffect(() => {
     const handlePostReload = async () => {
-      const shouldProcess = localStorage.getItem("shouldGeneratePdfAndSendEmail");
-  
+      const shouldProcess = localStorage.getItem(
+        "shouldGeneratePdfAndSendEmail"
+      );
+
       if (shouldProcess === "true") {
         try {
           localStorage.setItem("shouldGeneratePdfAndSendEmail", "processing");
-  
+
           const pdfBase64 = await generatePdf();
           console.log("PDF généré :", pdfBase64);
-  
+
           await sendEmail();
           console.log("Email envoyé avec succès!");
-  
+
           localStorage.removeItem("shouldGeneratePdfAndSendEmail");
         } catch (error) {
           console.error("Erreur pendant le traitement :", error);
-  
+
           localStorage.setItem("shouldGeneratePdfAndSendEmail", "true");
         }
       }
     };
-  
+
     const timeoutId = setTimeout(() => {
       handlePostReload();
     }, 1000);
-  
+
     return () => clearTimeout(timeoutId);
   }, []);
-  
+
   return (
     <>
       {loading && <div className="loading-spinner1"></div>}
@@ -450,7 +451,7 @@ const UploadFile = () => {
           <div>
             <button onClick={allInOne}>
               <FaCheck style={{ color: "green", fontSize: "30px" }} />
-              all in one le pdf
+              Envoyer
             </button>
             {showPopup && (
               <RequiredMessage
