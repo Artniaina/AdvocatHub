@@ -25,7 +25,7 @@ const Page404 = () => {
         >
           <button
             className="back-home-btn"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = "/home")}
           >
             <Home className="btn-icon rotate-hover" />
             Retour à l'accueil

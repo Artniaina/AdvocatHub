@@ -126,6 +126,8 @@ const UploadFile = () => {
             ...jsonToUpdate,
             sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
+            sTransmis_le: new Date().toLocaleDateString('fr-FR').replace(/\//g, ''),
+            sReferencePDF:`${dateSys}_${fullName}_Formulaire taxation ordinaire`
           }),
         }
       );

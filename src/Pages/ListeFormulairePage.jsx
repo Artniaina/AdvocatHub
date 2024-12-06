@@ -17,6 +17,9 @@ const ListeFormulairePage = () => {
   const originalFormulaires = useSelector(
     (state) => state.formulaireDraft.formulaireDraft
   );
+
+  console.log(originalFormulaires);
+  
   const status = useSelector((state) => state.formulaireDraft.status);
   const error = useSelector((state) => state.formulaireDraft.error);
 
@@ -139,19 +142,19 @@ const ListeFormulairePage = () => {
             <tr key={formulaire.sIDFormulaire}>
               <td>{formulaire.sNomAffaire}</td>
               <td>{formulaire.sDateContestation}</td>
-              <td>{formulaire.sEtatAvancement}</td>
-              <td>{formulaire.sSubmited_at}</td>
-              <td>{formulaire.sIDFormulaire}</td>
+              <td>{formulaire.sStatutFormulaire}</td>
+              <td>{formulaire.sTransmis_le}</td>
+              <td>{formulaire.sReferencePDF}</td>
               <td className="actions">
                 <Edit
                   onClick={() => handleNavigate(formulaire.sIDFormulaire)}
                   className="action-button"
-                  size={20} // You can adjust the size
+                  size={20}
                 />
                 <Trash2
                   onClick={() => handleDeleteClick(formulaire.sIDFormulaire)}
                   className="action-button"
-                  size={20} // You can adjust the size
+                  size={20}
                 />
               </td>
             </tr>

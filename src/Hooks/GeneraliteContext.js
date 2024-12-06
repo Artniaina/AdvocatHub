@@ -161,6 +161,8 @@ export const GeneraliteProvider = ({ children }) => {
     sAvocatsData: avocatsData,
     sClientsData: clientData,
     sSubmited_at: currentDate,
+    sReferencePDF:"",
+    sPDFSent:"",
   };
 
   const resetAllData = () => {

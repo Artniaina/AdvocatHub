@@ -90,13 +90,6 @@ const UploadFile = () => {
 
   const currentDate = new Date().toISOString();
 
-  const refreshPage = () => {
-    setLoading(true);
-    resetAllData();
-    localStorage.setItem("generatePdfAfterReload", "true");
-    window.location.reload();
-  };
-
   const submitFormData = async () => {
     // if (!validateFormData()) {
     //   return;
@@ -115,6 +108,9 @@ const UploadFile = () => {
             ...jsonToSend,
             sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
+            sTransmis_le: new Date().toLocaleDateString('fr-FR').replace(/\//g, ''),
+            sReferencePDF:`${dateSys}_${fullName}_Formulaire taxation ordinaire`,
+            // sPDFSent:pdfBase64,
           }),
         }
       );
@@ -144,6 +140,7 @@ const UploadFile = () => {
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
 
         pdfDocGenerator.getBase64((data) => {
+          console.log("PDF Base64:", data); 
           resolve(data);
         });
       } catch (error) {
@@ -152,6 +149,8 @@ const UploadFile = () => {
       }
     });
   };
+
+
   setTimeout(() => {
     if (localStorage.getItem("generatePdfAfterReload") == "true") {
       viewPdf();
@@ -227,6 +226,7 @@ const UploadFile = () => {
       }
 
       const pdfBase64 = await generatePdf();
+
       const emailData = {
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,
@@ -414,6 +414,9 @@ const UploadFile = () => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
             Parcourir
           </button>
+          <button onClick={generatePdf}>
+            <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
+Jereo           </button>
 
           <input
             id="file-upload"
