@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../../../Styles/TaxationForm/Guide.css";
+import "../../Styles/TaxationForm/Guide.css";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { IoAddCircle } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
@@ -35,7 +35,7 @@ const UploadFileGuide = () => {
             fontSize: "45px",
             position: "absolute",
             left: "10px",
-            top: "925vh",
+            top: "900vh",
           }}
         />
       </div>
@@ -46,7 +46,7 @@ const UploadFileGuide = () => {
             className="popup-overlay"
             onMouseEnter={() => setIsHovered(true)}
           />
-          <div className="upload"ref={popupRef}>
+          <div className="upload" style={{top:"853vh"}} ref={popupRef}>
             <button
               className="popup-closee"
               onClick={() => setIsHovered(false)}

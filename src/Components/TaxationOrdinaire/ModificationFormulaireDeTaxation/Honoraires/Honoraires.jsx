@@ -3,7 +3,7 @@ import Facture from "./Facture";
 import Observation from "./Observation";
 import "../../../../Styles/TaxationForm/CardInfo.css";
 import { LuPencilLine } from "react-icons/lu";
-import GuideHonoraires from "./GuideHonoraires";
+import GuideHonoraires from "../../GuideHonoraires";
 
 const Honoraires = ({ formulaire }) => {
   return (

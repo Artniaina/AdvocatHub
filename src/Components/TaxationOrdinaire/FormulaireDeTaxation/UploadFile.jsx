@@ -8,7 +8,7 @@ import { FaCheck } from "react-icons/fa";
 import { IoAddCircle, IoLogOut } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useGeneraliteContext } from "../../../Hooks/GeneraliteContext";
-import UploadFileGuide from "./UploadFileGuide";
+import UploadFileGuide from "../UploadFileGuide";
 import FormulaireDeTaxationPDF from "../../PDF/FormulaireDeTaxationPDF";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";

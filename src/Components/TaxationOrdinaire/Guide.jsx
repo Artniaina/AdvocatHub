@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../../../../Styles/TaxationForm/Guide.css";
+import "../../Styles/TaxationForm/Guide.css";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { IoAddCircle } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
