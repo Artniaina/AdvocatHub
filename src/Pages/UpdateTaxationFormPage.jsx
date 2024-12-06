@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { fetchFormulaireById } from '../Store/TaxationFormSlice';
 import Navbar from '../Components/Navbar';
-import Intro from '../Components/ModificationFormulaireDeTaxation/Intro';
-import Generalite from '../Components/ModificationFormulaireDeTaxation/Generalite/Generalite';
-import CaseDescription from '../Components/ModificationFormulaireDeTaxation/CaseDescription/CaseDescription';
-import Honoraires from '../Components/ModificationFormulaireDeTaxation/Honoraires/Honoraires';
-import UploadFile from '../Components/ModificationFormulaireDeTaxation/UploadFile';
-import PrisedePosition from '../Components/ModificationFormulaireDeTaxation/PrisedePosition';
+import Intro from '../Components/TaxationOrdinaire/ModificationFormulaireDeTaxation/Intro';
+import Generalite from '../Components/TaxationOrdinaire//ModificationFormulaireDeTaxation/Generalite/Generalite';
+import CaseDescription from '../Components/TaxationOrdinaire//ModificationFormulaireDeTaxation/CaseDescription/CaseDescription';
+import Honoraires from '../Components/TaxationOrdinaire//ModificationFormulaireDeTaxation/Honoraires/Honoraires';
+import UploadFile from '../Components/TaxationOrdinaire//ModificationFormulaireDeTaxation/UploadFile';
+import PrisedePosition from '../Components/TaxationOrdinaire//ModificationFormulaireDeTaxation/PrisedePosition';
 import { useUpdateDataContext } from '../Hooks/UpdatedDataContext';
 
 const UpdateTaxationFormPage = () => {
