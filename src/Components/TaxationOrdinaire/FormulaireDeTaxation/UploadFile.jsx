@@ -91,9 +91,9 @@ const UploadFile = () => {
   const currentDate = new Date().toISOString();
 
   const submitFormData = async () => {
-    // if (!validateFormData()) {
-    //   return;
-    // }
+    if (!validateFormData()) {
+      return;
+    }
 
     setLoading(true);
     try {
@@ -108,8 +108,11 @@ const UploadFile = () => {
             ...jsonToSend,
             sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
-            sTransmis_le: new Date().toLocaleDateString('fr-FR').replace(/\//g, ''),
-            sReferencePDF:`${dateSys}_${fullName}_Formulaire taxation ordinaire`,
+            sTransmis_le: new Date()
+              .toLocaleDateString("fr-FR")
+              .replace(/\//g, ""),
+            sReferencePDF: `${dateSys}_${fullName}_Formulaire taxation ordinaire`,
+            // Mbola vo hitadiavana fika aloha fa eto dry zao
             // sPDFSent:pdfBase64,
           }),
         }
@@ -140,7 +143,7 @@ const UploadFile = () => {
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
 
         pdfDocGenerator.getBase64((data) => {
-          console.log("PDF Base64:", data); 
+          console.log("PDF Base64:", data);
           resolve(data);
         });
       } catch (error) {
@@ -149,7 +152,6 @@ const UploadFile = () => {
       }
     });
   };
-
 
   setTimeout(() => {
     if (localStorage.getItem("generatePdfAfterReload") == "true") {
@@ -228,6 +230,8 @@ const UploadFile = () => {
       const pdfBase64 = await generatePdf();
 
       const emailData = {
+        //Should change into : sAvocatEmail but wait until it's not in a phase of test anymore mbola matahotra  
+        //Same for the one in Certificat d inscription as well
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,
         sNomAvocat: name,
@@ -379,6 +383,10 @@ const UploadFile = () => {
                     <div>
                       <strong>Taille du fichier:</strong> {file.size} KB
                     </div>
+                    Révision du projet pour: rédaction de la phase d'analyse et
+                    conception Refactorisation du code pour améliorer la
+                    lisibilité, optimiser les performances, et assurer une
+                    meilleure maintenabilité du projet (toujours en cours)
                   </div>
                   <button
                     onClick={() => handleRemoveFile(index)}
@@ -416,7 +424,8 @@ const UploadFile = () => {
           </button>
           <button onClick={generatePdf}>
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
-Jereo           </button>
+            Jereo{" "}
+          </button>
 
           <input
             id="file-upload"

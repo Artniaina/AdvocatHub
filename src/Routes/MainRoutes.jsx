@@ -29,6 +29,7 @@ import VersionControl from "../Components/Document/VersionControl/VersionControl
 import ListeDocumentPartages from "../Components/Document/DocumentPartages/ListeDocumentPartages";
 import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPartages";
 import DocumentListComp from "../Components/Document/DocumentList/DocumentListComp";
+import PlanningPage from "../Pages/PlanningPage";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -115,6 +116,7 @@ function MainRoutes() {
           <Route path="/document/uploadDocument" element={<UploadDocs />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
+          <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/lbc" element={<LBC />} />
           <Route

@@ -14,6 +14,8 @@ export const GeneraliteProvider = ({ children }) => {
   const [provisionData, setProvisionData] = useState([]);
   const [noteHonoraire, setNoteHonoraire] = useState([]);
   const [fileInfos, setFileInfos] = useState([]);
+  const [referencePDF, setRegerencePDF] = useState("");
+  const [transmisLe, setTransmisLe] = useState("");
   const [avocatsData, setAvocatsData] = useState([
     {
       nom: "",
@@ -161,8 +163,6 @@ export const GeneraliteProvider = ({ children }) => {
     sAvocatsData: avocatsData,
     sClientsData: clientData,
     sSubmited_at: currentDate,
-    sReferencePDF:"",
-    sPDFSent:"",
   };
 
   const resetAllData = () => {
@@ -214,6 +214,10 @@ export const GeneraliteProvider = ({ children }) => {
         formData,
         setFormData,
         resetAllData,
+        referencePDF,
+        setRegerencePDF,
+        transmisLe,
+        setTransmisLe,
         jsonToSend,
       }}
     >
