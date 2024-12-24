@@ -87,43 +87,43 @@ const CalendarPlan = () => {
   ];
 
   return (
-    <section className="relative bg-stone-50">
-      <div className="bg-sky-400 w-full sm:w-40 h-40 rounded-full absolute top-1 opacity-20 max-sm:right-0 sm:left-56 z-0"></div>
-      <div className="bg-emerald-500 w-full sm:w-40 h-24 absolute top-0 -left-0 opacity-20 z-0"></div>
-      <div className="bg-purple-600 w-full sm:w-40 h-24 absolute top-40 -left-0 opacity-20 z-0"></div>
-      <div className="w-full py-24 relative z-10 backdrop-blur-3xl">
-        <div className="w-full max-w-7xl mx-auto px-2 lg:px-8">
-          <div className="grid grid-cols-12 gap-8 max-w-4xl mx-auto xl:max-w-full">
-            <div className="col-span-12 xl:col-span-5">
-              <h2 className="font-manrope text-3xl leading-tight text-gray-900 mb-1.5">
+    <section className="tw-relative tw-bg-stone-50">
+      <div className="tw-bg-sky-400 tw-w-full sm:tw-w-40 tw-h-40 tw-rounded-full tw-absolute tw-top-1 tw-opacity-20 max-sm:tw-right-0 sm:tw-left-56 tw-z-0"></div>
+      <div className="tw-bg-emerald-500 tw-w-full sm:tw-w-40 tw-h-24 tw-absolute tw-top-0 -tw-left-0 tw-opacity-20 tw-z-0"></div>
+      <div className="tw-bg-purple-600 tw-w-full sm:tw-w-40 tw-h-24 tw-absolute tw-top-40 -tw-left-0 tw-opacity-20 tw-z-0"></div>
+      <div className="tw-w-full tw-py-24 tw-relative tw-z-10 tw-backdrop-blur-3xl">
+        <div className="tw-w-full tw-max-w-7xl tw-mx-auto tw-px-2 lg:tw-px-8">
+          <div className="tw-grid tw-grid-cols-12 tw-gap-8 tw-max-w-4xl tw-mx-auto xl:tw-max-w-full">
+            <div className="tw-col-span-12 xl:tw-col-span-5">
+              <h2 className="tw-font-manrope tw-text-3xl tw-leading-tight tw-text-gray-900 tw-mb-1.5">
                 Upcoming Events
               </h2>
-              <p className="text-lg font-normal text-gray-600 mb-8">
+              <p className="tw-text-lg tw-font-normal tw-text-gray-600 tw-mb-8">
                 Don't miss schedule
               </p>
-              <div className="flex gap-5 flex-col">
+              <div className="tw-flex tw-gap-5 tw-flex-col">
                 {events.map((event) => (
                   <div
                     key={event.id}
-                    className="p-6 rounded-xl bg-white shadow-sm"
+                    className="tw-p-6 tw-rounded-xl tw-bg-white tw-shadow-sm"
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2.5">
+                    <div className="tw-flex tw-items-center tw-justify-between tw-mb-3">
+                      <div className="tw-flex tw-items-center tw-gap-2.5">
                         <span
-                          className={`w-2.5 h-2.5 rounded-full bg-${event.color}-600`}
+                          className={`tw-w-2.5 tw-h-2.5 tw-rounded-full tw-bg-${event.color}-600`}
                         ></span>
-                        <p className="text-base font-medium text-gray-900">
+                        <p className="tw-text-base tw-font-medium tw-text-gray-900">
                           {event.date} - {event.time}
                         </p>
                       </div>
-                      <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                        <MoreHorizontal className="h-4 w-4" />
+                      <button className="tw-p-2 tw-rounded-full hover:tw-bg-gray-100 tw-transition-colors">
+                        <MoreHorizontal className="tw-h-4 tw-w-4" />
                       </button>
                     </div>
-                    <h6 className="text-xl leading-8 font-semibold text-black mb-1">
+                    <h6 className="tw-text-xl tw-leading-8 tw-font-semibold tw-text-black tw-mb-1">
                       {event.title}
                     </h6>
-                    <p className="text-base font-normal text-gray-600">
+                    <p className="tw-text-base tw-font-normal tw-text-gray-600">
                       {event.description}
                     </p>
                   </div>
@@ -131,14 +131,13 @@ const CalendarPlan = () => {
               </div>
             </div>
 
-            {/* Calendar Section */}
-            <div className="col-span-12 xl:col-span-7 px-2.5 py-5 sm:p-8 bg-gradient-to-b from-white/25 to-white xl:bg-white rounded-2xl max-xl:row-start-1">
-              <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-5">
-                <div className="flex items-center gap-4">
-                  <h5 className="text-xl leading-8 font-semibold text-gray-900">
+            <div className="tw-col-span-12 xl:tw-col-span-7 tw-px-2.5 tw-py-5 sm:tw-p-8 tw-bg-gradient-to-b from-white/25 to-white xl:tw-bg-white tw-rounded-2xl max-xl:row-start-1">
+              <div className="tw-flex tw-flex-col md:tw-flex-row tw-gap-4 tw-items-center tw-justify-between tw-mb-5">
+                <div className="tw-flex tw-items-center tw-gap-4">
+                  <h5 className="tw-text-xl tw-leading-8 tw-font-semibold tw-text-gray-900">
                     {months[currentDate.getMonth()]} {currentDate.getFullYear()}
                   </h5>
-                  <div className="flex items-center">
+                  <div className="tw-flex tw-items-center">
                     <button
                       onClick={() =>
                         setCurrentDate(
@@ -147,9 +146,9 @@ const CalendarPlan = () => {
                           )
                         )
                       }
-                      className="p-2 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded transition-colors"
+                      className="tw-p-2 tw-text-indigo-600 hover:tw-bg-indigo-600 hover:tw-text-white tw-rounded tw-transition-colors"
                     >
-                      <ChevronLeft className="h-4 w-4" />
+                      <ChevronLeft className="tw-h-4 tw-w-4" />
                     </button>
                     <button
                       onClick={() =>
@@ -159,58 +158,57 @@ const CalendarPlan = () => {
                           )
                         )
                       }
-                      className="p-2 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded transition-colors"
+                      className="tw-p-2 tw-text-indigo-600 hover:tw-bg-indigo-600 hover:tw-text-white tw-rounded tw-transition-colors"
                     >
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="tw-h-4 tw-w-4" />
                     </button>
                   </div>
                 </div>
-                <div className="flex items-center rounded-md p-1 bg-indigo-50 gap-px">
+                <div className="tw-flex tw-items-center tw-rounded-md tw-p-1 tw-bg-indigo-50 tw-gap-px">
                   <button
                     onClick={() => setViewMode("day")}
-                    className={`py-2.5 px-5 rounded-lg ${
+                    className={`tw-py-2.5 tw-px-5 tw-rounded-lg ${
                       viewMode === "day"
-                        ? "bg-indigo-600 text-white"
-                        : "bg-indigo-50 text-indigo-600"
-                    } text-sm font-medium transition-all duration-300 hover:bg-indigo-600 hover:text-white`}
+                        ? "tw-bg-indigo-600 tw-text-white"
+                        : "tw-bg-indigo-50 tw-text-indigo-600"
+                    } tw-text-sm tw-font-medium tw-transition-all tw-duration-300 hover:tw-bg-indigo-600 hover:tw-text-white`}
                   >
                     Day
                   </button>
                   <button
                     onClick={() => setViewMode("week")}
-                    className={`py-2.5 px-5 rounded-lg ${
+                    className={`tw-py-2.5 tw-px-5 tw-rounded-lg ${
                       viewMode === "week"
-                        ? "bg-indigo-600 text-white"
-                        : "bg-indigo-50 text-indigo-600"
-                    } text-sm font-medium transition-all duration-300 hover:bg-indigo-600 hover:text-white`}
+                        ? "tw-bg-indigo-600 tw-text-white"
+                        : "tw-bg-indigo-50 tw-text-indigo-600"
+                    } tw-text-sm tw-font-medium tw-transition-all tw-duration-300 hover:tw-bg-indigo-600 hover:tw-text-white`}
                   >
                     Week
                   </button>
                   <button
                     onClick={() => setViewMode("month")}
-                    className={`py-2.5 px-5 rounded-lg ${
+                    className={`tw-py-2.5 tw-px-5 tw-rounded-lg ${
                       viewMode === "month"
-                        ? "bg-indigo-600 text-white"
-                        : "bg-indigo-50 text-indigo-600"
-                    } text-sm font-medium transition-all duration-300 hover:bg-indigo-600 hover:text-white`}
+                        ? "tw-bg-indigo-600 tw-text-white"
+                        : "tw-bg-indigo-50 tw-text-indigo-600"
+                    } tw-text-sm tw-font-medium tw-transition-all tw-duration-300 hover:tw-bg-indigo-600 hover:tw-text-white`}
                   >
                     Month
                   </button>
                 </div>
               </div>
 
-              <div className="border border-indigo-200 rounded-xl">
-                {/* Calendar Header */}
-                <div className="grid grid-cols-7 rounded-t-3xl border-b border-indigo-200">
+              <div className="tw-border tw-border-indigo-200 tw-rounded-xl">
+                <div className="tw-grid tw-grid-cols-7 tw-rounded-t-3xl tw-border-b tw-border-indigo-200">
                   {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                     (day, index) => (
                       <div
                         key={day}
-                        className={`py-3.5 ${index !== 6 ? "border-r" : ""} ${
-                          index === 0 ? "rounded-tl-xl" : ""
-                        } ${
-                          index === 6 ? "rounded-tr-xl" : ""
-                        } border-indigo-200 bg-indigo-50 flex items-center justify-center text-sm font-medium text-indigo-600`}
+                        className={`tw-py-3.5 ${
+                          index !== 6 ? "tw-border-r" : ""
+                        } ${index === 0 ? "tw-rounded-tl-xl" : ""} ${
+                          index === 6 ? "tw-rounded-tr-xl" : ""
+                        } tw-border-indigo-200 tw-bg-indigo-50 tw-flex tw-items-center tw-justify-center tw-text-sm tw-font-medium tw-text-indigo-600`}
                       >
                         {day}
                       </div>
@@ -218,8 +216,7 @@ const CalendarPlan = () => {
                   )}
                 </div>
 
-                {/* Days Grid */}
-                <div className="grid grid-cols-7 rounded-b-xl">
+                <div className="tw-grid tw-grid-cols-7 tw-rounded-b-xl">
                   {getDaysInMonth().map((day, index) => {
                     const today = new Date();
                     const isToday =
@@ -231,29 +228,33 @@ const CalendarPlan = () => {
                     return (
                       <div
                         key={index}
-                        className={`flex xl:aspect-square max-xl:min-h-[60px] p-3.5 relative
-                            ${day.isCurrentMonth ? "bg-white" : "bg-gray-50"}
-                            ${index % 7 !== 6 ? "border-r" : ""}
-                            ${index < 35 ? "border-b" : ""}
-                            border-indigo-200 transition-all duration-300 hover:bg-indigo-50 cursor-pointer
+                        className={`tw-flex xl:tw-aspect-square max-xl:tw-min-h-[60px] tw-p-3.5 tw-relative
+                            ${
+                              day.isCurrentMonth
+                                ? "tw-bg-white"
+                                : "tw-bg-gray-50"
+                            }
+                            ${index % 7 !== 6 ? "tw-border-r" : ""}
+                            ${index < 35 ? "tw-border-b" : ""}
+                            tw-border-indigo-200 tw-transition-all tw-duration-300 hover:tw-bg-indigo-50 tw-cursor-pointer
                             ${
                               index >= 35 && index % 7 === 0
-                                ? "rounded-bl-xl"
+                                ? "tw-rounded-bl-xl"
                                 : ""
                             }
                             ${
                               index >= 35 && index % 7 === 6
-                                ? "rounded-br-xl"
+                                ? "tw-rounded-br-xl"
                                 : ""
                             }`}
                       >
                         <span
-                          className={`text-xs font-semibold ${
+                          className={`tw-text-xs tw-font-semibold ${
                             day.isCurrentMonth
                               ? isToday
-                                ? "text-white bg-indigo-600 w-6 h-6 rounded-full flex items-center justify-center"
-                                : "text-gray-900"
-                              : "text-gray-400"
+                                ? "tw-text-white tw-bg-indigo-600 tw-w-6 tw-h-6 tw-rounded-full tw-flex tw-items-center tw-justify-center"
+                                : "tw-text-gray-900"
+                              : "tw-text-gray-400"
                           }`}
                         >
                           {day.day}
