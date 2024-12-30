@@ -101,7 +101,6 @@
 .calendar-wrapper {
   height: calc(100% - 60px);
 }
-
 .fc {
   height: 100% !important;
 }
@@ -128,26 +127,6 @@
   border: 1px solid var(--gray-100) !important;
 }
 
-/* Event styles */
-.fc-event {
-  border: none !important;
-  border-radius: 8px !important;
-  padding: 4px 8px !important;
-  margin: 2px 4px !important;
-  font-size: 0.875rem !important;
-}
-
-.fc-timegrid-event {
-  background: transparent !important;
-  border: none !important;
-}
-
-.fc-timegrid-event .fc-event-main {
-  padding: 4px 8px !important;
-  border-radius: 8px !important;
-}
-
-/* Time slots */
 .fc-timegrid-slot {
   height: 48px !important;
 }
@@ -157,7 +136,6 @@
   color: var(--gray-400);
 }
 
-/* Date navigation */
 .fc-day-header {
   text-transform: uppercase;
   font-size: 0.875rem;
@@ -168,6 +146,7 @@
   font-size: 1.125rem;
   font-weight: 500;
 }
+*/
 
 /* Add Event Button */
 .add-event-btn {

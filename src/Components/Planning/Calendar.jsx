@@ -5,37 +5,63 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "../../Styles/Reunion/DashboardCalendar.css";
 
-const mockEvents = [
-  {
-    id: 1,
-    title: "Design team daily meeting",
-    start: "2024-12-30T07:00:00",
-    end: "2024-12-30T08:00:00",
-    backgroundColor: "#FFD700",
-  },
-  {
-    id: 2,
-    title: "Meeting with clients",
-    start: "2024-12-30T09:30:00",
-    end: "2024-12-30T10:30:00",
-    backgroundColor: "#1E90FF",
-  },
-  {
-    id: 3,
-    title: "Proposal meeting",
-    start: "2024-12-31T08:00:00",
-    end: "2024-12-31T09:00:00",
-    backgroundColor: "#9370DB",
-  },
-];
-
 const CalendarPlan = () => {
   const calendarRef = useRef(null);
   const [currentMonth, setCurrentMonth] = useState("");
 
-  // Update the current month whenever the view changes
+  const mockEvents = [
+    {
+      id: 1,
+      title: "Hello",
+      start: new Date("2024-12-30T09:00:00").toISOString(),
+      end: new Date("2024-12-30T10:00:00").toISOString(),
+      backgroundColor: "#FFD700",
+      allDay: false,
+      extendedProps: {
+        description: "Daily sync with design team",
+        location: "Meeting Room A",
+      },
+    },
+    {
+      id: 2,
+      title: "Meeting with clients",
+      start: new Date("2024-12-30T11:30:00").toISOString(),
+      end: new Date("2024-12-30T12:30:00").toISOString(),
+      backgroundColor: "#1E90FF",
+      allDay: false,
+      extendedProps: {
+        description: "Client review meeting",
+        location: "Virtual",
+      },
+    },
+    {
+      id: 3,
+      title: "Proposal meeting",
+      start: new Date("2024-12-30T14:00:00").toISOString(),
+      end: new Date("2024-12-30T15:00:00").toISOString(),
+      backgroundColor: "#9370DB",
+      allDay: false,
+      extendedProps: {
+        description: "Review new project proposal",
+        location: "Conference Room B",
+      },
+    },
+    {
+      id: 4,
+      title: "Team wrap-up meeting",
+      start: new Date("2024-12-30T16:00:00").toISOString(),
+      end: new Date("2024-12-30T17:00:00").toISOString(),
+      backgroundColor: "#32CD32",
+      allDay: false,
+      extendedProps: {
+        description: "Daily team wrap-up",
+        location: "Meeting Room C",
+      },
+    },
+  ];
+
   const handleDatesSet = (arg) => {
-    const month = arg.view.title; // Get the month and year from the calendar view title
+    const month = arg.view.title;
     setCurrentMonth(month);
   };
 
@@ -67,11 +93,6 @@ const CalendarPlan = () => {
   const handleDayViewClick = () => {
     const calendarApi = calendarRef.current.getApi();
     calendarApi.changeView("timeGridDay");
-  };
-
-  const handleYearViewClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.changeView("dayGridYear");
   };
 
   return (
@@ -122,9 +143,6 @@ const CalendarPlan = () => {
             <button className="nav-btn" onClick={handleDayViewClick}>
               Day View
             </button>
-            <button className="nav-btn" onClick={handleYearViewClick}>
-              Year View
-            </button>
           </div>
 
           <div className="calendar-month">
@@ -138,22 +156,58 @@ const CalendarPlan = () => {
           <FullCalendar
             ref={calendarRef}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
+            initialView="timeGridWeek"
             events={mockEvents}
+            timeZone="local"
             editable={true}
             selectable={true}
             headerToolbar={{
               left: "prev,next today",
               center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,dayGridYear",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            titleFormat={{
-              year: "numeric",
-              month: "long",
-              day: "numeric",
+            views={{
+              timeGridWeek: {
+                slotMinTime: "08:00:00",
+                slotMaxTime: "20:00:00",
+                slotDuration: "00:30:00",
+                slotLabelInterval: "01:00:00",
+                slotLabelFormat: {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  meridiem: "short",
+                },
+              },
+              timeGridDay: {
+                slotMinTime: "08:00:00",
+                slotMaxTime: "20:00:00",
+                slotDuration: "00:30:00",
+                slotLabelInterval: "01:00:00",
+                slotLabelFormat: {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  meridiem: "short",
+                },
+              },
+            }}
+            eventContent={(eventInfo) => {
+              return (
+                <div className="fc-event-main-content">
+                  <div className="fc-event-title">{eventInfo.event.title}</div>
+                  {(eventInfo.view.type === "timeGridWeek" ||
+                    eventInfo.view.type === "timeGridDay") && (
+                    <div className="fc-event-time">
+                      {new Date(eventInfo.event.start).toLocaleTimeString([], {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
             }}
             datesSet={handleDatesSet}
-          />
+          />{" "}
         </div>
       </main>
 
