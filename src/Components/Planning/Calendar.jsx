@@ -1,37 +1,84 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import "../../Styles/Reunion/DashboardCalendar.css";
 
 const mockEvents = [
   {
     id: 1,
     title: "Design team daily meeting",
-    time: "07:00 - 08:00",
-    type: "yellow",
-    attendees: ["user1.jpg", "user2.jpg", "user3.jpg"],
+    start: "2024-12-30T07:00:00",
+    end: "2024-12-30T08:00:00",
+    backgroundColor: "#FFD700",
   },
   {
     id: 2,
     title: "Meeting with clients",
-    time: "09:30 - 10:30",
-    type: "blue",
-    attendees: ["user2.jpg", "user4.jpg"],
+    start: "2024-12-30T09:30:00",
+    end: "2024-12-30T10:30:00",
+    backgroundColor: "#1E90FF",
   },
   {
     id: 3,
     title: "Proposal meeting",
-    time: "08:00 - 09:00",
-    type: "purple",
-    attendees: ["user1.jpg", "user3.jpg", "user4.jpg"],
+    start: "2024-12-31T08:00:00",
+    end: "2024-12-31T09:00:00",
+    backgroundColor: "#9370DB",
   },
 ];
 
 const CalendarPlan = () => {
+  const calendarRef = useRef(null);
+  const [currentMonth, setCurrentMonth] = useState("");
+
+  // Update the current month whenever the view changes
+  const handleDatesSet = (arg) => {
+    const month = arg.view.title; // Get the month and year from the calendar view title
+    setCurrentMonth(month);
+  };
+
+  const handleTodayClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.today();
+  };
+
+  const handleNextClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.next();
+  };
+
+  const handlePrevClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.prev();
+  };
+
+  const handleMonthViewClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.changeView("dayGridMonth");
+  };
+
+  const handleWeekViewClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.changeView("timeGridWeek");
+  };
+
+  const handleDayViewClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.changeView("timeGridDay");
+  };
+
+  const handleYearViewClick = () => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.changeView("dayGridYear");
+  };
+
   return (
-    <div className="calendar-container">
-      {/* Sidebar */}
+    <div className="dashboard-container">
       <aside className="sidebar">
         <div className="user-info">
-          <div className="user-avatar"></div>
+          <div className="user-avatar" />
           <span className="user-name">Hana Smith</span>
         </div>
 
@@ -54,49 +101,59 @@ const CalendarPlan = () => {
         </nav>
       </aside>
 
-      {/* Main Calendar Area */}
       <main className="calendar-main">
         <header className="calendar-header">
           <div className="calendar-controls">
-            <button className="nav-btn">←</button>
-            <span>Today</span>
-            <button className="nav-btn">→</button>
+            <button className="nav-btn" onClick={handlePrevClick}>
+              &larr;
+            </button>
+            <button className="nav-btn" onClick={handleTodayClick}>
+              Today
+            </button>
+            <button className="nav-btn" onClick={handleNextClick}>
+              &rarr;
+            </button>
+            <button className="nav-btn" onClick={handleMonthViewClick}>
+              Month View
+            </button>
+            <button className="nav-btn" onClick={handleWeekViewClick}>
+              Week View
+            </button>
+            <button className="nav-btn" onClick={handleDayViewClick}>
+              Day View
+            </button>
+            <button className="nav-btn" onClick={handleYearViewClick}>
+              Year View
+            </button>
           </div>
 
-          <div className="view-options">
-            <button className="view-option">Day</button>
-            <button className="view-option active">Week</button>
-            <button className="view-option">Month</button>
-            <button className="view-option">Year</button>
+          <div className="calendar-month">
+            <span>
+              <strong>{currentMonth}</strong>
+            </span>
           </div>
-
-          <input type="text" className="search-bar" placeholder="Search..." />
         </header>
 
-        <div className="calendar-grid">
-          {/* Calendar Headers */}
-          {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
-            <div key={day} className="calendar-header-cell">
-              {day}
-            </div>
-          ))}
-
-          {/* Calendar Cells */}
-          {Array.from({ length: 7 }).map((_, index) => (
-            <div key={index} className="calendar-cell">
-              {mockEvents.map((event) => (
-                <div key={event.id} className={`event-card ${event.type}`}>
-                  <span className="event-time">{event.time}</span>
-                  <div className="event-title">{event.title}</div>
-                  <div className="event-attendees">
-                    {event.attendees.map((attendee, i) => (
-                      <div key={i} className="attendee-avatar" />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
+        <div className="calendar-wrapper">
+          <FullCalendar
+            ref={calendarRef}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={mockEvents}
+            editable={true}
+            selectable={true}
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay,dayGridYear",
+            }}
+            titleFormat={{
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }}
+            datesSet={handleDatesSet}
+          />
         </div>
       </main>
 
