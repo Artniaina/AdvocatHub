@@ -19,7 +19,6 @@ const CalendarPlan = () => {
       title: "Hello",
       start: new Date("2024-12-30T09:00:00").toISOString(),
       end: new Date("2024-12-30T10:00:00").toISOString(),
-      backgroundColor: "#FFD700",
       allDay: false,
       extendedProps: {
         description: "Daily sync with design team",
@@ -30,8 +29,7 @@ const CalendarPlan = () => {
       id: 2,
       title: "Meeting with clients",
       start: new Date("2024-12-30T11:30:00").toISOString(),
-      end: new Date("2024-12-30T12:30:00").toISOString(),
-      backgroundColor: "#1E90FF",
+      end: new Date("2024-12-30T13:30:00").toISOString(),
       allDay: false,
       extendedProps: {
         description: "Client review meeting",
@@ -43,7 +41,6 @@ const CalendarPlan = () => {
       title: "Proposal meeting",
       start: new Date("2024-12-30T14:00:00").toISOString(),
       end: new Date("2024-12-30T15:00:00").toISOString(),
-      backgroundColor: "#9370DB",
       allDay: false,
       extendedProps: {
         description: "Review new project proposal",
@@ -55,7 +52,6 @@ const CalendarPlan = () => {
       title: "Team wrap-up meeting",
       start: new Date("2024-12-30T16:00:00").toISOString(),
       end: new Date("2024-12-30T17:00:00").toISOString(),
-      backgroundColor: "#32CD32",
       allDay: false,
       extendedProps: {
         description: "Daily team wrap-up",
@@ -212,6 +208,29 @@ const CalendarPlan = () => {
               <strong>{currentMonth}</strong>
             </span>
           </div>
+
+          <div>
+            <button
+              className="add-event-btn"
+              onClick={() => {
+                setShowAddEvent(true);
+                setEditingEvent({
+                  start: new Date().toISOString(),
+                  end: new Date(
+                    new Date().setHours(new Date().getHours() + 1)
+                  ).toISOString(),
+                  title: "",
+                  backgroundColor: "#1E90FF",
+                  borderColor: "#1E90FF",
+                  textColor: "#000",
+                  location: "",
+                  description: "",
+                });
+              }}
+            >
+              +
+            </button>
+          </div>
         </header>
 
         <div className="calendar-wrapper">
@@ -236,17 +255,24 @@ const CalendarPlan = () => {
                 end: defaultEndTime.toISOString(),
                 title: "",
                 backgroundColor: "#1E90FF",
+                borderColor: "#1E90FF",
+                textColor: "#fff",
                 location: "",
                 description: "",
               });
             }}
             headerToolbar={false}
             views={{
+              dayGridMonth: {
+                eventDisplay: "block",
+                dayMaxEvents: true,
+              },
               timeGridWeek: {
                 slotMinTime: "08:00:00",
                 slotMaxTime: "20:00:00",
                 slotDuration: "00:30:00",
                 slotLabelInterval: "01:00:00",
+                displayEventEnd: true,
                 slotLabelFormat: {
                   hour: "numeric",
                   minute: "2-digit",
@@ -258,6 +284,7 @@ const CalendarPlan = () => {
                 slotMaxTime: "20:00:00",
                 slotDuration: "00:30:00",
                 slotLabelInterval: "01:00:00",
+                displayEventEnd: true,
                 slotLabelFormat: {
                   hour: "numeric",
                   minute: "2-digit",
@@ -266,54 +293,70 @@ const CalendarPlan = () => {
               },
             }}
             eventContent={(eventInfo) => {
+              const startTime = new Date(
+                eventInfo.event.start
+              ).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+              });
+              const endTime = new Date(eventInfo.event.end).toLocaleTimeString(
+                [],
+                {
+                  hour: "numeric",
+                  minute: "2-digit",
+                }
+              );
+
               return (
                 <div className="fc-event-main-content">
                   <div className="fc-event-title">{eventInfo.event.title}</div>
-                  {(eventInfo.view.type === "timeGridWeek" ||
-                    eventInfo.view.type === "timeGridDay") && (
-                    <div className="fc-event-time">
-                      {new Date(eventInfo.event.start).toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
-                    </div>
+                  {eventInfo.view.type !== "dayGridMonth" && (
+                    <>
+                      <div className="fc-event-time">
+                        {startTime} - {endTime}
+                      </div>
+                      <div className="fc-event-location">
+                        {eventInfo.event.extendedProps.location}
+                      </div>
+                    </>
                   )}
                 </div>
               );
+            }}
+            eventDidMount={(info) => {
+              const navyBlue = `rgba(30, 40, 80, 0.6)`;
+              const purple = `rgba(85, 50, 135, 0.6)`;
+              const brown = `rgba(120, 80, 60, 0.6)`;
+
+              const randomColor = [navyBlue, purple, brown][
+                Math.floor(Math.random() * 3)
+              ];
+
+              const borderColor = randomColor.replace("0.6", "1");
+
+              info.el.style.backgroundColor = randomColor;
+              info.el.style.border = `1.5px solid ${borderColor}`;
+              info.el.style.borderRadius = "12px";
+              info.el.style.padding = "6px";
+              info.el.style.transition = "all 0.3s ease-in-out";
+              info.el.style.cursor = "pointer";
+
+              info.el.style.backdropFilter = "blur(10px)";
+              info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+
+              info.el.onmouseenter = () => {
+                info.el.style.transform = "scale(1.05)";
+                info.el.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.2)";
+              };
+              info.el.onmouseleave = () => {
+                info.el.style.transform = "scale(1)";
+                info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+              };
             }}
             datesSet={handleDatesSet}
           />
         </div>
       </main>
-      <button 
-        className="add-event-btn" 
-        onClick={() => {
-          
-          setShowAddEvent(true); 
-          setEditingEvent({
-            
-            start: new Date().toISOString(), 
-            end: new Date(
-              new Date().setHours(new Date().getHours() + 1)
-            ).toISOString(), 
-            title: "",
-            backgroundColor: "#1E90FF", 
-            location: "", 
-            description: "",
-          }); 
-        }} 
-      >
-         Ajouter un événement
-      </button>
-      <button
-        className="add-event-btn"
-        onClick={() => {
-          setShowAddEvent(true);
-          setEditingEvent(null);
-        }}
-      >
-        +
-      </button>
       {selectedEvent && (
         <EventDetailsPopup
           event={selectedEvent}
