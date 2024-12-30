@@ -13,7 +13,7 @@ const popupStyles = {
   backdrop: {
     position: "absolute",
     inset: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   container: {
     position: "relative",
@@ -102,7 +102,8 @@ export const EventDetailsPopup = ({
   backgroundColor,
 }) => {
   if (!event) return null;
-  console.log(backgroundColor);
+
+  const { extendedProps = {} } = event;
 
   return (
     <div style={popupStyles.overlay}>
@@ -147,21 +148,17 @@ export const EventDetailsPopup = ({
             </p>
           </div>
 
-          {event.extendedProps.location && (
+          {extendedProps.location && (
             <div style={popupStyles.infoSection}>
               <h3 style={popupStyles.infoLabel}>Location</h3>
-              <p style={popupStyles.infoContent}>
-                {event.extendedProps.location}
-              </p>
+              <p style={popupStyles.infoContent}>{extendedProps.location}</p>
             </div>
           )}
 
-          {event.extendedProps.description && (
+          {extendedProps.description && (
             <div style={popupStyles.infoSection}>
               <h3 style={popupStyles.infoLabel}>Description</h3>
-              <p style={popupStyles.infoContent}>
-                {event.extendedProps.description}
-              </p>
+              <p style={popupStyles.infoContent}>{extendedProps.description}</p>
             </div>
           )}
         </div>

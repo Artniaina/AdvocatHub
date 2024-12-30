@@ -324,18 +324,26 @@ const CalendarPlan = () => {
               );
             }}
             eventDidMount={(info) => {
-              const purple = `rgb(${Math.floor(Math.random() * 156) + 100}, ${
-                Math.floor(Math.random() * 100) + 50
-              }, ${Math.floor(Math.random() * 100) + 150})`; 
-              const blue = `rgb(${Math.floor(Math.random() * 100) + 50}, ${
-                Math.floor(Math.random() * 100) + 50
-              }, ${Math.floor(Math.random() * 156) + 100})`;
-              const brown = `rgb(${Math.floor(Math.random() * 50) + 90}, ${
+              const darkPurple = `rgb(${
+                Math.floor(Math.random() * 56) + 100
+              }, ${Math.floor(Math.random() * 56) + 50}, ${
+                Math.floor(Math.random() * 56) + 100
+              })`;
+
+              const darkBlue = `rgb(${Math.floor(Math.random() * 56) + 50}, ${
+                Math.floor(Math.random() * 56) + 50
+              }, ${Math.floor(Math.random() * 56) + 100})`;
+
+              const darkGrey = `rgb(${Math.floor(Math.random() * 56) + 100}, ${
+                Math.floor(Math.random() * 56) + 100
+              }, ${Math.floor(Math.random() * 56) + 100})`;
+
+              const darkBrown = `rgb(${Math.floor(Math.random() * 40) + 90}, ${
                 Math.floor(Math.random() * 40) + 60
               }, ${Math.floor(Math.random() * 40) + 30})`;
 
-              const randomColor = [purple, blue, brown][
-                Math.floor(Math.random() * 3)
+              const randomColor = [darkPurple, darkBlue, darkGrey, darkBrown][
+                Math.floor(Math.random() * 4)
               ];
 
               const borderColor = randomColor;
@@ -347,7 +355,7 @@ const CalendarPlan = () => {
               info.el.style.padding = "6px";
               info.el.style.transition = "all 0.3s ease-in-out";
               info.el.style.cursor = "pointer";
-
+ 
               info.el.onmouseenter = () => {
                 info.el.style.transform = "scale(1.05)";
                 info.el.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.2)";
@@ -356,7 +364,7 @@ const CalendarPlan = () => {
                 info.el.style.transform = "scale(1)";
                 info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
               };
-
+ 
               info.event.setExtendedProp("backgroundColor", randomColor);
             }}
             datesSet={handleDatesSet}
