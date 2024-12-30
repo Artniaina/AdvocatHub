@@ -3,13 +3,17 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { AddEventPopup } from "./PopupAddEvent";
+import { EventDetailsPopup } from "./PopupEvent";
 import "../../Styles/Reunion/DashboardCalendar.css";
 
 const CalendarPlan = () => {
   const calendarRef = useRef(null);
   const [currentMonth, setCurrentMonth] = useState("");
-
-  const mockEvents = [
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showAddEvent, setShowAddEvent] = useState(false);
+  const [editingEvent, setEditingEvent] = useState(null);
+  const [events, setEvents] = useState([
     {
       id: 1,
       title: "Hello",
@@ -58,41 +62,60 @@ const CalendarPlan = () => {
         location: "Meeting Room C",
       },
     },
-  ];
+  ]);
+
+  const handleEventClick = (clickInfo) => {
+    setSelectedEvent(clickInfo.event);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedEvent(null);
+    setShowAddEvent(false);
+    setEditingEvent(null);
+  };
+
+  const handleEditEvent = (event) => {
+    setSelectedEvent(null);
+    setEditingEvent(event);
+  };
+
+  const handleDeleteEvent = (event) => {
+    setEvents(events.filter((e) => e.id !== event.id));
+    setSelectedEvent(null);
+  };
+
+  const handleAddEvent = (eventData) => {
+    const newEvent = {
+      ...eventData,
+      id: events.length + 1,
+      extendedProps: {
+        description: eventData.description,
+        location: eventData.location,
+      },
+    };
+    setEvents([...events, newEvent]);
+  };
+
+  const handleUpdateEvent = (eventData) => {
+    const updatedEvents = events.map((event) =>
+      event.id === editingEvent.id
+        ? {
+            ...eventData,
+            id: event.id,
+            extendedProps: {
+              description: eventData.description,
+              location: eventData.location,
+            },
+          }
+        : event
+    );
+    setEvents(updatedEvents);
+    setEditingEvent(null);
+  };
 
   const handleDatesSet = (arg) => {
     const month = arg.view.title;
     setCurrentMonth(month);
-  };
-
-  const handleTodayClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.today();
-  };
-
-  const handleNextClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.next();
-  };
-
-  const handlePrevClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.prev();
-  };
-
-  const handleMonthViewClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.changeView("dayGridMonth");
-  };
-
-  const handleWeekViewClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.changeView("timeGridWeek");
-  };
-
-  const handleDayViewClick = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.changeView("timeGridDay");
   };
 
   return (
@@ -102,7 +125,6 @@ const CalendarPlan = () => {
           <div className="user-avatar" />
           <span className="user-name">Hana Smith</span>
         </div>
-
         <nav className="nav-menu">
           <div className="nav-item active">
             <span>Dashboard</span>
@@ -121,27 +143,67 @@ const CalendarPlan = () => {
           </div>
         </nav>
       </aside>
-
       <main className="calendar-main">
         <header className="calendar-header">
           <div className="calendar-controls">
-            <button className="nav-btn" onClick={handlePrevClick}>
+            <button
+              className="nav-btn"
+              onClick={() => {
+                const calendarApi = calendarRef.current.getApi();
+                calendarApi.prev();
+              }}
+            >
               &larr;
             </button>
-            <button className="nav-btn" onClick={handleTodayClick}>
+
+            <button
+              className="nav-btn"
+              onClick={() => {
+                const calendarApi = calendarRef.current.getApi();
+                calendarApi.today();
+              }}
+            >
               Today
             </button>
-            <button className="nav-btn" onClick={handleNextClick}>
+
+            <button
+              className="nav-btn"
+              onClick={() => {
+                const calendarApi = calendarRef.current.getApi();
+                calendarApi.next();
+              }}
+            >
               &rarr;
             </button>
-            <button className="nav-btn" onClick={handleMonthViewClick}>
-              Month View
+
+            <button
+              className="nav-btn"
+              onClick={() => {
+                const calendarApi = calendarRef.current.getApi();
+                calendarApi.changeView("dayGridMonth");
+              }}
+            >
+              Month
             </button>
-            <button className="nav-btn" onClick={handleWeekViewClick}>
-              Week View
+
+            <button
+              className="nav-btn"
+              onClick={() => {
+                const calendarApi = calendarRef.current.getApi();
+                calendarApi.changeView("timeGridWeek");
+              }}
+            >
+              Week
             </button>
-            <button className="nav-btn" onClick={handleDayViewClick}>
-              Day View
+
+            <button
+              className="nav-btn"
+              onClick={() => {
+                const calendarApi = calendarRef.current.getApi();
+                calendarApi.changeView("timeGridDay");
+              }}
+            >
+              Day
             </button>
           </div>
 
@@ -157,15 +219,28 @@ const CalendarPlan = () => {
             ref={calendarRef}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
-            events={mockEvents}
+            events={events}
             timeZone="local"
             editable={true}
             selectable={true}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
+            selectMirror={true}
+            dayMaxEvents={true}
+            weekends={true}
+            eventClick={handleEventClick}
+            select={(selectInfo) => {
+              setShowAddEvent(true);
+              const defaultEndTime = new Date(selectInfo.end);
+              defaultEndTime.setHours(defaultEndTime.getHours() + 1);
+              setEditingEvent({
+                start: selectInfo.start.toISOString(),
+                end: defaultEndTime.toISOString(),
+                title: "",
+                backgroundColor: "#1E90FF",
+                location: "",
+                description: "",
+              });
             }}
+            headerToolbar={false}
             views={{
               timeGridWeek: {
                 slotMinTime: "08:00:00",
@@ -207,11 +282,53 @@ const CalendarPlan = () => {
               );
             }}
             datesSet={handleDatesSet}
-          />{" "}
+          />
         </div>
       </main>
-
-      <button className="add-event-btn">+</button>
+      <button 
+        className="add-event-btn" 
+        onClick={() => {
+          
+          setShowAddEvent(true); 
+          setEditingEvent({
+            
+            start: new Date().toISOString(), 
+            end: new Date(
+              new Date().setHours(new Date().getHours() + 1)
+            ).toISOString(), 
+            title: "",
+            backgroundColor: "#1E90FF", 
+            location: "", 
+            description: "",
+          }); 
+        }} 
+      >
+         Ajouter un événement
+      </button>
+      <button
+        className="add-event-btn"
+        onClick={() => {
+          setShowAddEvent(true);
+          setEditingEvent(null);
+        }}
+      >
+        +
+      </button>
+      {selectedEvent && (
+        <EventDetailsPopup
+          event={selectedEvent}
+          onClose={handleClosePopup}
+          onEdit={handleEditEvent}
+          onDelete={handleDeleteEvent}
+        />
+      )}
+      {(showAddEvent || editingEvent) && (
+        <AddEventPopup
+          event={editingEvent}
+          onClose={handleClosePopup}
+          onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent}
+        />
+      )}
     </div>
   );
 };
