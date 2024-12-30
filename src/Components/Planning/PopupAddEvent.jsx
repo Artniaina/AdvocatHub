@@ -63,7 +63,7 @@ const addEventStyles = {
     width: '100%',
     padding: '12px 16px',
     borderRadius: '8px',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgb(255, 255, 255)',
     border: '1px solid rgba(0, 0, 0, 0.1)',
     outline: 'none',
     transition: 'all 0.2s',

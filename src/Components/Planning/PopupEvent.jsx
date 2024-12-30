@@ -17,12 +17,11 @@ const popupStyles = {
   },
   container: {
     position: "relative",
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
     backdropFilter: "blur(12px)",
     borderRadius: "16px",
     padding: "32px",
     boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
+    border: "1px solid rgb(185, 182, 182)",
     width: "400px",
   },
   closeButton: {
@@ -95,13 +94,25 @@ const popupStyles = {
   },
 };
 
-export const EventDetailsPopup = ({ event, onClose, onEdit, onDelete }) => {
+export const EventDetailsPopup = ({
+  event,
+  onClose,
+  onEdit,
+  onDelete,
+  backgroundColor,
+}) => {
   if (!event) return null;
+  console.log(backgroundColor);
 
   return (
     <div style={popupStyles.overlay}>
       <div style={popupStyles.backdrop} onClick={onClose} />
-      <div style={popupStyles.container}>
+      <div
+        style={{
+          ...popupStyles.container,
+          backgroundColor: backgroundColor || event.backgroundColor,
+        }}
+      >
         <button style={popupStyles.closeButton} onClick={onClose}>
           <X size={20} />
         </button>
@@ -110,7 +121,7 @@ export const EventDetailsPopup = ({ event, onClose, onEdit, onDelete }) => {
           <div
             style={{
               ...popupStyles.colorDot,
-              backgroundColor: event.backgroundColor,
+              backgroundColor: backgroundColor || event.backgroundColor,
             }}
           />
           <h2 style={popupStyles.eventTitle}>{event.title}</h2>

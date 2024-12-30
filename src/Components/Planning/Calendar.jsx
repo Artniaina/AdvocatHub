@@ -324,25 +324,29 @@ const CalendarPlan = () => {
               );
             }}
             eventDidMount={(info) => {
-              const navyBlue = `rgba(30, 40, 80, 0.6)`;
-              const purple = `rgba(85, 50, 135, 0.6)`;
-              const brown = `rgba(120, 80, 60, 0.6)`;
+              const purple = `rgb(${Math.floor(Math.random() * 156) + 100}, ${
+                Math.floor(Math.random() * 100) + 50
+              }, ${Math.floor(Math.random() * 100) + 150})`; 
+              const blue = `rgb(${Math.floor(Math.random() * 100) + 50}, ${
+                Math.floor(Math.random() * 100) + 50
+              }, ${Math.floor(Math.random() * 156) + 100})`;
+              const brown = `rgb(${Math.floor(Math.random() * 50) + 90}, ${
+                Math.floor(Math.random() * 40) + 60
+              }, ${Math.floor(Math.random() * 40) + 30})`;
 
-              const randomColor = [navyBlue, purple, brown][
+              const randomColor = [purple, blue, brown][
                 Math.floor(Math.random() * 3)
               ];
 
-              const borderColor = randomColor.replace("0.6", "1");
+              const borderColor = randomColor;
 
               info.el.style.backgroundColor = randomColor;
               info.el.style.border = `1.5px solid ${borderColor}`;
               info.el.style.borderRadius = "12px";
+              info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
               info.el.style.padding = "6px";
               info.el.style.transition = "all 0.3s ease-in-out";
               info.el.style.cursor = "pointer";
-
-              info.el.style.backdropFilter = "blur(10px)";
-              info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
 
               info.el.onmouseenter = () => {
                 info.el.style.transform = "scale(1.05)";
@@ -352,6 +356,8 @@ const CalendarPlan = () => {
                 info.el.style.transform = "scale(1)";
                 info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
               };
+
+              info.event.setExtendedProp("backgroundColor", randomColor);
             }}
             datesSet={handleDatesSet}
           />
@@ -360,11 +366,13 @@ const CalendarPlan = () => {
       {selectedEvent && (
         <EventDetailsPopup
           event={selectedEvent}
+          backgroundColor={selectedEvent.extendedProps.backgroundColor}
           onClose={handleClosePopup}
           onEdit={handleEditEvent}
           onDelete={handleDeleteEvent}
         />
       )}
+
       {(showAddEvent || editingEvent) && (
         <AddEventPopup
           event={editingEvent}
