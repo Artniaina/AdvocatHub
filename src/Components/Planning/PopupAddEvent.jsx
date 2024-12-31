@@ -208,7 +208,7 @@ const addEventStyles = {
   },
 };
 
-const AddEventPopup = ({ onClose }) => {
+const AddEventPopup = ({ onClose, onEventCreated }) => {
   const [eventData, setEventData] = useState({
     titre: "",
     ordreDuJour: "",
@@ -239,11 +239,13 @@ const AddEventPopup = ({ onClose }) => {
 
       if (response.ok) {
         alert("Événement créé avec succès!");
-        onClose();
+        // Call onEventCreated to trigger the refetch
+        await onEventCreated();
       } else {
         alert("Échec de la création de l'événement.");
       }
     } catch (error) {
+      console.error("Error creating event:", error);
       alert("Erreur réseau. Veuillez réessayer plus tard.");
     }
   };

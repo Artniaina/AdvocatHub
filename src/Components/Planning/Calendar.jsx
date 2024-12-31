@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -13,52 +13,37 @@ const CalendarPlan = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "Hello this is a test btw",
-      start: new Date("2024-12-30T09:00:00").toISOString(),
-      end: new Date("2024-12-30T10:00:00").toISOString(),
-      allDay: false,
-      extendedProps: {
-        description: "Daily sync with design team",
-        location: "Meeting Room A",
-      },
-    },
-    {
-      id: 2,
-      title: "Meeting with clients",
-      start: new Date("2024-12-30T11:30:00").toISOString(),
-      end: new Date("2024-12-30T13:30:00").toISOString(),
-      allDay: false,
-      extendedProps: {
-        description: "Client review meeting",
-        location: "Virtual",
-      },
-    },
-    {
-      id: 3,
-      title: "Proposal meeting",
-      start: new Date("2024-12-30T14:00:00").toISOString(),
-      end: new Date("2024-12-30T15:00:00").toISOString(),
-      allDay: false,
-      extendedProps: {
-        description: "Review new project proposal",
-        location: "Conference Room B",
-      },
-    },
-    {
-      id: 4,
-      title: "Team wrap-up meeting",
-      start: new Date("2024-12-30T16:00:00").toISOString(),
-      end: new Date("2024-12-30T17:00:00").toISOString(),
-      allDay: false,
-      extendedProps: {
-        description: "Daily team wrap-up",
-        location: "Meeting Room C",
-      },
-    },
-  ]);
+  const [events, setEvents] = useState([]);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch(
+        "http://192.168.10.10/Utilisateur/api/meetings"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const formattedEvents = data.map((event) => ({
+          id: event.id,
+          title: event.titre,
+          start: `${event.date}T${event.heureDebut}`,
+          end: `${event.date}T${event.heureFin}`,
+          location: event.location,
+          description: event.ordreDuJour,
+          extendedProps: {
+            lienVisio: event.lienVisio,
+            statut: event.statut,
+          },
+        }));
+        setEvents(formattedEvents);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const handleEventClick = (clickInfo) => {
     setSelectedEvent(clickInfo.event);
@@ -80,16 +65,10 @@ const CalendarPlan = () => {
     setSelectedEvent(null);
   };
 
-  const handleAddEvent = (eventData) => {
-    const newEvent = {
-      ...eventData,
-      id: events.length + 1,
-      extendedProps: {
-        description: eventData.description,
-        location: eventData.location,
-      },
-    };
-    setEvents([...events, newEvent]);
+  const handleAddEvent = (newEvent) => {
+    setEvents((prevEvents) => [...prevEvents, newEvent]);
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.refetchEvents();
   };
 
   const handleUpdateEvent = (eventData) => {
@@ -380,14 +359,20 @@ const CalendarPlan = () => {
           onDelete={handleDeleteEvent}
         />
       )}
+      {showAddEvent && (
+        <AddEventPopup
+          onClose={handleClosePopup}
+          onEventCreated={handleAddEvent}
+        />
+      )}
 
-      {(showAddEvent || editingEvent) && (
+      {/* {(showAddEvent || editingEvent) && (
         <AddEventPopup
           event={editingEvent}
           onClose={handleClosePopup}
           onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent}
         />
-      )}
+      )} */}
     </div>
   );
 };
