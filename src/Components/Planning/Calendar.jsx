@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { AddEventPopup } from "./PopupAddEvent";
+import AddEventPopup from "./PopupAddEvent";
 import { EventDetailsPopup } from "./PopupEvent";
 import "../../Styles/Reunion/DashboardCalendar.css";
 
@@ -16,7 +16,7 @@ const CalendarPlan = () => {
   const [events, setEvents] = useState([
     {
       id: 1,
-      title: "Hello",
+      title: "Hello this is a test btw",
       start: new Date("2024-12-30T09:00:00").toISOString(),
       end: new Date("2024-12-30T10:00:00").toISOString(),
       allDay: false,
@@ -355,7 +355,7 @@ const CalendarPlan = () => {
               info.el.style.padding = "6px";
               info.el.style.transition = "all 0.3s ease-in-out";
               info.el.style.cursor = "pointer";
- 
+
               info.el.onmouseenter = () => {
                 info.el.style.transform = "scale(1.05)";
                 info.el.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.2)";
@@ -364,7 +364,7 @@ const CalendarPlan = () => {
                 info.el.style.transform = "scale(1)";
                 info.el.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
               };
- 
+
               info.event.setExtendedProp("backgroundColor", randomColor);
             }}
             datesSet={handleDatesSet}

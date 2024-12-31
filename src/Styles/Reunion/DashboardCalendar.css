@@ -121,7 +121,7 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-height: 100vh;
+  max-height: 87vh;
 }
 .fc {
   height: 100%;
@@ -205,11 +205,6 @@
   color: var(--gray-800);
 }
 
-/* Main Calendar Area */
-.calendar-main {
-  flex: 1;
-  padding: 1.5rem 2rem;
-}
 .calendar-month {
   font-size: 30px;
 }
