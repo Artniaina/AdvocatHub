@@ -14,6 +14,8 @@ const CalendarPlan = () => {
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
   const [events, setEvents] = useState([]);
+  console.log("selectedevent", selectedEvent);
+  console.log("events:", events);
 
   const fetchEvents = async () => {
     try {
@@ -22,8 +24,10 @@ const CalendarPlan = () => {
       );
       if (response.ok) {
         const data = await response.json();
+        console.log("data", data);
+
         const formattedEvents = data.map((event) => ({
-          id: event.id,
+          id: event.idMeeting,
           title: event.titre,
           start: `${event.date}T${event.heureDebut}`,
           end: `${event.date}T${event.heureFin}`,
@@ -353,12 +357,14 @@ const CalendarPlan = () => {
       {selectedEvent && (
         <EventDetailsPopup
           event={selectedEvent}
+          eventId={selectedEvent.id}
           backgroundColor={selectedEvent.extendedProps.backgroundColor}
           onClose={handleClosePopup}
           onEdit={handleEditEvent}
           onDelete={handleDeleteEvent}
         />
       )}
+
       {showAddEvent && (
         <AddEventPopup
           onClose={handleClosePopup}

@@ -100,10 +100,38 @@ export const EventDetailsPopup = ({
   onEdit,
   onDelete,
   backgroundColor,
+  eventId,
 }) => {
   if (!event) return null;
+  // console.log(eventId);
 
   const { extendedProps = {} } = event;
+
+  const handleDelete = async () => {
+    if (!eventId) {
+      alert("Custom Event ID is missing. Unable to delete the event.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://192.168.10.10/Utilisateur/api/meetings/delete/${eventId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        alert("Event deleted successfully.");
+        onDelete(event);
+        onClose();
+      } else {
+        alert("Failed to delete the event.");
+      }
+    } catch (error) {
+      alert("Network error. Please try again later.");
+    }
+  };
 
   return (
     <div style={popupStyles.overlay}>
@@ -172,7 +200,7 @@ export const EventDetailsPopup = ({
           </button>
           <button
             style={{ ...popupStyles.actionButton, ...popupStyles.deleteButton }}
-            onClick={() => onDelete(event)}
+            onClick={handleDelete}
           >
             Delete Event
           </button>
