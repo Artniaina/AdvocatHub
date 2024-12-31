@@ -239,8 +239,19 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
       if (response.ok) {
         alert("Événement créé avec succès!");
-        // Call onEventCreated to trigger the refetch
-        await onEventCreated();
+        const createdEvent = {
+          title: eventData.titre,
+          start: `${eventData.date}T${eventData.heureDebut}`,
+          end: `${eventData.date}T${eventData.heureFin}`,
+          location: eventData.location,
+          description: eventData.ordreDuJour,
+          extendedProps: {
+            lienVisio: eventData.lienVisio,
+            statut: eventData.statut,
+          },
+        };
+
+        await onEventCreated(createdEvent);
       } else {
         alert("Échec de la création de l'événement.");
       }

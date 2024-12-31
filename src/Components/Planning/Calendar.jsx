@@ -31,12 +31,18 @@ const CalendarPlan = () => {
           title: event.titre,
           start: `${event.date}T${event.heureDebut}`,
           end: `${event.date}T${event.heureFin}`,
-          location: event.location,
-          description: event.ordreDuJour,
+          location: event.location || "", // Provide default empty string
+          description: event.ordreDuJour || "", // Provide default empty string
           extendedProps: {
-            lienVisio: event.lienVisio,
-            statut: event.statut,
+            lienVisio: event.lienVisio || "",
+            statut: event.statut || "",
+            location: event.location || "", // Include location in extendedProps
+            description: event.ordreDuJour || "", // Include description in extendedProps
           },
+          editable: true,
+          backgroundColor: "#1E90FF", // Provide default color
+          borderColor: "#1E90FF", // Provide default color
+          textColor: "#FFFFFF", // Provide default text color
         }));
         setEvents(formattedEvents);
       }
@@ -70,9 +76,17 @@ const CalendarPlan = () => {
   };
 
   const handleAddEvent = (newEvent) => {
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.refetchEvents();
+    const formattedNewEvent = {
+      ...newEvent,
+      extendedProps: {
+        location: newEvent.location || "",
+        description: newEvent.description || "",
+        lienVisio: newEvent.lienVisio || "",
+        statut: newEvent.statut || "",
+      },
+      editable: true,
+    };
+    setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
   };
 
   const handleUpdateEvent = (eventData) => {
@@ -82,16 +96,19 @@ const CalendarPlan = () => {
             ...eventData,
             id: event.id,
             extendedProps: {
-              description: eventData.description,
-              location: eventData.location,
+              ...eventData.extendedProps,
+              description: eventData.description || "",
+              location: eventData.location || "",
+              lienVisio: eventData.lienVisio || "",
+              statut: eventData.statut || "",
             },
+            editable: true,
           }
         : event
     );
     setEvents(updatedEvents);
     setEditingEvent(null);
   };
-
   const handleDatesSet = (arg) => {
     const month = arg.view.title;
     setCurrentMonth(month);
