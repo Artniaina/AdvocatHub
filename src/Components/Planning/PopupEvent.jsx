@@ -98,7 +98,6 @@ const popupStyles = {
 export const EventDetailsPopup = ({
   event,
   onClose,
-  onEdit,
   onDelete,
   backgroundColor,
   eventId,
@@ -247,13 +246,15 @@ export const EventDetailsPopup = ({
         </div>
       </div>
       {showEdit && (
-        <PopupEditEvent
-          onClose={() => {
-            setShowEdit(false);
-          }}
-          id
-        />
-      )}
+  <PopupEditEvent
+    onClose={() => {
+      setShowEdit(false);
+    }}
+    meetingData={dataMeeting}
+    eventId={eventId}
+  />
+)}
+
     </div>
   );
 };

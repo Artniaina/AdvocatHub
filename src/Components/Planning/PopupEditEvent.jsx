@@ -208,7 +208,7 @@ const addEventStyles = {
   },
 };
 
-const PopupEditEvent = ({ onClose, eventId }) => {
+const PopupEditEvent = ({ onClose, meetingData, eventId }) => {
   const [eventData, setEventData] = useState({
     titre: "",
     ordreDuJour: "",
@@ -221,42 +221,20 @@ const PopupEditEvent = ({ onClose, eventId }) => {
   });
 
   useEffect(() => {
-    const fetchEventData = async () => {
-      if (!eventId) return;
-
-      try {
-        const response = await fetch(
-          `http://192.168.10.10/Utilisateur/api/meetings/${eventId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setEventData({
-            titre: data.title,
-            ordreDuJour: data.description,
-            lienVisio: data.extendedProps?.lienVisio || "",
-            statut: data.extendedProps?.statut || "scheduled",
-            date: new Date(data.start).toISOString().split("T")[0],
-            heureDebut: new Date(data.start)
-              .toISOString()
-              .split("T")[1]
-              .split(".")[0],
-            heureFin: new Date(data.end)
-              .toISOString()
-              .split("T")[1]
-              .split(".")[0],
-            location: data.location || "",
-          });
-        } else {
-          alert("Failed to fetch event data.");
-        }
-      } catch (error) {
-        console.error("Error fetching event data:", error);
-        alert("Network error. Please try again later.");
-      }
-    };
-
-    fetchEventData();
-  }, [eventId]);
+    if (meetingData && meetingData.length > 0) {
+      const meeting = meetingData[0];
+      setEventData({
+        titre: meeting.titre || "",
+        ordreDuJour: meeting.ordreDuJour || "",
+        lienVisio: meeting.lienVisio || "",
+        statut: meeting.statut || "scheduled",
+        date: meeting.date ? meeting.date.split("T")[0] : "",
+        heureDebut: meeting.heureDebut || "",
+        heureFin: meeting.heureFin || "",
+        location: meeting.location || "",
+      });
+    }
+  }, [meetingData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
