@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
 
 const addEventStyles = {
@@ -208,7 +208,7 @@ const addEventStyles = {
   },
 };
 
-const AddEventPopup = ({ onClose, onEventCreated }) => {
+const PopupEditEvent = ({ onClose, eventId }) => {
   const [eventData, setEventData] = useState({
     titre: "",
     ordreDuJour: "",
@@ -220,6 +220,44 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     location: "",
   });
 
+  useEffect(() => {
+    const fetchEventData = async () => {
+      if (!eventId) return;
+
+      try {
+        const response = await fetch(
+          `http://192.168.10.10/Utilisateur/api/meetings/${eventId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setEventData({
+            titre: data.title,
+            ordreDuJour: data.description,
+            lienVisio: data.extendedProps?.lienVisio || "",
+            statut: data.extendedProps?.statut || "scheduled",
+            date: new Date(data.start).toISOString().split("T")[0],
+            heureDebut: new Date(data.start)
+              .toISOString()
+              .split("T")[1]
+              .split(".")[0],
+            heureFin: new Date(data.end)
+              .toISOString()
+              .split("T")[1]
+              .split(".")[0],
+            location: data.location || "",
+          });
+        } else {
+          alert("Failed to fetch event data.");
+        }
+      } catch (error) {
+        console.error("Error fetching event data:", error);
+        alert("Network error. Please try again later.");
+      }
+    };
+
+    fetchEventData();
+  }, [eventId]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData((prevData) => ({ ...prevData, [name]: value }));
@@ -227,37 +265,30 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!eventId) {
+      alert("Event ID is missing.");
+      return;
+    }
+
     try {
       const response = await fetch(
-        "http://192.168.10.10/Utilisateur/api/meetings/create",
+        `http://192.168.10.10/Utilisateur/api/meetings/update/${eventId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(eventData),
         }
       );
 
       if (response.ok) {
-        alert("Événement créé avec succès!");
-        const createdEvent = {
-          title: eventData.titre,
-          start: `${eventData.date}T${eventData.heureDebut}`,
-          end: `${eventData.date}T${eventData.heureFin}`,
-          location: eventData.location,
-          description: eventData.ordreDuJour,
-          extendedProps: {
-            lienVisio: eventData.lienVisio,
-            statut: eventData.statut,
-          },
-        };
-
-        await onEventCreated(createdEvent);
-        onClose(); 
+        alert("Événement mis à jour avec succès!");
+        onClose();
       } else {
-        alert("Échec de la création de l'événement.");
+        alert("Échec de la mise à jour de l'événement.");
       }
     } catch (error) {
-      console.error("Error creating event:", error);
+      console.error("Error updating event:", error);
       alert("Erreur réseau. Veuillez réessayer plus tard.");
     }
   };
@@ -267,7 +298,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       <div style={addEventStyles.backdrop} onClick={onClose} />
       <div style={addEventStyles.container}>
         <div style={addEventStyles.header}>
-          <h2 style={addEventStyles.title}>Créer un événement</h2>
+          <h2 style={addEventStyles.title}>Modifier un événement</h2>
           <button style={addEventStyles.closeButton} onClick={onClose}>
             <X size={18} />
           </button>
@@ -363,7 +394,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               Annuler
             </button>
             <button type="submit" style={addEventStyles.submitButton}>
-              Créer l'événement
+              Mettre à jour l'événement
             </button>
           </div>
         </form>
@@ -372,4 +403,4 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   );
 };
 
-export default AddEventPopup;
+export default PopupEditEvent;

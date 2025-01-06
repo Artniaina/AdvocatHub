@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import AddEventPopup from "./PopupAddEvent";
+import PopupEditEvent from "./PopupEditEvent";
 import { EventDetailsPopup } from "./PopupEvent";
 import "../../Styles/Reunion/DashboardCalendar.css";
 
@@ -12,7 +13,6 @@ const CalendarPlan = () => {
   const [currentMonth, setCurrentMonth] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showAddEvent, setShowAddEvent] = useState(false);
-  const [editingEvent, setEditingEvent] = useState(null);
   const [events, setEvents] = useState([]);
   console.log("selectedevent", selectedEvent);
   console.log("events:", events);
@@ -62,12 +62,10 @@ const CalendarPlan = () => {
   const handleClosePopup = () => {
     setSelectedEvent(null);
     setShowAddEvent(false);
-    setEditingEvent(null);
   };
 
   const handleEditEvent = (event) => {
     setSelectedEvent(null);
-    setEditingEvent(event);
   };
 
   const handleDeleteEvent = (event) => {
@@ -89,26 +87,6 @@ const CalendarPlan = () => {
     setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
   };
 
-  const handleUpdateEvent = (eventData) => {
-    const updatedEvents = events.map((event) =>
-      event.id === editingEvent.id
-        ? {
-            ...eventData,
-            id: event.id,
-            extendedProps: {
-              ...eventData.extendedProps,
-              description: eventData.description || "",
-              location: eventData.location || "",
-              lienVisio: eventData.lienVisio || "",
-              statut: eventData.statut || "",
-            },
-            editable: true,
-          }
-        : event
-    );
-    setEvents(updatedEvents);
-    setEditingEvent(null);
-  };
   const handleDatesSet = (arg) => {
     const month = arg.view.title;
     setCurrentMonth(month);
@@ -214,18 +192,6 @@ const CalendarPlan = () => {
               className="add-event-btn"
               onClick={() => {
                 setShowAddEvent(true);
-                setEditingEvent({
-                  start: new Date().toISOString(),
-                  end: new Date(
-                    new Date().setHours(new Date().getHours() + 1)
-                  ).toISOString(),
-                  title: "",
-                  backgroundColor: "#1E90FF",
-                  borderColor: "#1E90FF",
-                  textColor: "#000",
-                  location: "",
-                  description: "",
-                });
               }}
             >
               +
@@ -250,16 +216,6 @@ const CalendarPlan = () => {
               setShowAddEvent(true);
               const defaultEndTime = new Date(selectInfo.end);
               defaultEndTime.setHours(defaultEndTime.getHours() + 1);
-              setEditingEvent({
-                start: selectInfo.start.toISOString(),
-                end: defaultEndTime.toISOString(),
-                title: "",
-                backgroundColor: "#1E90FF",
-                borderColor: "#1E90FF",
-                textColor: "#fff",
-                location: "",
-                description: "",
-              });
             }}
             headerToolbar={false}
             views={{
@@ -388,14 +344,6 @@ const CalendarPlan = () => {
           onEventCreated={handleAddEvent}
         />
       )}
-
-      {/* {(showAddEvent || editingEvent) && (
-        <AddEventPopup
-          event={editingEvent}
-          onClose={handleClosePopup}
-          onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent}
-        />
-      )} */}
     </div>
   );
 };

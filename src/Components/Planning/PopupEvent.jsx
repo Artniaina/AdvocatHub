@@ -103,7 +103,7 @@ export const EventDetailsPopup = ({
   eventId,
 }) => {
   if (!event) return null;
-  // console.log(eventId);
+  console.log(eventId);
 
   const { extendedProps = {} } = event;
 
