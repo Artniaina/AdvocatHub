@@ -212,16 +212,14 @@ const addEventStyles = {
 const AddEventPopup = ({ onClose, onEventCreated }) => {
   const { user } = useAuth();
 
-  function getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0");
-    const day = today.getDate().toString().padStart(2, "0");
+  const collaborators = [
+    { name: "Kanto", email: "kanto@jm-contacts.net" },
+    { name: "Sh Herinavalona", email: "sh.herinavalona@gmail.com" },
+    { name: "Alice Dupont", email: "alice.dupont@example.com" },
+    { name: "Bob Martin", email: "bob.martin@example.com" },
+    { name: "Eve Lemoine", email: "eve.lemoine@example.com" },
+  ];
 
-    return `${year}${month}${day}`;
-  }
-
-  const currentDate = getCurrentDate();
   const [eventData, setEventData] = useState({
     titre: "",
     organisateur: user?.email,
@@ -231,13 +229,37 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     date: "",
     heureDebut: "",
     heureFin: "",
-    participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
-    dateCreation: currentDate,
+    participant: "",
+    dateCreation: getCurrentDate(),
   });
+
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+    return `${year}${month}${day}`;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleParticipantChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, (option) => ({
+      email: option.value,
+      name:
+        collaborators.find((c) => c.email === option.value)?.name ||
+        option.value,
+    }));
+    setSelectedParticipants(selectedOptions);
+    setEventData((prevData) => ({
+      ...prevData,
+      participant: selectedOptions.map((p) => p.email).join(", "),
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -298,6 +320,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               onChange={handleChange}
               placeholder="Saisissez le nom de l'événement"
               style={addEventStyles.input}
+              required
             />
           </div>
 
@@ -310,6 +333,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
                 value={eventData.date}
                 onChange={handleChange}
                 style={addEventStyles.input}
+                required
               />
             </div>
             <div style={addEventStyles.dateTimeGroup}>
@@ -320,6 +344,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
                 value={eventData.heureDebut}
                 onChange={handleChange}
                 style={addEventStyles.input}
+                required
               />
             </div>
             <div style={addEventStyles.dateTimeGroup}>
@@ -330,6 +355,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
                 value={eventData.heureFin}
                 onChange={handleChange}
                 style={addEventStyles.input}
+                required
               />
             </div>
           </div>
@@ -365,9 +391,58 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               value={eventData.ordreDuJour}
               onChange={handleChange}
               placeholder="Détails de l'ordre du jour"
-              style={addEventStyles.input}
+              style={{ ...addEventStyles.input, minHeight: "100px" }}
             />
           </div>
+
+          <div style={addEventStyles.formGroup}>
+            <label style={addEventStyles.label}>Participants</label>
+            <select
+              multiple
+              onChange={handleParticipantChange}
+              style={{ ...addEventStyles.input, height: "120px" }}
+              value={selectedParticipants.map((p) => p.email)}
+            >
+              {collaborators.map((collaborator) => (
+                <option key={collaborator.email} value={collaborator.email}>
+                  {collaborator.name}
+                </option>
+              ))}
+            </select>
+            <small style={{ color: "#666", fontSize: "0.75rem" }}>
+              Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs
+              participants
+            </small>
+          </div>
+
+          {selectedParticipants.length > 0 && (
+            <div style={addEventStyles.formGroup}>
+              <label style={addEventStyles.label}>
+                Participants sélectionnés
+              </label>
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+              >
+                {selectedParticipants.map((participant) => (
+                  <div
+                    key={participant.email}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      padding: "8px",
+                      backgroundColor: "#f5f5f5",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <span>{participant.name}</span>
+                    <span style={{ color: "#666", fontSize: "0.875rem" }}>
+                      {participant.email}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div style={addEventStyles.buttonContainer}>
             <button
