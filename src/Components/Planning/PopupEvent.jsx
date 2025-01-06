@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import PopupEditEvent from "./PopupEditEvent";
 
 const popupStyles = {
   overlay: {
@@ -102,10 +103,45 @@ export const EventDetailsPopup = ({
   backgroundColor,
   eventId,
 }) => {
-  if (!event) return null;
-  console.log(eventId);
+  const [showEdit, setShowEdit] = useState(false);
+
+  const [dataMeeting, setDataMeeting] = useState([]);
 
   const { extendedProps = {} } = event;
+
+  useEffect(() => {
+    if (!eventId) {
+      console.error("No eventId provided. Unable to fetch event details.");
+      return;
+    }
+
+    const fetchEventDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://192.168.10.10/Utilisateur/api/meetings/${eventId}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setDataMeeting(data);
+          console.log("Fetched event details:", data);
+        } else {
+          console.error(
+            "Failed to fetch event details. Status:",
+            response.status
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching event details:", error);
+      }
+    };
+
+    fetchEventDetails();
+  }, [eventId]);
+
+  useEffect(() => {
+    console.log("Updated dataMeeting state:", dataMeeting);
+  }, [dataMeeting]);
 
   const handleDelete = async () => {
     if (!eventId) {
@@ -131,6 +167,10 @@ export const EventDetailsPopup = ({
     } catch (error) {
       alert("Network error. Please try again later.");
     }
+  };
+
+  const handleEditEvent = () => {
+    setShowEdit(true);
   };
 
   return (
@@ -194,7 +234,7 @@ export const EventDetailsPopup = ({
         <div style={popupStyles.buttonContainer}>
           <button
             style={{ ...popupStyles.actionButton, ...popupStyles.editButton }}
-            onClick={() => onEdit(event)}
+            onClick={handleEditEvent}
           >
             Edit Event
           </button>
@@ -206,6 +246,14 @@ export const EventDetailsPopup = ({
           </button>
         </div>
       </div>
+      {showEdit && (
+        <PopupEditEvent
+          onClose={() => {
+            setShowEdit(false);
+          }}
+          id
+        />
+      )}
     </div>
   );
 };
