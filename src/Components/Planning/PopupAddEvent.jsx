@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
+import { useAuth } from "../../Hooks/AuthContext";
 
 const addEventStyles = {
   overlay: {
@@ -209,15 +210,29 @@ const addEventStyles = {
 };
 
 const AddEventPopup = ({ onClose, onEventCreated }) => {
+  const { user } = useAuth();
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    return `${year}${month}${day}`;
+  }
+
+  const currentDate = getCurrentDate();
   const [eventData, setEventData] = useState({
     titre: "",
+    organisateur: user?.email,
     ordreDuJour: "",
     lienVisio: "",
     statut: "scheduled",
     date: "",
     heureDebut: "",
     heureFin: "",
-    location: "",
+    participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
+    dateCreation: currentDate,
   });
 
   const handleChange = (e) => {
@@ -252,7 +267,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         };
 
         await onEventCreated(createdEvent);
-        onClose(); 
+        onClose();
       } else {
         alert("Échec de la création de l'événement.");
       }

@@ -57,9 +57,9 @@ export const UpdateDataProvider = ({ children }) => {
     email: avocat.email || "",
     dateAssermentation: avocat.dateAssermentation || "",
     isSocieteChecked: avocat.isSocieteChecked || false,
-    dateInscription: avocat.dateInscription ||"",
-    adressePro: avocat.adressePro ||"",
-    denomination: avocat.denomination ||"",
+    dateInscription: avocat.dateInscription || "",
+    adressePro: avocat.adressePro || "",
+    denomination: avocat.denomination || "",
   }));
 
   const [clientData, setClientData] = useState([]);

@@ -4,46 +4,45 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import AddEventPopup from "./PopupAddEvent";
-import PopupEditEvent from "./PopupEditEvent";
 import { EventDetailsPopup } from "./PopupEvent";
 import "../../Styles/Reunion/DashboardCalendar.css";
+import { useAuth } from "../../Hooks/AuthContext";
 
 const CalendarPlan = () => {
+  const { user } = useAuth();
+
   const calendarRef = useRef(null);
   const [currentMonth, setCurrentMonth] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [showDetailsEvent, setShowDetailsEvent] = useState(false);
   const [events, setEvents] = useState([]);
-  console.log("selectedevent", selectedEvent);
-  console.log("events:", events);
 
   const fetchEvents = async () => {
+    const email = user?.email;
     try {
       const response = await fetch(
-        "http://192.168.10.10/Utilisateur/api/meetings"
+        `http://192.168.10.10/Utilisateur/api/userMeetings/${email}`
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("data", data);
-
         const formattedEvents = data.map((event) => ({
           id: event.idMeeting,
           title: event.titre,
           start: `${event.date}T${event.heureDebut}`,
           end: `${event.date}T${event.heureFin}`,
-          location: event.location || "", // Provide default empty string
-          description: event.ordreDuJour || "", // Provide default empty string
+          location: event.location || "",
+          description: event.ordreDuJour || "",
           extendedProps: {
             lienVisio: event.lienVisio || "",
             statut: event.statut || "",
-            location: event.location || "", // Include location in extendedProps
-            description: event.ordreDuJour || "", // Include description in extendedProps
+            location: event.location || "",
+            description: event.ordreDuJour || "",
           },
           editable: true,
-          backgroundColor: "#1E90FF", // Provide default color
-          borderColor: "#1E90FF", // Provide default color
-          textColor: "#FFFFFF", // Provide default text color
+          backgroundColor: "#1E90FF",
+          borderColor: "#1E90FF",
+          textColor: "#FFFFFF",
         }));
         setEvents(formattedEvents);
       }
@@ -66,10 +65,6 @@ const CalendarPlan = () => {
   };
   const handleCloseDetails = () => {
     setShowDetailsEvent(false);
-  };
-  const handleEditEvent = (event) => {
-    setShowDetailsEvent(false);
-    setSelectedEvent(null);
   };
 
   const handleDeleteEvent = (event) => {
@@ -331,7 +326,7 @@ const CalendarPlan = () => {
           />
         </div>
       </main>
-  
+
       {selectedEvent && showDetailsEvent && (
         <EventDetailsPopup
           event={selectedEvent}

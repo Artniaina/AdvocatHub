@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
+import { useAuth } from "../../Hooks/AuthContext";
 
 const addEventStyles = {
   overlay: {
@@ -209,15 +210,29 @@ const addEventStyles = {
 };
 
 const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
+  const { user } = useAuth();
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    return `${year}${month}${day}`;
+  }
+
+  const currentDate = getCurrentDate();
+
   const [eventData, setEventData] = useState({
     titre: "",
+    organisateur: user?.email,
     ordreDuJour: "",
     lienVisio: "",
     statut: "scheduled",
     date: "",
     heureDebut: "",
     heureFin: "",
-    location: "",
+    participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
+    dateCreation: currentDate,
   });
 
   useEffect(() => {
@@ -225,13 +240,15 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
       const meeting = meetingData[0];
       setEventData({
         titre: meeting.titre || "",
+        organisateur: user?.email,
         ordreDuJour: meeting.ordreDuJour || "",
         lienVisio: meeting.lienVisio || "",
         statut: meeting.statut || "scheduled",
         date: meeting.date ? meeting.date.split("T")[0] : "",
         heureDebut: meeting.heureDebut || "",
         heureFin: meeting.heureFin || "",
-        location: meeting.location || "",
+        participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
+        dateCreation: currentDate,
       });
     }
   }, [meetingData]);

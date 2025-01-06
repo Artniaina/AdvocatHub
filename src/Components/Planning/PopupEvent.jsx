@@ -124,7 +124,6 @@ export const EventDetailsPopup = ({
         if (response.ok) {
           const data = await response.json();
           setDataMeeting(data);
-          console.log("Fetched event details:", data);
         } else {
           console.error(
             "Failed to fetch event details. Status:",
@@ -138,10 +137,6 @@ export const EventDetailsPopup = ({
 
     fetchEventDetails();
   }, [eventId]);
-
-  useEffect(() => {
-    console.log("Updated dataMeeting state:", dataMeeting);
-  }, [dataMeeting]);
 
   const handleDelete = async () => {
     if (!eventId) {
@@ -256,7 +251,7 @@ export const EventDetailsPopup = ({
           <PopupEditEvent
             onClose={() => {
               setShowEdit(false);
-              onClose(); // This will close the details popup as well
+              onClose();
             }}
             meetingData={dataMeeting}
             eventId={eventId}
