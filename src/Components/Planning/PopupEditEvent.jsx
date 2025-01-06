@@ -208,7 +208,7 @@ const addEventStyles = {
   },
 };
 
-const PopupEditEvent = ({ onClose, meetingData, eventId }) => {
+const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
   const [eventData, setEventData] = useState({
     titre: "",
     ordreDuJour: "",
@@ -248,7 +248,6 @@ const PopupEditEvent = ({ onClose, meetingData, eventId }) => {
       alert("Event ID is missing.");
       return;
     }
-
     try {
       const response = await fetch(
         `http://192.168.10.10/Utilisateur/api/meetings/update/${eventId}`,
@@ -261,6 +260,7 @@ const PopupEditEvent = ({ onClose, meetingData, eventId }) => {
 
       if (response.ok) {
         alert("Événement mis à jour avec succès!");
+        await refreshEvents();
         onClose();
       } else {
         alert("Échec de la mise à jour de l'événement.");

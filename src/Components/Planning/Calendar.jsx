@@ -13,6 +13,7 @@ const CalendarPlan = () => {
   const [currentMonth, setCurrentMonth] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showAddEvent, setShowAddEvent] = useState(false);
+  const [showDetailsEvent, setShowDetailsEvent] = useState(false);
   const [events, setEvents] = useState([]);
   console.log("selectedevent", selectedEvent);
   console.log("events:", events);
@@ -56,15 +57,18 @@ const CalendarPlan = () => {
   }, []);
 
   const handleEventClick = (clickInfo) => {
+    setShowDetailsEvent(true);
     setSelectedEvent(clickInfo.event);
   };
 
   const handleClosePopup = () => {
-    setSelectedEvent(null);
     setShowAddEvent(false);
   };
-
+  const handleCloseDetails = () => {
+    setShowDetailsEvent(false);
+  };
   const handleEditEvent = (event) => {
+    setShowDetailsEvent(false);
     setSelectedEvent(null);
   };
 
@@ -327,14 +331,15 @@ const CalendarPlan = () => {
           />
         </div>
       </main>
-      {selectedEvent && (
+  
+      {selectedEvent && showDetailsEvent && (
         <EventDetailsPopup
           event={selectedEvent}
-          eventId={selectedEvent.id}
+          eventId={selectedEvent ? selectedEvent.id : null}
           backgroundColor={selectedEvent.extendedProps.backgroundColor}
-          onClose={handleClosePopup}
-          onEdit={handleEditEvent}
+          onClose={handleCloseDetails}
           onDelete={handleDeleteEvent}
+          refreshEvents={fetchEvents}
         />
       )}
 

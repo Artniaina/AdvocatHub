@@ -101,6 +101,7 @@ export const EventDetailsPopup = ({
   onDelete,
   backgroundColor,
   eventId,
+  refreshEvents,
 }) => {
   const [showEdit, setShowEdit] = useState(false);
 
@@ -173,88 +174,96 @@ export const EventDetailsPopup = ({
   };
 
   return (
-    <div style={popupStyles.overlay}>
-      <div style={popupStyles.backdrop} onClick={onClose} />
-      <div
-        style={{
-          ...popupStyles.container,
-          backgroundColor: backgroundColor || event.backgroundColor,
-        }}
-      >
-        <button style={popupStyles.closeButton} onClick={onClose}>
-          <X size={20} />
-        </button>
+    <>
+      <div style={popupStyles.overlay}>
+        <div style={popupStyles.backdrop} onClick={onClose} />
+        <div
+          style={{
+            ...popupStyles.container,
+            backgroundColor: backgroundColor || event.backgroundColor,
+          }}
+        >
+          <button style={popupStyles.closeButton} onClick={onClose}>
+            <X size={20} />
+          </button>
 
-        <div style={popupStyles.eventHeader}>
-          <div
-            style={{
-              ...popupStyles.colorDot,
-              backgroundColor: backgroundColor || event.backgroundColor,
-            }}
-          />
-          <h2 style={popupStyles.eventTitle}>{event.title}</h2>
-        </div>
-
-        <div style={popupStyles.eventInfo}>
-          <div style={popupStyles.infoSection}>
-            <h3 style={popupStyles.infoLabel}>Time</h3>
-            <p style={popupStyles.infoContent}>
-              {new Date(event.start).toLocaleString([], {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-              {" - "}
-              {new Date(event.end).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
+          <div style={popupStyles.eventHeader}>
+            <div
+              style={{
+                ...popupStyles.colorDot,
+                backgroundColor: backgroundColor || event.backgroundColor,
+              }}
+            />
+            <h2 style={popupStyles.eventTitle}>{event.title}</h2>
           </div>
 
-          {extendedProps.location && (
+          <div style={popupStyles.eventInfo}>
             <div style={popupStyles.infoSection}>
-              <h3 style={popupStyles.infoLabel}>Location</h3>
-              <p style={popupStyles.infoContent}>{extendedProps.location}</p>
+              <h3 style={popupStyles.infoLabel}>Time</h3>
+              <p style={popupStyles.infoContent}>
+                {new Date(event.start).toLocaleString([], {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+                {" - "}
+                {new Date(event.end).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
             </div>
-          )}
 
-          {extendedProps.description && (
-            <div style={popupStyles.infoSection}>
-              <h3 style={popupStyles.infoLabel}>Description</h3>
-              <p style={popupStyles.infoContent}>{extendedProps.description}</p>
-            </div>
-          )}
-        </div>
+            {extendedProps.location && (
+              <div style={popupStyles.infoSection}>
+                <h3 style={popupStyles.infoLabel}>Location</h3>
+                <p style={popupStyles.infoContent}>{extendedProps.location}</p>
+              </div>
+            )}
 
-        <div style={popupStyles.buttonContainer}>
-          <button
-            style={{ ...popupStyles.actionButton, ...popupStyles.editButton }}
-            onClick={handleEditEvent}
-          >
-            Edit Event
-          </button>
-          <button
-            style={{ ...popupStyles.actionButton, ...popupStyles.deleteButton }}
-            onClick={handleDelete}
-          >
-            Delete Event
-          </button>
+            {extendedProps.description && (
+              <div style={popupStyles.infoSection}>
+                <h3 style={popupStyles.infoLabel}>Description</h3>
+                <p style={popupStyles.infoContent}>
+                  {extendedProps.description}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div style={popupStyles.buttonContainer}>
+            <button
+              style={{ ...popupStyles.actionButton, ...popupStyles.editButton }}
+              onClick={handleEditEvent}
+            >
+              Edit Event
+            </button>
+            <button
+              style={{
+                ...popupStyles.actionButton,
+                ...popupStyles.deleteButton,
+              }}
+              onClick={handleDelete}
+            >
+              Delete Event
+            </button>
+          </div>
         </div>
+        {showEdit && (
+          <PopupEditEvent
+            onClose={() => {
+              setShowEdit(false);
+              onClose(); // This will close the details popup as well
+            }}
+            meetingData={dataMeeting}
+            eventId={eventId}
+            refreshEvents={refreshEvents}
+          />
+        )}
       </div>
-      {showEdit && (
-  <PopupEditEvent
-    onClose={() => {
-      setShowEdit(false);
-    }}
-    meetingData={dataMeeting}
-    eventId={eventId}
-  />
-)}
-
-    </div>
+    </>
   );
 };
