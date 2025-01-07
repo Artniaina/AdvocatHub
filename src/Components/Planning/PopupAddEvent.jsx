@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
 import { useAuth } from "../../Hooks/AuthContext";
 
@@ -208,18 +208,39 @@ const addEventStyles = {
     color: "#666",
   },
 };
-
 const AddEventPopup = ({ onClose, onEventCreated }) => {
   const { user } = useAuth();
+  const [collaborators, setCollaborators] = useState([]);
 
-  const collaborators = [
-    { name: "Kanto", email: "kanto@jm-contacts.net" },
-    { name: "Sh Herinavalona", email: "sh.herinavalona@gmail.com" },
-    { name: "Alice Dupont", email: "alice.dupont@example.com" },
-    { name: "Bob Martin", email: "bob.martin@example.com" },
-    { name: "Eve Lemoine", email: "eve.lemoine@example.com" },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
+        );
 
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+
+        const transformedData = data.map((item) => ({
+          name: item.m_Description,
+          email: item.m_emailbarreau,
+        }));
+
+        setCollaborators(transformedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
+  const participantMail = selectedParticipants.map((p) => p.email).join(", ");
   const [eventData, setEventData] = useState({
     titre: "",
     organisateur: user?.email,
@@ -229,12 +250,9 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     date: "",
     heureDebut: "",
     heureFin: "",
-    participant: "",
+    participant: participantMail,
     dateCreation: getCurrentDate(),
   });
-
-  const [selectedParticipants, setSelectedParticipants] = useState([]);
-
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -248,18 +266,25 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     setEventData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleParticipantChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, (option) => ({
-      email: option.value,
-      name:
-        collaborators.find((c) => c.email === option.value)?.name ||
-        option.value,
-    }));
-    setSelectedParticipants(selectedOptions);
+  useEffect(() => {
     setEventData((prevData) => ({
       ...prevData,
-      participant: selectedOptions.map((p) => p.email).join(", "),
+      participant: selectedParticipants.map((p) => p.email).join(", "),
     }));
+  }, [selectedParticipants]);
+
+  const handleParticipantClick = (collaborator) => {
+    if (
+      selectedParticipants.some(
+        (participant) => participant.email === collaborator.email
+      )
+    ) {
+      setSelectedParticipants((prev) =>
+        prev.filter((p) => p.email !== collaborator.email)
+      );
+    } else {
+      setSelectedParticipants((prev) => [...prev, collaborator]);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -309,7 +334,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
             <X size={18} />
           </button>
         </div>
-
         <form onSubmit={handleSubmit} style={addEventStyles.form}>
           <div style={addEventStyles.formGroup}>
             <label style={addEventStyles.label}>Nom de l'événement</label>
@@ -323,7 +347,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               required
             />
           </div>
-
           <div style={addEventStyles.dateTimeContainer}>
             <div style={addEventStyles.dateTimeGroup}>
               <label style={addEventStyles.label}>Date</label>
@@ -397,22 +420,37 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
           <div style={addEventStyles.formGroup}>
             <label style={addEventStyles.label}>Participants</label>
-            <select
-              multiple
-              onChange={handleParticipantChange}
-              style={{ ...addEventStyles.input, height: "120px" }}
-              value={selectedParticipants.map((p) => p.email)}
+            <div
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+              }}
             >
-              {collaborators.map((collaborator) => (
-                <option key={collaborator.email} value={collaborator.email}>
-                  {collaborator.name}
-                </option>
-              ))}
-            </select>
-            <small style={{ color: "#666", fontSize: "0.75rem" }}>
-              Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs
-              participants
-            </small>
+              {collaborators.map((collaborator) => {
+                const isSelected = selectedParticipants.some(
+                  (participant) => participant.email === collaborator.email
+                );
+
+                return (
+                  <div
+                    key={collaborator.email}
+                    style={{
+                      padding: "8px",
+                      borderRadius: "4px",
+                      backgroundColor: isSelected ? "#d1e7dd" : "#f8f9fa",
+                      cursor: "pointer",
+                      transition: "background-color 0.2s",
+                    }}
+                    onClick={() => handleParticipantClick(collaborator)}
+                  >
+                    {collaborator.name}
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {selectedParticipants.length > 0 && (
@@ -435,9 +473,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
                     }}
                   >
                     <span>{participant.name}</span>
-                    <span style={{ color: "#666", fontSize: "0.875rem" }}>
-                      {participant.email}
-                    </span>
                   </div>
                 ))}
               </div>

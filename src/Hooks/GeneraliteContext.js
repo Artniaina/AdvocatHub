@@ -71,7 +71,6 @@ export const GeneraliteProvider = ({ children }) => {
   });
 
   const [honoraireToCompare, setHonoraireToCompare] = useState([]);
-
   const [noteHonoraireToCompare, setNoteHonoraireToCompare] = useState([]);
   const resetClientData = () => setClientData([]);
   const resetSelectedAvocats = () => setSelectedAvocats([]);
