@@ -231,9 +231,10 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     date: "",
     heureDebut: "",
     heureFin: "",
-    participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien 
+    participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
     dateCreation: currentDate,
   });
+  console.log(meetingData);
 
   useEffect(() => {
     if (meetingData && meetingData.length > 0) {

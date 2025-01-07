@@ -72,7 +72,7 @@ const CalendarPlan = () => {
     setSelectedEvent(null);
   };
 
-  const handleAddEvent = (newEvent) => {
+  const handleAddEvent = async (newEvent) => {
     const formattedNewEvent = {
       ...newEvent,
       extendedProps: {
@@ -84,6 +84,7 @@ const CalendarPlan = () => {
       editable: true,
     };
     setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
+    await fetchEvents();
   };
 
   const handleDatesSet = (arg) => {
