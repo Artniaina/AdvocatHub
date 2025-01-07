@@ -217,6 +217,7 @@ const PopupEditEvent = ({
   onUpdate,
 }) => {
   const { user } = useAuth();
+
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -227,6 +228,56 @@ const PopupEditEvent = ({
   }
 
   const currentDate = getCurrentDate();
+  const [collaborators, setCollaborators] = useState([]);
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
+  const participantMail = selectedParticipants.map((p) => p.email).join(", ");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+
+        const transformedData = data.map((item) => ({
+          name: item.m_Description,
+          email: item.m_emailbarreau,
+        }));
+
+        setCollaborators(transformedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  useEffect(() => {
+    setEventData((prevData) => ({
+      ...prevData,
+      participant: selectedParticipants.map((p) => p.email).join(", "),
+    }));
+  }, [selectedParticipants]);
+
+  const handleParticipantClick = (collaborator) => {
+    const isSelected = selectedParticipants.some(
+      (participant) => participant.email === collaborator.email
+    );
+
+    if (isSelected) {
+      setSelectedParticipants((prev) =>
+        prev.filter((participant) => participant.email !== collaborator.email)
+      );
+    } else {
+      setSelectedParticipants((prev) => [...prev, collaborator]);
+    }
+  };
 
   const [eventData, setEventData] = useState({
     titre: "",
@@ -237,14 +288,17 @@ const PopupEditEvent = ({
     date: "",
     heureDebut: "",
     heureFin: "",
-    participant: "kanto@jm-contacts.net", //Mbola on verra bien
-    dateCreation: currentDate,
+    participant: participantMail,
+    dateCreation: getCurrentDate(),
   });
-  console.log(meetingData);
 
   useEffect(() => {
     if (meetingData && meetingData.length > 0) {
       const meeting = meetingData[0];
+      const existingParticipants = meeting.participant
+        ? meeting.participant.split(",").map((email) => ({ email }))
+        : [];
+
       setEventData({
         titre: meeting.titre || "",
         organisateur: user?.email,
@@ -254,9 +308,11 @@ const PopupEditEvent = ({
         date: meeting.date ? meeting.date.split("T")[0] : "",
         heureDebut: meeting.heureDebut || "",
         heureFin: meeting.heureFin || "",
-        participant: "kanto@jm-contacts.net", //Mbola on verra bien
+        participant: meeting.participant || "",
         dateCreation: currentDate,
       });
+
+      setSelectedParticipants(existingParticipants);
     }
   }, [meetingData]);
 
@@ -285,9 +341,6 @@ const PopupEditEvent = ({
       if (response.ok) {
         alert("Événement mis à jour avec succès!");
         await refreshEvents();
-        if (onUpdate) {
-          onUpdate(eventData); // Notify parent of update
-        }
         onClose();
       } else {
         alert("Échec de la mise à jour de l'événement.");
@@ -388,6 +441,41 @@ const PopupEditEvent = ({
               placeholder="Détails de l'ordre du jour"
               style={addEventStyles.input}
             />
+          </div>
+
+          <div style={addEventStyles.formGroup}>
+            <label style={addEventStyles.label}>Participants</label>
+            <div
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+              }}
+            >
+              {collaborators.map((collaborator) => {
+                const isSelected = selectedParticipants.some(
+                  (participant) => participant.email === collaborator.email
+                );
+
+                return (
+                  <div
+                    key={collaborator.email}
+                    style={{
+                      padding: "8px",
+                      borderRadius: "4px",
+                      backgroundColor: isSelected ? "#d1e7dd" : "#f8f9fa",
+                      cursor: "pointer",
+                      transition: "background-color 0.2s",
+                    }}
+                    onClick={() => handleParticipantClick(collaborator)}
+                  >
+                    {collaborator.name}
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div style={addEventStyles.buttonContainer}>
