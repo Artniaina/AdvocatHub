@@ -102,41 +102,11 @@ export const EventDetailsPopup = ({
   backgroundColor,
   eventId,
   refreshEvents,
+  dataMeeting,
 }) => {
   const [showEdit, setShowEdit] = useState(false);
 
-  const [dataMeeting, setDataMeeting] = useState([]);
-
   const { extendedProps = {} } = event;
-
-  useEffect(() => {
-    if (!eventId) {
-      console.error("No eventId provided. Unable to fetch event details.");
-      return;
-    }
-
-    const fetchEventDetails = async () => {
-      try {
-        const response = await fetch(
-          `http://192.168.10.10/Utilisateur/api/meetings/${eventId}`
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setDataMeeting(data);
-        } else {
-          console.error(
-            "Failed to fetch event details. Status:",
-            response.status
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching event details:", error);
-      }
-    };
-
-    fetchEventDetails();
-  }, [eventId]);
 
   const handleDelete = async () => {
     if (!eventId) {

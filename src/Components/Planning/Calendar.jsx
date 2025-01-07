@@ -17,6 +17,37 @@ const CalendarPlan = () => {
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [showDetailsEvent, setShowDetailsEvent] = useState(false);
   const [events, setEvents] = useState([]);
+  const [dataMeeting, setDataMeeting] = useState([]);
+
+  const eventId = selectedEvent?.id;
+  useEffect(() => {
+    if (!eventId) {
+      console.error("No eventId provided. Unable to fetch event details.");
+      return;
+    }
+
+    const fetchEventDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://192.168.10.10/Utilisateur/api/meetings/${eventId}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setDataMeeting(data);
+        } else {
+          console.error(
+            "Failed to fetch event details. Status:",
+            response.status
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching event details:", error);
+      }
+    };
+
+    fetchEventDetails();
+  }, [eventId]);
 
   const fetchEvents = async () => {
     const email = user?.email;
@@ -83,8 +114,14 @@ const CalendarPlan = () => {
       },
       editable: true,
     };
+
     setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
-    await fetchEvents();
+
+    try {
+      await fetchEvents();
+    } catch (error) {
+      console.error("Error re-fetching events:", error);
+    }
   };
 
   const handleDatesSet = (arg) => {
@@ -330,6 +367,7 @@ const CalendarPlan = () => {
 
       {selectedEvent && showDetailsEvent && (
         <EventDetailsPopup
+          dataMeeting={dataMeeting}
           event={selectedEvent}
           eventId={selectedEvent ? selectedEvent.id : null}
           backgroundColor={selectedEvent.extendedProps.backgroundColor}

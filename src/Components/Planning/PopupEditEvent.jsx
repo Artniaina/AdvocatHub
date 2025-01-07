@@ -209,7 +209,13 @@ const addEventStyles = {
   },
 };
 
-const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
+const PopupEditEvent = ({
+  meetingData,
+  eventId,
+  refreshEvents,
+  onClose,
+  onUpdate,
+}) => {
   const { user } = useAuth();
   function getCurrentDate() {
     const today = new Date();
@@ -231,7 +237,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     date: "",
     heureDebut: "",
     heureFin: "",
-    participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
+    participant: "kanto@jm-contacts.net", //Mbola on verra bien
     dateCreation: currentDate,
   });
   console.log(meetingData);
@@ -248,7 +254,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
         date: meeting.date ? meeting.date.split("T")[0] : "",
         heureDebut: meeting.heureDebut || "",
         heureFin: meeting.heureFin || "",
-        participant: "kanto@jm-contacts.net, sh.herinavalona@gmail.com", //Mbola on verra bien
+        participant: "kanto@jm-contacts.net", //Mbola on verra bien
         dateCreation: currentDate,
       });
     }
@@ -279,6 +285,9 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
       if (response.ok) {
         alert("Événement mis à jour avec succès!");
         await refreshEvents();
+        if (onUpdate) {
+          onUpdate(eventData); // Notify parent of update
+        }
         onClose();
       } else {
         alert("Échec de la mise à jour de l'événement.");
