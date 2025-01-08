@@ -228,10 +228,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           name: item.m_Description,
           email: item.m_emailbarreau,
         }));
-        //if user accepte bah son mail est ajoute a a liste des collaborateurs
-        //Son statut dans la liste des collaborateur est soit: accepte, soit refuser soit en attente
-        //Cette confirmation se fera par email via des liens unique
-
         setCollaborators(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -288,10 +284,10 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       setSelectedParticipants((prev) => [...prev, collaborator]);
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // 1. Create the meeting
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/api/meetings/create",
         {
@@ -300,29 +296,67 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           body: JSON.stringify(eventData),
         }
       );
-
-      if (response.ok) {
-        alert("Événement créé avec succès!");
-        const createdEvent = {
-          title: eventData.titre,
-          start: `${eventData.date}T${eventData.heureDebut}`,
-          end: `${eventData.date}T${eventData.heureFin}`,
-          location: eventData.location,
-          description: eventData.ordreDuJour,
-          extendedProps: {
-            lienVisio: eventData.lienVisio,
-            statut: eventData.statut,
-          },
-        };
-
-        await onEventCreated(createdEvent);
-        onClose();
-      } else {
-        alert("Échec de la création de l'événement.");
+      if (!response.ok) {
+        throw new Error("Failed to create event");
       }
+      const createdMeeting = await response.json();
+
+      // Create and update the event immediately after creation
+      const createdEvent = {
+        id: createdMeeting.idMeeting,
+        title: eventData.titre,
+        start: `${eventData.date}T${eventData.heureDebut}`,
+        end: `${eventData.date}T${eventData.heureFin}`,
+        location: eventData.location,
+        description: eventData.ordreDuJour,
+        extendedProps: {
+          lienVisio: eventData.lienVisio,
+          statut: eventData.statut,
+        },
+      };
+      await onEventCreated(createdEvent);
+
+      const latestIdResponse = await fetch(
+        "http://192.168.10.10/Utilisateur/api/latestID",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (!latestIdResponse.ok) {
+        throw new Error("Failed to fetch latest ID");
+      }
+      const latestIdData = await latestIdResponse.json();
+      const latestMeetingId = latestIdData.sIDRecup;
+
+      const participantPromises = selectedParticipants.map(
+        async (participant) => {
+          const participantData = {
+            sNomParticipant: participant.name,
+            sEmailParticipant: participant.email,
+            sStatutParticipant: "en attente",
+            sIdMeeting: latestMeetingId,
+          };
+          const addParticipantResponse = await fetch(
+            "http://192.168.10.10/Utilisateur/invités/add",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(participantData),
+            }
+          );
+          if (!addParticipantResponse.ok) {
+            throw new Error(`Failed to add participant ${participant.email}`);
+          }
+        }
+      );
+      await Promise.all(participantPromises);
+
+      alert("Événement créé avec succès!");
+      onClose();
     } catch (error) {
-      console.error("Error creating event:", error);
-      alert("Erreur réseau. Veuillez réessayer plus tard.");
+      console.error("Error in event creation process:", error);
+      alert("Erreur lors de la création de l'événement. Veuillez réessayer.");
     }
   };
 

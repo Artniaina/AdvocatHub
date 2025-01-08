@@ -10,7 +10,6 @@ import { useAuth } from "../../Hooks/AuthContext";
 
 const CalendarPlan = () => {
   const { user } = useAuth();
-
   const calendarRef = useRef(null);
   const [currentMonth, setCurrentMonth] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
