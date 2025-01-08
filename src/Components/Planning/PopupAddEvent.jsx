@@ -218,7 +218,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         const response = await fetch(
           "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
         );
-
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -229,6 +228,9 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           name: item.m_Description,
           email: item.m_emailbarreau,
         }));
+        //if user accepte bah son mail est ajoute a a liste des collaborateurs
+        //Son statut dans la liste des collaborateur est soit: accepte, soit refuser soit en attente
+        //Cette confirmation se fera par email via des liens unique
 
         setCollaborators(transformedData);
       } catch (error) {

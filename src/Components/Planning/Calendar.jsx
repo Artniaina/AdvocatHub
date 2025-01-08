@@ -20,34 +20,40 @@ const CalendarPlan = () => {
   const [dataMeeting, setDataMeeting] = useState([]);
 
   const eventId = selectedEvent?.id;
-  useEffect(() => {
-    if (!eventId) {
+
+  const fetchEventDetails = async (id) => {
+    if (!id) {
       console.error("No eventId provided. Unable to fetch event details.");
       return;
     }
 
-    const fetchEventDetails = async () => {
-      try {
-        const response = await fetch(
-          `http://192.168.10.10/Utilisateur/api/meetings/${eventId}`
+    try {
+      const response = await fetch(
+        `http://192.168.10.10/Utilisateur/api/meetings/${id}`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setDataMeeting(data);
+        return data;
+      } else {
+        console.error(
+          "Failed to fetch event details. Status:",
+          response.status
         );
-
-        if (response.ok) {
-          const data = await response.json();
-          setDataMeeting(data);
-        } else {
-          console.error(
-            "Failed to fetch event details. Status:",
-            response.status
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching event details:", error);
+        return null;
       }
-    };
+    } catch (error) {
+      console.error("Error fetching event details:", error);
+      return null;
+    }
+  };
 
-    fetchEventDetails();
-  }, [eventId]);
+  useEffect(() => {
+    if (eventId && showDetailsEvent) {
+      fetchEventDetails(eventId);
+    }
+  }, [eventId, showDetailsEvent]);
 
   const fetchEvents = async () => {
     const email = user?.email;
@@ -86,9 +92,11 @@ const CalendarPlan = () => {
     fetchEvents();
   }, []);
 
-  const handleEventClick = (clickInfo) => {
-    setShowDetailsEvent(true);
+  const handleEventClick = async (clickInfo) => {
+    const id = clickInfo.event.id;
+    await fetchEventDetails(id);
     setSelectedEvent(clickInfo.event);
+    setShowDetailsEvent(true);
   };
 
   const handleClosePopup = () => {
@@ -96,11 +104,13 @@ const CalendarPlan = () => {
   };
   const handleCloseDetails = () => {
     setShowDetailsEvent(false);
+    setDataMeeting([]);
   };
 
   const handleDeleteEvent = (event) => {
     setEvents(events.filter((e) => e.id !== event.id));
     setSelectedEvent(null);
+    setDataMeeting([]);
   };
 
   const handleAddEvent = async (newEvent) => {

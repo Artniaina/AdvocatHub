@@ -265,20 +265,6 @@ const PopupEditEvent = ({
     }));
   }, [selectedParticipants]);
 
-  const handleParticipantClick = (collaborator) => {
-    const isSelected = selectedParticipants.some(
-      (participant) => participant.email === collaborator.email
-    );
-
-    if (isSelected) {
-      setSelectedParticipants((prev) =>
-        prev.filter((participant) => participant.email !== collaborator.email)
-      );
-    } else {
-      setSelectedParticipants((prev) => [...prev, collaborator]);
-    }
-  };
-
   const [eventData, setEventData] = useState({
     titre: "",
     organisateur: user?.email,
@@ -291,6 +277,57 @@ const PopupEditEvent = ({
     participant: participantMail,
     dateCreation: getCurrentDate(),
   });
+  useEffect(() => {
+    if (meetingData && meetingData.length > 0) {
+      const meeting = meetingData[0];
+
+      const participantEmails = meeting.participant
+        ? meeting.participant.split(",").map((email) => email.trim())
+        : [];
+
+      const matchedParticipants = participantEmails.map((email) => {
+        const matchedCollaborator = collaborators.find(
+          (c) => c.email === email
+        );
+        return matchedCollaborator || { email, name: email };
+      });
+
+      setSelectedParticipants(matchedParticipants);
+
+      setEventData({
+        titre: meeting.titre || "",
+        organisateur: user?.email,
+        ordreDuJour: meeting.ordreDuJour || "",
+        lienVisio: meeting.lienVisio || "",
+        statut: meeting.statut || "scheduled",
+        date: meeting.date ? meeting.date.split("T")[0] : "",
+        heureDebut: meeting.heureDebut || "",
+        heureFin: meeting.heureFin || "",
+        participant: meeting.participant || "",
+        dateCreation: currentDate,
+      });
+    }
+  }, [meetingData, collaborators]);
+
+  useEffect(() => {
+    setEventData((prevData) => ({
+      ...prevData,
+      participant: selectedParticipants.map((p) => p.email).join(", "),
+    }));
+  }, [selectedParticipants]);
+
+  const handleParticipantClick = (collaborator) => {
+    const isSelected = selectedParticipants.some(
+      (participant) => participant.email === collaborator.email
+    );
+    if (isSelected) {
+      setSelectedParticipants((prev) =>
+        prev.filter((participant) => participant.email !== collaborator.email)
+      );
+    } else {
+      setSelectedParticipants((prev) => [...prev, collaborator]);
+    }
+  };
 
   useEffect(() => {
     if (meetingData && meetingData.length > 0) {
