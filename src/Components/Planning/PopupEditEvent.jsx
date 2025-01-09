@@ -209,13 +209,7 @@ const addEventStyles = {
   },
 };
 
-const PopupEditEvent = ({
-  meetingData,
-  eventId,
-  refreshEvents,
-  onClose,
-  onUpdate,
-}) => {
+const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
   const { user } = useAuth();
 
   function getCurrentDate() {
@@ -335,7 +329,6 @@ const PopupEditEvent = ({
       const existingParticipants = meeting.participant
         ? meeting.participant.split(",").map((email) => ({ email }))
         : [];
-
       setEventData({
         titre: meeting.titre || "",
         organisateur: user?.email,
@@ -360,7 +353,9 @@ const PopupEditEvent = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if ((selectedParticipants = [])) {
+      alert("L'ajout des participants est obligatoires");
+    }
     if (!eventId) {
       alert("Event ID is missing.");
       return;
@@ -393,7 +388,7 @@ const PopupEditEvent = ({
       <div style={addEventStyles.backdrop} onClick={onClose} />
       <div style={addEventStyles.container}>
         <div style={addEventStyles.header}>
-          <h2 style={addEventStyles.title}>Modifier un événement</h2>
+          <h2 style={addEventStyles.title}>Modifier une reunion</h2>
           <button style={addEventStyles.closeButton} onClick={onClose}>
             <X size={18} />
           </button>
@@ -401,7 +396,7 @@ const PopupEditEvent = ({
 
         <form onSubmit={handleSubmit} style={addEventStyles.form}>
           <div style={addEventStyles.formGroup}>
-            <label style={addEventStyles.label}>Nom de l'événement</label>
+            <label style={addEventStyles.label}>Titre de la reunion</label>
             <input
               type="text"
               name="titre"
@@ -481,7 +476,9 @@ const PopupEditEvent = ({
           </div>
 
           <div style={addEventStyles.formGroup}>
-            <label style={addEventStyles.label}>Participants</label>
+            <label style={addEventStyles.label}>
+              Participants de la reunion
+            </label>
             <div
               style={{
                 maxHeight: "200px",
@@ -524,7 +521,7 @@ const PopupEditEvent = ({
               Annuler
             </button>
             <button type="submit" style={addEventStyles.submitButton}>
-              Mettre à jour l'événement
+              Mettre à jour la reunion
             </button>
           </div>
         </form>

@@ -238,6 +238,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   }, []);
 
   const [selectedParticipants, setSelectedParticipants] = useState([]);
+
   const participantMail = selectedParticipants.map((p) => p.email).join(", ");
   const [eventData, setEventData] = useState({
     titre: "",
@@ -286,6 +287,23 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedParticipants || selectedParticipants.length === 0) {
+      alert("Veuillez sélectionner au moins un participant.");
+      return;
+    }
+
+    if (
+      !eventData ||
+      !eventData.titre ||
+      !eventData.date ||
+      !eventData.heureDebut ||
+      !eventData.heureFin
+    ) {
+      alert("Veuillez remplir tous les champs obligatoires pour l'événement.");
+      return;
+    }
+
     try {
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/api/meetings/create",
@@ -295,9 +313,11 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           body: JSON.stringify(eventData),
         }
       );
+
       if (!response.ok) {
         throw new Error("Failed to create event");
       }
+
       const createdMeeting = await response.json();
 
       const createdEvent = {
@@ -312,6 +332,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           statut: eventData.statut,
         },
       };
+
       await onEventCreated(createdEvent);
 
       const latestIdResponse = await fetch(
@@ -321,9 +342,11 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           headers: { "Content-Type": "application/json" },
         }
       );
+
       if (!latestIdResponse.ok) {
         throw new Error("Failed to fetch latest ID");
       }
+
       const latestIdData = await latestIdResponse.json();
       const latestMeetingId = latestIdData.sIDRecup;
 
@@ -335,6 +358,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
             sStatutParticipant: "en attente",
             sIdMeeting: latestMeetingId,
           };
+
           const addParticipantResponse = await fetch(
             "http://192.168.10.10/Utilisateur/invités/add",
             {
@@ -343,38 +367,77 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               body: JSON.stringify(participantData),
             }
           );
+
           if (!addParticipantResponse.ok) {
             throw new Error(`Failed to add participant ${participant.email}`);
           }
         }
       );
+
       await Promise.all(participantPromises);
-      const dateLimite = 12
+      function formatDate(dateString) {
+        const months = [
+          "Janvier",
+          "Février",
+          "Mars",
+          "Avril",
+          "Mai",
+          "Juin",
+          "Juillet",
+          "Août",
+          "Septembre",
+          "Octobre",
+          "Novembre",
+          "Décembre",
+        ];
+
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        return `${day} ${month} ${year}`;
+      }
+
+      function subtractDays(dateString, days) {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() - days);
+        return date.toISOString().split("T")[0];
+      }
+
+      const formattedDate = formatDate(eventData.date);
+      const dateSys = subtractDays(eventData.date, 2);
+
       const emailData = {
         sID: latestMeetingId,
-        sDate: eventData.date,
-        sDateSys: dateLimite,
+        sDate: formattedDate,
+        sDateSys: formatDate(dateSys),
         sHeureFin: eventData.heureFin,
         sHeureDebut: eventData.heureDebut,
         sOrdreDuJour: eventData.ordreDuJour,
-        // sEmailRecepteur: selectedParticipants[0].email,
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: selectedParticipants[0].name,
       };
 
-      const emailResponse = await fetch(
-        "http://192.168.10.10/Utilisateur/invitation",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(emailData),
-        },
-      );
+      try {
+        const emailResponse = await fetch(
+          "http://192.168.10.10/Utilisateur/invitation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(emailData),
+          }
+        );
 
-      if (!emailResponse.ok) {
-        throw new Error("Failed to send invitation email");
+        if (!emailResponse.ok) {
+          throw new Error("Failed to send invitation email");
+        }
+
+        console.log("Invitation email sent successfully!");
+      } catch (error) {
+        console.error(error.message);
       }
 
       alert("Événement créé avec succès et invitation envoyée !");
@@ -390,14 +453,14 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       <div style={addEventStyles.backdrop} onClick={onClose} />
       <div style={addEventStyles.container}>
         <div style={addEventStyles.header}>
-          <h2 style={addEventStyles.title}>Créer un événement</h2>
+          <h2 style={addEventStyles.title}>Créer une reunion</h2>
           <button style={addEventStyles.closeButton} onClick={onClose}>
             <X size={18} />
           </button>
         </div>
         <form onSubmit={handleSubmit} style={addEventStyles.form}>
           <div style={addEventStyles.formGroup}>
-            <label style={addEventStyles.label}>Nom de l'événement</label>
+            <label style={addEventStyles.label}>Titre de la réunion</label>
             <input
               type="text"
               name="titre"
@@ -453,6 +516,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               onChange={handleChange}
               placeholder="Choisir un lieu"
               style={addEventStyles.input}
+              required
             />
           </div>
 
@@ -465,6 +529,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               onChange={handleChange}
               placeholder="Entrez le lien visio"
               style={addEventStyles.input}
+              required
             />
           </div>
 
@@ -476,11 +541,14 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               onChange={handleChange}
               placeholder="Détails de l'ordre du jour"
               style={{ ...addEventStyles.input, minHeight: "100px" }}
+              required
             />
           </div>
 
           <div style={addEventStyles.formGroup}>
-            <label style={addEventStyles.label}>Participants</label>
+            <label style={addEventStyles.label}>
+              Participants de la reunion{" "}
+            </label>
             <div
               style={{
                 maxHeight: "200px",
@@ -549,7 +617,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
               Annuler
             </button>
             <button type="submit" style={addEventStyles.submitButton}>
-              Créer l'événement
+              Créer
             </button>
           </div>
         </form>
