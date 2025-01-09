@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Invitation = () => {
   const [status, setStatus] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const emailFromUrl = params.get("email");
+    const idFromUrl = params.get("id");
+
+    if (emailFromUrl && idFromUrl) {
+      setEmail(emailFromUrl);
+      setId(idFromUrl);
+    }
+  }, []);
 
   const handleResponse = async (responseStatus) => {
-    const apiUrl =
-      "http://192.168.10.10/Utilisateur/invités/updateStatut/kanto@jm-contacts.net/41";
+    const apiUrl = `http://192.168.10.10/Utilisateur/invités/updateStatut/${email}/${id}`;
     const requestBody = {
       sStatutParticipant: responseStatus,
     };

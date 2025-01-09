@@ -78,7 +78,7 @@ function PageTitleUpdater() {
         pageTitle = "DOUBLE AUTHENTIFICATION";
         break;
       default:
-        pageTitle = "ADVOCASE";
+        pageTitle = "React";
         break;
     }
 

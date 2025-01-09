@@ -287,7 +287,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // 1. Create the meeting
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/api/meetings/create",
         {
@@ -301,7 +300,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       }
       const createdMeeting = await response.json();
 
-      // Create and update the event immediately after creation
       const createdEvent = {
         id: createdMeeting.idMeeting,
         title: eventData.titre,
@@ -351,8 +349,35 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         }
       );
       await Promise.all(participantPromises);
+      const dateLimite = 12
+      const emailData = {
+        sID: latestMeetingId,
+        sDate: eventData.date,
+        sDateSys: dateLimite,
+        sHeureFin: eventData.heureFin,
+        sHeureDebut: eventData.heureDebut,
+        sOrdreDuJour: eventData.ordreDuJour,
+        // sEmailRecepteur: selectedParticipants[0].email,
+        sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+        sFullName: selectedParticipants[0].name,
+      };
 
-      alert("Événement créé avec succès!");
+      const emailResponse = await fetch(
+        "http://192.168.10.10/Utilisateur/invitation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailData),
+        },
+      );
+
+      if (!emailResponse.ok) {
+        throw new Error("Failed to send invitation email");
+      }
+
+      alert("Événement créé avec succès et invitation envoyée !");
       onClose();
     } catch (error) {
       console.error("Error in event creation process:", error);
