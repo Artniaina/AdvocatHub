@@ -30,6 +30,7 @@ import ListeDocumentPartages from "../Components/Document/DocumentPartages/Liste
 import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPartages";
 import DocumentListComp from "../Components/Document/DocumentList/DocumentListComp";
 import PlanningPage from "../Pages/PlanningPage";
+import Invitation from "../Components/Planning/Invitation";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -97,6 +98,7 @@ function MainRoutes() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
+        <Route path="/invitation" element={<Invitation />} />
 
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route element={<PrivateRoute />}>
