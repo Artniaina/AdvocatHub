@@ -353,14 +353,42 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ((selectedParticipants = [])) {
+
+    if (selectedParticipants.length === 0) {
       alert("L'ajout des participants est obligatoires");
+      return;
     }
+
     if (!eventId) {
       alert("Event ID is missing.");
       return;
     }
+
     try {
+      const existingParticipants = meetingData[0].participant.split(",");
+
+      const newParticipants = selectedParticipants.map((p) => p.email);
+
+      const participantsToAdd = newParticipants.filter(
+        (email) => !existingParticipants.includes(email)
+      );
+
+      const participantsToRemove = existingParticipants.filter(
+        (email) => !newParticipants.includes(email)
+      );
+
+      if (participantsToAdd.length > 0) {
+        console.log("Participants to be added:", participantsToAdd);
+      } else {
+        console.log("No new participants to add.");
+      }
+
+      if (participantsToRemove.length > 0) {
+        console.log("Participants to be removed:", participantsToRemove);
+      } else {
+        console.log("No participants to remove.");
+      }
+
       const response = await fetch(
         `http://192.168.10.10/Utilisateur/api/meetings/update/${eventId}`,
         {

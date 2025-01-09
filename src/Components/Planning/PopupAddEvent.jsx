@@ -305,6 +305,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     }
 
     try {
+      // Step 1: Create the event
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/api/meetings/create",
         {
@@ -335,6 +336,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
       await onEventCreated(createdEvent);
 
+      // Step 2: Fetch latest ID
       const latestIdResponse = await fetch(
         "http://192.168.10.10/Utilisateur/api/latestID",
         {
@@ -350,6 +352,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       const latestIdData = await latestIdResponse.json();
       const latestMeetingId = latestIdData.sIDRecup;
 
+      // Step 3: Add participants
       const participantPromises = selectedParticipants.map(
         async (participant) => {
           const participantData = {
@@ -375,7 +378,9 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       );
 
       await Promise.all(participantPromises);
-      function formatDate(dateString) {
+
+      // Step 4: Format dates
+      const formatDate = (dateString) => {
         const months = [
           "Janvier",
           "Février",
@@ -397,13 +402,13 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         const year = date.getFullYear();
 
         return `${day} ${month} ${year}`;
-      }
+      };
 
-      function subtractDays(dateString, days) {
+      const subtractDays = (dateString, days) => {
         const date = new Date(dateString);
         date.setDate(date.getDate() - days);
         return date.toISOString().split("T")[0];
-      }
+      };
 
       const formattedDate = formatDate(eventData.date);
       const dateSys = subtractDays(eventData.date, 2);
@@ -415,11 +420,11 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         sHeureFin: eventData.heureFin,
         sHeureDebut: eventData.heureDebut,
         sOrdreDuJour: eventData.ordreDuJour,
-        sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
-        sFullName: selectedParticipants[0].name,
+        sEmailRecepteur: "",
+        sFullName: "",
       };
 
-      try {
+      for (const participant of selectedParticipants) {
         const emailResponse = await fetch(
           "http://192.168.10.10/Utilisateur/invitation",
           {
@@ -427,17 +432,21 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(emailData),
+            body: JSON.stringify({
+              ...emailData,
+              sEmailRecepteur: participant.email,
+              sFullName: participant.name,
+            }),
           }
         );
 
         if (!emailResponse.ok) {
-          throw new Error("Failed to send invitation email");
+          throw new Error(
+            `Failed to send invitation email to ${participant.email}`
+          );
         }
 
         console.log("Invitation email sent successfully!");
-      } catch (error) {
-        console.error(error.message);
       }
 
       alert("Événement créé avec succès et invitation envoyée !");
