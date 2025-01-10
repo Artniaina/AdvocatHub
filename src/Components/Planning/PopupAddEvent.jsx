@@ -211,6 +211,7 @@ const addEventStyles = {
 const AddEventPopup = ({ onClose, onEventCreated }) => {
   const { user } = useAuth();
   const [collaborators, setCollaborators] = useState([]);
+  const [excludedInfo, setExcludedInfo] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -224,6 +225,17 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
         const data = await response.json();
         console.log("Fetched data:", data);
+
+        const excludedCollaborator = data.find(
+          (item) => item.m_emailbarreau === user?.email
+        );
+
+        if (excludedCollaborator) {
+          setExcludedInfo({
+            name: excludedCollaborator.m_Description,
+            email: excludedCollaborator.m_emailbarreau,
+          });
+        }
 
         const transformedData = data
           .map((item) => ({
@@ -243,7 +255,11 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
   const [selectedParticipants, setSelectedParticipants] = useState([]);
 
-  const participantMail = selectedParticipants.map((p) => p.email).join(", ");
+  const participantMail = [
+    user?.email,
+    ...selectedParticipants.map((p) => p.email),
+  ].join(", ");
+
   const [eventData, setEventData] = useState({
     titre: "",
     organisateur: user?.email,
@@ -256,6 +272,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     participant: participantMail,
     dateCreation: getCurrentDate(),
   });
+
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -272,9 +289,12 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   useEffect(() => {
     setEventData((prevData) => ({
       ...prevData,
-      participant: selectedParticipants.map((p) => p.email).join(", "),
+      participant: [
+        user?.email,
+        ...selectedParticipants.map((p) => p.email),
+      ].join(", "),
     }));
-  }, [selectedParticipants]);
+  }, [selectedParticipants, user?.email]);
 
   const handleParticipantClick = (collaborator) => {
     if (
@@ -354,30 +374,42 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       const latestIdData = await latestIdResponse.json();
       const latestMeetingId = latestIdData.sIDRecup;
 
-      const participantPromises = selectedParticipants.map(
-        async (participant) => {
-          const participantData = {
-            sNomParticipant: participant.name,
-            sEmailParticipant: participant.email,
-            sStatutParticipant: "accepté",
-            sIdMeeting: latestMeetingId,
-            sRole: "participant",
-          };
+      const allParticipants = [
+        ...selectedParticipants,
+        { name: user?.name, email: user?.email },
+      ];
 
-          const addParticipantResponse = await fetch(
-            "http://192.168.10.10/Utilisateur/invités/add",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(participantData),
-            }
-          );
-
-          if (!addParticipantResponse.ok) {
-            throw new Error(`Failed to add participant ${participant.email}`);
+      const participantPromises = [
+        {
+          sNomParticipant: user?.name,
+          sEmailParticipant: user?.email,
+          sStatutParticipant: "accepté",
+          sIdMeeting: latestMeetingId,
+          sRole: "organisateur",
+        },
+        ...selectedParticipants.map((participant) => ({
+          sNomParticipant: participant.name,
+          sEmailParticipant: participant.email,
+          sStatutParticipant: "en attente",
+          sIdMeeting: latestMeetingId,
+          sRole: "participant",
+        })),
+      ].map(async (participantData) => {
+        const addParticipantResponse = await fetch(
+          "http://192.168.10.10/Utilisateur/invités/add",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(participantData),
           }
+        );
+
+        if (!addParticipantResponse.ok) {
+          throw new Error(
+            `Failed to add participant ${participantData.sEmailParticipant}`
+          );
         }
-      );
+      });
 
       await Promise.all(participantPromises);
 
@@ -425,7 +457,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         sFullName: "",
       };
 
-      for (const participant of selectedParticipants) {
+      for (const participant of allParticipants) {
         const emailResponse = await fetch(
           "http://192.168.10.10/Utilisateur/invitation",
           {
