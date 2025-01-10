@@ -129,7 +129,7 @@ const CalendarPlan = () => {
     };
 
     setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
-    await fetchEvents(); // Rafraîchir les données après l'ajout
+    await fetchEvents(); 
   };
 
   const handleDatesSet = (arg) => {

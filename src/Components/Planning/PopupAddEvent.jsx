@@ -381,8 +381,8 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
       const participantPromises = [
         {
-          sNomParticipant: user?.name,
-          sEmailParticipant: user?.email,
+          sNomParticipant: excludedInfo?.name,
+          sEmailParticipant: excludedInfo?.email,
           sStatutParticipant: "accepté",
           sIdMeeting: latestMeetingId,
           sRole: "organisateur",

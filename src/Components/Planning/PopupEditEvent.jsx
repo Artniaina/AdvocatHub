@@ -224,7 +224,13 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
   const currentDate = getCurrentDate();
   const [collaborators, setCollaborators] = useState([]);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
-  const participantMail = selectedParticipants.map((p) => p.email).join(", ");
+  const participantMail = [
+    user?.email,
+    ...selectedParticipants.map((p) => p.email),
+  ].join(", ");
+
+  const [excludedInfo, setExcludedInfo] = useState(null);
+  console.log(excludedInfo);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -238,6 +244,17 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
 
         const data = await response.json();
         console.log("Fetched data:", data);
+
+        const excludedCollaborator = data.find(
+          (item) => item.m_emailbarreau === user?.email
+        );
+
+        if (excludedCollaborator) {
+          setExcludedInfo({
+            name: excludedCollaborator.m_Description,
+            email: excludedCollaborator.m_emailbarreau,
+          });
+        }
 
         const transformedData = data
           .map((item) => ({
@@ -258,9 +275,12 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
   useEffect(() => {
     setEventData((prevData) => ({
       ...prevData,
-      participant: selectedParticipants.map((p) => p.email).join(", "),
+      participant: [
+        user?.email,
+        ...selectedParticipants.map((p) => p.email),
+      ].join(", "),
     }));
-  }, [selectedParticipants]);
+  }, [selectedParticipants, user?.email]);
 
   const [eventData, setEventData] = useState({
     titre: "",
