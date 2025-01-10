@@ -355,7 +355,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
           const participantData = {
             sNomParticipant: participant.name,
             sEmailParticipant: participant.email,
-            sStatutParticipant: "en attente",
+            sStatutParticipant: "accepté",
             sIdMeeting: latestMeetingId,
           };
 

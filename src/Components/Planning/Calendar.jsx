@@ -48,12 +48,6 @@ const CalendarPlan = () => {
     }
   };
 
-  useEffect(() => {
-    if (eventId && showDetailsEvent) {
-      fetchEventDetails(eventId);
-    }
-  }, [eventId, showDetailsEvent]);
-
   const fetchEvents = async () => {
     const email = user?.email;
     try {
@@ -91,6 +85,12 @@ const CalendarPlan = () => {
     fetchEvents();
   }, []);
 
+  useEffect(() => {
+    if (eventId && showDetailsEvent) {
+      fetchEventDetails(eventId);
+    }
+  }, [eventId, showDetailsEvent]);
+
   const handleEventClick = async (clickInfo) => {
     const id = clickInfo.event.id;
     await fetchEventDetails(id);
@@ -98,18 +98,22 @@ const CalendarPlan = () => {
     setShowDetailsEvent(true);
   };
 
-  const handleClosePopup = () => {
+  const handleClosePopup = async () => {
     setShowAddEvent(false);
-  };
-  const handleCloseDetails = () => {
-    setShowDetailsEvent(false);
-    setDataMeeting([]);
+    await fetchEvents(); 
   };
 
-  const handleDeleteEvent = (event) => {
+  const handleCloseDetails = async () => {
+    setShowDetailsEvent(false);
+    setDataMeeting([]);
+    await fetchEvents(); 
+  };
+
+  const handleDeleteEvent = async (event) => {
     setEvents(events.filter((e) => e.id !== event.id));
     setSelectedEvent(null);
     setDataMeeting([]);
+    await fetchEvents();
   };
 
   const handleAddEvent = async (newEvent) => {
@@ -125,12 +129,7 @@ const CalendarPlan = () => {
     };
 
     setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
-
-    try {
-      await fetchEvents();
-    } catch (error) {
-      console.error("Error re-fetching events:", error);
-    }
+    await fetchEvents(); // Rafraîchir les données après l'ajout
   };
 
   const handleDatesSet = (arg) => {
