@@ -453,8 +453,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         sHeureFin: eventData.heureFin,
         sHeureDebut: eventData.heureDebut,
         sOrdreDuJour: eventData.ordreDuJour,
-        sEmailRecepteur: "",
-        sFullName: "",
       };
 
       for (const participant of allParticipants) {
@@ -467,8 +465,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
             },
             body: JSON.stringify({
               ...emailData,
-              // sEmailRecepteur: participant.email,
-              sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+              sEmailRecepteur: participant.email,
               sFullName: participant.name,
             }),
           }

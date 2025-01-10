@@ -107,6 +107,7 @@ export const EventDetailsPopup = ({
 }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [collaborators, setCollaborators] = useState([]);
+  const user = useAuth(); // Assuming user data is fetched from context
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,7 +137,14 @@ export const EventDetailsPopup = ({
   }, []);
 
   const { extendedProps = {} } = event;
-  const user = useAuth();
+
+  // Check if the user is the organizer
+  const isOrganizer = dataMeeting.some(
+    (meeting) =>
+      meeting.sRole === "organisateur" &&
+      meeting.sEmailParticipant === user.email
+  );
+
   const handleDelete = async () => {
     if (!eventId) {
       alert("Custom Event ID is missing. Unable to delete the event.");
@@ -303,23 +311,29 @@ export const EventDetailsPopup = ({
             )}
           </div>
 
-          <div style={popupStyles.buttonContainer}>
-            <button
-              style={{ ...popupStyles.actionButton, ...popupStyles.editButton }}
-              onClick={handleEditEvent}
-            >
-              Edit Event
-            </button>
-            <button
-              style={{
-                ...popupStyles.actionButton,
-                ...popupStyles.deleteButton,
-              }}
-              onClick={handleDelete}
-            >
-              Delete Event
-            </button>
-          </div>
+          {/* Conditionally render edit and delete buttons */}
+          {isOrganizer && (
+            <div style={popupStyles.buttonContainer}>
+              <button
+                style={{
+                  ...popupStyles.actionButton,
+                  ...popupStyles.editButton,
+                }}
+                onClick={handleEditEvent}
+              >
+                Edit Event
+              </button>
+              <button
+                style={{
+                  ...popupStyles.actionButton,
+                  ...popupStyles.deleteButton,
+                }}
+                onClick={handleDelete}
+              >
+                Delete Event
+              </button>
+            </div>
+          )}
         </div>
         {showEdit && (
           <PopupEditEvent
