@@ -305,7 +305,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     }
 
     try {
-      // Step 1: Create the event
       const response = await fetch(
         "http://192.168.10.10/Utilisateur/api/meetings/create",
         {
@@ -336,7 +335,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
       await onEventCreated(createdEvent);
 
-      // Step 2: Fetch latest ID
       const latestIdResponse = await fetch(
         "http://192.168.10.10/Utilisateur/api/latestID",
         {
@@ -352,7 +350,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       const latestIdData = await latestIdResponse.json();
       const latestMeetingId = latestIdData.sIDRecup;
 
-      // Step 3: Add participants
       const participantPromises = selectedParticipants.map(
         async (participant) => {
           const participantData = {
@@ -379,7 +376,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
       await Promise.all(participantPromises);
 
-      // Step 4: Format dates
       const formatDate = (dateString) => {
         const months = [
           "Janvier",

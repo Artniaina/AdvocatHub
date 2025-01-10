@@ -350,12 +350,11 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     const { name, value } = e.target;
     setEventData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (selectedParticipants.length === 0) {
-      alert("L'ajout des participants est obligatoires");
+      alert("L'ajout des participants est obligatoire.");
       return;
     }
 
@@ -365,48 +364,132 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     }
 
     try {
-      const existingParticipants = meetingData[0].participant.split(",");
-
+      const existingParticipants =
+        meetingData[0]?.participant?.split(",") || [];
       const newParticipants = selectedParticipants.map((p) => p.email);
 
-      const participantsToAdd = newParticipants.filter(
+      const completelyNewParticipants = newParticipants.filter(
         (email) => !existingParticipants.includes(email)
       );
 
-      const participantsToRemove = existingParticipants.filter(
-        (email) => !newParticipants.includes(email)
-      );
-
-      if (participantsToAdd.length > 0) {
-        console.log("Participants to be added:", participantsToAdd);
-      } else {
-        console.log("No new participants to add.");
+      if (completelyNewParticipants.length > 0) {
+        console.log(
+          "Nouveaux participants jamais ajoutés:",
+          completelyNewParticipants
+        );
+        const confirmAdd = window.confirm(
+          `Les participants suivants n'ont jamais été dans la réunion : ${completelyNewParticipants.join(
+            ", "
+          )}. Voulez-vous les ajouter ?`
+        );
+        if (!confirmAdd) {
+          return;
+        }
       }
 
-      if (participantsToRemove.length > 0) {
-        console.log("Participants to be removed:", participantsToRemove);
-      } else {
-        console.log("No participants to remove.");
-      }
+      const prevDate = meetingData[0]?.date;
+      const prevHour = meetingData[0]?.heureDebut;
+
+      const updatedEventData = {
+        ...eventData,
+        participants: newParticipants.join(","),
+      };
 
       const response = await fetch(
         `http://192.168.10.10/Utilisateur/api/meetings/update/${eventId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(eventData),
+          body: JSON.stringify(updatedEventData),
         }
       );
 
-      if (response.ok) {
-        alert("Événement mis à jour avec succès!");
-        await refreshEvents();
-        onClose();
-      } else {
+      if (!response.ok) {
         alert("Échec de la mise à jour de l'événement.");
+        return;
       }
+
+      alert("Événement mis à jour avec succès!");
+      await refreshEvents();
+
+      const formatDate = (dateString) => {
+        const months = [
+          "Janvier",
+          "Février",
+          "Mars",
+          "Avril",
+          "Mai",
+          "Juin",
+          "Juillet",
+          "Août",
+          "Septembre",
+          "Octobre",
+          "Novembre",
+          "Décembre",
+        ];
+
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        return `${day} ${month} ${year}`;
+      };
+
+      const subtractDays = (dateString, days) => {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() - days);
+        return date.toISOString().split("T")[0];
+      };
+
+      const formattedDate = formatDate(eventData.date);
+      const dateSys = subtractDays(eventData.date, 2);
+
+      const emailData = {
+        sPrevDate: formatDate(prevDate),
+        sPrevHour: prevHour,
+        sID: eventId,
+        sDate: formattedDate,
+        sDateSys: formatDate(dateSys),
+        sHeureFin: eventData.heureFin,
+        sHeureDebut: eventData.heureDebut,
+        sOrdreDuJour: eventData.ordreDuJour,
+        sEmailRecepteur: "",
+        sFullName: "",
+      };
+
+      for (const participant of selectedParticipants) {
+        const emailResponse = await fetch(
+          "http://192.168.10.10/Utilisateur/api/email/updateInvitation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...emailData,
+              // sEmailRecepteur: participant.email,
+              // Test aloha
+              sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+              sFullName: participant.name,
+            }),
+          }
+        );
+
+        if (!emailResponse.ok) {
+          throw new Error(
+            `Failed to send invitation email to ${participant.email}`
+          );
+        }
+
+        console.log(
+          `Invitation email sent successfully to ${participant.email}!`
+        );
+      }
+
+      onClose();
     } catch (error) {
-      console.error("Error updating event:", error);
+      console.error("Erreur lors de la mise à jour de l'événement:", error);
       alert("Erreur réseau. Veuillez réessayer plus tard.");
     }
   };
