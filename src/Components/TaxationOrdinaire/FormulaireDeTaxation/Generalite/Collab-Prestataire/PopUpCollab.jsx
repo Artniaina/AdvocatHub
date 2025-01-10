@@ -4,6 +4,7 @@ import "../../../../../Styles/TaxationForm/Popup.css";
 import "../../../../../Styles/TaxationForm/PopupCollab.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
+import { useAuth } from "../../../../../Hooks/AuthContext";
 
 const PopupCollaborateurs = ({
   onClose,
@@ -17,6 +18,7 @@ const PopupCollaborateurs = ({
     key: null,
     direction: "ascending",
   });
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,14 +29,25 @@ const PopupCollaborateurs = ({
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
+
         const data = await response.json();
-        setAvocat(data);
+        console.log("Fetched data:", data);
+
+        const transformedData = data
+          .map((item) => ({
+            name: item.m_Description,
+            email: item.m_emailbarreau,
+          }))
+          .filter((collaborator) => collaborator.email !== user?.email);
+
+        setAvocat(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
-  }, []);
+  }, [user]);
 
   const keyMapping = {
     Nom: "m_sNom",
@@ -217,7 +230,6 @@ const PopupCollaborateurs = ({
             Enregistrer
           </button>
         </div>
-       
       </div>
     </div>
   );

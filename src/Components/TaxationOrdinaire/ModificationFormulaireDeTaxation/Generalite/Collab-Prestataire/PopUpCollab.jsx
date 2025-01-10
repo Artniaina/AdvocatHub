@@ -3,6 +3,7 @@ import "../../../../../Styles/TaxationForm/CardInfo.css";
 import "../../../../../Styles/TaxationForm/Popup.css";
 import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
+import { useAuth } from "../../../../../Hooks/AuthContext";
 
 const PopupCollaborateurs = ({
   onClose,
@@ -17,7 +18,7 @@ const PopupCollaborateurs = ({
     key: null,
     direction: "ascending",
   });
-
+  const { user } = useAuth();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,15 +28,25 @@ const PopupCollaborateurs = ({
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
+
         const data = await response.json();
-        setAvocat(data);
+        console.log("Fetched data:", data);
+
+        const transformedData = data
+          .map((item) => ({
+            name: item.m_Description,
+            email: item.m_emailbarreau,
+          }))
+          .filter((collaborator) => collaborator.email !== user?.email);
+
+        setAvocat(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
-  }, []);
 
+    fetchData();
+  }, [user]);
 
   useEffect(() => {
     setSelectedCollaborators(selectedCollaborator);
@@ -123,9 +134,9 @@ const PopupCollaborateurs = ({
       telephone: avocat.m_sTelephone,
       email: avocat.m_emailbarreau,
       IDAvocat: avocat.m_nIDAvocat_PP,
-    })); 
+    }));
     onSelectCollaborators(selectedCollaborators, necessaryData);
-    
+
     onClose();
   };
 
@@ -192,10 +203,10 @@ const PopupCollaborateurs = ({
                         value={avocat.m_nIDAvocat_PP}
                         checked={selectedCollaborators.includes(
                           avocat.m_nIDAvocat_PP
-                        )} 
+                        )}
                         onChange={() =>
                           handleCheckboxChange(avocat.m_nIDAvocat_PP)
-                        } 
+                        }
                       />
                     </td>
                   </tr>
