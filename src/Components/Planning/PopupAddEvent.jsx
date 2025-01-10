@@ -223,11 +223,15 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         }
 
         const data = await response.json();
+        console.log("Fetched data:", data);
 
-        const transformedData = data.map((item) => ({
-          name: item.m_Description,
-          email: item.m_emailbarreau,
-        }));
+        const transformedData = data
+          .map((item) => ({
+            name: item.m_Description,
+            email: item.m_emailbarreau,
+          }))
+          .filter((collaborator) => collaborator.email !== user?.email);
+
         setCollaborators(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -235,7 +239,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   const [selectedParticipants, setSelectedParticipants] = useState([]);
 
@@ -357,6 +361,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
             sEmailParticipant: participant.email,
             sStatutParticipant: "accepté",
             sIdMeeting: latestMeetingId,
+            sRole: "participant",
           };
 
           const addParticipantResponse = await fetch(
@@ -430,7 +435,8 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
             },
             body: JSON.stringify({
               ...emailData,
-              sEmailRecepteur: participant.email,
+              // sEmailRecepteur: participant.email,
+              sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
               sFullName: participant.name,
             }),
           }
