@@ -107,6 +107,7 @@ export const EventDetailsPopup = ({
 }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [collaborators, setCollaborators] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -206,10 +207,13 @@ export const EventDetailsPopup = ({
   };
 
   const formatTime = (timeString) => {
-    const time = new Date(timeString);
-    const hours = time.getHours().toString().padStart(2, "0");
-    const minutes = time.getMinutes().toString().padStart(2, "0");
-    return `${hours}h${minutes}`;
+    const time = new Date(`1970-01-01T${timeString}Z`);
+    const hours = time.getUTCHours();
+    const minutes = time.getUTCMinutes();
+
+    return `${hours.toString().padStart(2, "0")}h${minutes
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const formatDate = (dateString) => {
