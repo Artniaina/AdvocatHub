@@ -412,6 +412,13 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
       alert("Événement mis à jour avec succès!");
       await refreshEvents();
 
+      const formatTime = (timeString) => {
+        const time = new Date(timeString);
+        const hours = time.getHours().toString().padStart(2, "0");
+        const minutes = time.getMinutes().toString().padStart(2, "0");
+        return `${hours}h${minutes}`;
+      };
+
       const formatDate = (dateString) => {
         const months = [
           "Janvier",
@@ -447,12 +454,12 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
 
       const emailData = {
         sPrevDate: formatDate(prevDate),
-        sPrevHour: prevHour,
+        sPrevHour: formatTime(prevHour),
         sID: eventId,
         sDate: formattedDate,
         sDateSys: formatDate(dateSys),
-        sHeureFin: eventData.heureFin,
-        sHeureDebut: eventData.heureDebut,
+        sHeureFin: formatTime(eventData.heureFin),
+        sHeureDebut: formatTime(eventData.heureDebut),
         sOrdreDuJour: eventData.ordreDuJour,
         sEmailRecepteur: "",
         sFullName: "",
