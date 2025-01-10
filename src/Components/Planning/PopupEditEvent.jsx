@@ -252,6 +252,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
 
     fetchData();
   }, []);
+  
   useEffect(() => {
     setEventData((prevData) => ({
       ...prevData,

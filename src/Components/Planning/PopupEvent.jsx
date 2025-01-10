@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import PopupEditEvent from "./PopupEditEvent";
+import { useAuth } from "../../Hooks/AuthContext";
 
 const popupStyles = {
   overlay: {
@@ -105,12 +106,47 @@ export const EventDetailsPopup = ({
   dataMeeting,
 }) => {
   const [showEdit, setShowEdit] = useState(false);
+  const [collaborators, setCollaborators] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+
+        const transformedData = data.map((item) => ({
+          name: item.m_Description,
+          email: item.m_emailbarreau,
+        }));
+
+        setCollaborators(transformedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const { extendedProps = {} } = event;
-
+  const user = useAuth();
   const handleDelete = async () => {
     if (!eventId) {
       alert("Custom Event ID is missing. Unable to delete the event.");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this event? This action is irreversible."
+    );
+
+    if (!confirmDelete) {
       return;
     }
 
@@ -123,6 +159,41 @@ export const EventDetailsPopup = ({
       );
 
       if (response.ok) {
+        const meetingDetails = dataMeeting[0];
+
+        const formattedTime = formatTime(meetingDetails.heureDebut);
+        const formattedDate = formatDate(meetingDetails.date);
+
+        for (const collaborator of collaborators) {
+          const emailData = {
+            sEmailRecepteur: collaborator.email,
+            sID: meetingDetails.idMeeting,
+            sFullName: collaborator.name,
+            sHeureDebut: formattedTime,
+            sDate: formattedDate,
+            sOrdreDuJour: meetingDetails.ordreDuJour,
+          };
+
+          const emailResponse = await fetch(
+            "http://192.168.10.10/Utilisateur/api/email/deleteInvitation",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(emailData),
+            }
+          );
+
+          if (!emailResponse.ok) {
+            throw new Error(
+              `Failed to send deletion email to ${collaborator.email}`
+            );
+          }
+
+          console.log(`Email sent to ${collaborator.email}`);
+        }
+
         alert("Event deleted successfully.");
         onDelete(event);
         onClose();
@@ -132,6 +203,35 @@ export const EventDetailsPopup = ({
     } catch (error) {
       alert("Network error. Please try again later.");
     }
+  };
+
+  const formatTime = (timeString) => {
+    const time = new Date(timeString);
+    const hours = time.getHours().toString().padStart(2, "0");
+    const minutes = time.getMinutes().toString().padStart(2, "0");
+    return `${hours}h${minutes}`;
+  };
+
+  const formatDate = (dateString) => {
+    const months = [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ];
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
   };
 
   const handleEditEvent = () => {
