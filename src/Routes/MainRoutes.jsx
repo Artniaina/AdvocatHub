@@ -100,7 +100,6 @@ function MainRoutes() {
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/invitation" element={<Invitation />} />
-        <Route path="/testjitsi" element={<TestJitsi />} />
 
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route element={<PrivateRoute />}>
@@ -122,6 +121,7 @@ function MainRoutes() {
           <Route path="/document" element={<Document />} />
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/testjitsi" element={<TestJitsi />} />
           <Route path="/chat" element={<MessageriePage />} />
           <Route
             path="/home/updateFormTaxation"

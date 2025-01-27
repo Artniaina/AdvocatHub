@@ -12,6 +12,7 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@jitsi/react-sdk": "^1.4.0",
     "@mui/joy": "^5.0.0-beta.48",
     "@mui/material": "^5.15.15",
     "@react-pdf/renderer": "^3.4.4",
