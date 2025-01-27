@@ -17,7 +17,7 @@ import HomePage from "../Pages/HomePage";
 import VerifEmail from "../Pages/SimpleAuthentication/VerifEmail";
 import UserList from "../Components/AdminDashboard/UserList";
 import FAQ from "../Pages/FAQPage";
-import LBC from "../Pages/LBCPage";
+import MessageriePage from "../Pages/MessageriePage";
 import Document from "../Pages/DocumentPage";
 import FicheAvocatPage from "../Pages/FicheAvocatPage";
 import TaxationFormPage from "../Pages/TaxationFormPage";
@@ -31,6 +31,7 @@ import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPa
 import DocumentListComp from "../Components/Document/DocumentList/DocumentListComp";
 import PlanningPage from "../Pages/PlanningPage";
 import Invitation from "../Components/Planning/Invitation";
+import TestJitsi from "../Components/VisioConference/TestJitsi";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -56,7 +57,7 @@ function PageTitleUpdater() {
       case "/document":
         pageTitle = "DOCUMENT";
         break;
-      case "/lbc":
+      case "/chat":
         pageTitle = "ARTICLES";
         break;
       case "/userlist":
@@ -99,6 +100,7 @@ function MainRoutes() {
         <Route path="/verifemail" element={<VerifEmail />} />
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/invitation" element={<Invitation />} />
+        <Route path="/testjitsi" element={<TestJitsi />} />
 
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route element={<PrivateRoute />}>
@@ -120,7 +122,7 @@ function MainRoutes() {
           <Route path="/document" element={<Document />} />
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/lbc" element={<LBC />} />
+          <Route path="/chat" element={<MessageriePage />} />
           <Route
             path="/home/updateFormTaxation"
             element={<UpdateTaxationFormPage />}

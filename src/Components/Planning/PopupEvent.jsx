@@ -107,7 +107,7 @@ export const EventDetailsPopup = ({
 }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [collaborators, setCollaborators] = useState([]);
-  const user = useAuth(); // Assuming user data is fetched from context
+  const user = useAuth(); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -138,7 +138,6 @@ export const EventDetailsPopup = ({
 
   const { extendedProps = {} } = event;
 
-  // Check if the user is the organizer
   const isOrganizer = dataMeeting.some(
     (meeting) =>
       meeting.sRole === "organisateur" &&

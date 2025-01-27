@@ -17,6 +17,7 @@ const CalendarPlan = () => {
   const [showDetailsEvent, setShowDetailsEvent] = useState(false);
   const [events, setEvents] = useState([]);
   const [dataMeeting, setDataMeeting] = useState([]);
+  const [loading, setLoading] = useState(false); // Flag for loading state
 
   const eventId = selectedEvent?.id;
 
@@ -49,6 +50,9 @@ const CalendarPlan = () => {
   };
 
   const fetchEvents = async () => {
+    if (loading) return;
+    setLoading(true);
+
     const email = user?.email;
     try {
       const response = await fetch(
@@ -74,13 +78,15 @@ const CalendarPlan = () => {
           borderColor: "#1E90FF",
           textColor: "#FFFFFF",
         }));
+
         setEvents(formattedEvents);
       }
     } catch (error) {
       console.error("Error fetching events:", error);
+    } finally {
+      setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -100,20 +106,20 @@ const CalendarPlan = () => {
 
   const handleClosePopup = async () => {
     setShowAddEvent(false);
-    await fetchEvents(); 
+    fetchEvents();
   };
 
   const handleCloseDetails = async () => {
     setShowDetailsEvent(false);
     setDataMeeting([]);
-    await fetchEvents(); 
+    fetchEvents();
   };
 
   const handleDeleteEvent = async (event) => {
     setEvents(events.filter((e) => e.id !== event.id));
     setSelectedEvent(null);
     setDataMeeting([]);
-    await fetchEvents();
+    fetchEvents();
   };
 
   const handleAddEvent = async (newEvent) => {
@@ -129,7 +135,7 @@ const CalendarPlan = () => {
     };
 
     setEvents((prevEvents) => [...prevEvents, formattedNewEvent]);
-    await fetchEvents(); 
+    fetchEvents();
   };
 
   const handleDatesSet = (arg) => {
