@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
-import "../../../Styles/Homepage/Acceuil/Acceuil.css";
+// import "../../../Styles/Homepage/Acceuil/Acceuil.css";
 import EtudeIcon from "../../../assets/icons8-marqueur-de-plan-48.png";
 import ProIcon from "../../../assets/icons8-management-en-développement-commercial-100.png";
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
@@ -72,141 +72,102 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
     setIsDispensed(aj);
   }, [avocatInfo]);
   return (
-    <div className="mainContainer">
-      <div className="container" style={{ marginLeft: "30px" }}>
-        <img src={PersoIcon} alt="logo" className="logo" />
-        <h1>
+    <div className="mainContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+      {/* First Card */}
+      <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
+        <img src={PersoIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
+        <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
           Informations personnelles
           <hr className="hr" />
         </h1>
-        <div className="containerInfo">
+        <div className="containerInfo flex flex-col items-start">
           <p>
-            Nom:
-            
-            <strong>{avocatInfo && avocatInfo.m_sNom}</strong>
+            Nom: <strong>{avocatInfo && avocatInfo.m_sNom}</strong>
           </p>
           <p>
-            Prénom:
-            
-            <strong>{avocatInfo && avocatInfo.m_sPrenom}</strong>
+            Prénom: <strong>{avocatInfo && avocatInfo.m_sPrenom}</strong>
           </p>
-          <div className="p">
+          <div className="flex flex-wrap">
             <div className="b1" style={{ marginLeft: -5 }}>
               <p>
-                Genre:
-                
-                <strong>{avocatInfo && avocatInfo.m_sSexe}</strong>
+                Genre: <strong>{avocatInfo && avocatInfo.m_sSexe}</strong>
               </p>
             </div>
             <div className="b">
               <p>
-                Nationalité:
-                
-                <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
+                Nationalité: <strong>{avocatInfo && avocatInfo.m_sNationalite}</strong>
               </p>
             </div>
           </div>
           <hr />
           <p>
-            Date de naissance:
-            
-            <strong>{avocatInfo && avocatInfo.m_dDateNaissance}</strong>
+            Date de naissance: <strong>{avocatInfo && avocatInfo.m_dDateNaissance}</strong>
           </p>
           <hr />
           <p>
-            Lieu de naissance:
-            
-            <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
+            Lieu de naissance: <strong>{avocatInfo && avocatInfo.m_sLieuNaissance}</strong>
           </p>
           <p style={{ height: "200px" }}>
-            Adresse privée:
-            
-            <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
+            Adresse privée: <strong>{avocatInfo && avocatInfo.m_sAdressePrivee}</strong>
           </p>
           <p>
-            Téléphone mobile:
-            
-            <strong>{telephoneMobile}</strong>
-          </p>
-
-          <p>
-            E-mail privé:
-            
-            <strong>{avocatInfo && avocatInfo.m_sEmailSecondaire}</strong>
+            Téléphone mobile: <strong>{telephoneMobile}</strong>
           </p>
           <p>
-            IBAN:
-            
-            <strong>{avocatInfo && avocatInfo.m_IBAN}</strong>
+            E-mail privé: <strong>{avocatInfo && avocatInfo.m_sEmailSecondaire}</strong>
           </p>
           <p>
-            Code BIC:
-            
-            <strong>{avocatInfo && avocatInfo.m_BIC}</strong>
+            IBAN: <strong>{avocatInfo && avocatInfo.m_IBAN}</strong>
+          </p>
+          <p>
+            Code BIC: <strong>{avocatInfo && avocatInfo.m_BIC}</strong>
           </p>
         </div>
       </div>
-
-      <div className="container " style={{ width: "520px" }}>
-        <img src={ProIcon} alt="logo" className="logo" />
-        <h1>
-          Informations professionnnelles
+  
+      {/* Second Card */}
+      <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
+        <img src={ProIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
+        <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
+          Informations professionnelles
           <hr className="hr" />
         </h1>
-        <div className="containerInfo middle">
+        <div className="containerInfo flex flex-col items-start">
           <p>
-            Identifiant Interne:
-            
-            <strong>{avocatInfo && avocatInfo.m_NumInterne}</strong>
+            Identifiant Interne: <strong>{avocatInfo && avocatInfo.m_NumInterne}</strong>
           </p>
           <p>
-            Liste:
-            
-            <strong>{avocatInfo && avocatInfo.m_sLibelleliste}</strong>
+            Liste: <strong>{avocatInfo && avocatInfo.m_sLibelleliste}</strong>
           </p>
           <p>
-            E-mail barreau:
-            
-            <strong>{avocatInfo && avocatInfo.m_emailbarreau}</strong>
+            E-mail barreau: <strong>{avocatInfo && avocatInfo.m_emailbarreau}</strong>
           </p>
           <p>
-            E-mail professionnel:
-            
-            <strong>{avocatInfo && avocatInfo.m_sEmailPro}</strong>
+            E-mail professionnel: <strong>{avocatInfo && avocatInfo.m_sEmailPro}</strong>
           </p>
           <p>
-            Date d'assermentation:
-            
-            <strong>
-              {avocatInfo && formatDate(avocatInfo.m_dDateAssermentation)}
-            </strong>
+            Date d'assermentation: <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAssermentation)}</strong>
           </p>
           <p>
-            Date d'avoué:
-            
-            <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
+            Date d'avoué: <strong>{avocatInfo && formatDate(avocatInfo.m_dDateAvoue)}</strong>
           </p>
           <p style={{ minHeight: "150px" }}>
-            Langue parlées:
-            
+            Langues parlées:
             {langues.map((langue, index) => (
               <React.Fragment key={index}>
                 <strong>{langue}</strong>
-                
               </React.Fragment>
             ))}
           </p>
           <p style={{ height: "200px" }}>
             Activités préférentielles:
-            
             {activityNames.map((name, index) => (
               <React.Fragment key={index}>
                 <strong>{name}</strong>
-                
               </React.Fragment>
             ))}
           </p>
-
+  
           <div>
             <p>Assistance Judiciaire:</p>
             <div className="bout">
@@ -225,73 +186,52 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
           </div>
         </div>
       </div>
-      <div className="container" style={{ marginRight: "30px" }}>
-        <img src={EtudeIcon} alt="logo" className="logo" />
-        <h1>
-          Etude <hr className="hr" />
+  
+      {/* Third Card */}
+      <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
+        <img src={EtudeIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
+        <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
+          Etude
+          <hr className="hr" />
         </h1>
-        <div className="containerInfo">
+        <div className="containerInfo flex flex-col items-start">
           {etudeInfo && (
             <>
               <p>
-                Dénomination:
-                
-                <strong>{etudeInfo.m_sDénominationEtude}</strong>
+                Dénomination: <strong>{etudeInfo.m_sDénominationEtude}</strong>
               </p>
               <p>
-                Numéro voie:
-                
-                <strong>{etudeInfo.m_nNumVoie}</strong>
+                Numéro voie: <strong>{etudeInfo.m_nNumVoie}</strong>
               </p>
               <p>
-                Adresse:
-                
-                <strong>{etudeInfo.m_sAdresse}</strong>
+                Adresse: <strong>{etudeInfo.m_sAdresse}</strong>
               </p>
               <p>
-                Complement d'adresse:
-                
-                <strong>{etudeInfo.m_sAdresseSuite}</strong>
+                Complement d'adresse: <strong>{etudeInfo.m_sAdresseSuite}</strong>
               </p>
               <p>
-                Code postal:
-                
-                <strong>{etudeInfo.m_sCodePostale}</strong>
+                Code postal: <strong>{etudeInfo.m_sCodePostale}</strong>
               </p>
               <p>
-                Localité:
-                
-                <strong>{etudeInfo.m_sLocalite}</strong>
+                Localité: <strong>{etudeInfo.m_sLocalite}</strong>
               </p>
               <p>
-                BP:
-                
-                <strong>{etudeInfo.m_sboitepostal}</strong>
+                BP: <strong>{etudeInfo.m_sboitepostal}</strong>
               </p>
               <p>
-                Code postal BP:
-                
-                <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
+                Code postal BP: <strong>{etudeInfo.m_sCodepostalboitepostal}</strong>
               </p>
               <p>
-                Localité BP:
-                
-                <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
+                Localité BP: <strong>{etudeInfo.m_sLocaliteboitepostal}</strong>
               </p>
               <p>
-                Telehone fixe:
-                
-                <strong>{etudeInfo.m_IBAN}</strong>
+                Téléphone fixe: <strong>{etudeInfo.m_IBAN}</strong>
               </p>
               <p>
-                Fax:
-                
-                <strong>{etudeInfo.m_sfax}</strong>
+                Fax: <strong>{etudeInfo.m_sfax}</strong>
               </p>
               <p>
-                Site web:
-                
-                <strong>{etudeInfo.m_ssite}</strong>
+                Site web: <strong>{etudeInfo.m_ssite}</strong>
               </p>
             </>
           )}
@@ -299,6 +239,7 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
       </div>
     </div>
   );
+  
 };
 
 export default Accueil;

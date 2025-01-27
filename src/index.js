@@ -7,22 +7,22 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./Hooks/AuthContext";
 import { GeneraliteProvider } from "./Hooks/GeneraliteContext";
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 import { NavigationProvider } from "./Hooks/NavigationListenerContext";
 import { UpdateDataProvider } from "./Hooks/UpdatedDataContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <Router> 
+    <Router>
       <AuthProvider>
-      <UpdateDataProvider>
-        <GeneraliteProvider>
-          <NavigationProvider>
-            <App />
-          </NavigationProvider>
-        </GeneraliteProvider>
-      </UpdateDataProvider>
+        <UpdateDataProvider>
+          <GeneraliteProvider>
+            <NavigationProvider>
+              <App />
+            </NavigationProvider>
+          </GeneraliteProvider>
+        </UpdateDataProvider>
       </AuthProvider>
     </Router>
   </Provider>

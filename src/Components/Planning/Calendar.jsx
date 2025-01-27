@@ -17,7 +17,7 @@ const CalendarPlan = () => {
   const [showDetailsEvent, setShowDetailsEvent] = useState(false);
   const [events, setEvents] = useState([]);
   const [dataMeeting, setDataMeeting] = useState([]);
-  const [loading, setLoading] = useState(false); // Flag for loading state
+  const [loading, setLoading] = useState(false);
 
   const eventId = selectedEvent?.id;
 

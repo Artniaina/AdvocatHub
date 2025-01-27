@@ -1,5 +1,5 @@
 body.loading::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@ body.loading::before {
 }
 
 body.loading::after {
-  content: '';
+  content: "";
   position: fixed;
   top: 50%;
   left: 50%;
@@ -28,10 +28,14 @@ body.loading::after {
 }
 
 @keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
- .cardGeneralité .mainTitle {
+.cardGeneralité .mainTitle {
   background-color: #611c61;
   position: absolute;
   width: 95.5%;
@@ -57,13 +61,13 @@ body.loading::after {
   justify-content: space-between;
   margin: 30px 70px;
 }
-.CardFichiers{
+.CardFichiers {
   border: 1.5px solid #808080;
   border-radius: 6px;
   min-width: 60vw;
   min-height: 35vh;
 }
-.CardFichiers p{
+.CardFichiers p {
   border-bottom: 2px solid #80808079;
   margin: -2px 20px 10px;
   padding: 9px 0px 7px 0px;
@@ -91,12 +95,12 @@ body.loading::after {
 .formGroup label {
   display: block;
 }
-.honoraires form{
+.honoraires form {
   display: flex;
   flex-direction: column;
   padding: 0px 0px 0px 0px;
 }
- .honoraires input {
+.honoraires input {
   width: 10vw;
   padding: 10px;
   outline: none;
@@ -151,7 +155,7 @@ body.loading::after {
   align-items: flex-start;
   justify-content: flex-start;
   max-width: 96%;
-  gap:30px;
+  gap: 30px;
 }
 
 .three .formGroup {
@@ -159,9 +163,8 @@ body.loading::after {
   flex-direction: column;
   flex: 1;
 }
-.three .formGroup input
-{
-  width:100%;
+.three .formGroup input {
+  width: 100%;
 }
 
 .two {
@@ -238,7 +241,6 @@ legend {
   background-color: #fff;
 }
 .toggleButtonForm input[type="radio"] {
-
   display: none;
 }
 
@@ -261,7 +263,7 @@ legend {
   border-radius: 5px;
   margin-right: 15px;
 }
- .textarea{
+.textarea {
   width: 85vw;
   padding: 10px;
   resize: vertical;
@@ -270,7 +272,7 @@ legend {
   border-radius: 5px;
   border: 1px solid #808080;
 }
-.hour{
+.hour {
   width: 100px;
   padding: 8px;
   margin: 10px -15px 0px 10px;
@@ -280,7 +282,7 @@ legend {
   outline: none;
   text-align: end;
 }
-.buttonDiv button{
+.buttonDiv button {
   padding: 5px 15px;
   font-size: 20px;
   width: 150px;
@@ -298,26 +300,28 @@ legend {
   justify-content: space-between;
 }
 
-.prestataire  .formGroup input,.prestataire  .formGroup textarea{
+.prestataire .formGroup input,
+.prestataire .formGroup textarea {
   width: 45vw;
 }
 
-PiCaretUpDownFill{
+PiCaretUpDownFill {
   display: none;
 }
-.textarea.disabled, .selectarea.disabled {
-  background-color: #e0e0e0; 
+.textarea.disabled,
+.selectarea.disabled {
+  background-color: #e0e0e0;
   pointer-events: none;
-  cursor: not-allowed; 
-  transition: background-color 0.3s ease, opacity 0.3s ease, font-size 0.3s ease; 
-  font-size: 0px; 
+  cursor: not-allowed;
+  transition: background-color 0.3s ease, opacity 0.3s ease, font-size 0.3s ease;
+  font-size: 0px;
 }
 
 .buttonIoAdd.disabled {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
-  transition: opacity 0.3s ease; 
+  transition: opacity 0.3s ease;
 }
 
 .textarea {
@@ -328,17 +332,16 @@ PiCaretUpDownFill{
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 16px; 
-  transition: border-color 0.3s ease, font-size 0.3s ease; 
+  font-size: 16px;
+  transition: border-color 0.3s ease, font-size 0.3s ease;
 }
 
 .textarea:focus {
   border-color: #81a3c7;
-  outline: none; 
+  outline: none;
 }
 
-
-.guide{
+.guide {
   background-color: red;
   width: 40vw;
   z-index: 2000;
@@ -352,14 +355,14 @@ PiCaretUpDownFill{
   font-size: 20px;
   color: #ffff;
 }
-.guide p span{
+.guide p span {
   background-color: #611c61;
   padding: 12px 25px;
 }
-.guide2{
+.guide2 {
   top: 160px;
 }
-#absenceTerm{
+#absenceTerm {
   width: 100%;
   height: 70px;
   padding: 10px;
@@ -368,7 +371,7 @@ PiCaretUpDownFill{
   border-radius: 4px;
   box-sizing: border-box;
 }
-.spanish{
+.spanish {
   font-style: italic;
   font-size: 15px;
   color: #202020;

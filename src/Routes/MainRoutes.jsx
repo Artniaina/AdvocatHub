@@ -93,6 +93,7 @@ function MainRoutes() {
     <>
       <PageTitleUpdater />
       <Routes>
+        <Route path="/testjitsi" element={<TestJitsi />} />
         {/* SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED */}
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
@@ -102,9 +103,8 @@ function MainRoutes() {
         <Route path="/invitation" element={<Invitation />} />
 
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
-        <Route element={<PrivateRoute />}>
-          <Route exact path="/userlist" element={<UserList />} />
-        </Route>
+        <Route exact path="/userlist" element={<UserList />} />
+        <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
         <Route element={<PartialProtectedRoute />}>
@@ -121,7 +121,6 @@ function MainRoutes() {
           <Route path="/document" element={<Document />} />
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/testjitsi" element={<TestJitsi />} />
           <Route path="/chat" element={<MessageriePage />} />
           <Route
             path="/home/updateFormTaxation"

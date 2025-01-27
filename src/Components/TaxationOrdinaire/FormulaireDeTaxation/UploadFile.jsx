@@ -112,8 +112,6 @@ const UploadFile = () => {
               .toLocaleDateString("fr-FR")
               .replace(/\//g, ""),
             sReferencePDF: `${dateSys}_${fullName}_Formulaire taxation ordinaire`,
-            // Mbola vo hitadiavana fika aloha fa eto dry zao
-            // sPDFSent:pdfBase64,
           }),
         }
       );
@@ -230,7 +228,7 @@ const UploadFile = () => {
       const pdfBase64 = await generatePdf();
 
       const emailData = {
-        //Should change into : sAvocatEmail but wait until it's not in a phase of test anymore mbola matahotra  
+        //Should change into : sAvocatEmail but wait until it's not in a phase of test anymore mbola matahotra XD
         //Same for the one in Certificat d inscription as well
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,

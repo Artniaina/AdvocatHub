@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "../../Styles/AdminDashboard/Table.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate("/home");
-  };
 
   useEffect(() => {
     fetchData();
@@ -33,9 +28,8 @@ const UserTable = () => {
     );
     setUsers(updatedUsers);
 
-    const updateUserUrl = `${apiUrl}/${userID}`;
     try {
-      const response = await fetch(updateUserUrl, {
+      const response = await fetch(`${apiUrl}/${userID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -47,105 +41,133 @@ const UserTable = () => {
       });
 
       if (!response.ok) {
-        console.error(
-          "La mise à jour du statut a échoué avec un statut :",
-          response.status
-        );
-        setUsers(
-          users.map((user) =>
-            user.IDUtilisateur === userID
-              ? { ...user, Statut: !user.Statut }
-              : user
-          )
-        );
-      } else {
-        const updatedUser = updatedUsers.find(
-          (user) => user.IDUtilisateur === userID
-        );
-        console.log(`${updatedUser.Statut ? "Actif" : "Inactif"}`);
+        setUsers(users);
       }
     } catch (error) {
-      console.error(
-        "Erreur lors de la mise à jour du statut de l'utilisateur :",
-        error
-      );
-      setUsers(
-        users.map((user) =>
-          user.IDUtilisateur === userID
-            ? { ...user, Statut: !user.Statut }
-            : user
-        )
-      );
+      console.error("Erreur:", error);
+      setUsers(users);
     }
   };
 
   const handleDelete = async (userID) => {
-    const deleteUrl = `${apiUrl}/${userID}`;
     try {
-      const response = await fetch(deleteUrl, {
+      const response = await fetch(`${apiUrl}/${userID}`, {
         method: "DELETE",
       });
       if (response.ok) {
-        const updatedUsers = users.filter(
-          (user) => user.IDUtilisateur !== userID
-        );
-        setUsers(updatedUsers);
-      } else {
-        console.error(
-          "La suppression a échoué avec un statut :",
-          response.status
-        );
+        setUsers(users.filter((user) => user.IDUtilisateur !== userID));
       }
     } catch (error) {
-      console.error("Erreur lors de la suppression de l'utilisateur :", error);
+      console.error("Erreur:", error);
     }
   };
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Liste des utilisateurs inscrits</h1>
-      <button className="btnDash" onClick={handleNavigate}>
-        Page d'acceuil
-      </button>
-      <table className="tableUsers">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Statut</th>
-            <th>Supprimer</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.IDUtilisateur}>
-              <td>{user.IDUtilisateur}</td>
-              <td>{user.NomUtilisateur}</td>
-              <td>{user.EmailUtilisateur}</td>
-              <td>{user.Role}</td>
-              <td>
-                <button
-                  className="btn"
-                  style={{ backgroundColor: user.Statut ? "green" : "red" }}
-                  onClick={() => handleChangeStatus(user.IDUtilisateur)}
-                >
-                  {user.Statut ? "Actif" : "Inactif"}
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn"
-                  onClick={() => handleDelete(user.IDUtilisateur)}
-                >
-                  <RiDeleteBin6Line />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="py-8 px-4 max-w-7xl mx-auto">
+      <div className="sm:flex sm:items-center sm:justify-between mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">
+          Liste des utilisateurs inscrits
+        </h1>
+        <button
+          onClick={() => navigate("/home")}
+          className="inline-flex items-center px-4 py-2 bg-[#5E1675] hover:bg-[#4A1259] text-white font-medium rounded-lg transition-colors duration-200"
+        >
+          Page d'accueil
+        </button>
+      </div>
+
+      <div className="mt-4 flex flex-col">
+        <div className="overflow-x-auto rounded-lg shadow">
+          <div className="inline-block min-w-full align-middle">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-[#5E1675]">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-left text-sm font-semibold text-white"
+                  >
+                    ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-left text-sm font-semibold text-white"
+                  >
+                    
+                    Nom
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-left text-sm font-semibold text-white"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-left text-sm font-semibold text-white"
+                  >
+                    Role
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-left text-sm font-semibold text-white"
+                  >
+                    Statut
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-left text-sm font-semibold text-white"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {users.map((user) => (
+                  <tr
+                    key={user.IDUtilisateur}
+                    className="hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {user.IDUtilisateur}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {user.NomUtilisateur}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {user.EmailUtilisateur}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-[#5E1675] bg-opacity-10 text-[#5E1675]">
+                        {user.Role}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <button
+                        onClick={() => handleChangeStatus(user.IDUtilisateur)}
+                        className={`px-3 py-1 rounded-full text-white text-sm font-medium transition-all duration-200 ${
+                          user.Statut
+                            ? "bg-green-500 hover:bg-green-600"
+                            : "bg-red-500 hover:bg-red-600"
+                        }`}
+                      >
+                        {user.Statut ? "Actif" : "Inactif"}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <button
+                        onClick={() => handleDelete(user.IDUtilisateur)}
+                        className="text-red-500 hover:text-red-700 transition-colors duration-200"
+                      >
+                        <RiDeleteBin6Line className="w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

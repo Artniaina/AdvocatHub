@@ -18,7 +18,7 @@ function TestJitsi() {
         SHOW_JITSI_WATERMARK: false,
       }}
       userInfo={{
-        displayName: "Kanto Andriahariniaina",
+        displayName: "Test Personne",
       }}
       getIFrameRef={(iframeRef) => {
         iframeRef.style.height = "100vh";
