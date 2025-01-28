@@ -1,32 +1,35 @@
-
 .boxQr {
-  --b: 5px;   
-  --c: #5E1675;   
-  --w: 20px;  
-  
+  --b: 5px;
+  --c: #5e1675;
+  --w: 20px;
 
-  border: var(--b) solid #0000; 
-  --_g: #0000 90deg,var(--c) 0;
+  border: var(--b) solid #0000;
+  --_g: #0000 90deg, var(--c) 0;
   --_p: var(--w) var(--w) border-box no-repeat;
-  background:
-    conic-gradient(from 90deg  at top    var(--b) left  var(--b),var(--_g)) 0    0    / var(--_p),
-    conic-gradient(from 180deg at top    var(--b) right var(--b),var(--_g)) 100% 0    / var(--_p),
-    conic-gradient(from 0deg   at bottom var(--b) left  var(--b),var(--_g)) 0    100% / var(--_p),
-    conic-gradient(from -90deg at bottom var(--b) right var(--b),var(--_g)) 100% 100% / var(--_p);
-  
- 
-  width:200px;
-  height:100px;
-  box-sizing:border-box;
-  margin:5px;
-  display:inline-flex;
-  font-size:30px;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+  background: conic-gradient(
+        from 90deg at top var(--b) left var(--b),
+        var(--_g)
+      )
+      0 0 / var(--_p),
+    conic-gradient(from 180deg at top var(--b) right var(--b), var(--_g)) 100% 0 /
+      var(--_p),
+    conic-gradient(from 0deg at bottom var(--b) left var(--b), var(--_g)) 0 100% /
+      var(--_p),
+    conic-gradient(from -90deg at bottom var(--b) right var(--b), var(--_g))
+      100% 100% / var(--_p);
+
+  width: 200px;
+  height: 100px;
+  box-sizing: border-box;
+  margin: 5px;
+  display: inline-flex;
+  font-size: 30px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 :root {
-  --primary-color: #5E1675;
+  --primary-color: #5e1675;
   --primary-hover: #4a1259;
   --background-color: #f9fafb;
   --card-background: #ffffff;
@@ -37,7 +40,6 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
-
 
 .main-card {
   width: 66vw;
@@ -54,7 +56,7 @@
 }
 
 .card-content {
-  padding:  19px 12px;
+  padding: 19px 12px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -85,10 +87,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 20px; 
+  gap: 20px;
 }
-
-
 
 .steps-section {
   flex: 1;
@@ -97,7 +97,6 @@
   gap: 2px;
   border-radius: 0.75rem;
   padding: 0.5rem;
-
 }
 
 .steps-title {
@@ -212,7 +211,6 @@
 .features-column {
   display: flex;
   flex-direction: column;
-
 }
 
 .feature-card {
@@ -253,4 +251,3 @@
   color: var(--text-secondary);
   flex: 1;
 }
-

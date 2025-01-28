@@ -105,6 +105,7 @@ const Step3 = ({ handlePrevious, currentStep }) => {
               onChange={(e) => handleInputChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               className="otpInput"
+              style={{ color: "grey", fontSize: "1.5rem" }}
             />
           ))}
         </div>
