@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Home, Package, Users, FolderClosed } from "lucide-react";
 
 const UserList = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
   const stats = [
     {
       icon: Home,
@@ -109,9 +111,12 @@ const UserList = () => {
       }
     } catch (error) {
       console.error("Erreur:", error);
-      // Rollback the change if API call fails
       setUsers(users);
     }
+  };
+  const handleDeleteClick = (userID) => {
+    setUserToDelete(userID);
+    setShowPopup(true);
   };
 
   const handleDelete = async (userID) => {
@@ -125,6 +130,19 @@ const UserList = () => {
     } catch (error) {
       console.error("Erreur:", error);
     }
+  };
+
+  const confirmDelete = async () => {
+    if (userToDelete) {
+      await handleDelete(userToDelete);
+      setShowPopup(false);
+      setUserToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+    setUserToDelete(null);
   };
 
   return (
@@ -220,7 +238,7 @@ const UserList = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <button
-                          onClick={() => handleDelete(user.IDUtilisateur)}
+                          onClick={() => handleDeleteClick(user.IDUtilisateur)}
                           className="text-red-500 hover:text-red-700 transition-colors duration-200"
                         >
                           <RiDeleteBin6Line className="w-5 h-5" />
@@ -233,6 +251,33 @@ const UserList = () => {
             </div>
           </div>
         </div>
+        {showPopup && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-lg font-bold mb-4">
+                Confirmer la suppression
+              </h3>
+              <p className="mb-4">
+                Voulez-vous vraiment supprimer cet utilisateur ? Cette action
+                est irréversible.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  onClick={confirmDelete}
+                >
+                  Supprimer
+                </button>
+                <button
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                  onClick={cancelDelete}
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
