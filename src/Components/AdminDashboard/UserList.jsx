@@ -134,12 +134,6 @@ const UserList = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">
             Liste des utilisateurs inscrits
           </h1>
-          <button
-            onClick={() => navigate("/home")}
-            className="inline-flex items-center px-4 py-2 bg-[#5E1675] hover:bg-[#4A1259] text-white font-medium rounded-lg transition-colors duration-200"
-          >
-            Page d'accueil
-          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
