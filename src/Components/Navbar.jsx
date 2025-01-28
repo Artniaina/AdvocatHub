@@ -89,7 +89,7 @@ const Navbar = () => {
             }`}
           >
             <IoNewspaperOutline className="icon-nav" />
-            LBC/FT
+            Messagerie{" "}
           </Link>
         </li>
         <li className="nav-item">

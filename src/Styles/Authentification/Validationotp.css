@@ -6,11 +6,11 @@
   background: #f4e8f8;
   font-family: "Roboto", sans-serif;
 }
- 
+
 .container2FA {
   position: relative;
   border: 1px solid #7272774f;
-  min-width: 450px;
+  min-width: 10rem;
   display: flex;
   height: auto;
   padding: 37px 100px;
@@ -27,13 +27,13 @@
   top: -58px;
   left: 41%;
 }
-.backButton{
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 .AppAuthent {
   color: #5e1675;
@@ -94,5 +94,61 @@
 
 .button:focus {
   outline: none;
+}
+@media (max-width: 768px) {
+  .container2FA {
+    padding: 15px 20px;
+    min-width: 260px;
+  }
 
+  .container2FA img {
+    width: 50px;
+    height: 50px;
+    top: -36px;
+    left: 41%;
+  }
+
+  .AppAuthent {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 0.8rem;
+  }
+
+  .otpInput {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1rem;
+  }
+
+  .button {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container2FA {
+    padding: 10px 15px;
+  }
+
+  .AppAuthent {
+    font-size: 1.2rem;
+  }
+
+  .description {
+    font-size: 0.7rem;
+  }
+
+  .otpInput {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
 }
