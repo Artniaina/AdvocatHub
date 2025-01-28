@@ -32,6 +32,7 @@ import DocumentListComp from "../Components/Document/DocumentList/DocumentListCo
 import PlanningPage from "../Pages/PlanningPage";
 import Invitation from "../Components/Planning/Invitation";
 import TestJitsi from "../Components/VisioConference/TestJitsi";
+import Dashboard from "../Components/AdminDashboard/Dashboard";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -103,7 +104,7 @@ function MainRoutes() {
         <Route path="/invitation" element={<Invitation />} />
 
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
-        <Route exact path="/userlist" element={<UserList />} />
+        <Route exact path="/userlist" element={<Dashboard />} />
         <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
