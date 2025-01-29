@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import {
@@ -22,6 +22,13 @@ const SideBar = () => {
     setIsAdminAuthenticated,
     setIsSimpleAuthenticated,
   } = useAuth();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("/dashboard");
+    }
+  }, [location, navigate]);
+
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
@@ -39,22 +46,24 @@ const SideBar = () => {
 
   return (
     <div
-      className={`h-screen bg-gray-900/95 backdrop-blur-sm border-r border-gray-800 flex flex-col transition-all duration-300 ${
-        isExpanded ? "w-64" : "w-20"
-      }`}
+      className={`fixed md:relative h-screen bg-gray-900/95 backdrop-blur-sm border-r border-gray-800 
+      flex flex-col transition-all duration-300 z-50
+      ${isExpanded ? "w-[280px] md:w-64" : "w-20"}`}
     >
-      <div className="p-4 border-b border-gray-800 relative">
-        <div className="flex">
-          <div className="w-8 h-8 bg-purple-600 rounded-lg">
+      <div className="p-4 border-b border-gray-800">
+        <div className="flex items-center">
+          <div className="w-8 h-8 bg-purple-600 rounded-lg flex flex-wrap">
             <div className="w-4 h-4 bg-white rounded-full mr-[2px]"></div>
             <div className="w-4 h-4 bg-white rounded-full opacity-50"></div>
           </div>
           {isExpanded && (
-            <span className="ml-2 font-bold text-xl text-white">Dashboard</span>
+            <span className="ml-2 font-bold text-xl text-white hidden md:block">
+              Dashboard
+            </span>
           )}
           <button
             onClick={toggleSidebar}
-            className="absolute right-4 top-4 p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors flex"
+            className="absolute right-4 top-4 p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
           >
             {isExpanded ? (
               <ChevronLeft className="w-5 h-5 text-gray-300" />
@@ -65,13 +74,17 @@ const SideBar = () => {
         </div>
       </div>
 
-      <div className="flex  p-4 space-y-6">
+      <div className="flex-1 p-4 ">
         <nav className="space-y-2">
           <button
             className={`${
-              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
-            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
-              location.pathname === "/dashboard" ? "bg-purple-900" : ""
+              isExpanded ? "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
+            } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
+            transition-colors text-start whitespace-nowrap
+            ${
+              location.pathname === "/dashboard" || location.pathname === "/"
+                ? "bg-purple-900/60"
+                : ""
             }`}
             onClick={() => handleNavigation("/dashboard")}
           >
@@ -81,13 +94,17 @@ const SideBar = () => {
 
           <button
             className={`${
-              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
-            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
-              location.pathname === "/utilisateurs" ? "bg-purple-900" : ""
+              isExpanded ? "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
+            } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
+            transition-colors text-start whitespace-nowrap
+            ${
+              location.pathname.startsWith("/utilisateurs")
+                ? "bg-purple-900/60"
+                : ""
             }`}
             onClick={() => handleNavigation("/utilisateurs")}
           >
-            <Users className=" inline-block w-5 h-5" />
+            <Users className="inline-block w-5 h-5" />
             {isExpanded && (
               <span className="ml-3 inline-block">Utilisateurs</span>
             )}
@@ -95,9 +112,11 @@ const SideBar = () => {
 
           <button
             className={`${
-              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
-            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
-              location.pathname === "/avocats" ? "bg-purple-900" : ""
+              isExpanded ? "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
+            } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
+            transition-colors text-start whitespace-nowrap
+            ${
+              location.pathname.startsWith("/avocats") ? "bg-purple-900/60" : ""
             }`}
             onClick={() => handleNavigation("/avocats")}
           >
@@ -107,9 +126,13 @@ const SideBar = () => {
 
           <button
             className={`${
-              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
-            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
-              location.pathname === "/reinitialisation" ? "bg-purple-900" : ""
+              isExpanded ? "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
+            } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
+            transition-colors text-start whitespace-nowrap
+            ${
+              location.pathname.startsWith("/reinitialisation")
+                ? "bg-purple-900/60"
+                : ""
             }`}
             onClick={() => handleNavigation("/reinitialisation")}
           >
@@ -124,7 +147,8 @@ const SideBar = () => {
       <div className="mt-auto p-4">
         <button
           onClick={handleLogout}
-          className="flex items-center justify-center w-[80%] p-3 text-white  hover:bg-red-700 rounded-lg shadow-lg transition-colors"
+          className="flex items-center justify-center w-[80%] p-3 text-white 
+          hover:bg-red-700 rounded-lg shadow-lg transition-colors"
         >
           <LogOut className="w-5 h-5" />
           {isExpanded && <span className="ml-3">Déconnexion</span>}
