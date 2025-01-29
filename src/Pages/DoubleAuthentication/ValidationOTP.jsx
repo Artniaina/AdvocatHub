@@ -72,7 +72,7 @@ const ValidationOTP = () => {
 
         if (data.sRole === "Admin") {
           setIsAdminAuthenticated(true);
-          navigate("/userlist");
+          navigate("/dashboard");
         } else {
           navigate("/home");
         }
@@ -92,7 +92,7 @@ const ValidationOTP = () => {
         <HiArrowSmallLeft style={{ fontSize: 20 }} />
       </button>
       <div className="container2FA">
-        <img src={Logo2FA}  />
+        <img src={Logo2FA} />
         <h2 className="AppAuthent">Saisissez votre code OTP</h2>
         <p className="description">
           Entrez le code à 6 chiffres de votre téléphone

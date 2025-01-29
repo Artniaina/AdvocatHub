@@ -80,7 +80,7 @@ const SideBar = () => {
             className={` ${
               isExpanded ? "w-[80%] px-4 py-3 pl-10" : "p-3 w-[30%]"
             } text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-start `}
-            onClick={() => handleNavigation("/Utilisateurs")}
+            onClick={() => handleNavigation("/utilisateurs")}
           >
             <Users className=" inline-block w-5 h-5" />
             {isExpanded && (
@@ -92,7 +92,7 @@ const SideBar = () => {
             className={` ${
               isExpanded ? "w-[80%] px-4 py-3  pl-10" : "p-3 w-[30%]"
             } text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-start `}
-            onClick={() => handleNavigation("/Avocats")}
+            onClick={() => handleNavigation("/avocats")}
           >
             <Scale className="inline-block w-5 h-5" />
             {isExpanded && <span className="ml-3 inline-block">Avocats</span>}

@@ -19,7 +19,7 @@ const ListeFormulairePage = () => {
   );
 
   console.log(originalFormulaires);
-  
+
   const status = useSelector((state) => state.formulaireDraft.status);
   const error = useSelector((state) => state.formulaireDraft.error);
 
@@ -65,7 +65,6 @@ const ListeFormulairePage = () => {
           const data = await response.json();
           console.log("Delete response data:", data);
         }
-
         setFormulaires((prevFormulaires) =>
           prevFormulaires.filter(
             (formulaire) => formulaire.sIDFormulaire !== formulaireToDelete

@@ -252,26 +252,18 @@ const UserList = () => {
           </div>
         </div>
         {showPopup && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-bold mb-4">
-                Confirmer la suppression
-              </h3>
-              <p className="mb-4">
-                Voulez-vous vraiment supprimer cet utilisateur ? Cette action
-                est irréversible.
+          <div className="popup-overlay">
+            <div className="popup">
+              <h3>Confirmer la suppression</h3>
+              <p>
+                Voulez-vous vraiment supprimer ce formulaire ? Cette action est
+                irréversible.
               </p>
-              <div className="flex justify-end space-x-4">
-                <button
-                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                  onClick={confirmDelete}
-                >
+              <div className="popup-actions">
+                <button className="confirm-button" onClick={confirmDelete}>
                   Supprimer
                 </button>
-                <button
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                  onClick={cancelDelete}
-                >
+                <button className="cancel-button" onClick={cancelDelete}>
                   Annuler
                 </button>
               </div>

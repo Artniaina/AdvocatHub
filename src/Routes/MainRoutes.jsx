@@ -33,6 +33,9 @@ import PlanningPage from "../Pages/PlanningPage";
 import Invitation from "../Components/Planning/Invitation";
 import TestJitsi from "../Components/VisioConference/TestJitsi";
 import Dashboard from "../Components/AdminDashboard/Dashboard";
+import ReinitialisationCode from "../Components/AdminDashboard/ReinitialisationCode";
+import UserListManagement from "../Components/AdminDashboard/UserListManagement";
+import AvocatList from "../Components/AdminDashboard/AvocatList";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -104,7 +107,10 @@ function MainRoutes() {
         <Route path="/invitation" element={<Invitation />} />
 
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
-        <Route exact path="/userlist" element={<Dashboard />} />
+        <Route exact path="/dashboard" element={<Dashboard />} />
+        <Route path="/avocats" element={<AvocatList />} />
+          <Route path="/utilisateurs" element={<UserListManagement />} />
+          <Route path="/reinitialisation" element={<ReinitialisationCode />} />
         <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
@@ -123,6 +129,7 @@ function MainRoutes() {
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/chat" element={<MessageriePage />} />
+       
           <Route
             path="/home/updateFormTaxation"
             element={<UpdateTaxationFormPage />}
