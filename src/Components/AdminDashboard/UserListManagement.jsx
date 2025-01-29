@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { Home, Package, Users, FolderClosed } from "lucide-react";
 import SideBar from "./SideBar";
 
 const UserListManagement = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
   const apiUrl = "http://192.168.10.10/Utilisateur/Utilisateur";
 
@@ -41,7 +42,6 @@ const UserListManagement = () => {
           Statut: !users.find((u) => u.IDUtilisateur === userID).Statut,
         }),
       });
-
       if (!response.ok) throw new Error("Échec de la mise à jour");
     } catch (error) {
       console.error("Erreur:", error);
@@ -80,13 +80,36 @@ const UserListManagement = () => {
     setUserToDelete(null);
   };
 
+  const filteredUsers = users.filter(
+    (user) =>
+      user.NomUtilisateur.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (filterStatus === "all" ||
+        (filterStatus === "active" && user.Statut) ||
+        (filterStatus === "inactive" && !user.Statut))
+  );
+
   return (
     <div style={{ display: "flex" }}>
-      <div>
-        <SideBar />
-      </div>
-
+      <SideBar />
       <div className="flex-1 py-8 px-4 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-4">
+          <input
+            type="text"
+            placeholder="Rechercher par nom..."
+            className="border p-2 rounded-md"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <select
+            className="border p-2 rounded-md"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="all">Tous</option>
+            <option value="active">Actifs</option>
+            <option value="inactive">Inactifs</option>
+          </select>
+        </div>
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-[#5E1675]">
             <tr>
@@ -103,7 +126,7 @@ const UserListManagement = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <tr
                 key={user.IDUtilisateur}
                 className="hover:bg-gray-50 transition-colors duration-200"
@@ -147,32 +170,6 @@ const UserListManagement = () => {
           </tbody>
         </table>
       </div>
-
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold">Confirmer la suppression</h3>
-            <p className="text-sm text-gray-600 mt-2">
-              Voulez-vous vraiment supprimer cet utilisateur ? Cette action est
-              irréversible.
-            </p>
-            <div className="flex justify-end gap-3 mt-4">
-              <button
-                onClick={cancelDelete}
-                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
-              >
-                Annuler
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-              >
-                Supprimer
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

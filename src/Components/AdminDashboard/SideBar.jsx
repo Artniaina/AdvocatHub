@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import {
   LayoutDashboard,
@@ -13,6 +13,7 @@ import {
 import { useAuth } from "../../Hooks/AuthContext";
 
 const SideBar = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(true);
   const cookies = new Cookies();
@@ -67,9 +68,11 @@ const SideBar = () => {
       <div className="flex  p-4 space-y-6">
         <nav className="space-y-2">
           <button
-            className={` ${
-              isExpanded ? "w-[80%] px-4  pl-10 p-3" : "p-3 w-[30%]"
-            } text-purple-400 bg-purple-900/40 rounded-lg hover:bg-purple-900/60 transition-colors text-start`}
+            className={`${
+              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
+            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
+              location.pathname === "/dashboard" ? "bg-purple-900" : ""
+            }`}
             onClick={() => handleNavigation("/dashboard")}
           >
             <LayoutDashboard className="inline-block w-5 h-5" />
@@ -77,9 +80,11 @@ const SideBar = () => {
           </button>
 
           <button
-            className={` ${
-              isExpanded ? "w-[80%] px-4 py-3 pl-10" : "p-3 w-[30%]"
-            } text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-start `}
+            className={`${
+              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
+            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
+              location.pathname === "/utilisateurs" ? "bg-purple-900" : ""
+            }`}
             onClick={() => handleNavigation("/utilisateurs")}
           >
             <Users className=" inline-block w-5 h-5" />
@@ -89,9 +94,11 @@ const SideBar = () => {
           </button>
 
           <button
-            className={` ${
-              isExpanded ? "w-[80%] px-4 py-3  pl-10" : "p-3 w-[30%]"
-            } text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-start `}
+            className={`${
+              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
+            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
+              location.pathname === "/avocats" ? "bg-purple-900" : ""
+            }`}
             onClick={() => handleNavigation("/avocats")}
           >
             <Scale className="inline-block w-5 h-5" />
@@ -99,9 +106,11 @@ const SideBar = () => {
           </button>
 
           <button
-            className={` ${
-              isExpanded ? "w-[80%] px-4 py-3  pl-10" : "p-3 w-[30%]"
-            } text-gray-300 hover:bg-gray-800 rounded-lg transition-colors text-start `}
+            className={`${
+              isExpanded ? "w-[80%] px-4 pl-10 p-3" : "p-3 w-[30%]"
+            } text-purple-400 bg-transparent rounded-lg hover:bg-purple-900/60 transition-colors text-start ${
+              location.pathname === "/reinitialisation" ? "bg-purple-900" : ""
+            }`}
             onClick={() => handleNavigation("/reinitialisation")}
           >
             <RotateCcw className="inline-block w-5 h-5" />
