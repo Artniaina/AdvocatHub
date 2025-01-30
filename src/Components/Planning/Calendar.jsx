@@ -145,29 +145,7 @@ const CalendarPlan = () => {
 
   return (
     <div className="dashboard-container">
-      <aside className="sidebar">
-        <div className="user-info">
-          <div className="user-avatar" />
-          <span className="user-name">Hana Smith</span>
-        </div>
-        <nav className="nav-menu">
-          <div className="nav-item active">
-            <span>Dashboard</span>
-          </div>
-          <div className="nav-item">
-            <span>Overview</span>
-          </div>
-          <div className="nav-item">
-            <span>Calendar</span>
-          </div>
-          <div className="nav-item">
-            <span>To-do list</span>
-          </div>
-          <div className="nav-item">
-            <span>Team</span>
-          </div>
-        </nav>
-      </aside>
+ 
       <main className="calendar-main">
         <header className="calendar-header">
           <div className="calendar-controls">
