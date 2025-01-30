@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Messagerie = () => {
-  return (
-    <div>Messagerie</div>
-  )
-}
+  return <div>Messagerie</div>;
+};
 
-export default Messagerie
+export default Messagerie;

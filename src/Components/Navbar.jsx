@@ -37,7 +37,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     cookies.remove("COOKIE_SESSION", { path: "/" });
-    setIsSimpleAuthenticated(false); 
+    setIsSimpleAuthenticated(false);
     setIsAuthenticated(false);
     setIsAdminAuthenticated(false);
   };
@@ -83,7 +83,7 @@ const Navbar = () => {
         </li>
         <li className="nav-item">
           <Link
-            to="/lbc"
+            to="/chat"
             className={`nav-link ${
               location.pathname === "/lbc" ? "active" : ""
             }`}

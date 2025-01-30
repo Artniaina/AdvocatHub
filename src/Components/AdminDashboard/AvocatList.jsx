@@ -78,7 +78,7 @@ const AvocatList = () => {
       </div>
 
       <div className="flex-1  overflow-hidden">
-        <div className="bg-white rounded-lg shadow-md h-full overflow-hidden">
+        <div className="rounded-lg shadow-md h-full overflow-hidden">
           <div>
             <div
               style={{ display: "flex", justifyContent: "space-between" }}
@@ -120,25 +120,22 @@ const AvocatList = () => {
             <div className="relative">
               <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-280px)] scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
                 {" "}
-                <table className="w-full max-w-[97%] ml-4 md:ml-6  ">
-                  <thead
-                    className="sticky top-0 z-10"
-                    style={{ backgroundColor: "#F3E8FA" }}
-                  >
+                <table className="w-full max-w-[97%] ml-4 md:ml-6  rounded-lg ">
+                  <thead className="sticky top-0 z-10 bg-[#5E1675] ">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                         Nom
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Spécialité
+                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
+                        Etude
                       </th>
-                      <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Ville
+                      <th className="hidden md:table-cell px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
+                        Adresse
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
@@ -173,10 +170,10 @@ const AvocatList = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full transition-colors duration-200 ease-in-out ${
                               lawyer.status === "Inscrit"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
+                                ? "bg-green-200 text-green-800 hover:bg-green-300"
+                                : "bg-red-200 text-red-800 hover:bg-red-300"
                             }`}
                           >
                             {lawyer.status}
