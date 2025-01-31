@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect, useStateCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { FaChevronLeft, FaChevronRight, FaCalendarDay } from "react-icons/fa";
 
-const Aside = () => {
+const Aside = ({ date }) => {
   const [reunions, setReunions] = useState([
     { date: "2025-02-05", titre: "Réunion de Projet" },
     { date: "2025-02-10", titre: "Réunion avec le client" },
@@ -21,7 +21,7 @@ const Aside = () => {
         calendarApi.getDate().toLocaleString("default", { month: "long" })
       );
     }
-  }, []); // Initial month title when the calendar first loads
+  }, []);
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -126,9 +126,9 @@ const Aside = () => {
             )}
             headerToolbarClassNames="bg-gray-800 text-white p-2"
             buttonText={{
-              today: "📅", // Emoji for today's button
-              prev: "⬅️", // Left arrow emoji
-              next: "➡️", // Right arrow emoji
+              today: "📅",
+              prev: "⬅️",
+              next: "➡️",
             }}
             contentHeight="auto"
             stickyHeaderDates={false}
@@ -136,7 +136,7 @@ const Aside = () => {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 min-w-50vh">
         <h3 className="text-xl font-semibold">Réunions à venir</h3>
         <ul className="mt-2 space-y-3">
           {reunions.map((reunion, index) => {

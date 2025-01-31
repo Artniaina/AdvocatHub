@@ -277,8 +277,13 @@
   color: #00294d;
 }
 
-.fc-day-today {
-  background: var(--pink-50) !important;
+.fc .fc-day-today {
+  background-color: #d2b5ee4d !important;
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+  color: rgb(43, 0, 68);
+  background-color: #d2b5ee4d;
 }
 
 .fc-day-header {
@@ -336,7 +341,6 @@
   transform: scale(1.05);
 }
 
-/* Event colors */
 .fc-event[style*="background-color: #FFD700"] {
   background-color: var(--yellow-100) !important;
   color: #997a00;

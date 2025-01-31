@@ -19,7 +19,7 @@ const CalendarPlan = () => {
   const [events, setEvents] = useState([]);
   const [dataMeeting, setDataMeeting] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [date, setDate] = useState([]);
   const eventId = selectedEvent?.id;
 
   const fetchEventDetails = async (id) => {
@@ -61,6 +61,8 @@ const CalendarPlan = () => {
       );
       if (response.ok) {
         const data = await response.json();
+        const dateRes = data.map((event) => event.date);
+        setDate(dateRes);
         const formattedEvents = data.map((event) => ({
           id: event.idMeeting,
           title: event.titre,
@@ -144,14 +146,12 @@ const CalendarPlan = () => {
     const month = arg.view.title;
     setCurrentMonth(month);
   };
+  console.log(date);
 
   return (
     <div style={{ display: "flex" }}>
-      <div style={{ flex: 1}}>
-        <Aside 
-        events ={events}
-        dataMeeting={dataMeeting}
-        />
+      <div style={{ flex: 1 }}>
+        <Aside date={date} dataMeeting={dataMeeting} />
       </div>
       <div style={{ flex: 4 }}>
         {" "}
