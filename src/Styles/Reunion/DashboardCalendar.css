@@ -395,7 +395,6 @@ button.nav-btn:nth-child(2) {
   font-weight: 500;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .dashboard-container {
     margin: 1rem;

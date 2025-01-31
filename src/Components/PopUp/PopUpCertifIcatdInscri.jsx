@@ -31,17 +31,29 @@ const PopUpCertificatdInscri = ({ onClose }) => {
     const month = parseInt(dateString.substring(4, 6), 10) - 1;
     const day = parseInt(dateString.substring(6, 8), 10);
     const date = new Date(year, month, day);
-    return new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(date);
+    return new Intl.DateTimeFormat("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(date);
   };
 
   const prenomNom = fullName;
   const nom = avocatInfo.m_sNom;
-  const adresse = `${avocatInfo.m_nNumVoie || ""}, ${avocatInfo.m_sAdresse || ""}, ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
-  const dateAssermentation = formatDateFromString(avocatInfo.m_dDateAssermentation);
+  const adresse = `${avocatInfo.m_nNumVoie || ""}, ${
+    avocatInfo.m_sAdresse || ""
+  }, ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
+  const dateAssermentation = formatDateFromString(
+    avocatInfo.m_dDateAssermentation
+  );
   const gedFonction = avocatInfo.m_sGedFonction || "";
 
   const today = new Date();
-  const formattedDate = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(today);
+  const formattedDate = new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(today);
   const date = formattedDate;
 
   const generateAndViewPdf = async (doc) => {
@@ -73,7 +85,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
 
     await generateAndViewPdf(doc);
     setLoading(false);
-    onClose(); 
+    onClose();
   };
 
   const handleGenerateAndSendPDF = async () => {
@@ -96,28 +108,36 @@ const PopUpCertificatdInscri = ({ onClose }) => {
         const base64data = reader.result.split(",")[1];
 
         try {
-          const response = await fetch("http://192.168.10.10/Utilisateur/Send_email", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
-              sDateSys: date,
-              sNomAvocat: nom,
-              sFullName: fullName,
-              spdfBase64: base64data,
-            }),
-          });
+          const response = await fetch(
+            "http://192.168.10.10/Utilisateur/Send_email",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+                sDateSys: date,
+                sNomAvocat: nom,
+                sFullName: fullName,
+                spdfBase64: base64data,
+              }),
+            }
+          );
 
           const data = await response.json();
 
           if (response.ok) {
-            console.log("Notification envoyée avec succès pour l'envoi de l'email !");
+            console.log(
+              "Notification envoyée avec succès pour l'envoi de l'email !"
+            );
             console.log("Réponse du serveur:", data.smessage);
             setContentLoaded(true);
           } else {
-            console.error("Échec de la notification de l'envoi de l'email:", data.smessage);
+            console.error(
+              "Échec de la notification de l'envoi de l'email:",
+              data.smessage
+            );
           }
         } catch (error) {
           console.error("Erreur lors de l'envoi de l'email:", error);
@@ -152,11 +172,20 @@ const PopUpCertificatdInscri = ({ onClose }) => {
               <p className="certiftxt">TYPE DE CERTIFICAT D'INSCRIPTION</p>
               <div className="radio">
                 <label>
-                  <input type="radio" name="certificateType" value="standard" defaultChecked />
+                  <input
+                    type="radio"
+                    name="certificateType"
+                    value="standard"
+                    defaultChecked
+                  />
                   Standard
                 </label>
                 <label>
-                  <input type="radio" name="certificateType" value="assurance" />
+                  <input
+                    type="radio"
+                    name="certificateType"
+                    value="assurance"
+                  />
                   Assurance
                 </label>
                 <label>

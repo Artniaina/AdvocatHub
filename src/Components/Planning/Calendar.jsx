@@ -8,9 +8,12 @@ import { EventDetailsPopup } from "./PopupEvent";
 import "../../Styles/Reunion/DashboardCalendar.css";
 import { useAuth } from "../../Hooks/AuthContext";
 import Aside from "./Aside";
+import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
 
 const CalendarPlan = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const calendarRef = useRef(null);
   const [currentMonth, setCurrentMonth] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -149,205 +152,217 @@ const CalendarPlan = () => {
   console.log(date);
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: 1 }}>
-        <Aside date={date} dataMeeting={dataMeeting} />
+    <>
+      <div style={{ marginBottom: "10px" }}>
+        <Navbar />
       </div>
-      <div style={{ flex: 4 }}>
-        {" "}
-        <div className="dashboard-container">
-          <main className="calendar-main">
-            <header className="calendar-header">
-              <div className="calendar-controls">
-                <button
-                  className="nav-btn"
-                  onClick={() => {
-                    const calendarApi = calendarRef.current.getApi();
-                    calendarApi.prev();
-                  }}
-                >
-                  &larr;
-                </button>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <Aside date={date} dataMeeting={dataMeeting} />
+        </div>
+        <div style={{ flex: 4 }}>
+          {" "}
+          <div className="dashboard-container">
+            <main className="calendar-main">
+              <header className="calendar-header">
+                <div className="calendar-controls">
+                  <button
+                    className="nav-btn"
+                    onClick={() => {
+                      const calendarApi = calendarRef.current.getApi();
+                      calendarApi.prev();
+                    }}
+                  >
+                    &larr;
+                  </button>
 
-                <button
-                  className="nav-btn"
-                  onClick={() => {
-                    const calendarApi = calendarRef.current.getApi();
-                    calendarApi.today();
-                  }}
-                >
-                  Today
-                </button>
+                  <button
+                    className="nav-btn"
+                    onClick={() => {
+                      const calendarApi = calendarRef.current.getApi();
+                      calendarApi.today();
+                    }}
+                  >
+                    Today
+                  </button>
 
-                <button
-                  className="nav-btn"
-                  onClick={() => {
-                    const calendarApi = calendarRef.current.getApi();
-                    calendarApi.next();
-                  }}
-                >
-                  &rarr;
-                </button>
+                  <button
+                    className="nav-btn"
+                    onClick={() => {
+                      const calendarApi = calendarRef.current.getApi();
+                      calendarApi.next();
+                    }}
+                  >
+                    &rarr;
+                  </button>
 
-                <button
-                  className="nav-btn"
-                  onClick={() => {
-                    const calendarApi = calendarRef.current.getApi();
-                    calendarApi.changeView("dayGridMonth");
-                  }}
-                >
-                  Month
-                </button>
+                  <button
+                    className="nav-btn"
+                    onClick={() => {
+                      const calendarApi = calendarRef.current.getApi();
+                      calendarApi.changeView("dayGridMonth");
+                    }}
+                  >
+                    Month
+                  </button>
 
-                <button
-                  className="nav-btn"
-                  onClick={() => {
-                    const calendarApi = calendarRef.current.getApi();
-                    calendarApi.changeView("timeGridWeek");
-                  }}
-                >
-                  Week
-                </button>
+                  <button
+                    className="nav-btn"
+                    onClick={() => {
+                      const calendarApi = calendarRef.current.getApi();
+                      calendarApi.changeView("timeGridWeek");
+                    }}
+                  >
+                    Week
+                  </button>
 
-                <button
-                  className="nav-btn"
-                  onClick={() => {
-                    const calendarApi = calendarRef.current.getApi();
-                    calendarApi.changeView("timeGridDay");
-                  }}
-                >
-                  Day
-                </button>
-              </div>
+                  <button
+                    className="nav-btn"
+                    onClick={() => {
+                      const calendarApi = calendarRef.current.getApi();
+                      calendarApi.changeView("timeGridDay");
+                    }}
+                  >
+                    Day
+                  </button>
+                </div>
 
-              <div className="calendar-month">
-                <span>
-                  <strong>{currentMonth}</strong>
-                </span>
-              </div>
+                <div className="calendar-month">
+                  <span>
+                    <strong>{currentMonth}</strong>
+                  </span>
+                </div>
 
-              <div>
-                <button
-                  className="add-event-btn"
-                  onClick={() => {
+                <div>
+                  <button
+                    className="add-event-btn"
+                    onClick={() => {
+                      setShowAddEvent(true);
+                    }}
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigate("/testjitsi");
+                    }}
+                  >
+                    Lancer une reunion visio
+                  </button>
+                </div>
+              </header>
+
+              <div className="calendar-wrapper">
+                <FullCalendar
+                  ref={calendarRef}
+                  plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                  initialView="timeGridWeek"
+                  events={events}
+                  timeZone="local"
+                  editable={true}
+                  selectable={true}
+                  selectMirror={true}
+                  dayMaxEvents={true}
+                  weekends={true}
+                  eventClick={handleEventClick}
+                  select={(selectInfo) => {
                     setShowAddEvent(true);
+                    const defaultEndTime = new Date(selectInfo.end);
+                    defaultEndTime.setHours(defaultEndTime.getHours() + 1);
                   }}
-                >
-                  +
-                </button>
-              </div>
-            </header>
-
-            <div className="calendar-wrapper">
-              <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="timeGridWeek"
-                events={events}
-                timeZone="local"
-                editable={true}
-                selectable={true}
-                selectMirror={true}
-                dayMaxEvents={true}
-                weekends={true}
-                eventClick={handleEventClick}
-                select={(selectInfo) => {
-                  setShowAddEvent(true);
-                  const defaultEndTime = new Date(selectInfo.end);
-                  defaultEndTime.setHours(defaultEndTime.getHours() + 1);
-                }}
-                headerToolbar={false}
-                views={{
-                  dayGridMonth: {
-                    eventDisplay: "block",
-                    dayMaxEvents: true,
-                  },
-                  timeGridWeek: {
-                    slotMinTime: "08:00:00",
-                    slotMaxTime: "20:00:00",
-                    slotDuration: "00:30:00",
-                    slotLabelInterval: "01:00:00",
-                    displayEventEnd: true,
-                    slotLabelFormat: {
+                  headerToolbar={false}
+                  views={{
+                    dayGridMonth: {
+                      eventDisplay: "block",
+                      dayMaxEvents: true,
+                    },
+                    timeGridWeek: {
+                      slotMinTime: "08:00:00",
+                      slotMaxTime: "20:00:00",
+                      slotDuration: "00:30:00",
+                      slotLabelInterval: "01:00:00",
+                      displayEventEnd: true,
+                      slotLabelFormat: {
+                        hour: "numeric",
+                        minute: "2-digit",
+                        meridiem: "short",
+                      },
+                    },
+                    timeGridDay: {
+                      slotMinTime: "08:00:00",
+                      slotMaxTime: "20:00:00",
+                      slotDuration: "00:30:00",
+                      slotLabelInterval: "01:00:00",
+                      displayEventEnd: true,
+                      slotLabelFormat: {
+                        hour: "numeric",
+                        minute: "2-digit",
+                        meridiem: "short",
+                      },
+                    },
+                  }}
+                  eventContent={(eventInfo) => {
+                    const startTime = new Date(
+                      eventInfo.event.start
+                    ).toLocaleTimeString([], {
                       hour: "numeric",
                       minute: "2-digit",
-                      meridiem: "short",
-                    },
-                  },
-                  timeGridDay: {
-                    slotMinTime: "08:00:00",
-                    slotMaxTime: "20:00:00",
-                    slotDuration: "00:30:00",
-                    slotLabelInterval: "01:00:00",
-                    displayEventEnd: true,
-                    slotLabelFormat: {
+                    });
+                    const endTime = new Date(
+                      eventInfo.event.end
+                    ).toLocaleTimeString([], {
                       hour: "numeric",
                       minute: "2-digit",
-                      meridiem: "short",
-                    },
-                  },
-                }}
-                eventContent={(eventInfo) => {
-                  const startTime = new Date(
-                    eventInfo.event.start
-                  ).toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  });
-                  const endTime = new Date(
-                    eventInfo.event.end
-                  ).toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  });
+                    });
 
-                  return (
-                    <div className="fc-event-main-content">
-                      <div className="fc-event-title">
-                        {eventInfo.event.title}
+                    return (
+                      <div className="fc-event-main-content">
+                        <div className="fc-event-title">
+                          {eventInfo.event.title}
+                        </div>
+                        {eventInfo.view.type !== "dayGridMonth" && (
+                          <>
+                            <div className="fc-event-time">
+                              {startTime} - {endTime}
+                            </div>
+                            <div className="fc-event-location">
+                              {eventInfo.event.extendedProps.location}
+                            </div>
+                          </>
+                        )}
                       </div>
-                      {eventInfo.view.type !== "dayGridMonth" && (
-                        <>
-                          <div className="fc-event-time">
-                            {startTime} - {endTime}
-                          </div>
-                          <div className="fc-event-location">
-                            {eventInfo.event.extendedProps.location}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  );
-                }}
-                eventDidMount={(info) => {
-                  info.el.style.borderLeft = "9px solid #8E4CA2";
-                }}
-                datesSet={handleDatesSet}
+                    );
+                  }}
+                  eventDidMount={(info) => {
+                    info.el.style.borderLeft = "9px solid #8E4CA2";
+                  }}
+                  datesSet={handleDatesSet}
+                />
+              </div>
+            </main>
+
+            {selectedEvent && showDetailsEvent && (
+              <EventDetailsPopup
+                dataMeeting={dataMeeting}
+                event={selectedEvent}
+                eventId={selectedEvent ? selectedEvent.id : null}
+                backgroundColor={selectedEvent.extendedProps.backgroundColor}
+                onClose={handleCloseDetails}
+                onDelete={handleDeleteEvent}
+                refreshEvents={fetchEvents}
               />
-            </div>
-          </main>
+            )}
 
-          {selectedEvent && showDetailsEvent && (
-            <EventDetailsPopup
-              dataMeeting={dataMeeting}
-              event={selectedEvent}
-              eventId={selectedEvent ? selectedEvent.id : null}
-              backgroundColor={selectedEvent.extendedProps.backgroundColor}
-              onClose={handleCloseDetails}
-              onDelete={handleDeleteEvent}
-              refreshEvents={fetchEvents}
-            />
-          )}
-
-          {showAddEvent && (
-            <AddEventPopup
-              onClose={handleClosePopup}
-              onEventCreated={handleAddEvent}
-            />
-          )}
+            {showAddEvent && (
+              <AddEventPopup
+                onClose={handleClosePopup}
+                onEventCreated={handleAddEvent}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
