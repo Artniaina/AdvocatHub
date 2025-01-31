@@ -29,7 +29,7 @@ const CalendarPlan = () => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.10/Utilisateur/api/meetings/${id}`
+        `http://192.168.10.10/Utilisateur/api/meetings/${id}/${user?.email}`
       );
 
       if (response.ok) {
@@ -145,7 +145,6 @@ const CalendarPlan = () => {
 
   return (
     <div className="dashboard-container">
- 
       <main className="calendar-main">
         <header className="calendar-header">
           <div className="calendar-controls">

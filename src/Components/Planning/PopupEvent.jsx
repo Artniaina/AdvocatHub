@@ -107,7 +107,7 @@ export const EventDetailsPopup = ({
 }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [collaborators, setCollaborators] = useState([]);
-  const user = useAuth(); 
+  const user = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,9 +139,7 @@ export const EventDetailsPopup = ({
   const { extendedProps = {} } = event;
 
   const isOrganizer = dataMeeting.some(
-    (meeting) =>
-      meeting.sRole === "organisateur" &&
-      meeting.sEmailParticipant === user.email
+    (meeting) => meeting.role == "organisateur"
   );
 
   const handleDelete = async () => {
@@ -310,7 +308,6 @@ export const EventDetailsPopup = ({
             )}
           </div>
 
-          {/* Conditionally render edit and delete buttons */}
           {isOrganizer && (
             <div style={popupStyles.buttonContainer}>
               <button
