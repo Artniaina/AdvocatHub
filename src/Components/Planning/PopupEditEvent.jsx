@@ -16,6 +16,17 @@ const addEventStyles = {
     position: "absolute",
     inset: 0,
   },
+  topAccentLine: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "65px",
+    backgroundColor: "#5E1675",
+    borderTopLeftRadius: "16px",
+    borderTopRightRadius: "16px",
+    zIndex: -1,
+  },
   container: {
     position: "relative",
     backgroundColor: "#FFF",
@@ -25,6 +36,7 @@ const addEventStyles = {
     maxHeight: "90vh",
     overflowY: "auto",
     width: "460px",
+    zIndex: 2,
   },
   header: {
     display: "flex",
@@ -48,10 +60,11 @@ const addEventStyles = {
     backgroundColor: "#f5f5f5",
   },
   title: {
-    fontSize: "18px",
+    fontSize: "25px",
     fontWeight: "600",
     color: "#111",
-    margin: 0,
+    marginBottom: "6px",
+    color: "white",
   },
   form: {
     display: "flex",
@@ -527,10 +540,12 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     <div style={addEventStyles.overlay}>
       <div style={addEventStyles.backdrop} onClick={onClose} />
       <div style={addEventStyles.container}>
+        <div style={addEventStyles.topAccentLine} />
+
         <div style={addEventStyles.header}>
           <h2 style={addEventStyles.title}>Modifier une reunion</h2>
           <button style={addEventStyles.closeButton} onClick={onClose}>
-            <X size={18} />
+            <X size={25} color="white" marginBottom="20px" />
           </button>
         </div>
 
