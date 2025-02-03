@@ -238,23 +238,16 @@ const CalendarPlan = () => {
                     Jour
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#5E1675] text-white rounded-md flex items-center justify-center">
+                <div>
                   <button
                     onClick={() => {
                       setShowAddEvent(true);
                     }}
+                    className="px-4 py-2 bg-[#5E1675] w-[100px] text-white rounded-[55px] "
+                    style={{ display: "flex", justifyContent: "space-around" }}
                   >
-                    <MdAddCircle className="text-lg animate-pulse  w-[2rem] h-[2rem] text-[#5E1675] " />
+                    <MdAddCircle className="text-lg animate-pulse  w-[2rem] h-[2rem] " />
                     Ajouter
-                  </button>
-                </div>
-                <div>
-                  <button
-                    onClick={() => {
-                      navigate("/testjitsi");
-                    }}
-                  >
-                    Lancer une reunion
                   </button>
                 </div>
               </header>

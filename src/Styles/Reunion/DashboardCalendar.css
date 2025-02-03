@@ -265,7 +265,7 @@
   background: none;
   cursor: pointer;
   border-radius: 8px;
-  color: var(--gray-800);
+  color: #5e1675;
   transition: background-color 0.2s;
 }
 
@@ -446,8 +446,8 @@
 
 /* Today button style */
 button.nav-btn:nth-child(2) {
-  background-color: var(--pink-100);
-  color: var(--pink-500);
+  background-color: #5e1675;
+  color: #fff;
   font-weight: 500;
 }
 
