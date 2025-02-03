@@ -59,7 +59,7 @@ const Navbar = () => {
             Accueil
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link
             to="/document"
             className={`nav-link ${
@@ -69,7 +69,7 @@ const Navbar = () => {
             <IoDocumentTextOutline className="icon-nav" />
             Documents
           </Link>
-        </li>
+        </li> */}
         <li className="nav-item">
           <Link
             to="/planning"

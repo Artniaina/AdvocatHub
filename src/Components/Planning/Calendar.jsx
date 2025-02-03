@@ -10,6 +10,9 @@ import { useAuth } from "../../Hooks/AuthContext";
 import Aside from "./Aside";
 import Navbar from "../Navbar";
 import { useNavigate } from "react-router-dom";
+import { MdToday } from "react-icons/md";
+import { FaChevronLeft, FaChevronRight, FaCalendarDay } from "react-icons/fa";
+import { MdAddCircle } from "react-icons/md";
 
 const CalendarPlan = () => {
   const { user } = useAuth();
@@ -156,7 +159,7 @@ const CalendarPlan = () => {
       <div style={{ marginBottom: "10px" }}>
         <Navbar />
       </div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", minHeight: "100vh" }}>
         <div style={{ flex: 1 }}>
           <Aside date={date} dataMeeting={dataMeeting} />
         </div>
@@ -166,36 +169,45 @@ const CalendarPlan = () => {
             <main className="calendar-main">
               <header className="calendar-header">
                 <div className="calendar-controls">
-                  <button
-                    className="nav-btn"
-                    onClick={() => {
-                      const calendarApi = calendarRef.current.getApi();
-                      calendarApi.prev();
-                    }}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    &larr;
-                  </button>
+                    <button
+                      onClick={() => {
+                        const calendarApi = calendarRef.current.getApi();
+                        calendarApi.prev();
+                      }}
+                      className="px-2 py-2 mr-4  rounded-md flex items-center justify-center"
+                    >
+                      <FaChevronLeft className="text-lg animate-pulse  w-[1.5rem] h-[2rem]" />
+                    </button>
 
-                  <button
-                    className="nav-btn"
-                    onClick={() => {
-                      const calendarApi = calendarRef.current.getApi();
-                      calendarApi.today();
-                    }}
-                  >
-                    Today
-                  </button>
+                    <button
+                      onClick={() => {
+                        const calendarApi = calendarRef.current.getApi();
+                        calendarApi.today();
+                      }}
+                      className="px-4 py-2 bg-[#5E1675] text-white rounded-md flex items-center justify-center"
+                    >
+                      <FaCalendarDay className="text-lg  " />
+                    </button>
+                    <button
+                      onClick={() => {
+                        const calendarApi = calendarRef.current.getApi();
+                        calendarApi.next();
+                      }}
+                      className="px-2 py-2 ml-4  rounded-md flex items-center justify-center"
+                    >
+                      <FaChevronRight className="text-lg animate-pulse  w-[1.5rem] h-[2rem]" />
+                    </button>
+                  </div>
 
-                  <button
-                    className="nav-btn"
-                    onClick={() => {
-                      const calendarApi = calendarRef.current.getApi();
-                      calendarApi.next();
-                    }}
-                  >
-                    &rarr;
-                  </button>
+                  <span className="calendar-month">
+                    <strong>{currentMonth}</strong>
+                  </span>
+                </div>
 
+                <div style={{ display: "flex" }}>
                   <button
                     className="nav-btn"
                     onClick={() => {
@@ -203,7 +215,7 @@ const CalendarPlan = () => {
                       calendarApi.changeView("dayGridMonth");
                     }}
                   >
-                    Month
+                    Mois
                   </button>
 
                   <button
@@ -213,7 +225,7 @@ const CalendarPlan = () => {
                       calendarApi.changeView("timeGridWeek");
                     }}
                   >
-                    Week
+                    Semaine
                   </button>
 
                   <button
@@ -223,31 +235,26 @@ const CalendarPlan = () => {
                       calendarApi.changeView("timeGridDay");
                     }}
                   >
-                    Day
+                    Jour
                   </button>
                 </div>
-
-                <div className="calendar-month">
-                  <span>
-                    <strong>{currentMonth}</strong>
-                  </span>
-                </div>
-
-                <div>
+                <div className="px-4 py-2 bg-[#5E1675] text-white rounded-md flex items-center justify-center">
                   <button
-                    className="add-event-btn"
                     onClick={() => {
                       setShowAddEvent(true);
                     }}
                   >
-                    +
+                    <MdAddCircle className="text-lg animate-pulse  w-[2rem] h-[2rem] text-[#5E1675] " />
+                    Ajouter
                   </button>
+                </div>
+                <div>
                   <button
                     onClick={() => {
                       navigate("/testjitsi");
                     }}
                   >
-                    Lancer une reunion visio
+                    Lancer une reunion
                   </button>
                 </div>
               </header>
