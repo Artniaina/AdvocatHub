@@ -153,7 +153,12 @@
   margin-bottom: 0 !important;
 }
 .fc .fc-daygrid-day-top {
-  color: black !important;
+  color: black;
+  background-color: none;
+}
+.fc .fc-daygrid-day-top:hover {
+  color: black;
+  background-color: none;
 }
 .sidebar {
   width: 280px;
@@ -162,10 +167,10 @@
   border-radius: 24px 0 0 24px;
 }
 
-.fc-theme-standard td,
+/* .fc-theme-standard td,
 .fc-theme-standard th {
   border: none !important;
-}
+} */
 
 .fc-daygrid-day {
   border-radius: 8px;
@@ -280,10 +285,12 @@
 .fc-header-toolbar {
   display: none !important;
 }
-
 .fc-day {
   background: white !important;
 }
+/* .fc .fc-col-header-cell-fc-day {
+  background: #9f96a21a !important;
+} */
 .fc-event-main-content {
   display: flex;
   flex-direction: column;
@@ -325,13 +332,9 @@
 
 .fc .fc-scrollgrid-sync-inner {
 }
-/* .fc .fc-timegrid-axis {
-  background-color: #5e1675;
-  color: white;
-} */
+
 .fc .fc-day-today .fc-daygrid-day-number {
   color: rgb(43, 0, 68);
-  background-color: #d2b5ee4d;
 }
 
 .fc-day-header {
@@ -339,11 +342,17 @@
 }
 
 .fc th {
-  /* border: 1px solid #af5ec571 !important; */
   text-align: center;
-  background-color: #af5ec571;
-
+  border-bottom: 2px solid #0000002e;
   overflow: hidden !important;
+  color: #2c3e50;
+  text-transform: capitalize;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.fc th:hover {
+  background-color: #e9ecef;
 }
 .fc td {
   border: none !important;
@@ -444,7 +453,6 @@
   padding-right: 1rem;
 }
 
-/* Today button style */
 button.nav-btn:nth-child(2) {
   background-color: #5e1675;
   color: #fff;

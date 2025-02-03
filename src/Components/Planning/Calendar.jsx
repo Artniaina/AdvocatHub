@@ -270,7 +270,18 @@ const CalendarPlan = () => {
                     const defaultEndTime = new Date(selectInfo.end);
                     defaultEndTime.setHours(defaultEndTime.getHours() + 1);
                   }}
-                  headerToolbar={false}
+                  locale="fr" 
+                  headerToolbar={{
+                    left: 'title',
+                    center: '',
+                    right: ''
+                  }}
+                  titleFormat={{
+                      month: 'short',
+                      day: 'numeric',
+                      weekday: 'short',
+                      omitCommas: true,
+                  }}
                   views={{
                     dayGridMonth: {
                       eventDisplay: "block",
