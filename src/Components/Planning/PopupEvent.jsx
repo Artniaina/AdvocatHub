@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import {
+  X,
+  Calendar,
+  Link,
+  Clock,
+  Users,
+  Edit2,
+  Trash2,
+  Video,
+} from "lucide-react";
 import PopupEditEvent from "./PopupEditEvent";
 import { useAuth } from "../../Hooks/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const popupStyles = {
   overlay: {
@@ -11,31 +21,50 @@ const popupStyles = {
     alignItems: "center",
     justifyContent: "center",
     zIndex: 50,
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
   },
-  backdrop: {
+  topAccentLine: {
     position: "absolute",
-    inset: 0,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "65px",
+    backgroundColor: "#5E1675",
+    borderTopLeftRadius: "16px",
+    borderTopRightRadius: "16px",
+    zIndex: -1,
   },
   container: {
     position: "relative",
-    backdropFilter: "blur(12px)",
+    backgroundColor: "white",
     borderRadius: "16px",
-    padding: "32px",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-    border: "1px solid rgb(185, 182, 182)",
-    width: "400px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    width: "450px",
+    padding: "24px",
+    transform: "scale(0.95)",
+    opacity: 0,
+    transition: "all 0.3s ease-out",
+    overflow: "hidden",
+  },
+  containerActive: {
+    transform: "scale(1)",
+    opacity: 1,
   },
   closeButton: {
     position: "absolute",
     top: "16px",
     right: "16px",
     background: "none",
-    border: "none",
+    border: "1px solid transparent",
+    borderRadius: "50%",
     cursor: "pointer",
-    color: "#666",
-    padding: "4px",
-    transition: "color 0.2s",
+    padding: "8px",
+    transition: "all 0.2s ease",
+  },
+  closeButtonHover: {
+    backgroundColor: "rgba(0,0,0,0.05)",
+    borderColor: "rgba(0,0,0,0.1)",
   },
   eventHeader: {
     display: "flex",
@@ -47,11 +76,13 @@ const popupStyles = {
     width: "16px",
     height: "16px",
     borderRadius: "50%",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   eventTitle: {
-    fontSize: "24px",
+    fontSize: "20px",
     fontWeight: "600",
-    color: "#1a1a1a",
+    color: "white",
+    backgroundColor: "#5E1675",
   },
   eventInfo: {
     display: "flex",
@@ -60,8 +91,17 @@ const popupStyles = {
   },
   infoSection: {
     display: "flex",
-    flexDirection: "column",
-    gap: "8px",
+    alignItems: "center",
+    gap: "12px",
+    padding: "8px",
+    borderRadius: "8px",
+    transition: "background-color 0.2s ease",
+  },
+  infoSectionHover: {
+    backgroundColor: "rgba(0,0,0,0.03)",
+  },
+  infoIcon: {
+    color: "#5f6368",
   },
   infoLabel: {
     fontSize: "14px",
@@ -69,7 +109,7 @@ const popupStyles = {
     color: "#666",
   },
   infoContent: {
-    fontSize: "16px",
+    fontSize: "15px",
     color: "#1a1a1a",
   },
   buttonContainer: {
@@ -78,21 +118,31 @@ const popupStyles = {
     marginTop: "24px",
   },
   actionButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "8px",
     flex: 1,
-    padding: "8px 16px",
-    border: "none",
+    padding: "10px 16px",
+    border: "1px solid rgba(0,0,0,0.1)",
     borderRadius: "8px",
     fontWeight: "500",
     cursor: "pointer",
-    transition: "background-color 0.2s",
+    transition: "all 0.2s ease",
+    backgroundColor: "white",
   },
-  editButton: {
-    backgroundColor: "#3b82f6",
+  primaryButton: {
+    backgroundColor: "#1a73e8",
     color: "white",
+    borderColor: "transparent",
+  },
+  secondaryButton: {
+    color: "#1a73e8",
+    backgroundColor: "rgba(26, 115, 232, 0.1)",
   },
   deleteButton: {
-    backgroundColor: "#ef4444",
-    color: "white",
+    color: "#d93025",
+    backgroundColor: "rgba(217, 48, 37, 0.1)",
   },
 };
 
@@ -105,8 +155,13 @@ export const EventDetailsPopup = ({
   refreshEvents,
   dataMeeting,
 }) => {
+  const navigate = useNavigate();
   const [showEdit, setShowEdit] = useState(false);
   const [collaborators, setCollaborators] = useState([]);
+  const [isHovered, setIsHovered] = useState({
+    closeButton: false,
+    infoSection: false,
+  });
   const user = useAuth();
 
   useEffect(() => {
@@ -136,11 +191,9 @@ export const EventDetailsPopup = ({
     fetchData();
   }, []);
 
-  const { extendedProps = {} } = event;
+  const meetingDetails = dataMeeting[0];
 
-  const isOrganizer = dataMeeting.some(
-    (meeting) => meeting.role == "organisateur"
-  );
+  const isOrganizer = meetingDetails?.role === "organisateur";
 
   const handleDelete = async () => {
     if (!eventId) {
@@ -165,8 +218,6 @@ export const EventDetailsPopup = ({
       );
 
       if (response.ok) {
-        const meetingDetails = dataMeeting[0];
-
         const formattedTime = formatTime(meetingDetails.heureDebut);
         const formattedDate = formatDate(meetingDetails.date);
 
@@ -246,64 +297,107 @@ export const EventDetailsPopup = ({
   const handleEditEvent = () => {
     setShowEdit(true);
   };
+  console.log(meetingDetails);
 
   return (
     <>
       <div style={popupStyles.overlay}>
-        <div style={popupStyles.backdrop} onClick={onClose} />
         <div
           style={{
             ...popupStyles.container,
-            backgroundColor: backgroundColor || event.backgroundColor,
+            ...(showEdit ? {} : popupStyles.containerActive),
           }}
         >
-          <button style={popupStyles.closeButton} onClick={onClose}>
-            <X size={20} />
+          <div style={popupStyles.topAccentLine} />
+          <button
+            style={{
+              ...popupStyles.closeButton,
+              ...(isHovered.closeButton ? popupStyles.closeButtonHover : {}),
+            }}
+            onClick={onClose}
+            onMouseEnter={() =>
+              setIsHovered((prev) => ({ ...prev, closeButton: true }))
+            }
+            onMouseLeave={() =>
+              setIsHovered((prev) => ({ ...prev, closeButton: false }))
+            }
+          >
+            <X size={20} style={{ color: "white" }} />
           </button>
 
           <div style={popupStyles.eventHeader}>
             <div
               style={{
                 ...popupStyles.colorDot,
-                backgroundColor: backgroundColor || event.backgroundColor,
+                backgroundColor: backgroundColor || "#1a73e8",
+                color: "white",
               }}
             />
-            <h2 style={popupStyles.eventTitle}>{event.title}</h2>
+            <h2 style={popupStyles.eventTitle}>{meetingDetails.titre}</h2>
           </div>
 
           <div style={popupStyles.eventInfo}>
-            <div style={popupStyles.infoSection}>
-              <h3 style={popupStyles.infoLabel}>Time</h3>
-              <p style={popupStyles.infoContent}>
-                {new Date(event.start).toLocaleString([], {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-                {" - "}
-                {new Date(event.end).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
+            <div
+              style={{
+                ...popupStyles.infoSection,
+                ...(isHovered.infoSection ? popupStyles.infoSectionHover : {}),
+              }}
+              onMouseEnter={() =>
+                setIsHovered((prev) => ({ ...prev, infoSection: true }))
+              }
+              onMouseLeave={() =>
+                setIsHovered((prev) => ({ ...prev, infoSection: false }))
+              }
+            >
+              <Calendar size={20} style={popupStyles.infoIcon} />
+              <div>
+                <h3 style={popupStyles.infoLabel}>Date et heure</h3>
+                <p style={popupStyles.infoContent}>
+                  {new Date(meetingDetails.date).toLocaleString([], {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
             </div>
 
-            {extendedProps.location && (
+            {meetingDetails.lienVisio && (
               <div style={popupStyles.infoSection}>
-                <h3 style={popupStyles.infoLabel}>Location</h3>
-                <p style={popupStyles.infoContent}>{extendedProps.location}</p>
+                <Video size={20} style={popupStyles.infoIcon} />
+                <div>
+                  <h3 style={popupStyles.infoLabel}>Lien de la réunion</h3>
+                  <p style={popupStyles.infoContent}>
+                    {meetingDetails.lienVisio}
+                  </p>
+                </div>
               </div>
             )}
 
-            {extendedProps.description && (
+            {meetingDetails.ordreDuJour && (
               <div style={popupStyles.infoSection}>
-                <h3 style={popupStyles.infoLabel}>Description</h3>
-                <p style={popupStyles.infoContent}>
-                  {extendedProps.description}
-                </p>
+                <Clock size={20} style={popupStyles.infoIcon} />
+                <div>
+                  <h3 style={popupStyles.infoLabel}>Ordre du jour</h3>
+                  <p style={popupStyles.infoContent}>
+                    {meetingDetails.ordreDuJour}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {meetingDetails.participant && (
+              <div style={popupStyles.infoSection}>
+                <Users size={20} style={popupStyles.infoIcon} />
+                <div>
+                  <h3 style={popupStyles.infoLabel}>Participant</h3>
+                  <p style={popupStyles.infoContent}>
+                    {meetingDetails.participant}
+                  </p>
+                </div>
               </div>
             )}
           </div>
@@ -313,11 +407,20 @@ export const EventDetailsPopup = ({
               <button
                 style={{
                   ...popupStyles.actionButton,
-                  ...popupStyles.editButton,
+                  ...popupStyles.secondaryButton,
                 }}
                 onClick={handleEditEvent}
               >
-                Edit Event
+                <Edit2 size={16} /> Modifier
+              </button>
+              <button
+                style={{
+                  ...popupStyles.actionButton,
+                  ...popupStyles.primaryButton,
+                }}
+                onClick={() => navigate("/testjisti")}
+              >
+                <Video size={16} /> Lancer réunion
               </button>
               <button
                 style={{
@@ -326,7 +429,7 @@ export const EventDetailsPopup = ({
                 }}
                 onClick={handleDelete}
               >
-                Delete Event
+                <Trash2 size={16} /> Supprimer
               </button>
             </div>
           )}
@@ -337,7 +440,7 @@ export const EventDetailsPopup = ({
               setShowEdit(false);
               onClose();
             }}
-            meetingData={dataMeeting}
+            meetingData={meetingDetails}
             eventId={eventId}
             refreshEvents={refreshEvents}
           />
