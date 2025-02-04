@@ -25,14 +25,16 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setUser(null);
       }
-      setIsLoading(false); 
+      setIsLoading(false);
     };
     checkAuth();
   }, []);
 
   const login = (value, userData) => {
-    const expirationTime = 24 * 60 * 60; 
-    const expirationDate = new Date(new Date().getTime() + expirationTime * 1000);
+    const expirationTime = 24 * 60 * 60;
+    const expirationDate = new Date(
+      new Date().getTime() + expirationTime * 1000
+    );
 
     cookies.set("COOKIE_SESSION", value, {
       path: "/",
@@ -49,7 +51,7 @@ const AuthProvider = ({ children }) => {
     });
 
     setIsAuthenticated(true);
-    
+
     setUser(userData);
 
     setTimeout(() => {

@@ -13,12 +13,12 @@ import {
   Settings,
   UserPlus,
 } from "lucide-react";
+import io from "socket.io-client";
 
-const VideoConference = () => {
-  const { roomId } = useParams();
+const Meeting = () => {
+  const { roomId } = "my-romm-test";
   const navigate = useNavigate();
 
-  // États
   const [localStream, setLocalStream] = useState(null);
   const [participants, setParticipants] = useState(new Map());
   const [isMicOn, setIsMicOn] = useState(true);
@@ -27,11 +27,12 @@ const VideoConference = () => {
   const [showParticipants, setShowParticipants] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
 
-  // Références
   const localVideoRef = useRef(null);
   const wsRef = useRef(null);
+  const peerConnections = useRef(new Map());
 
-  // Initialisation de la connexion
+  const socket = useRef(null);
+
   useEffect(() => {
     initializeMedia();
     connectToRoom();
@@ -41,7 +42,6 @@ const VideoConference = () => {
     };
   }, [roomId]);
 
-  // Initialisation des médias
   const initializeMedia = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -56,21 +56,25 @@ const VideoConference = () => {
       setLocalStream(stream);
     } catch (error) {
       console.error("Erreur média:", error);
-      // Afficher une notification d'erreur
     }
   };
 
-  // Connexion à la salle
-  const connectToRoom = () => {
-    wsRef.current = new WebSocket(`ws://localhost:5000/room/${roomId}`);
+  const [micEnabled, setMicEnabled] = useState(true);
+  const [cameraEnabled, setCameraEnabled] = useState(true);
+  const [screenStream, setScreenStream] = useState(null);
+  const [screenSharing, setScreenSharing] = useState(false);
 
-    wsRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      handleSocketMessage(data);
+  useEffect(() => {
+    const initMedia = async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      setLocalStream(stream);
     };
-  };
 
-  // Gestion des messages WebSocket
+    initMedia();
+  }, []);
   const handleSocketMessage = (data) => {
     switch (data.type) {
       case "participant-joined":
@@ -79,11 +83,142 @@ const VideoConference = () => {
       case "participant-left":
         removeParticipant(data.participantId);
         break;
-      // Autres cas...
     }
   };
 
-  // Gestion des participants
+
+  const toggleMic = () => {
+    if (localStream) {
+      const audioTrack = localStream.getAudioTracks()[0];
+  
+     
+      if (audioTrack.enabled) {
+        audioTrack.enabled = false;
+      } else {
+  
+        audioTrack.enabled = true;
+      }
+      
+
+      if (!audioTrack.enabled) {
+        audioTrack.stop();
+      }
+  
+      setIsMicOn(audioTrack.enabled);
+    }
+  };
+  
+  const toggleCamera = () => {
+    if (localStream) {
+      const videoTrack = localStream.getVideoTracks()[0];
+  
+  
+      if (videoTrack.enabled) {
+        videoTrack.enabled = false;
+      } else {
+       
+        videoTrack.enabled = true;
+      }
+      
+      
+      if (!videoTrack.enabled) {
+        videoTrack.stop();
+      }
+  
+      setIsCameraOn(videoTrack.enabled);
+    }
+  };
+  
+  const toggleScreenShare = async () => {
+    try {
+      if (!isSharing) {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+        });
+     
+        setIsSharing(true);
+      } else {
+        setIsSharing(false);
+      }
+    } catch (error) {
+      console.error("Erreur partage écran:", error);
+    }
+  };
+
+  const copyInviteLink = () => {
+    const inviteLink = window.location.href;
+    navigator.clipboard
+      .writeText(inviteLink)
+      .then(() => alert("Invite link copied!"))
+      .catch((err) => console.error("Failed to copy invite link:", err));
+  };
+
+  const connectToRoom = () => {
+    socket.current = io("http://localhost:5000");
+
+    socket.current.emit("join-room", roomId);
+
+    socket.current.on("participant-joined", (data) => {
+      addParticipant(data.participantId, data.username);
+      createPeerConnection(data.participantId);
+    });
+
+    socket.current.on("participant-left", (data) => {
+      removeParticipant(data.participantId);
+      closePeerConnection(data.participantId);
+    });
+
+    socket.current.on("offer", async (data) => {
+      handleOffer(data);
+    });
+
+    socket.current.on("answer", async (data) => {
+      handleAnswer(data);
+    });
+
+    socket.current.on("ice-candidate", async (data) => {
+      handleNewICECandidate(data);
+    });
+  };
+
+  const sendOffer = async (to) => {
+    const peerConnection = peerConnections.current.get(to);
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
+    socket.current.emit("offer", { to, offer });
+  };
+
+  const handleOffer = async ({ from, offer }) => {
+    const peerConnection = peerConnections.current.get(from);
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    socket.current.emit("answer", { to: from, answer });
+  };
+
+  const sendAnswer = async (to) => {
+    const peerConnection = peerConnections.current.get(to);
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    socket.current.emit("answer", { to, answer });
+  };
+
+  const handleAnswer = async ({ from, answer }) => {
+    const peerConnection = peerConnections.current.get(from);
+    await peerConnection.setRemoteDescription(
+      new RTCSessionDescription(answer)
+    );
+  };
+
+  const handleNewICECandidate = async (candidate) => {
+    const peerConnection = peerConnections.current.get(candidate.to);
+    try {
+      await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    } catch (e) {
+      console.error("Error adding ICE candidate", e);
+    }
+  };
+
   const addParticipant = (id, username) => {
     setParticipants((prev) => new Map(prev).set(id, { id, username }));
   };
@@ -94,63 +229,54 @@ const VideoConference = () => {
       newMap.delete(id);
       return newMap;
     });
+    closePeerConnection(id);
   };
 
-  // Contrôles audio/vidéo
-  const toggleMic = () => {
-    if (localStream) {
-      const audioTrack = localStream.getAudioTracks()[0];
-      audioTrack.enabled = !audioTrack.enabled;
-      setIsMicOn(audioTrack.enabled);
-    }
-  };
+  const createPeerConnection = (id) => {
+    const peerConnection = new RTCPeerConnection({
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    });
 
-  const toggleCamera = () => {
-    if (localStream) {
-      const videoTrack = localStream.getVideoTracks()[0];
-      videoTrack.enabled = !videoTrack.enabled;
-      setIsCameraOn(videoTrack.enabled);
-    }
-  };
+    localStream
+      .getTracks()
+      .forEach((track) => peerConnection.addTrack(track, localStream));
 
-  // Partage d'écran
-  const toggleScreenShare = async () => {
-    try {
-      if (!isSharing) {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({
-          video: true,
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        socket.current.emit("ice-candidate", {
+          to: id,
+          candidate: event.candidate,
         });
-        // Logique de partage d'écran
-        setIsSharing(true);
-      } else {
-        // Arrêter le partage
-        setIsSharing(false);
       }
-    } catch (error) {
-      console.error("Erreur partage écran:", error);
+    };
+
+    peerConnection.ontrack = (event) => {
+      const remoteStream = event.streams[0];
+    };
+
+    peerConnections.current.set(id, peerConnection);
+  };
+
+  const closePeerConnection = (id) => {
+    const peerConnection = peerConnections.current.get(id);
+    if (peerConnection) {
+      peerConnection.close();
+      peerConnections.current.delete(id);
     }
   };
 
-  // Copier le lien d'invitation
-  const copyInviteLink = () => {
-    const link = `${window.location.origin}/join/${roomId}`;
-    navigator.clipboard.writeText(link);
-    // Afficher une notification de succès
-  };
-
-  // Nettoyage
   const cleanupConnection = () => {
     if (localStream) {
       localStream.getTracks().forEach((track) => track.stop());
     }
-    if (wsRef.current) {
-      wsRef.current.close();
+    if (socket.current) {
+      socket.current.disconnect();
     }
+    peerConnections.current.forEach((peerConnection) => peerConnection.close());
   };
 
   return (
     <div className="h-screen flex flex-col bg-gray-900">
-      {/* Barre supérieure */}
       <div className="h-16 bg-gray-800 flex items-center justify-between px-6">
         <div className="flex items-center gap-4">
           <h1 className="text-white font-semibold">Salle: {roomId}</h1>
@@ -174,9 +300,8 @@ const VideoConference = () => {
         </div>
       </div>
 
-      {/* Grille vidéo */}
+
       <div className="flex-1 grid grid-cols-3 gap-4 p-4">
-        {/* Vidéo locale */}
         <div className="relative bg-gray-800 rounded-lg overflow-hidden">
           <video
             ref={localVideoRef}
@@ -196,7 +321,6 @@ const VideoConference = () => {
           </div>
         </div>
 
-        {/* Vidéos des participants */}
         {Array.from(participants.values()).map((participant) => (
           <div
             key={participant.id}
@@ -214,7 +338,6 @@ const VideoConference = () => {
         ))}
       </div>
 
-      {/* Barre de contrôles */}
       <div className="h-20 bg-gray-800 flex items-center justify-between px-8">
         <div className="flex gap-4">
           <button
@@ -325,4 +448,4 @@ const VideoConference = () => {
   );
 };
 
-export default VideoConference;
+export default Meeting;

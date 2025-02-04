@@ -54,6 +54,7 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "reactjs-popup": "^2.0.6",
+    "socket.io-client": "^4.8.1",
     "universal-cookie": "^7.1.4",
     "url": "^0.11.3",
     "util": "^0.12.5",
@@ -89,5 +90,10 @@
   },
   "browser": {
     "crypto": false
-  }
+  },
+  "description": "This project is the frontend of a law firm management application currently in development. It is designed as a learning project to explore the integration of React with WebDev webservices",
+  "main": "tailwind.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

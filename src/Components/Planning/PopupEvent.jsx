@@ -418,10 +418,15 @@ export const EventDetailsPopup = ({
                   ...popupStyles.actionButton,
                   ...popupStyles.primaryButton,
                 }}
-                onClick={() => navigate("/testjisti")}
+                onClick={() =>
+                  navigate("/testjitsi", {
+                    state: { lienVisio: meetingDetails.lienVisio },
+                  })
+                }
               >
                 <Video size={16} /> Lancer réunion
               </button>
+
               <button
                 style={{
                   ...popupStyles.actionButton,

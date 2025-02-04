@@ -29,13 +29,12 @@ export const NavigationProvider = ({ children }) => {
   }, [location, jsonToSend, formulaireData, prevLocation]);
 
   useEffect(() => {
-   if (
+    if (
       location.pathname !== "/home/UpdateformTaxation" &&
       prevLocation === "/home/UpdateformTaxation" &&
       location.pathname !== "/home/ListeFormulaire"
     ) {
       UpdateDraftData(jsonToUpdate);
-      
     }
 
     setPrevLocation(location.pathname);
@@ -64,7 +63,7 @@ export const NavigationProvider = ({ children }) => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
-        resetAllData(); 
+        resetAllData();
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
@@ -72,7 +71,6 @@ export const NavigationProvider = ({ children }) => {
       console.error("Error while submitting form:", error);
     }
   };
-
 
   const submitDraftData = async (params) => {
     if (!params || Object.keys(params).length === 0) {
@@ -95,7 +93,7 @@ export const NavigationProvider = ({ children }) => {
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
-        resetAllData(); 
+        resetAllData();
       } else {
         console.error("Failed to submit form:", response.statusText);
       }

@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import { JitsiMeeting } from "@jitsi/react-sdk";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const VideoConference = () => {
   const navigate = useNavigate();
-
-  // Gestionnaire d'erreurs
+  const location = useLocation();
+  const lienVisio = location.state?.lienVisio;
   const handleError = useCallback(
     (error) => {
       console.error("Erreur Jitsi:", error);
@@ -27,7 +27,6 @@ const VideoConference = () => {
     enableEmailInStats: false,
     prejoinPageEnabled: false,
     disableDeepLinking: true,
-    // Désactive les notifications de feedback
     feedbackPercentage: 0,
   };
 
@@ -42,14 +41,9 @@ const VideoConference = () => {
     <div className="video-conference-container" style={{ height: "100vh" }}>
       <JitsiMeeting
         domain="meet.jit.si"
-        roomName="ma-salle-test"
+        roomName={lienVisio}
         configOverwrite={jitsiConfig}
         interfaceConfigOverwrite={interfaceConfig}
-        userInfo={{
-          displayName: "Kanto Andriahariniaina",
-          email: "", // Optionnel
-          avatarURL: "", // Optionnel
-        }}
         getIFrameRef={(iframeRef) => {
           iframeRef.style.height = "100%";
           iframeRef.style.width = "100%";

@@ -31,11 +31,12 @@ import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPa
 import DocumentListComp from "../Components/Document/DocumentList/DocumentListComp";
 import PlanningPage from "../Pages/PlanningPage";
 import Invitation from "../Components/Planning/Invitation";
-import TestJitsi from "../Components/VisioConference/TestJitsi";
+// import TestJitsi from "../Components/VisioConference/TestJitsi";
 import Dashboard from "../Components/AdminDashboard/Dashboard";
 import ReinitialisationCode from "../Components/AdminDashboard/ReinitialisationCode";
 import UserListManagement from "../Components/AdminDashboard/UserListManagement";
 import AvocatList from "../Components/AdminDashboard/AvocatList";
+import PreMeetingRoom from "../Components/VisioConference/PreMeetingRoom";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -97,7 +98,7 @@ function MainRoutes() {
     <>
       <PageTitleUpdater />
       <Routes>
-        <Route path="/testjitsi" element={<TestJitsi />} />
+        <Route path="/meeting" element={<PreMeetingRoom />} />
         {/* SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED */}
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
@@ -109,8 +110,8 @@ function MainRoutes() {
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route path="/avocats" element={<AvocatList />} />
-          <Route path="/utilisateurs" element={<UserListManagement />} />
-          <Route path="/reinitialisation" element={<ReinitialisationCode />} />
+        <Route path="/utilisateurs" element={<UserListManagement />} />
+        <Route path="/reinitialisation" element={<ReinitialisationCode />} />
         <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
@@ -129,7 +130,7 @@ function MainRoutes() {
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/chat" element={<MessageriePage />} />
-       
+
           <Route
             path="/home/updateFormTaxation"
             element={<UpdateTaxationFormPage />}
