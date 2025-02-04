@@ -1,6 +1,5 @@
-// PreMeetingRoom.js
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, Mic, Monitor, Settings, UserCircle } from 'lucide-react';
+import { Camera, CameraOff, Mic, MicOff, UserCircle } from 'lucide-react';
 
 const PreMeetingRoom = () => {
   const [devices, setDevices] = useState({
@@ -14,6 +13,9 @@ const PreMeetingRoom = () => {
     speakerId: ''
   });
   const [username, setUsername] = useState('');
+  const [isOrganizer, setIsOrganizer] = useState(false);
+  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
+  const [isMicEnabled, setIsMicEnabled] = useState(true);
   const videoRef = useRef(null);
   const [stream, setStream] = useState(null);
 
@@ -50,11 +52,49 @@ const PreMeetingRoom = () => {
     }
   };
 
+  const toggleCamera = () => {
+    if (stream) {
+      const videoTrack = stream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !isCameraEnabled;
+        setIsCameraEnabled(!isCameraEnabled);
+      }
+    }
+  };
+
+  const toggleMicrophone = () => {
+    if (stream) {
+      const audioTrack = stream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !isMicEnabled;
+        setIsMicEnabled(!isMicEnabled);
+      }
+    }
+  };
+
+  const handleJoinMeeting = () => {
+    if (username && selectedDevices.cameraId && selectedDevices.microphoneId) {
+      console.log('Joining meeting...');
+      window.location.href = "https://example.com/meeting-room-12345";
+    } else {
+      alert('Please fill in all fields and select devices.');
+    }
+  };
+
+  const handleInvite = () => {
+    if (isOrganizer) {
+      console.log('Inviting participants to the meeting...');
+      alert('Invitations sent to participants!');
+    } else {
+      alert('You must be the organizer to send invitations.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full p-6">
         <h1 className="text-2xl font-bold text-white mb-8 text-center">
-          Prepare to Join Meeting
+          {isOrganizer ? 'Prepare to Host Meeting' : 'Prepare to Join Meeting'}
         </h1>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -70,11 +110,25 @@ const PreMeetingRoom = () => {
               />
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center gap-2 bg-gray-900 bg-opacity-75 rounded-full px-4 py-2">
-                  <button className="p-2 rounded-full hover:bg-gray-700">
-                    <Camera className="w-6 h-6 text-white" />
+                  <button 
+                    onClick={toggleCamera} 
+                    className={`p-2 rounded-full hover:bg-gray-700 ${!isCameraEnabled ? 'bg-red-500 bg-opacity-50' : ''}`}
+                  >
+                    {isCameraEnabled ? (
+                      <Camera className="w-6 h-6 text-white" />
+                    ) : (
+                      <CameraOff className="w-6 h-6 text-white" />
+                    )}
                   </button>
-                  <button className="p-2 rounded-full hover:bg-gray-700">
-                    <Mic className="w-6 h-6 text-white" />
+                  <button 
+                    onClick={toggleMicrophone} 
+                    className={`p-2 rounded-full hover:bg-gray-700 ${!isMicEnabled ? 'bg-red-500 bg-opacity-50' : ''}`}
+                  >
+                    {isMicEnabled ? (
+                      <Mic className="w-6 h-6 text-white" />
+                    ) : (
+                      <MicOff className="w-6 h-6 text-white" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -89,6 +143,13 @@ const PreMeetingRoom = () => {
                 placeholder="Enter your name"
                 className="flex-1 bg-transparent text-white border-none focus:outline-none focus:ring-0"
               />
+              {/* Added toggle for demonstration purposes */}
+              <button 
+                onClick={() => setIsOrganizer(!isOrganizer)}
+                className="text-sm text-blue-400 hover:underline"
+              >
+                {isOrganizer ? 'Switch to Participant' : 'Switch to Organizer'}
+              </button>
             </div>
           </div>
 
@@ -124,25 +185,20 @@ const PreMeetingRoom = () => {
                   ))}
                 </select>
               </label>
-
-              <label className="block text-gray-400 text-sm font-medium">
-                Speaker
-                <select 
-                  className="mt-1 block w-full rounded-md bg-gray-700 border-transparent text-white py-2 px-3"
-                  value={selectedDevices.speakerId}
-                  onChange={(e) => setSelectedDevices(prev => ({ ...prev, speakerId: e.target.value }))}
-                >
-                  {devices.speakers.map(device => (
-                    <option key={device.deviceId} value={device.deviceId}>
-                      {device.label || `Speaker ${device.deviceId.slice(0, 5)}`}
-                    </option>
-                  ))}
-                </select>
-              </label>
             </div>
 
+            {isOrganizer && (
+              <button 
+                className="w-full bg-green-500 text-white rounded-lg py-3 px-4 hover:bg-green-600 transition-colors mt-4"
+                onClick={handleInvite}
+              >
+                Send Invitations
+              </button>
+            )}
+
             <button 
-              className="w-full bg-blue-500 text-white rounded-lg py-3 px-4 hover:bg-blue-600 transition-colors"
+              className="w-full bg-blue-500 text-white rounded-lg py-3 px-4 hover:bg-blue-600 transition-colors mt-4"
+              onClick={handleJoinMeeting}
             >
               Join Meeting
             </button>

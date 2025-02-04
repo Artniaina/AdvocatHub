@@ -595,29 +595,6 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
             </div>
           </div>
 
-          <div style={addEventStyles.formGroup}>
-            <label style={addEventStyles.label}>Lieu</label>
-            <input
-              type="text"
-              name="location"
-              value={eventData.location}
-              onChange={handleChange}
-              placeholder="Choisir un lieu"
-              style={addEventStyles.input}
-            />
-          </div>
-
-          <div style={addEventStyles.formGroup}>
-            <label style={addEventStyles.label}>Lien Visio</label>
-            <input
-              type="text"
-              name="lienVisio"
-              value={eventData.lienVisio}
-              onChange={handleChange}
-              placeholder="Entrez le lien visio"
-              style={addEventStyles.input}
-            />
-          </div>
 
           <div style={addEventStyles.formGroup}>
             <label style={addEventStyles.label}>Ordre du Jour</label>
@@ -676,7 +653,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
               Annuler
             </button>
             <button type="submit" style={addEventStyles.submitButton}>
-              Mettre à jour la reunion
+              Mettre à jour
             </button>
           </div>
         </form>

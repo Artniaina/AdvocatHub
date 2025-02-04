@@ -419,7 +419,7 @@ export const EventDetailsPopup = ({
                   ...popupStyles.primaryButton,
                 }}
                 onClick={() =>
-                  navigate("/testjitsi", {
+                  navigate("/meeting", {
                     state: { lienVisio: meetingDetails.lienVisio },
                   })
                 }
