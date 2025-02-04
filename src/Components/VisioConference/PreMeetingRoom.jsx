@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, CameraOff, Mic, MicOff, UserCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const PreMeetingRoom = () => {
   const navigate = useNavigate()
+    const location = useLocation();
+    const { lienVisio, isOrganisateur } = location.state || {};
+
   const [devices, setDevices] = useState({
     cameras: [],
     microphones: [],
@@ -15,7 +18,7 @@ const PreMeetingRoom = () => {
     speakerId: ''
   });
   const [username, setUsername] = useState('');
-  const [isOrganizer, setIsOrganizer] = useState(false);
+  const [isOrganizer, setIsOrganizer] = useState(isOrganisateur);
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
   const [isMicEnabled, setIsMicEnabled] = useState(true);
   const videoRef = useRef(null);
@@ -76,7 +79,7 @@ const PreMeetingRoom = () => {
 
   const handleJoinMeeting = () => {
     navigate("/visioConference", {
-      state: { isCameraEnabled, isMicEnabled },
+      state: { isCameraEnabled, isMicEnabled, isOrganisateur },
     });
   };
   
@@ -98,7 +101,6 @@ const PreMeetingRoom = () => {
         </h1>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Left Column - Video Preview */}
           <div className="space-y-4">
             <div className="relative bg-black rounded-lg overflow-hidden aspect-video">
               <video
@@ -143,7 +145,6 @@ const PreMeetingRoom = () => {
                 placeholder="Enter your name"
                 className="flex-1 bg-transparent text-white border-none focus:outline-none focus:ring-0"
               />
-              {/* Added toggle for demonstration purposes */}
               <button 
                 onClick={() => setIsOrganizer(!isOrganizer)}
                 className="text-sm text-blue-400 hover:underline"
@@ -153,7 +154,6 @@ const PreMeetingRoom = () => {
             </div>
           </div>
 
-          {/* Right Column - Device Settings */}
           <div className="space-y-6">
             <div className="space-y-4">
               <label className="block text-gray-400 text-sm font-medium">

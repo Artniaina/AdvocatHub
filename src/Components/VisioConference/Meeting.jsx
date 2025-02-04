@@ -17,7 +17,7 @@ const Meeting = () => {
   const roomId = "my-room-test";
   const navigate = useNavigate();
   const location = useLocation();
-  const { isCameraEnabled, isMicEnabled } = location.state || {};
+  const { isCameraEnabled, isMicEnabled, isOrganisateur} = location.state || {};
   const [localStream, setLocalStream] = useState(null);
   const [participants, setParticipants] = useState(new Map());
   const [isMicOn, setIsMicOn] = useState(isMicEnabled);
@@ -25,7 +25,7 @@ const Meeting = () => {
   const [isSharing, setIsSharing] = useState(false);
   const [showParticipants, setShowParticipants] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
-  const [isOrganizer, setIsOrganizer] = useState(true);
+  const [isOrganizer, setIsOrganizer] = useState(isOrganisateur);
   const localVideoRef = useRef(null);
   const socket = useRef(null);
   const peerConnections = useRef(new Map());

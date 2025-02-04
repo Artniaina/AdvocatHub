@@ -194,6 +194,7 @@ export const EventDetailsPopup = ({
   const meetingDetails = dataMeeting[0];
 
   const isOrganizer = meetingDetails?.role === "organisateur";
+console.log(isOrganizer);
 
   const handleDelete = async () => {
     if (!eventId) {
@@ -420,7 +421,7 @@ export const EventDetailsPopup = ({
                 }}
                 onClick={() =>
                   navigate("/meeting", {
-                    state: { lienVisio: meetingDetails.lienVisio },
+                    state: { lienVisio: meetingDetails.lienVisio , isOrganisateur: isOrganizer},
                   })
                 }
               >

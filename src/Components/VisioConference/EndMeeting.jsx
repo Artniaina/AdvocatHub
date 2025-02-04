@@ -131,7 +131,6 @@ const EndMeeting = () => {
             </div>
           )}
 
-          {/* Return to Home Button */}
           <button
             onClick={handleReturnToHome}
             className="flex items-center justify-center gap-2 w-full mt-8 text-gray-400 hover:text-white transition-colors"
