@@ -440,7 +440,7 @@ export const EventDetailsPopup = ({
               setShowEdit(false);
               onClose();
             }}
-            meetingData={meetingDetails}
+            meetingData={dataMeeting}
             eventId={eventId}
             refreshEvents={refreshEvents}
           />

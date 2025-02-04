@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { MdToday } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaCalendarDay } from "react-icons/fa";
 import { MdAddCircle } from "react-icons/md";
+import { BsCalendarMonth } from "react-icons/bs";
+import { BsCalendar2Week } from "react-icons/bs";
+import { MdOutlineToday } from "react-icons/md";
 
 const CalendarPlan = () => {
   const { user } = useAuth();
@@ -26,6 +29,8 @@ const CalendarPlan = () => {
   const [dataMeeting, setDataMeeting] = useState([]);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState([]);
+  const [activeView, setActiveView] = useState("timeGridWeek");
+
   const eventId = selectedEvent?.id;
 
   const fetchEventDetails = async (id) => {
@@ -209,33 +214,42 @@ const CalendarPlan = () => {
 
                 <div style={{ display: "flex" }}>
                   <button
-                    className="nav-btn"
+                    className={`nav-btn ${
+                      activeView === "dayGridMonth" ? "active" : ""
+                    }`}
                     onClick={() => {
                       const calendarApi = calendarRef.current.getApi();
                       calendarApi.changeView("dayGridMonth");
+                      setActiveView("dayGridMonth");
                     }}
                   >
-                    Mois
+                    <BsCalendarMonth /> Mois
                   </button>
 
                   <button
-                    className="nav-btn"
+                    className={`nav-btn ${
+                      activeView === "timeGridWeek" ? "active" : ""
+                    }`}
                     onClick={() => {
                       const calendarApi = calendarRef.current.getApi();
                       calendarApi.changeView("timeGridWeek");
+                      setActiveView("timeGridWeek");
                     }}
                   >
-                    Semaine
+                    <BsCalendar2Week /> Semaine
                   </button>
 
                   <button
-                    className="nav-btn"
+                    className={`nav-btn ${
+                      activeView === "timeGridDay" ? "active" : ""
+                    }`}
                     onClick={() => {
                       const calendarApi = calendarRef.current.getApi();
                       calendarApi.changeView("timeGridDay");
+                      setActiveView("timeGridDay");
                     }}
                   >
-                    Jour
+                    <MdOutlineToday /> Jour
                   </button>
                 </div>
                 <div>
@@ -270,17 +284,17 @@ const CalendarPlan = () => {
                     const defaultEndTime = new Date(selectInfo.end);
                     defaultEndTime.setHours(defaultEndTime.getHours() + 1);
                   }}
-                  locale="fr" 
+                  locale="fr"
                   headerToolbar={{
-                    left: 'title',
-                    center: '',
-                    right: ''
+                    left: "title",
+                    center: "",
+                    right: "",
                   }}
                   titleFormat={{
-                      month: 'short',
-                      day: 'numeric',
-                      weekday: 'short',
-                      omitCommas: true,
+                    month: "short",
+                    day: "numeric",
+                    weekday: "short",
+                    omitCommas: true,
                   }}
                   views={{
                     dayGridMonth: {
