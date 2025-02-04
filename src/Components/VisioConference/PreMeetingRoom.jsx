@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, CameraOff, Mic, MicOff, UserCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const PreMeetingRoom = () => {
+  const navigate = useNavigate()
   const [devices, setDevices] = useState({
     cameras: [],
     microphones: [],
@@ -73,13 +75,11 @@ const PreMeetingRoom = () => {
   };
 
   const handleJoinMeeting = () => {
-    if (username && selectedDevices.cameraId && selectedDevices.microphoneId) {
-      console.log('Joining meeting...');
-      window.location.href = "https://example.com/meeting-room-12345";
-    } else {
-      alert('Please fill in all fields and select devices.');
-    }
+    navigate("/visioConference", {
+      state: { isCameraEnabled, isMicEnabled },
+    });
   };
+  
 
   const handleInvite = () => {
     if (isOrganizer) {

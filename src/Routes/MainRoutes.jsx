@@ -37,6 +37,7 @@ import ReinitialisationCode from "../Components/AdminDashboard/ReinitialisationC
 import UserListManagement from "../Components/AdminDashboard/UserListManagement";
 import AvocatList from "../Components/AdminDashboard/AvocatList";
 import PreMeetingRoom from "../Components/VisioConference/PreMeetingRoom";
+import Meeting from "../Components/VisioConference/Meeting";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -99,6 +100,7 @@ function MainRoutes() {
       <PageTitleUpdater />
       <Routes>
         <Route path="/meeting" element={<PreMeetingRoom />} />
+        <Route path="/visioConference" element={<Meeting />} />
         {/* SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED */}
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
