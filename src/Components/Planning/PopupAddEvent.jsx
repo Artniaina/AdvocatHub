@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
 import { useAuth } from "../../Hooks/AuthContext";
+import { v4 as uuidv4 } from 'uuid';
 
 const addEventStyles = {
   overlay: {
@@ -224,6 +225,9 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   const { user } = useAuth();
   const [collaborators, setCollaborators] = useState([]);
   const [excludedInfo, setExcludedInfo] = useState(null);
+  const roomId = uuidv4(); 
+  const localDomain = "http://localhost:3000";  
+  const meetingLink = `${localDomain}/meeting/${roomId}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -276,7 +280,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     titre: "",
     organisateur: user?.email,
     ordreDuJour: "",
-    lienVisio: "",
+    lienVisio: meetingLink,
     statut: "scheduled",
     date: "",
     heureDebut: "",
