@@ -1,298 +1,239 @@
-import React, { useState } from 'react';
-import { Calendar, User, Briefcase, Building } from 'lucide-react';
+import React, { useState } from "react";
+import { Calendar, User, Briefcase, Building } from "lucide-react";
+import '../../Styles/AdminDashboard/fiche.css';
 
 const FicheAvocat = () => {
-  const [activeTab, setActiveTab] = useState('personal');
+  const [activeTab, setActiveTab] = useState("personal");
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4">
-      {/* Tabs */}
-      <div className="w-full mb-8">
-        <div className="grid w-full grid-cols-3 border rounded-lg overflow-hidden">
-          <button
-            onClick={() => setActiveTab('personal')}
-            className={`flex items-center justify-center gap-2 p-3 ${
-              activeTab === 'personal'
-                ? 'bg-blue-500 text-white'
-                : 'bg-white hover:bg-gray-50'
-            }`}
-          >
-            <User className="w-5 h-5" />
-            Informations personnelles
-          </button>
-          <button
-            onClick={() => setActiveTab('professional')}
-            className={`flex items-center justify-center gap-2 p-3 ${
-              activeTab === 'professional'
-                ? 'bg-blue-500 text-white'
-                : 'bg-white hover:bg-gray-50'
-            }`}
-          >
-            <Briefcase className="w-5 h-5" />
-            Informations professionnelles
-          </button>
-          <button
-            onClick={() => setActiveTab('office')}
-            className={`flex items-center justify-center gap-2 p-3 ${
-              activeTab === 'office'
-                ? 'bg-blue-500 text-white'
-                : 'bg-white hover:bg-gray-50'
-            }`}
-          >
-            <Building className="w-5 h-5" />
-            Étude
-          </button>
-        </div>
-      </div>
-
-      {/* Tab Content */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        {/* Personal Information */}
-        {activeTab === 'personal' && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="unique-container">
+      <div className="unique-card">
+        <div className="unique-left-section">
+          <h1 className="unique-header">
+            <User className="unique-icon" />
+          </h1>
+          <div className="unique-border-box">
+            <h1>Informations personnelles</h1>
+            <div className="unique-grid">
               <div>
-                <label className="text-sm font-medium mb-1 block">Nom</label>
+                <label className="unique-label">Nom</label>
                 <input
                   type="text"
                   defaultValue="AATTI"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="unique-input"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">Prénom</label>
+                <label className="unique-label">Prénom</label>
                 <input
                   type="text"
                   defaultValue="Ghizlane"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="unique-input"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">Genre M/F</label>
-                <select className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label className="unique-label">Genre M/F</label>
+                <select className="unique-input">
                   <option>F</option>
                   <option>M</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">Nationalité</label>
+                <label className="unique-label">Nationalité</label>
                 <input
                   type="text"
                   defaultValue="France"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1 block">Date de naissance</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    defaultValue="01-01-1990"
-                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <Calendar className="w-4 h-4 absolute right-3 top-3 text-gray-400" />
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium mb-1 block">Adresse Privée</label>
-                <textarea 
-                  className="w-full min-h-[100px] px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium mb-1 block">Téléphone</label>
-                  <div className="flex gap-2">
-                    <select className="w-40 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                      <option>Luxembourg (+352)</option>
-                    </select>
-                    <input
-                      type="tel"
-                      className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium mb-1 block">Mobile</label>
-                  <div className="flex gap-2">
-                    <select className="w-40 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                      <option>Luxembourg (+352)</option>
-                    </select>
-                    <input
-                      type="tel"
-                      className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1 block">E-mail privé</label>
-                <input
-                  type="email"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1 block">IBAN</label>
-                <input
-                  type="text"
-                  defaultValue="FR76 1131 5000 0112 3"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1 block">BIC</label>
-                <input
-                  type="text"
-                  defaultValue="CMCIFRPP"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="unique-input"
                 />
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Professional Information */}
-        {activeTab === 'professional' && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium mb-1 block">Identifiant interne</label>
+            <div>
+              <label className="unique-label">Date de naissance</label>
+              <div className="unique-relative">
                 <input
                   type="text"
-                  defaultValue="1"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  defaultValue="01-01-1990"
+                  className="unique-input"
                 />
+                <Calendar className="unique-calendar-icon" />
               </div>
+            </div>
+
+            <div>
+              <label className="unique-label">Lieu de naissance</label>
+              <textarea className="unique-textarea" />
+            </div>
+            <div>
+              <label className="unique-label">Adresse Privée</label>
+              <textarea className="unique-textarea" />
+            </div>
+
+            <div className="unique-grid">
               <div>
-                <label className="text-sm font-medium mb-1 block">Statut</label>
-                <select className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Inscrit</option>
-                </select>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-24">
-                  <label className="text-sm font-medium mb-1 block">Liste</label>
-                  <select className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>4</option>
+                <label className="unique-label">Téléphone</label>
+                <div className="unique-flex">
+                  <select className="unique-select">
+                    <option>Luxembourg (+352)</option>
                   </select>
-                </div>
-                <div className="flex-1">
-                  <label className="text-sm font-medium mb-1 block">Dispense AJ</label>
                   <input
-                    type="text"
-                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="tel"
+                    className="unique-flex-input"
                   />
                 </div>
               </div>
+
               <div>
-                <label className="text-sm font-medium mb-1 block">Barreau</label>
-                <select className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Luxembourg</option>
-                </select>
+                <label className="unique-label">Mobile</label>
+                <div className="unique-flex">
+                  <select className="unique-select">
+                    <option>Luxembourg (+352)</option>
+                  </select>
+                  <input
+                    type="tel"
+                    className="unique-flex-input"
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium mb-1 block">E-mail barreau</label>
-                <input
-                  type="email"
-                  defaultValue="ghizlane.aatti@barreau.lu"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1 block">E-mail professionnel</label>
-                <input
-                  type="email"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            <div>
+              <label className="unique-label">E-mail privé</label>
+              <input
+                type="email"
+                className="unique-input"
+              />
+            </div>
+            <div>
+              <label className="unique-label">Observations</label>
+              <textarea className="unique-textarea" />
+            </div>
+            <div>
+              <label className="unique-label">IBAN</label>
+              <input
+                type="text"
+                defaultValue="FR76 1131 5000 0112 3"
+                className="unique-input"
+              />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium mb-1 block">Langues parlées</label>
-                <input
-                  type="text"
-                  defaultValue="Allemand, Français, Luxembourgeois"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1 block">Titre professionnel d'origine</label>
-                <input
-                  type="text"
-                  defaultValue="Rechtsanwalt (Germany)"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Office Information */}
-        {activeTab === 'office' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium mb-1 block">Dénomination</label>
+              <label className="unique-label">BIC</label>
               <input
                 type="text"
-                defaultValue="Allen & Overy GP"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-1 block">Numéro voie</label>
-              <input
-                type="text"
-                defaultValue="5"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-1 block">Adresse</label>
-              <input
-                type="text"
-                defaultValue="avenue J.-F. Kennedy"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-1 block">Code Postal</label>
-              <input
-                type="text"
-                defaultValue="L-1855"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-1 block">Localité</label>
-              <input
-                type="text"
-                defaultValue="Luxembourg"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-1 block">Site web</label>
-              <input
-                type="url"
-                defaultValue="www.allenovery.com"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue="CMCIFRPP"
+                className="unique-input"
               />
             </div>
           </div>
-        )}
+        </div>
+
+        <div className="unique-right-section">
+          <h1 className="unique-header">
+            <User className="unique-icon" />
+          </h1>
+          <div className="unique-border-box">
+            <h1>Informations professionnelles</h1>
+
+            <div className="unique-flex">
+              <label className="unique-label">Identifiant interne</label>
+              <input
+                type="text"
+                defaultValue="1"
+                className="unique-input"
+              />
+            </div>
+
+            <div className="unique-flex">
+              <label className="unique-label">Statut</label>
+              <select className="unique-input">
+                <option>Inscrit</option>
+              </select>
+            </div>
+
+            <div className="unique-flex">
+              <label className="unique-label">Liste</label>
+              <select className="unique-input">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+
+            <div className="unique-flex">
+              <label className="unique-label">Dispense AJ</label>
+              <input type="checkbox" />
+            </div>
+
+            <div className="unique-flex">
+              <label className="unique-label">Barreau</label>
+              <select className="unique-input">
+                <option>Luxembourg</option>
+              </select>
+            </div>
+
+            {[
+  "E-mail barreau",
+  "E-mail professionnel",
+  "Date d'assermentation",
+  "Date d'avoué",
+  "Date de début de suspension",
+  "Date de démission",
+  "Date d'omission",
+  "Date de réinscription",
+  "Date de décès",
+  "Passage liste 2-4",
+  "Passage liste 4-1",
+  "Langues parlées",
+  "Activités préférentielles",
+  "Titre professionnel d'origine",
+].map((label) => (
+  <div key={label} className="unique-flex">
+    <label className="unique-label">{label}</label>
+    <input
+      type={label.includes("Date") || label.includes("Passage") ? "date" : "text"}
+      className="unique-input"
+    />
+  </div>
+))}
+
+          </div>
+        </div>
+
+        <div className="unique-third-section">
+          <h1 className="unique-header">
+            <User className="unique-icon" />
+          </h1>
+
+          <div className="unique-border-box">
+            <h1>Etude</h1>
+            <div className="unique-etude-group">
+              {[
+                { label: "Dénomination", name: "denomination", defaultValue: "Allen & Overy GP" },
+                { label: "Numéro voie", name: "numero_voie", defaultValue: "5" },
+                { label: "Adresse", name: "adresse", defaultValue: "avenue J.-F. Kennedy" },
+                { label: "Complément adresse", name: "complement_adresse", defaultValue: "avenue J.-F. Kennedy" },
+                { label: "Code Postal", name: "code_postal", defaultValue: "L-1855" },
+                { label: "Localité", name: "localite", defaultValue: "Luxembourg" },
+                { label: "Boite postal", name: "boite_postal", defaultValue: "Luxembourg" },
+                { label: "Localité boite postal", name: "localite_boite_postal", defaultValue: "Luxembourg" },
+                { label: "Tel Fixe", name: "tel_fixe", defaultValue: "Luxembourg" },
+                { label: "Fax", name: "fax", defaultValue: "Luxembourg" },
+                { label: "Site web", name: "site_web", defaultValue: "www.allenovery.com", type: "url" },
+              ].map(({ label, name, defaultValue, type = "text" }) => (
+                <div key={name}>
+                  <label className="unique-etude-label">{label}</label>
+                  <input
+                    type={type}
+                    name={name}
+                    defaultValue={defaultValue}
+                    className="unique-etude-input"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

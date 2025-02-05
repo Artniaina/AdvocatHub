@@ -1,0 +1,146 @@
+/* General Styles */
+.unique-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.unique-card {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.unique-left-section,
+.unique-right-section,
+.unique-third-section {
+  width: 48%;
+  margin: 15px;
+}
+.unique-right-section .unique-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 12px;
+  height: 15px;
+}
+
+.unique-right-section .unique-input {
+  width: 10rem;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  text-align: right;
+}
+
+.unique-right-section .unique-input[type="date"] {
+  width: 7rem;
+  margin-right: 3rem;
+}
+
+.unique-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.unique-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.unique-border-box {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.unique-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.unique-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.unique-input,
+.unique-select,
+.unique-textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.unique-input:focus,
+.unique-select:focus,
+.unique-textarea:focus {
+  border-color: #2563eb;
+}
+
+.unique-textarea {
+  min-height: 6rem;
+}
+
+.unique-relative {
+  position: relative;
+}
+
+.unique-calendar-icon {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  color: #6b7280;
+}
+
+/* Flexbox Style */
+.unique-flex {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 12px;
+}
+
+.unique-flex-input {
+  width: 13rem;
+}
+
+.unique-select {
+  width: 35%;
+}
+
+.unique-etude-container {
+  margin-top: 2rem;
+}
+
+.unique-etude-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.unique-etude-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.unique-etude-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
