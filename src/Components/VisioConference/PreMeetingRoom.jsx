@@ -76,13 +76,23 @@ const PreMeetingRoom = () => {
       }
     }
   };
-
   const handleJoinMeeting = () => {
-    navigate("/visioConference", {
-      state: { isCameraEnabled, isMicEnabled, isOrganisateur },
+    if (!lienVisio) {
+      console.error('No meeting link available');
+      return;
+    }
+  
+    const meetingId = lienVisio.split('/').pop();
+    
+    navigate(`/meeting/${meetingId}`, {
+      state: { 
+        isCameraEnabled, 
+        isMicEnabled, 
+        isOrganisateur,
+        lienVisio 
+      },
     });
   };
-  
 
   const handleInvite = () => {
     if (isOrganizer) {
@@ -98,6 +108,12 @@ const PreMeetingRoom = () => {
       <div className="bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full p-6">
         <h1 className="text-2xl font-bold text-white mb-8 text-center">
           {isOrganizer ? 'Prepare to Host Meeting' : 'Prepare to Join Meeting'}
+          {lienVisio && (
+  <div className="text-center mb-6 text-gray-400">
+    <p>Lien de la réunion: <a href={lienVisio} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{lienVisio}</a></p>
+  </div>
+)}
+
         </h1>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -149,7 +165,6 @@ const PreMeetingRoom = () => {
                 onClick={() => setIsOrganizer(!isOrganizer)}
                 className="text-sm text-blue-400 hover:underline"
               >
-                {isOrganizer ? 'Switch to Participant' : 'Switch to Organizer'}
               </button>
             </div>
           </div>
@@ -192,7 +207,7 @@ const PreMeetingRoom = () => {
                 className="w-full bg-green-500 text-white rounded-lg py-3 px-4 hover:bg-green-600 transition-colors mt-4"
                 onClick={handleInvite}
               >
-                Send Invitations
+                Invitations des participants
               </button>
             )}
 
@@ -200,7 +215,7 @@ const PreMeetingRoom = () => {
               className="w-full bg-blue-500 text-white rounded-lg py-3 px-4 hover:bg-blue-600 transition-colors mt-4"
               onClick={handleJoinMeeting}
             >
-              Join Meeting
+              Rejoindre la réunion
             </button>
           </div>
         </div>

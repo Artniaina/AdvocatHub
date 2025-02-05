@@ -126,15 +126,15 @@ const SideBar = () => {
 
           <button
             className={`${
-              isExpanded ? "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
+              isExpanded ?  "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
             } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
             transition-colors text-start whitespace-nowrap
             ${
-              location.pathname.startsWith("/reinitialisation")
+              location.pathname.startsWith("/ficheAvocat")
                 ? "bg-purple-900/60"
                 : ""
             }`}
-            onClick={() => handleNavigation("/reinitialisation")}
+            onClick={() => handleNavigation("/ficheAvocat")}
           >
             <RotateCcw className="inline-block w-5 h-5" />
             {isExpanded && (

@@ -31,13 +31,13 @@ import DocumentPartages from "../Components/Document/DocumentPartages/DocumentPa
 import DocumentListComp from "../Components/Document/DocumentList/DocumentListComp";
 import PlanningPage from "../Pages/PlanningPage";
 import Invitation from "../Components/Planning/Invitation";
-// import TestJitsi from "../Components/VisioConference/TestJitsi";
 import Dashboard from "../Components/AdminDashboard/Dashboard";
-import ReinitialisationCode from "../Components/AdminDashboard/ReinitialisationCode";
 import UserListManagement from "../Components/AdminDashboard/UserListManagement";
 import AvocatList from "../Components/AdminDashboard/AvocatList";
 import PreMeetingRoom from "../Components/VisioConference/PreMeetingRoom";
 import Meeting from "../Components/VisioConference/Meeting";
+import FicheAvocat from "../Components/AdminDashboard/FicheAvocat";
+import FicheEtude from "../Components/AdminDashboard/FicheEtude";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -100,7 +100,7 @@ function MainRoutes() {
       <PageTitleUpdater />
       <Routes>
         <Route path="/meeting" element={<PreMeetingRoom />} />
-        <Route path="/visioConference" element={<Meeting />} />
+        <Route path="/meeting/:meetingId" element={<Meeting />} />
         {/* SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED */}
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
@@ -113,7 +113,8 @@ function MainRoutes() {
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route path="/avocats" element={<AvocatList />} />
         <Route path="/utilisateurs" element={<UserListManagement />} />
-        <Route path="/reinitialisation" element={<ReinitialisationCode />} />
+        <Route path="/ficheAvocat" element={<FicheAvocat />} />
+        <Route path="/ficheEtude" element={<FicheEtude />} />
         <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}

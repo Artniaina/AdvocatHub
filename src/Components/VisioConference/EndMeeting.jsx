@@ -17,13 +17,11 @@ const EndMeeting = () => {
   };
 
   const handleSubmitFeedback = () => {
-    // Ici vous pourriez envoyer le feedback à votre backend
     console.log({ rating, feedback });
     setFeedbackSent(true);
   };
 
   const handleDownloadSummary = () => {
-    // Logique pour télécharger le résumé
     console.log('Downloading summary...');
   };
 

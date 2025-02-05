@@ -228,7 +228,6 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   const roomId = uuidv4(); 
   const localDomain = "http://localhost:3000";  
   const meetingLink = `${localDomain}/meeting/${roomId}`;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
