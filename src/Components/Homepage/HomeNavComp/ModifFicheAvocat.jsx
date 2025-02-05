@@ -55,6 +55,8 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
   }, [dispatch]);
 
   const languages = useSelector((state) => state.langues.langues);
+
+  
   const names = languages.map((language) => language.name);
   const langues =
     avocatInfo && avocatInfo.m_langue ? avocatInfo.m_langue.split(",") : [];

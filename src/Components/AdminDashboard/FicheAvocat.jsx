@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, User, Briefcase, Building, Import } from "lucide-react";
 import "../../Styles/AdminDashboard/fiche.css";
 import PopUpActiPref from "../../Components/PopUp/PopUpActivPref";
 import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import { BsPlusCircleFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
+import { fetchLangues } from "../../Store/LanguagesSlice";
 
 const FicheAvocat = () => {
-  const languages = useSelector((state) => state.langues.langues);
-  const activity = useSelector((state) => state.activities.activities) || [];
+    const languages = useSelector((state) => state.langues.langues);
+    const dispatch = useDispatch();
+     useEffect(() => {
+        dispatch(fetchLangues());
+      }, [dispatch]);
+    
+    const activity = useSelector((state) => state.activities.activities) || [];
+console.log(
+    languages
+);
 
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
