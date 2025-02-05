@@ -20,7 +20,7 @@ import ConfirmationValidation from "../../PopUp/ConfirmationValidation";
 import "../../../Styles/PopUp/AdressePriveePopUp.css";
 import "../../../Styles/Homepage/Acceuil/Acceuil.css";
 import "../../../Styles/Homepage/Acceuil/PopUp.css";
-
+ 
 
 const ModifFicheAvocat = ({ etudeInfo }) => {
   const navigate = useNavigate();

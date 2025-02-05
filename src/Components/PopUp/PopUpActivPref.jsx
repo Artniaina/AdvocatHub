@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 
 const PopUpActiPref = ({
-  onClose,
+  onClose, 
   onSubmit,
   value,
   activity,

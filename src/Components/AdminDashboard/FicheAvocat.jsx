@@ -1,9 +1,42 @@
 import React, { useState } from "react";
-import { Calendar, User, Briefcase, Building } from "lucide-react";
-import '../../Styles/AdminDashboard/fiche.css';
+import { Calendar, User, Briefcase, Building, Import } from "lucide-react";
+import "../../Styles/AdminDashboard/fiche.css";
+import PopUpActiPref from "../../Components/PopUp/PopUpActivPref";
+import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
+import { BsPlusCircleFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const FicheAvocat = () => {
-  const [activeTab, setActiveTab] = useState("personal");
+  const languages = useSelector((state) => state.langues.langues);
+  const activity = useSelector((state) => state.activities.activities) || [];
+
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [showLanguePopup, setShowLanguePopup] = useState(false);
+  const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
+
+  const handleActiviteClick = () => {
+    setShowActivPrefPopup(true);
+  };
+  const closeActivitePopup = () => {
+    setShowActivPrefPopup(false);
+  };
+  const handleSubmitActivity = (selected) => {
+    setSelectedActivities(selected);
+    setShowActivPrefPopup(false);
+  };
+
+  const handleLangueClick = () => {
+    setShowLanguePopup(true);
+  };
+  const closeLanguePopup = () => {
+    setShowLanguePopup(false);
+  };
+
+  const handleSubmitLangues = (selected) => {
+    setSelectedLanguages(selected);
+    setShowLanguePopup(false);
+  };
 
   return (
     <div className="unique-container">
@@ -75,10 +108,7 @@ const FicheAvocat = () => {
                   <select className="unique-select">
                     <option>Luxembourg (+352)</option>
                   </select>
-                  <input
-                    type="tel"
-                    className="unique-flex-input"
-                  />
+                  <input type="tel" className="unique-flex-input" />
                 </div>
               </div>
 
@@ -88,20 +118,14 @@ const FicheAvocat = () => {
                   <select className="unique-select">
                     <option>Luxembourg (+352)</option>
                   </select>
-                  <input
-                    type="tel"
-                    className="unique-flex-input"
-                  />
+                  <input type="tel" className="unique-flex-input" />
                 </div>
               </div>
             </div>
 
             <div>
               <label className="unique-label">E-mail privé</label>
-              <input
-                type="email"
-                className="unique-input"
-              />
+              <input type="email" className="unique-input" />
             </div>
             <div>
               <label className="unique-label">Observations</label>
@@ -136,11 +160,7 @@ const FicheAvocat = () => {
 
             <div className="unique-flex">
               <label className="unique-label">Identifiant interne</label>
-              <input
-                type="text"
-                defaultValue="1"
-                className="unique-input"
-              />
+              <input type="text" className="unique-input" />
             </div>
 
             <div className="unique-flex">
@@ -171,35 +191,93 @@ const FicheAvocat = () => {
                 <option>Luxembourg</option>
               </select>
             </div>
-
             {[
-  "E-mail barreau",
-  "E-mail professionnel",
-  "Date d'assermentation",
-  "Date d'avoué",
-  "Date de début de suspension",
-  "Date de démission",
-  "Date d'omission",
-  "Date de réinscription",
-  "Date de décès",
-  "Passage liste 2-4",
-  "Passage liste 4-1",
-  "Langues parlées",
-  "Activités préférentielles",
-  "Titre professionnel d'origine",
-].map((label) => (
-  <div key={label} className="unique-flex">
-    <label className="unique-label">{label}</label>
-    <input
-      type={label.includes("Date") || label.includes("Passage") ? "date" : "text"}
-      className="unique-input"
-    />
-  </div>
-))}
+              "E-mail barreau",
+              "E-mail professionnel",
+              "Date d'assermentation",
+              "Date d'avoué",
+              "Date de début de suspension",
+              "Date de démission",
+              "Date d'omission",
+              "Date de réinscription",
+              "Date de décès",
+              "Passage liste 2-4",
+              "Passage liste 4-1",
+            ].map((label) => (
+              <div key={label} className="unique-flex">
+                <label className="unique-label">{label}</label>
+                <input
+                  type={
+                    label.includes("Date") || label.includes("Passage")
+                      ? "date"
+                      : "text"
+                  }
+                  className="unique-input"
+                />{" "}
+              </div>
+            ))}
 
+            <div>
+              Langues parlées:
+              <button onClick={handleLangueClick} className="btnadd">
+                <BsPlusCircleFill />
+              </button>
+              <span>
+                {selectedLanguages.length === 0 ? (
+                  <strong>Aucune langue sélectionnée</strong>
+                ) : (
+                  selectedLanguages.map((code, index) => {
+                    const language = languages.find(
+                      (lang) => lang.code === code
+                    );
+                    return (
+                      <React.Fragment key={index}>
+                        <strong>{language ? language.name : code}</strong>
+                      </React.Fragment>
+                    );
+                  })
+                )}
+                {showLanguePopup && (
+                  <PopUpLangueParlees
+                    onClose={closeLanguePopup}
+                    onSubmit={handleSubmitLangues}
+                    value={selectedLanguages}
+                    languages={languages}
+                  />
+                )}
+              </span>
+            </div>
+
+            <div>
+              Activités préférentielles:
+              <button onClick={handleActiviteClick} className="btnadd">
+                <BsPlusCircleFill />
+              </button>
+              <span>
+                {selectedActivities.length === 0 ? (
+                  <strong>Aucune activité sélectionnée</strong>
+                ) : (
+                  selectedActivities.map((code, index) => {
+                    const activite = activity.find((act) => act.code === code);
+                    return (
+                      <React.Fragment key={index}>
+                        <strong>{activite ? activite.name : code}</strong>
+                      </React.Fragment>
+                    );
+                  })
+                )}
+                {showActivPrefPopup && (
+                  <PopUpActiPref
+                    onClose={closeActivitePopup}
+                    onSubmit={handleSubmitActivity}
+                    value={selectedActivities}
+                    activity={activity}
+                  />
+                )}
+              </span>
+            </div>
           </div>
         </div>
-
         <div className="unique-third-section">
           <h1 className="unique-header">
             <User className="unique-icon" />
@@ -209,17 +287,58 @@ const FicheAvocat = () => {
             <h1>Etude</h1>
             <div className="unique-etude-group">
               {[
-                { label: "Dénomination", name: "denomination", defaultValue: "Allen & Overy GP" },
-                { label: "Numéro voie", name: "numero_voie", defaultValue: "5" },
-                { label: "Adresse", name: "adresse", defaultValue: "avenue J.-F. Kennedy" },
-                { label: "Complément adresse", name: "complement_adresse", defaultValue: "avenue J.-F. Kennedy" },
-                { label: "Code Postal", name: "code_postal", defaultValue: "L-1855" },
-                { label: "Localité", name: "localite", defaultValue: "Luxembourg" },
-                { label: "Boite postal", name: "boite_postal", defaultValue: "Luxembourg" },
-                { label: "Localité boite postal", name: "localite_boite_postal", defaultValue: "Luxembourg" },
-                { label: "Tel Fixe", name: "tel_fixe", defaultValue: "Luxembourg" },
+                {
+                  label: "Dénomination",
+                  name: "denomination",
+                  defaultValue: "Allen & Overy GP",
+                },
+                {
+                  label: "Numéro voie",
+                  name: "numero_voie",
+                  defaultValue: "5",
+                },
+                {
+                  label: "Adresse",
+                  name: "adresse",
+                  defaultValue: "avenue J.-F. Kennedy",
+                },
+                {
+                  label: "Complément adresse",
+                  name: "complement_adresse",
+                  defaultValue: "avenue J.-F. Kennedy",
+                },
+                {
+                  label: "Code Postal",
+                  name: "code_postal",
+                  defaultValue: "L-1855",
+                },
+                {
+                  label: "Localité",
+                  name: "localite",
+                  defaultValue: "Luxembourg",
+                },
+                {
+                  label: "Boite postal",
+                  name: "boite_postal",
+                  defaultValue: "Luxembourg",
+                },
+                {
+                  label: "Localité boite postal",
+                  name: "localite_boite_postal",
+                  defaultValue: "Luxembourg",
+                },
+                {
+                  label: "Tel Fixe",
+                  name: "tel_fixe",
+                  defaultValue: "Luxembourg",
+                },
                 { label: "Fax", name: "fax", defaultValue: "Luxembourg" },
-                { label: "Site web", name: "site_web", defaultValue: "www.allenovery.com", type: "url" },
+                {
+                  label: "Site web",
+                  name: "site_web",
+                  defaultValue: "www.allenovery.com",
+                  type: "url",
+                },
               ].map(({ label, name, defaultValue, type = "text" }) => (
                 <div key={name}>
                   <label className="unique-etude-label">{label}</label>
