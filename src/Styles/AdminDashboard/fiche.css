@@ -39,6 +39,12 @@
   font-size: 15px;
 }
 
+
+.mobile-section, .telephone-section {
+  display: flex;
+  flex-direction: column;
+}
+
 .unique-right-section .unique-input[type="date"] {
   width: 8rem;
   margin-right: 2rem;
@@ -110,7 +116,6 @@
   color: #6b7280;
 }
 
-/* Flexbox Style */
 .unique-flex {
   display: flex;
   align-items: center;

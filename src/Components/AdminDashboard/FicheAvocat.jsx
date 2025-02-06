@@ -24,49 +24,66 @@ const FicheAvocat = () => {
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
 
   const [formData, setFormData] = useState({
-    nom: "AATTI",
-    prenom: "Ghizlane",
-    genre: "F",
-    nationalite: "France",
-    dateNaissance: "01-01-1990",
-    lieuNaissance: "",
-    adressePrivee: "",
-    telephone: "",
-    telephonePrefix: "Luxembourg (+352)",
-    mobile: "",
-    mobilePrefix: "Luxembourg (+352)",
-    emailPrive: "",
-    observations: "",
-    iban: "FR76 1131 5000 0112 3",
-    bic: "CMCIFRPP",
-    identifiantInterne: "",
-    statut: "Inscrit",
-    liste: "1",
-    dispenseAJ: false,
-    barreau: "Luxembourg",
-    emailBarreau: "",
-    emailProfessionnel: "",
-    dateAssermentation: "",
-    dateAvoue: "",
-    dateDebutSuspension: "",
-    dateDemission: "",
-    dateOmission: "",
-    dateReinscription: "",
-    dateDeces: "",
-    passageListe24: "",
-    passageListe41: "",
-    denomination: "Allen & Overy GP",
-    numeroVoie: "5",
-    adresse: "avenue J.-F. Kennedy",
-    complementAdresse: "avenue J.-F. Kennedy",
-    codePostal: "L-1855",
-    localite: "Luxembourg",
-    boitePostal: "Luxembourg",
-    localiteBoitePostal: "Luxembourg",
-    telFixe: "Luxembourg",
-    fax: "Luxembourg",
-    siteWeb: "www.allenovery.com",
-  });
+    m_nidetude: "",
+    m_dDateInscription: "",
+    m_sNom: "",
+    m_sPrenom: "",
+    m_Liste: "",
+    m_sDénominationEtude: "",
+    m_dDateAssermentation: "",
+    m_sStatut: "",
+    m_sAdresse: "",
+    m_sAdresseSuite: "",
+    m_sCodePostale: "",
+    m_sLocalite: "",
+    m_Description: "",
+    m_stelephone: "",
+    m_sactivitépref: "",
+    m_sfax: "",
+    m_ssite: "",
+    m_langue: "",
+    m_dispenseaj: false,
+    m_emailbarreau: "",
+    m_barreau: "",
+    m_numrcs: "",
+    m_stype: "",
+    m_sFormeSociale: "",
+    m_sboitepostal: "",
+    m_sCodepostalboitepostal: "",
+    m_sLocaliteboitepostal: "",
+    m_sLibelleliste: "",
+    m_sbarreauorigine: "",
+    m_stitreprofessionnel: "",
+    m_sadressecomplet: "",
+    m_sdenominationsansaccent: "",
+    m_sdescriptionsansaccent: "",
+    m_sGedEtude: "",
+    m_sGedFonction: "",
+    m_sformesocialsansaccent: "",
+    m_stelephonetri: "",
+    m_sNationalite: "",
+    m_sSexe: "",
+    m_dDateNaissance: "",
+    m_sLieuNaissance: "",
+    m_sAdressePrivee: "",
+    m_sEmailPro: "",
+    m_sEmailSecondaire: "",
+    m_IBAN: "",
+    m_BIC: "",
+    m_NumInterne: "",
+    m_dDateAvoue: "",
+    m_bufPhoto: "",
+    m_stelephoneMobile: "",
+    m_sObservation: "",
+    m_dDateDécès: null,
+    m_dDatePassageListe2_Liste4: null,
+    m_dDatePassageListe4_Liste1: null,
+    m_dDateOmission: null,
+    m_dDateDémission: null,
+    m_dDateFinSuspension: null,
+    m_dDateDébutSuspension: null,
+    m_partDom: false
+ });
 
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -224,39 +241,38 @@ const FicheAvocat = () => {
               </div>
             </div>
             <div className="unique-grid">
-
-            <div className="unique-grid">
-
-              <div className="telephone-section">
-                <label className="unique-label">Telephone</label>
-                <div className="unique-flex">
-                  <select
-                    value={formData.telephonePrefix}
-                    onChange={(e) =>
-                      handleChange("telephonePrefix", e.target.value)
-                    }
-                    className="unique-select"
-                  >
-                    {countryCodes.map((country, index) => (
-                      <option
-                        key={`${index}-${country.code}`}
-                        value={country.code}
-                      >
-                        {country.name} ({country.code})
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    value={formData.telephone}
-                    onChange={(e) => handleChange("telephone", e.target.value)}
-                    className="unique-flex-input"
-                    placeholder="Enter telephone number"
-                  />
+              <div className="unique-grid">
+                <div className="telephone-section">
+                  <label className="unique-label">Telephone</label>
+                  <div className="unique-flex">
+                    <select
+                      value={formData.telephonePrefix}
+                      onChange={(e) =>
+                        handleChange("telephonePrefix", e.target.value)
+                      }
+                      className="unique-select"
+                    >
+                      {countryCodes.map((country, index) => (
+                        <option
+                          key={`${index}-${country.code}`}
+                          value={country.code}
+                        >
+                          {country.name} ({country.code})
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      value={formData.telephone}
+                      onChange={(e) =>
+                        handleChange("telephone", e.target.value)
+                      }
+                      className="unique-flex-input"
+                      placeholder="Enter telephone number"
+                    />
+                  </div>
                 </div>
               </div>
-
-            </div>
               <div className="mobile-section">
                 <label className="unique-label">Mobile</label>
                 <div className="unique-flex">
@@ -285,7 +301,6 @@ const FicheAvocat = () => {
                   />
                 </div>
               </div>
-
             </div>
 
             <div>
