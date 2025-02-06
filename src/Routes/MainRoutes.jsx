@@ -109,12 +109,12 @@ function MainRoutes() {
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/invitation" element={<Invitation />} />
 
+        <Route path="/ficheAvocat" element={<FicheAvocat />} />
+        <Route path="/ficheEtude" element={<FicheEtude />} />
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route path="/avocats" element={<AvocatList />} />
         <Route path="/utilisateurs" element={<UserListManagement />} />
-        <Route path="/ficheAvocat" element={<FicheAvocat />} />
-        <Route path="/ficheEtude" element={<FicheEtude />} />
         <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}

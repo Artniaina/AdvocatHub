@@ -3,14 +3,26 @@ import { Calendar, User, Briefcase, Building, Import } from "lucide-react";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchLangues } from "../../Store/LanguagesSlice";
+import { fetchActivities } from "../../Store/ActivtesPreferentiellesSlice";
 import PopUpActiPref from "../../Components/PopUp/PopUpActivPref";
 import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
 import "../../Styles/AdminDashboard/fiche.css";
 
 const FicheAvocat = () => {
-  const languages = useSelector((state) => state.langues.langues);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchLangues());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchActivities());
+  }, [dispatch]);
+
+  const languages = useSelector((state) => state.langues.langues);
   const activity = useSelector((state) => state.activities.activities) || [];
+  const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
+  console.log(countryCodes);
 
   const [formData, setFormData] = useState({
     nom: "AATTI",
@@ -54,7 +66,7 @@ const FicheAvocat = () => {
     localiteBoitePostal: "Luxembourg",
     telFixe: "Luxembourg",
     fax: "Luxembourg",
-    siteWeb: "www.allenovery.com"
+    siteWeb: "www.allenovery.com",
   });
 
   const [selectedActivities, setSelectedActivities] = useState([]);
@@ -62,18 +74,10 @@ const FicheAvocat = () => {
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchLangues());
-  }, [dispatch]);
-
-  useEffect(() => {
-    console.log('Current Form State:', formData);
-  }, [formData]);
-
   const handleChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -82,7 +86,7 @@ const FicheAvocat = () => {
   const handleSubmitActivity = (selected) => {
     setSelectedActivities(selected);
     setShowActivPrefPopup(false);
-    console.log('Selected Activities:', selected);
+    console.log("Selected Activities:", selected);
   };
 
   const handleLangueClick = () => setShowLanguePopup(true);
@@ -90,12 +94,11 @@ const FicheAvocat = () => {
   const handleSubmitLangues = (selected) => {
     setSelectedLanguages(selected);
     setShowLanguePopup(false);
-    console.log('Selected Languages:', selected);
+    console.log("Selected Languages:", selected);
   };
   return (
     <div className="unique-container">
       <div className="unique-card">
-        {/* Section Informations Personnelles */}
         <div className="unique-left-section">
           <h1 className="unique-header">
             <User className="unique-icon" />
@@ -108,7 +111,7 @@ const FicheAvocat = () => {
                 <input
                   type="text"
                   value={formData.nom}
-                  onChange={(e) => handleChange('nom', e.target.value)}
+                  onChange={(e) => handleChange("nom", e.target.value)}
                   className="unique-input"
                 />
               </div>
@@ -117,7 +120,7 @@ const FicheAvocat = () => {
                 <input
                   type="text"
                   value={formData.prenom}
-                  onChange={(e) => handleChange('prenom', e.target.value)}
+                  onChange={(e) => handleChange("prenom", e.target.value)}
                   className="unique-input"
                 />
               </div>
@@ -125,7 +128,7 @@ const FicheAvocat = () => {
                 <label className="unique-label">Genre M/F</label>
                 <select
                   value={formData.genre}
-                  onChange={(e) => handleChange('genre', e.target.value)}
+                  onChange={(e) => handleChange("genre", e.target.value)}
                   className="unique-input"
                 >
                   <option>F</option>
@@ -137,7 +140,7 @@ const FicheAvocat = () => {
                 <input
                   type="text"
                   value={formData.nationalite}
-                  onChange={(e) => handleChange('nationalite', e.target.value)}
+                  onChange={(e) => handleChange("nationalite", e.target.value)}
                   className="unique-input"
                 />
               </div>
@@ -148,18 +151,20 @@ const FicheAvocat = () => {
                 <input
                   type="text"
                   value={formData.dateNaissance}
-                  onChange={(e) => handleChange('dateNaissance', e.target.value)}
+                  onChange={(e) =>
+                    handleChange("dateNaissance", e.target.value)
+                  }
                   className="unique-input"
                 />
                 <Calendar className="unique-calendar-icon" />
               </div>
             </div>
-  
+
             <div>
               <label className="unique-label">Lieu de naissance</label>
               <textarea
                 value={formData.lieuNaissance}
-                onChange={(e) => handleChange('lieuNaissance', e.target.value)}
+                onChange={(e) => handleChange("lieuNaissance", e.target.value)}
                 className="unique-textarea"
               />
             </div>
@@ -167,37 +172,45 @@ const FicheAvocat = () => {
               <label className="unique-label">Adresse Privée</label>
               <textarea
                 value={formData.adressePrivee}
-                onChange={(e) => handleChange('adressePrivee', e.target.value)}
+                onChange={(e) => handleChange("adressePrivee", e.target.value)}
                 className="unique-textarea"
               />
             </div>
-  
+
             <div className="unique-grid">
               <div>
                 <label className="unique-label">Téléphone</label>
                 <div className="unique-flex">
                   <select
                     value={formData.telephonePrefix}
-                    onChange={(e) => handleChange('telephonePrefix', e.target.value)}
+                    onChange={(e) =>
+                      handleChange("telephonePrefix", e.target.value)
+                    }
                     className="unique-select"
                   >
-                    <option>Luxembourg (+352)</option>
+                    {countryCodes.map((country, index) => (
+                      <option key={`${index}-${country.code}`}>
+                        {country.name} ({country.code})
+                      </option>
+                    ))}
                   </select>
                   <input
                     type="tel"
                     value={formData.telephone}
-                    onChange={(e) => handleChange('telephone', e.target.value)}
+                    onChange={(e) => handleChange("telephone", e.target.value)}
                     className="unique-flex-input"
                   />
                 </div>
               </div>
-  
+
               <div>
                 <label className="unique-label">Mobile</label>
                 <div className="unique-flex">
                   <select
                     value={formData.mobilePrefix}
-                    onChange={(e) => handleChange('mobilePrefix', e.target.value)}
+                    onChange={(e) =>
+                      handleChange("mobilePrefix", e.target.value)
+                    }
                     className="unique-select"
                   >
                     <option>Luxembourg (+352)</option>
@@ -205,19 +218,19 @@ const FicheAvocat = () => {
                   <input
                     type="tel"
                     value={formData.mobile}
-                    onChange={(e) => handleChange('mobile', e.target.value)}
+                    onChange={(e) => handleChange("mobile", e.target.value)}
                     className="unique-flex-input"
                   />
                 </div>
               </div>
             </div>
-  
+
             <div>
               <label className="unique-label">E-mail privé</label>
               <input
                 type="email"
                 value={formData.emailPrive}
-                onChange={(e) => handleChange('emailPrive', e.target.value)}
+                onChange={(e) => handleChange("emailPrive", e.target.value)}
                 className="unique-input"
               />
             </div>
@@ -225,7 +238,7 @@ const FicheAvocat = () => {
               <label className="unique-label">Observations</label>
               <textarea
                 value={formData.observations}
-                onChange={(e) => handleChange('observations', e.target.value)}
+                onChange={(e) => handleChange("observations", e.target.value)}
                 className="unique-textarea"
               />
             </div>
@@ -234,56 +247,58 @@ const FicheAvocat = () => {
               <input
                 type="text"
                 value={formData.iban}
-                onChange={(e) => handleChange('iban', e.target.value)}
+                onChange={(e) => handleChange("iban", e.target.value)}
                 className="unique-input"
               />
             </div>
-  
+
             <div>
               <label className="unique-label">BIC</label>
               <input
                 type="text"
                 value={formData.bic}
-                onChange={(e) => handleChange('bic', e.target.value)}
+                onChange={(e) => handleChange("bic", e.target.value)}
                 className="unique-input"
               />
             </div>
           </div>
         </div>
-  
+
         <div className="unique-right-section">
           <h1 className="unique-header">
             <User className="unique-icon" />
           </h1>
           <div className="unique-border-box">
             <h1>Informations professionnelles</h1>
-  
+
             <div className="unique-flex">
               <label className="unique-label">Identifiant interne</label>
               <input
                 type="text"
                 value={formData.identifiantInterne}
-                onChange={(e) => handleChange('identifiantInterne', e.target.value)}
+                onChange={(e) =>
+                  handleChange("identifiantInterne", e.target.value)
+                }
                 className="unique-input"
               />
             </div>
-  
+
             <div className="unique-flex">
               <label className="unique-label">Statut</label>
               <select
                 value={formData.statut}
-                onChange={(e) => handleChange('statut', e.target.value)}
+                onChange={(e) => handleChange("statut", e.target.value)}
                 className="unique-input"
               >
                 <option>Inscrit</option>
               </select>
             </div>
-  
+
             <div className="unique-flex">
               <label className="unique-label">Liste</label>
               <select
                 value={formData.liste}
-                onChange={(e) => handleChange('liste', e.target.value)}
+                onChange={(e) => handleChange("liste", e.target.value)}
                 className="unique-input"
               >
                 <option>1</option>
@@ -292,39 +307,63 @@ const FicheAvocat = () => {
                 <option>4</option>
               </select>
             </div>
-  
+
             <div className="unique-flex">
               <label className="unique-label">Dispense AJ</label>
               <input
                 type="checkbox"
                 checked={formData.dispenseAJ}
-                onChange={(e) => handleChange('dispenseAJ', e.target.checked)}
+                onChange={(e) => handleChange("dispenseAJ", e.target.checked)}
               />
             </div>
-  
+
             <div className="unique-flex">
               <label className="unique-label">Barreau</label>
               <select
                 value={formData.barreau}
-                onChange={(e) => handleChange('barreau', e.target.value)}
+                onChange={(e) => handleChange("barreau", e.target.value)}
                 className="unique-input"
               >
                 <option>Luxembourg</option>
               </select>
             </div>
-  
+
             {[
               { label: "E-mail barreau", field: "emailBarreau" },
               { label: "E-mail professionnel", field: "emailProfessionnel" },
-              { label: "Date d'assermentation", field: "dateAssermentation", type: "date" },
+              {
+                label: "Date d'assermentation",
+                field: "dateAssermentation",
+                type: "date",
+              },
               { label: "Date d'avoué", field: "dateAvoue", type: "date" },
-              { label: "Date de début de suspension", field: "dateDebutSuspension", type: "date" },
-              { label: "Date de démission", field: "dateDemission", type: "date" },
+              {
+                label: "Date de début de suspension",
+                field: "dateDebutSuspension",
+                type: "date",
+              },
+              {
+                label: "Date de démission",
+                field: "dateDemission",
+                type: "date",
+              },
               { label: "Date d'omission", field: "dateOmission", type: "date" },
-              { label: "Date de réinscription", field: "dateReinscription", type: "date" },
+              {
+                label: "Date de réinscription",
+                field: "dateReinscription",
+                type: "date",
+              },
               { label: "Date de décès", field: "dateDeces", type: "date" },
-              { label: "Passage liste 2-4", field: "passageListe24", type: "date" },
-              { label: "Passage liste 4-1", field: "passageListe41", type: "date" }
+              {
+                label: "Passage liste 2-4",
+                field: "passageListe24",
+                type: "date",
+              },
+              {
+                label: "Passage liste 4-1",
+                field: "passageListe41",
+                type: "date",
+              },
             ].map(({ label, field, type = "text" }) => (
               <div key={field} className="unique-flex">
                 <label className="unique-label">{label}</label>
@@ -336,7 +375,7 @@ const FicheAvocat = () => {
                 />
               </div>
             ))}
-  
+
             <div>
               Langues parlées:
               <button onClick={handleLangueClick} className="btnadd">
@@ -346,10 +385,12 @@ const FicheAvocat = () => {
                 {selectedLanguages.length === 0 ? (
                   <strong>Aucune langue sélectionnée</strong>
                 ) : (
-                  selectedLanguages.map((code, index) => {
-                    const language = languages.find((lang) => lang.code === code);
+                  selectedLanguages.map((code) => {
+                    const language = languages.find(
+                      (lang) => lang.code === code
+                    );
                     return (
-                      <React.Fragment key={index}>
+                      <React.Fragment key={language ? language.code : code}>
                         <strong>{language ? language.name : code}</strong>
                       </React.Fragment>
                     );
@@ -365,25 +406,22 @@ const FicheAvocat = () => {
                 )}
               </span>
             </div>
-  
+
             <div>
               Activités préférentielles:
               <button onClick={handleActiviteClick} className="btnadd">
                 <BsPlusCircleFill />
               </button>
               <span>
-                {selectedActivities.length === 0 ? (
-                  <strong>Aucune activité sélectionnée</strong>
-                ) : (
-                  selectedActivities.map((code, index) => {
-                    const activite = activity.find((act) => act.code === code);
-                    return (
-                      <React.Fragment key={index}>
-                        <strong>{activite ? activite.name : code}</strong>
-                      </React.Fragment>
-                    );
-                  })
-                )}
+                {selectedActivities.map((code) => {
+                  const activite = activity.find((act) => act.code === code);
+                  return (
+                    <React.Fragment key={activite ? activite.code : code}>
+                      <strong>{activite ? activite.name : code}</strong>
+                    </React.Fragment>
+                  );
+                })}
+
                 {showActivPrefPopup && (
                   <PopUpActiPref
                     onClose={closeActivitePopup}
@@ -396,7 +434,7 @@ const FicheAvocat = () => {
             </div>
           </div>
         </div>
-  
+
         <div className="unique-third-section">
           <h1 className="unique-header">
             <User className="unique-icon" />
@@ -412,7 +450,10 @@ const FicheAvocat = () => {
                 { label: "Code Postal", field: "codePostal" },
                 { label: "Localité", field: "localite" },
                 { label: "Boite postal", field: "boitePostal" },
-                { label: "Localité boite postal", field: "localiteBoitePostal" },
+                {
+                  label: "Localité boite postal",
+                  field: "localiteBoitePostal",
+                },
                 { label: "Tel Fixe", field: "telFixe" },
                 { label: "Fax", field: "fax" },
                 { label: "Site web", field: "siteWeb", type: "url" },

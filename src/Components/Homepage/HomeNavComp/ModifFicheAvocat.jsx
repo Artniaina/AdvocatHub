@@ -25,8 +25,8 @@ import "../../../Styles/Homepage/Acceuil/PopUp.css";
 const ModifFicheAvocat = ({ etudeInfo }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
 
+  const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
   const avocatInfo = useSelector((state) => state.avocat.avocatInfo);
   const { user } = useAuth();
 
@@ -85,7 +85,7 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
   ////////////////////////////////////ACTIVITES PREFERENTIELLES ////////////////////////////////
 
   useEffect(() => {
-    dispatch(fetchActivities());
+    dispatch(fetchActivities()); 
   }, [dispatch]);
 
   const activity = useSelector((state) => state.activities.activities) || [];
