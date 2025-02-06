@@ -50,7 +50,7 @@ const Step3 = ({ handlePrevious, currentStep }) => {
         scodeOTP: codeOTP,
       };
 
-      const response = await fetch("http://192.168.10.10/Utilisateur/Authent", {
+      const response = await fetch("http://192.168.10.113/Utilisateur/Authent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

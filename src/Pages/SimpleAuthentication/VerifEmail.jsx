@@ -26,7 +26,7 @@ const VerifEmail = () => {
     }
 
     try {
-      const response = await fetch("http://192.168.10.10/Utilisateur/Modif", {
+      const response = await fetch("http://192.168.10.113/Utilisateur/Modif", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ SAdresseEmail: formData.email }),

@@ -109,7 +109,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
 
         try {
           const response = await fetch(
-            "http://192.168.10.10/Utilisateur/Send_email",
+            "http://192.168.10.113/Utilisateur/Send_email",
             {
               method: "POST",
               headers: {

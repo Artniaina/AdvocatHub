@@ -116,7 +116,7 @@ const UploadFile = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`,
+        `http://192.168.10.113/Utilisateur/ModifForm/${idFormulaire}`,
         {
           method: "PUT",
           headers: {
@@ -266,7 +266,7 @@ const UploadFile = () => {
       }
 
       const response = await fetch(
-        "http://192.168.10.10/Utilisateur/Email/InfoEmail",
+        "http://192.168.10.113/Utilisateur/Email/InfoEmail",
         {
           method: "POST",
           headers: {

@@ -11,7 +11,7 @@ const UserListManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
-  const apiUrl = "http://192.168.10.10/Utilisateur/Utilisateur";
+  const apiUrl = "http://192.168.10.113/Utilisateur/Utilisateur";
 
   useEffect(() => {
     fetchData();

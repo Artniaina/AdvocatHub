@@ -72,7 +72,7 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  const apiUrl = "http://192.168.10.10/Utilisateur/Utilisateur";
+  const apiUrl = "http://192.168.10.113/Utilisateur/Utilisateur";
 
   useEffect(() => {
     fetchData();

@@ -50,7 +50,7 @@ export const NavigationProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.10/Utilisateur/ModifForm/${idFormulaire}`,
+        `http://192.168.10.113/Utilisateur/ModifForm/${idFormulaire}`,
         {
           method: "PUT",
           headers: {
@@ -80,7 +80,7 @@ export const NavigationProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        "http://192.168.10.10/Utilisateur/DossierTaxation",
+        "http://192.168.10.113/Utilisateur/DossierTaxation",
         {
           method: "POST",
           headers: {

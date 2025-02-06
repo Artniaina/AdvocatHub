@@ -115,7 +115,7 @@ const FormulaireDeTaxationPDF = () => {
       setStatus("loading");
       try {
         const response = await fetch(
-          "http://192.168.10.10/Utilisateur/Formulaire/FormTransmis"
+          "http://192.168.10.113/Utilisateur/Formulaire/FormTransmis"
         );
 
         if (!response.ok) {

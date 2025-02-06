@@ -22,7 +22,6 @@ const FicheAvocat = () => {
   const languages = useSelector((state) => state.langues.langues);
   const activity = useSelector((state) => state.activities.activities) || [];
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
-  console.log(countryCodes);
 
   const [formData, setFormData] = useState({
     nom: "AATTI",
@@ -223,6 +222,70 @@ const FicheAvocat = () => {
                   />
                 </div>
               </div>
+            </div>
+            <div className="unique-grid">
+
+            <div className="unique-grid">
+
+              <div className="telephone-section">
+                <label className="unique-label">Telephone</label>
+                <div className="unique-flex">
+                  <select
+                    value={formData.telephonePrefix}
+                    onChange={(e) =>
+                      handleChange("telephonePrefix", e.target.value)
+                    }
+                    className="unique-select"
+                  >
+                    {countryCodes.map((country, index) => (
+                      <option
+                        key={`${index}-${country.code}`}
+                        value={country.code}
+                      >
+                        {country.name} ({country.code})
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    value={formData.telephone}
+                    onChange={(e) => handleChange("telephone", e.target.value)}
+                    className="unique-flex-input"
+                    placeholder="Enter telephone number"
+                  />
+                </div>
+              </div>
+
+            </div>
+              <div className="mobile-section">
+                <label className="unique-label">Mobile</label>
+                <div className="unique-flex">
+                  <select
+                    value={formData.mobilePrefix}
+                    onChange={(e) =>
+                      handleChange("mobilePrefix", e.target.value)
+                    }
+                    className="unique-select"
+                  >
+                    {countryCodes.map((country, index) => (
+                      <option
+                        key={`${index}-${country.code}`}
+                        value={country.code}
+                      >
+                        {country.name} ({country.code})
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    value={formData.mobile}
+                    onChange={(e) => handleChange("mobile", e.target.value)}
+                    className="unique-flex-input"
+                    placeholder="Enter mobile number"
+                  />
+                </div>
+              </div>
+
             </div>
 
             <div>

@@ -168,7 +168,7 @@ export const EventDetailsPopup = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.10/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
         );
 
         if (!response.ok) {
@@ -212,7 +212,7 @@ console.log(isOrganizer);
 
     try {
       const response = await fetch(
-        `http://192.168.10.10/Utilisateur/api/meetings/delete/${eventId}`,
+        `http://192.168.10.113/Utilisateur/api/meetings/delete/${eventId}`,
         {
           method: "DELETE",
         }
@@ -233,7 +233,7 @@ console.log(isOrganizer);
           };
 
           const emailResponse = await fetch(
-            "http://192.168.10.10/Utilisateur/api/email/deleteInvitation",
+            "http://192.168.10.113/Utilisateur/api/email/deleteInvitation",
             {
               method: "POST",
               headers: {
