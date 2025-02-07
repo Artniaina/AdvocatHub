@@ -9,10 +9,12 @@ import "../../Styles/Authentification/Form.css";
 import { useAuth } from "../../Hooks/AuthContext";
 import "../../Styles/Authentification/Log.css";
 import Img from "../../assets/reg.png";
-
+import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
 const Login = () => {
   const navigate = useNavigate();
   const { setIsSimpleAuthenticated, login } = useAuth();
+  const [showPopup, setShowPopup] = useState(false);
+  const [messageErreur, setMessageErreur] = useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,11 +27,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      alert("Tous les champs doivent être remplis.");
+      setMessageErreur("Tous les champs doivent être remplis.");
+      setShowPopup(false)
       return;
     }
     if (!captchaValue) {
-      alert("Veuillez cocher la case 'Je ne suis pas un robot'.");
+      setMessageErreur("Veuillez cocher la case 'Je ne suis pas un robot'.");µ
+      setShowPopup(false)
       return;
     }
     try { 
@@ -77,13 +81,16 @@ const Login = () => {
             });
           }
         } else {
-          alert("Email ou mot de passe incorrect");
+          setMessageErreur("Email ou mot de passe incorrect");
+          setShowPopup(true)
         }
       } else {
-        alert("Email ou mot de passe incorrect");
+        setMessageErreur("Email ou mot de passe incorrect");
+        setShowPopup(true)
       }
     } catch (error) {
-      alert("Email ou mot de passe incorrect");
+      setMessageErreur("Email ou mot de passe incorrect");
+      setShowPopup(true)
     }
   };
 
@@ -158,6 +165,9 @@ const Login = () => {
       <div className="login-right">
         <img src={Img} alt="Illustration de connexion" />
       </div>
+      {showPopup && (
+        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
+)}
     </div>
   </div>
   );

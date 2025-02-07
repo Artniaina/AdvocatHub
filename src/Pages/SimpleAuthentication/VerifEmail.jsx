@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModifMdp from "./ModifMdp";
 import { HiArrowSmallLeft } from "react-icons/hi2";
+import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
 
 const VerifEmail = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "" });
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [messageErreur, setMessageErreur] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -16,12 +18,10 @@ const VerifEmail = () => {
 
   const handleGoBack = () => navigate(-1);
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email) {
-      setError("Veuillez entrer votre email.");
+      setSho("Veuillez entrer votre email.");
       return;
     }
 
@@ -32,10 +32,11 @@ const VerifEmail = () => {
         body: JSON.stringify({ SAdresseEmail: formData.email }),
       });
       if (!response.ok) throw new Error("Email inexistante");
-
-      setSuccessMessage("Compte modifié avec succès !");
+      setShowPopup(true);
+      setMessageErreur("Compte modifié avec succès !");
     } catch (error) {
-      setError("Email non trouvé.");
+      setShowPopup(true);
+      setMessageErreur("Email non trouvé.");
     }
   };
 
@@ -65,8 +66,13 @@ const VerifEmail = () => {
               Vérifier
             </button>
           </form>
-    
         </div>
+      )}
+      {showPopup && (
+        <GestionErreurPopUp
+          messageErreur={messageErreur}
+          closePopup={setShowPopup(false)}
+        />
       )}
       {successMessage && <ModifMdp email={formData.email} />}
     </div>

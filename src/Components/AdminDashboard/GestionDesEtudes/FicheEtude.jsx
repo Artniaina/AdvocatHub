@@ -63,16 +63,7 @@ const FicheEtude = () => {
     m_stelephoneMobile: "",
     m_partDom: false,
   });
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (formData.m_sEmailSecondaire && 
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.m_sEmailSecondaire)) {
-          setMessageErreur("Email non valide")
-
-    }
-    return newErrors;
-  };
+   
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
@@ -102,9 +93,7 @@ const FicheEtude = () => {
   };
 
   const handleSubmit = async () => {
-    const validationErrors = validateForm();
-    
-  
+
 
     try {
       const response = await fetch(
@@ -141,7 +130,7 @@ const FicheEtude = () => {
       </div>
 
       <div className="unique-card">
-        <div className="unique-left-section">
+        <form className="unique-left-section">
           <div className="unique-border-box">
             <div className="unique-section-header">
               <Info className="unique-icon" />
@@ -463,7 +452,7 @@ const FicheEtude = () => {
               />
             </div>
           </div>
-        </div>
+        </form>
 
         <div className="unique-right-section">
 
@@ -495,11 +484,11 @@ const FicheEtude = () => {
         </div>
       </div>
       {showPopup && (
-        <GestionErreurPopUp messageErreur= {messageErreur} />
+        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={closePopup} />
 )}
 
       <div className="unique-button-group">
-        <button className="unique-button primary" onClick={handleSubmit} closePopup={closePopup}>
+        <button className="unique-button primary" onClick={handleSubmit} >
           Enregistrer
         </button>
         <button className="unique-button primary">Consulter le dossier</button>

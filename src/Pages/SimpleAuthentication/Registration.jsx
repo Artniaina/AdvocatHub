@@ -16,6 +16,8 @@ const Registration = () => {
     email: "",
     password: "",
   });
+   const [showPopup, setShowPopup] = useState(false);
+  const [messageErreur, setMessageErreur] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
@@ -37,19 +39,22 @@ const Registration = () => {
     const { username, email, password, confirmPassword } = formData;
 
     if (!username || !email || !password || !confirmPassword) {
-      alert("Tous les champs doivent être remplis.");
+      setMessageErreur("Tous les champs doivent être remplis.");
+      setShowPopup(true)
       return;
     }
     if (password !== confirmPassword) {
-      alert("Les mots de passe ne correspondent pas.");
+      setMessageErreur("Les mots de passe ne correspondent pas.");
+      setShowPopup(true)
       return;
     }
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      alert(
+      setMessageErreur(
         "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et peut contenir d'autres caractères spéciaux."
       );
+      setShowPopup(true)
       return;
     }
 
@@ -197,6 +202,9 @@ const Registration = () => {
               </p>
             </div>
           </form>
+          {showPopup && (
+        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
+)}
         </div>
       </div>
     </div>

@@ -5,12 +5,14 @@ import { useAuth } from "../../Hooks/AuthContext";
 import Logo2FA from "../../assets/logo.webp";
 import Button from "@mui/joy/Button";
 import { GrLinkPrevious } from "react-icons/gr";
+import GestionErreurPopUp from "../PopUp/GestionErreurPopUp";
 
 const Step3 = ({ handlePrevious, currentStep }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, setIsAdminAuthenticated } = useAuth();
-
+  const [messageErreur, setMessageErreur] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const { email = "", password = "" } = location.state || {};
   const [otp, setOtp] = useState(Array(6).fill(""));
 
@@ -36,11 +38,13 @@ const Step3 = ({ handlePrevious, currentStep }) => {
     const codeOTP = otp.join("");
     try {
       if (codeOTP.length !== 6) {
-        alert("Veuillez remplir les 6 cases avec des chiffres.");
+        setShowPopup(true)
+        setMessageErreur("Veuillez remplir les 6 cases avec des chiffres.");
         return;
       }
       if (!email || !password) {
-        alert("Données utilisateur manquantes.");
+        setShowPopup(true)
+        setMessageErreur("Données utilisateur manquantes.");
         return;
       }
 
@@ -78,11 +82,13 @@ const Step3 = ({ handlePrevious, currentStep }) => {
           navigate("/home");
         }
       } else {
-        alert("Code OTP non valide.");
+        setShowPopup(true)
+        setMessageErreur("Code OTP non valide.");
       }
     } catch (error) {
       console.error("Erreur lors de la validation OTP :", error);
-      alert("Code OTP non valide.");
+      setShowPopup(true)
+      setMessageErreur("Code OTP non valide.");
     }
   };
 
@@ -144,6 +150,9 @@ const Step3 = ({ handlePrevious, currentStep }) => {
       >
         <GrLinkPrevious /> Précedent{" "}
       </Button>
+      {showPopup && (
+        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
+)}
     </div>
   );
 };
