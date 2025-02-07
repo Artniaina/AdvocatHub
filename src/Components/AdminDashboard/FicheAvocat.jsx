@@ -478,6 +478,7 @@ const FicheAvocat = () => {
                   <PopUpLangueParlees
                     onClose={closeLanguePopup}
                     onSubmit={handleSubmitLangues}
+                    defaultLangue= {[]}
                     value={selectedLanguages}
                     languages={languages}
                   />
