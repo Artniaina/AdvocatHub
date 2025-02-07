@@ -36,8 +36,8 @@ import UserListManagement from "../Components/AdminDashboard/UserListManagement"
 import AvocatList from "../Components/AdminDashboard/AvocatList";
 import PreMeetingRoom from "../Components/VisioConference/PreMeetingRoom";
 import Meeting from "../Components/VisioConference/Meeting";
-import FicheAvocat from "../Components/AdminDashboard/FicheAvocat";
-import FicheEtude from "../Components/AdminDashboard/FicheEtude";
+import FicheAvocat from "../Components/AdminDashboard/GestionDesAvocats/FicheAvocat";
+import FicheEtude from "../Components/AdminDashboard/GestionDesEtudes/FicheEtude";
 
 function PageTitleUpdater() {
   const location = useLocation();

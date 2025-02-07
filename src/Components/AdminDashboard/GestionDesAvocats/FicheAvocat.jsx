@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Calendar, User, Briefcase, Building, Import } from "lucide-react";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchLangues } from "../../Store/LanguagesSlice";
-import { fetchActivities } from "../../Store/ActivtesPreferentiellesSlice";
-import PopUpActiPref from "../../Components/PopUp/PopUpActivPref";
-import PopUpLangueParlees from "../PopUp/PopUpLangueParlees";
-import "../../Styles/AdminDashboard/fiche.css";
+import { fetchLangues } from "../../../Store/LanguagesSlice";
+import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
+import PopUpActiPref from "../../PopUp/PopUpActivPref";
+import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
+import "../../../Styles/AdminDashboard/fiche.css";
 
 const FicheAvocat = () => {
   const dispatch = useDispatch();
