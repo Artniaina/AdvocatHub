@@ -3,6 +3,7 @@ import { Building, Info } from "lucide-react";
 import "../../../Styles/AdminDashboard/fiche.css";
 
 const FicheEtude = () => {
+  const [isChecked, setIsChecked] = useState(false);
   const [formData, setFormData] = useState({
     m_nidetude: "",
     m_dDateInscription: "",
@@ -58,12 +59,25 @@ const FicheEtude = () => {
     m_stelephoneMobile: "",
     m_partDom: false,
   });
-
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      setFormData((prev) => ({
+        ...prev,
+        m_sType: "Société d'avocats",
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        m_sType: "",
+      }));
+    }
+  };
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
   };
 
@@ -135,9 +149,11 @@ const FicheEtude = () => {
                 onChange={handleChange}
                 className="unique-select"
               >
-                <option>Inscrite</option>
-                <option>Non inscrite</option>
-                <option>En cours d'inscription</option>
+                <option value="Inscrite">Inscrite</option>
+                <option value="Non inscrite">Non inscrite</option>
+                <option value="En cours d'inscription">
+                  En cours d'inscription
+                </option>
               </select>
             </div>
 
@@ -317,9 +333,18 @@ const FicheEtude = () => {
             </div>
           </div>
 
-          <div className="unique-border-box">
-            <div className="unique-section-header">
-              <span>Société d'avocats</span>
+          <div className={`unique-border-box ${!isChecked ? "disabled" : ""}`}>
+            <div className="unique-flex">
+              <label className="unique-label">
+                <div className="unique-section-header">
+                  <span>Société d'avocats</span>
+                </div>
+              </label>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
             </div>
 
             <div className="unique-flex">
@@ -329,8 +354,22 @@ const FicheEtude = () => {
                 value={formData.m_sFormeSociale}
                 onChange={handleChange}
                 className="unique-select"
+                disabled={!isChecked}
               >
-                <option>société civile</option>
+                <option value="société civile">société civile</option>
+                <option value="société en commandite simple">
+                  société en commandite simple
+                </option>
+                <option value="société à responsabilité limitée">
+                  société à responsabilité limitée
+                </option>
+                <option value="société anonyme">société anonyme</option>
+                <option value="société de droit étranger">
+                  société de droit étranger
+                </option>
+                <option value="Société coopérative organisée comme une société anonyme">
+                  Société coopérative organisée comme une société anonyme
+                </option>
               </select>
             </div>
 
@@ -342,6 +381,7 @@ const FicheEtude = () => {
                 value={formData.m_numrcs}
                 onChange={handleChange}
                 className="unique-input"
+                disabled={!isChecked}
               />
             </div>
 
@@ -352,13 +392,14 @@ const FicheEtude = () => {
                 value={formData.m_Liste}
                 onChange={handleChange}
                 className="unique-select"
+                disabled={!isChecked}
               >
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
               </select>
             </div>
 
@@ -370,6 +411,7 @@ const FicheEtude = () => {
                 value={formData.m_emailbarreau}
                 onChange={handleChange}
                 className="unique-input"
+                disabled={!isChecked}
               />
             </div>
           </div>
