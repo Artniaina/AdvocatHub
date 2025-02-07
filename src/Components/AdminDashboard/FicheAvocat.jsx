@@ -32,6 +32,19 @@ const FicheAvocat = () => {
   const activity = useSelector((state) => state.activities.activities) || [];
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
 
+  const formatDate = (dateString) => {
+    if (!dateString) return null;
+    return dateString.replace(/-/g, "");
+  };
+
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    return `${dateString.slice(0, 4)}-${dateString.slice(
+      4,
+      6
+    )}-${dateString.slice(6, 8)}`;
+  };
+
   const [formData, setFormData] = useState({
     m_nidetude: "",
     m_dDateInscription: "",
@@ -94,11 +107,12 @@ const FicheAvocat = () => {
     m_partDom: false,
   });
 
- 
   const handleChange = (field, value) => {
+    const isDateField = field.startsWith("m_dDate");
+
     setFormData((prev) => ({
       ...prev,
-      [field]: value,
+      [field]: isDateField ? formatDate(value) : value,
       m_sactivitépref: selectedActivities.join(","),
       m_langue: selectedLanguages.join(","),
     }));
@@ -109,7 +123,6 @@ const FicheAvocat = () => {
   const handleSubmitActivity = (selected) => {
     setSelectedActivities(selected);
     setShowActivPrefPopup(false);
-    console.log("Selected Activities:",  selected.join(","));
   };
 
   const handleLangueClick = () => setShowLanguePopup(true);
@@ -117,20 +130,17 @@ const FicheAvocat = () => {
   const handleSubmitLangues = (selected) => {
     setSelectedLanguages(selected);
     setShowLanguePopup(false);
-
-    console.log("Selected Languages:", selected.join(","));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitStatus({ loading: true, error: null });
-  
+
     if (selectedLanguages.length === 0) {
       setSubmitStatus({ loading: false, error: "Please select languages." });
       return;
     }
-  
-    
+
     try {
       const response = await fetch(
         "http://192.168.10.113/Utilisateur/api/add/ficheAvocat",
@@ -141,10 +151,10 @@ const FicheAvocat = () => {
           },
           body: JSON.stringify({
             ...formData,
-            m_langue: selectedLanguages.join(","), 
+            m_langue: selectedLanguages.join(","),
             m_sactivitépref: selectedActivities.join(","),
-            m_stelephone: `${formData.telephonePrefix} ${formData.m_stelephone}`, 
-            m_stelephoneMobile: `${formData.mobilePrefix} ${formData.m_stelephoneMobile}`, 
+            m_stelephone: `${formData.telephonePrefix} ${formData.m_stelephone}`,
+            m_stelephoneMobile: `${formData.mobilePrefix} ${formData.m_stelephoneMobile}`,
           }),
         }
       );
@@ -161,6 +171,18 @@ const FicheAvocat = () => {
       setSubmitStatus({ loading: false, error: error.message });
     }
   };
+
+  const renderDateInput = (label, field) => (
+    <div className="unique-flex">
+      <label className="unique-label">{label}</label>
+      <input
+        type="date"
+        value={formatDateForInput(formData[field])}
+        onChange={(e) => handleChange(field, e.target.value)}
+        className="unique-input"
+      />
+    </div>
+  );
 
   return (
     <div className="unique-container">
@@ -218,7 +240,7 @@ const FicheAvocat = () => {
               <div className="unique-relative">
                 <input
                   type="date"
-                  value={formData.m_dDateNaissance}
+                  value={formatDateForInput(formData.m_dDateNaissance)}
                   onChange={(e) =>
                     handleChange("m_dDateNaissance", e.target.value)
                   }
@@ -385,7 +407,6 @@ const FicheAvocat = () => {
               </select>
             </div>
             <div className="unique-flex">
-
               <label className="unique-label">Liste</label>
               <select
                 value={formData.m_Liste}
@@ -434,6 +455,11 @@ const FicheAvocat = () => {
                 type: "date",
               },
               {
+                label: "Date de Fin de suspension",
+                field: "m_dDateFinSuspension",
+                type: "date",
+              },
+              {
                 label: "Date de démission",
                 field: "m_dDateDémission",
                 type: "date",
@@ -445,7 +471,7 @@ const FicheAvocat = () => {
               },
               {
                 label: "Date de réinscription",
-                field: "dateReinscription",
+                field: "m_dDateInscription",
                 type: "date",
               },
               { label: "Date de décès", field: "m_dDateDécès", type: "date" },
@@ -462,12 +488,21 @@ const FicheAvocat = () => {
             ].map(({ label, field, type = "text" }) => (
               <div key={field} className="unique-flex">
                 <label className="unique-label">{label}</label>
-                <input
-                  type={type}
-                  value={formData[field]}
-                  onChange={(e) => handleChange(field, e.target.value)}
-                  className="unique-input"
-                />
+                {type === "date" ? (
+                  <input
+                    type="date"
+                    value={formatDateForInput(formData[field])}
+                    onChange={(e) => handleChange(field, e.target.value)}
+                    className="unique-input"
+                  />
+                ) : (
+                  <input
+                    type={type}
+                    value={formData[field]}
+                    onChange={(e) => handleChange(field, e.target.value)}
+                    className="unique-input"
+                  />
+                )}
               </div>
             ))}
             <div>
@@ -546,6 +581,7 @@ const FicheAvocat = () => {
                   onClose={closeActivitePopup}
                   onSubmit={handleSubmitActivity}
                   value={selectedActivities}
+                  defaultActivity={selectedActivities}
                   activity={activity}
                 />
               )}
