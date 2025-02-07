@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import { Building, Info } from "lucide-react";
+import { Building, Info, AlertTriangle } from "lucide-react";
 import "../../../Styles/AdminDashboard/fiche.css";
+import GestionErreurPopUp from "../../PopUp/GestionErreurPopUp";
 
 const FicheEtude = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [messageErreur, setMessageErreur]=useState("")
   const [formData, setFormData] = useState({
     m_nidetude: "",
     m_dDateInscription: "",
     m_sNom: "",
     m_sPrenom: "",
-    m_sStatut: "",
-    m_Liste: "",
+    m_sStatut: "Inscrite", 
+    m_sFormeSociale: "", 
+    m_Liste: "1",
     m_sDénominationEtude: "",
     m_sGEDEtude: "",
     m_dDateAssermentation: "",
@@ -29,7 +34,6 @@ const FicheEtude = () => {
     m_barreau: "",
     m_numrcs: "",
     m_stype: "",
-    m_sFormeSociale: "",
     m_sboitepostal: "",
     m_sLocalite: "",
     m_sCodepostalboitepostal: "",
@@ -59,6 +63,16 @@ const FicheEtude = () => {
     m_stelephoneMobile: "",
     m_partDom: false,
   });
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (formData.m_sEmailSecondaire && 
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.m_sEmailSecondaire)) {
+          setMessageErreur("Email non valide")
+
+    }
+    return newErrors;
+  };
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
@@ -77,11 +91,21 @@ const FicheEtude = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "m_sFormeSociale" && value === "société civile" ? "" : value,
     }));
+    
+    if (errors[name]) {
+      const newErrors = {...errors};
+      delete newErrors[name];
+      setErrors(newErrors);
+    }
   };
 
   const handleSubmit = async () => {
+    const validationErrors = validateForm();
+    
+  
+
     try {
       const response = await fetch(
         "http://192.168.10.113/Utilisateur/api/add/ficheEtude",
@@ -103,6 +127,10 @@ const FicheEtude = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -138,6 +166,7 @@ const FicheEtude = () => {
                 value={formData.m_sDénominationEtude}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -165,6 +194,7 @@ const FicheEtude = () => {
                 value={formData.m_NumInterne}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -176,6 +206,7 @@ const FicheEtude = () => {
                 value={formData.m_nGenreEtude}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -187,6 +218,7 @@ const FicheEtude = () => {
                 value={formData.m_nNumVoie}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -198,6 +230,7 @@ const FicheEtude = () => {
                 value={formData.m_sAdresse}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -209,6 +242,7 @@ const FicheEtude = () => {
                 value={formData.m_sAdresseSuite}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -220,6 +254,7 @@ const FicheEtude = () => {
                 value={formData.m_sCodePostale}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -231,6 +266,7 @@ const FicheEtude = () => {
                 value={formData.m_sLocalite}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -242,6 +278,7 @@ const FicheEtude = () => {
                 value={formData.m_barreau}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -253,6 +290,7 @@ const FicheEtude = () => {
                 value={formData.m_sCodepostalboitepostal}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -275,6 +313,7 @@ const FicheEtude = () => {
                 value={formData.m_stelephone}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -286,6 +325,7 @@ const FicheEtude = () => {
                 value={formData.m_stelephoneMobile}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -297,6 +337,7 @@ const FicheEtude = () => {
                 value={formData.m_sfax}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -308,6 +349,7 @@ const FicheEtude = () => {
                 value={formData.m_sEmailSecondaire}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -319,6 +361,7 @@ const FicheEtude = () => {
                 value={formData.m_ssite}
                 onChange={handleChange}
                 className="unique-input"
+                required
               />
             </div>
 
@@ -329,6 +372,7 @@ const FicheEtude = () => {
                 value={formData.m_sObservation}
                 onChange={handleChange}
                 className="unique-textarea"
+                required
               />
             </div>
           </div>
@@ -344,6 +388,7 @@ const FicheEtude = () => {
                 type="checkbox"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
+                required
               />
             </div>
 
@@ -382,6 +427,7 @@ const FicheEtude = () => {
                 onChange={handleChange}
                 className="unique-input"
                 disabled={!isChecked}
+                required
               />
             </div>
 
@@ -393,6 +439,7 @@ const FicheEtude = () => {
                 onChange={handleChange}
                 className="unique-select"
                 disabled={!isChecked}
+                required
               >
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -412,12 +459,17 @@ const FicheEtude = () => {
                 onChange={handleChange}
                 className="unique-input"
                 disabled={!isChecked}
+                required
               />
             </div>
           </div>
         </div>
 
         <div className="unique-right-section">
+
+          <h1>
+            Avocat associé avec l'Etude
+          </h1>
           <table className="unique-table">
             <thead>
               <tr>
@@ -442,9 +494,12 @@ const FicheEtude = () => {
           </table>
         </div>
       </div>
+      {showPopup && (
+        <GestionErreurPopUp messageErreur= {messageErreur} />
+)}
 
       <div className="unique-button-group">
-        <button className="unique-button primary" onClick={handleSubmit}>
+        <button className="unique-button primary" onClick={handleSubmit} closePopup={closePopup}>
           Enregistrer
         </button>
         <button className="unique-button primary">Consulter le dossier</button>
