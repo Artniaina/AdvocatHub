@@ -8,14 +8,11 @@ import PopUpActiPref from "../../PopUp/PopUpActivPref";
 import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
 import "../../../Styles/AdminDashboard/fiche.css";
 
-const FicheAvocat = (mode="add", initialValue=[]) => {
+const FicheAvocat = ({ mode, initialValue }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchLangues());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchActivities());
   }, [dispatch]);
 
@@ -39,10 +36,7 @@ const FicheAvocat = (mode="add", initialValue=[]) => {
 
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
-    return `${dateString.slice(0, 4)}-${dateString.slice(
-      4,
-      6
-    )}-${dateString.slice(6, 8)}`;
+    return `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}`;
   };
 
   const [formData, setFormData] = useState({
@@ -107,6 +101,27 @@ const FicheAvocat = (mode="add", initialValue=[]) => {
     m_partDom: false,
   });
 
+  useEffect(() => {
+    if (mode === "edit" && initialValue) {
+      setFormData({
+        ...initialValue,
+        m_dDateNaissance: formatDateForInput(initialValue.m_dDateNaissance),
+        m_dDateAssermentation: formatDateForInput(initialValue.m_dDateAssermentation),
+        m_dDateAvoue: formatDateForInput(initialValue.m_dDateAvoue),
+        m_dDateDébutSuspension: formatDateForInput(initialValue.m_dDateDébutSuspension),
+        m_dDateFinSuspension: formatDateForInput(initialValue.m_dDateFinSuspension),
+        m_dDateDémission: formatDateForInput(initialValue.m_dDateDémission),
+        m_dDateOmission: formatDateForInput(initialValue.m_dDateOmission),
+        m_dDateInscription: formatDateForInput(initialValue.m_dDateInscription),
+        m_dDateDécès: formatDateForInput(initialValue.m_dDateDécès),
+        m_dDatePassageListe2_Liste4: formatDateForInput(initialValue.m_dDatePassageListe2_Liste4),
+        m_dDatePassageListe4_Liste1: formatDateForInput(initialValue.m_dDatePassageListe4_Liste1),
+      });
+      setSelectedActivities(initialValue.m_sactivitépref?.split(",") || []);
+      setSelectedLanguages(initialValue.m_langue?.split(",") || []);
+    }
+  }, [mode, initialValue]);
+
   const handleChange = (field, value) => {
     const isDateField = field.startsWith("m_dDate");
 
@@ -132,7 +147,7 @@ const FicheAvocat = (mode="add", initialValue=[]) => {
     setShowLanguePopup(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setSubmitStatus({ loading: true, error: null });
 
@@ -142,22 +157,26 @@ const FicheAvocat = (mode="add", initialValue=[]) => {
     }
 
     try {
-      const response = await fetch(
-        "http://192.168.10.113/Utilisateur/api/add/ficheAvocat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...formData,
-            m_langue: selectedLanguages.join(","),
-            m_sactivitépref: selectedActivities.join(","),
-            m_stelephone: `${formData.telephonePrefix} ${formData.m_stelephone}`,
-            m_stelephoneMobile: `${formData.mobilePrefix} ${formData.m_stelephoneMobile}`,
-          }),
-        }
-      );
+      const url =
+        mode === "edit"
+          ? `http://192.168.10.113/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
+          : "http://192.168.10.113/Utilisateur/api/add/ficheAvocat";
+
+      const method = mode === "edit" ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          m_langue: selectedLanguages.join(","),
+          m_sactivitépref: selectedActivities.join(","),
+          m_stelephone: `${formData.telephonePrefix} ${formData.m_stelephone}`,
+          m_stelephoneMobile: `${formData.mobilePrefix} ${formData.m_stelephoneMobile}`,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -183,7 +202,6 @@ const FicheAvocat = (mode="add", initialValue=[]) => {
       />
     </div>
   );
-
   return (
     <div className="unique-container">
       <div className="unique-card">
@@ -629,9 +647,9 @@ const FicheAvocat = (mode="add", initialValue=[]) => {
         <button
           className="unique-submit-button"
           disabled={submitStatus.loading}
-          onClick={handleSubmit}
+          onClick={handleFormSubmit}
         >
-          {submitStatus.loading ? "Envoi en cours..." : "Enregistrer"}
+          {submitStatus.loading ? "Envoi en cours..." : mode === "edit" ? "Mettre à jour" : "Enregistrer"}
         </button>
 
         {submitStatus.error && (

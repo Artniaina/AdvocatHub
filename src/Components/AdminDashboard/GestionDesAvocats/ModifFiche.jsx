@@ -25,9 +25,10 @@ const ModifFiche = () => {
     }
   }, [avocatInfo]);
 
+
   return (
     <div>
-      <FicheAvocat mode={"edit"} initialValue={initialAvocat} />
+      <FicheAvocat mode={"edit"} initialValue={initialAvocat}/>
     </div>
   );
 };

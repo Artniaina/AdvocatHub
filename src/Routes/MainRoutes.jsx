@@ -39,6 +39,7 @@ import Meeting from "../Components/VisioConference/Meeting";
 import FicheAvocat from "../Components/AdminDashboard/GestionDesAvocats/FicheAvocat";
 import FicheEtude from "../Components/AdminDashboard/GestionDesEtudes/FicheEtude";
 import ModifFiche from "../Components/AdminDashboard/GestionDesAvocats/ModifFiche";
+import AddFiche from "../Components/AdminDashboard/GestionDesAvocats/AddFiche";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -110,7 +111,7 @@ function MainRoutes() {
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/invitation" element={<Invitation />} />
 
-        <Route path="/ficheAvocat" element={<FicheAvocat />} />
+        <Route path="/addFicheAvocat" element={<AddFiche />} />
         <Route path="/updateFicheAvocat" element={<ModifFiche />} />
         <Route path="/ficheEtude" element={<FicheEtude />} />
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}

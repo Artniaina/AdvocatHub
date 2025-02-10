@@ -85,7 +85,7 @@ const AvocatList = () => {
                 Liste des Avocats
               </h2>
               <button
-                onClick={() => navigate("/ficheAvocat")}
+                onClick={() => navigate("/addFicheAvocat")}
                 className="px-4 py-2 bg-[#5E1675] text-white rounded-lg hover:bg-[#4A1259] transition-colors w-full sm:w-auto"
               >
                 + Ajouter un avocat
