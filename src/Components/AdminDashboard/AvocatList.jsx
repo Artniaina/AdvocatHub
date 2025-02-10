@@ -1,80 +1,63 @@
-import React, { useState } from "react";
-import { Search, Filter, MoreVertical } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Search, Filter, Edit, Trash } from "lucide-react";
 import SideBar from "./SideBar";
 import { useNavigate } from "react-router-dom";
 
 const AvocatList = () => {
-  const navigate= useNavigate()
-  const lawyers = [
-    {
-      id: 1,
-      name: "Me. Sophie Martin",
-      speciality: "Droit des affaires",
-      city: "Paris",
-      status: "Inscrit",
-      email: "sophie.martin@cabinet.fr",
-    },
-    {
-      id: 2,
-      name: "Me. Jean Dubois",
-      speciality: "Droit pénal",
-      city: "Lyon",
-      status: "Non inscrit",
-      email: "jean.dubois@cabinet.fr",
-    },
-    {
-      id: 3,
-      name: "Me. Marie Laurent",
-      speciality: "Droit immobilier",
-      city: "Marseille",
-      status: "Inscrit",
-      email: "marie.laurent@cabinet.fr",
-    },
-    {
-      id: 4,
-      name: "Me. Pierre Moreau",
-      speciality: "Droit de la famille",
-      city: "Bordeaux",
-      status: "Inscrit",
-      email: "pierre.moreau@cabinet.fr",
-    },
-    {
-      id: 5,
-      name: "Me. Claire Petit",
-      speciality: "Droit du travail",
-      city: "Toulouse",
-      status: "Non inscrit",
-      email: "claire.petit@cabinet.fr",
-    },
-  ];
-
+  const navigate = useNavigate();
+  const [lawyers, setLawyers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
 
-  const filteredLawyers = lawyers.filter((lawyer) => {
-    const matchesSearch =
-      lawyer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lawyer.speciality.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lawyer.city.toLowerCase().includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        setLawyers(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredLawyers = lawyers?.filter((lawyer) => {
+    const searchFields = [
+      lawyer?.m_NumInterne,
+      lawyer?.m_sNom,
+      lawyer?.m_sPrenom,
+      lawyer?.m_barreau,
+      lawyer?.m_emailbarreau,
+      lawyer?.m_sAdressePrivee,
+      lawyer?.m_sStatut,
+      lawyer?.m_sSexe,
+      lawyer?.m_nidetude,
+      lawyer?.m_sNationalite,
+      lawyer?.m_dDateAssermentation,
+    ];
+
+    const matchesSearch = searchFields.some(
+      (field) =>
+        field && field.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const matchesStatus =
-      selectedStatus === "all"
-        ? true
-        : selectedStatus === "inscrit"
-        ? lawyer.status === "Inscrit"
-        : lawyer.status === "Non inscrit";
+      selectedStatus === "all" ||
+      (selectedStatus === "inscrit" && lawyer.m_sStatut === "Inscrit") ||
+      (selectedStatus === "non-inscrit" && lawyer.m_sStatut === "Non inscrit");
 
     return matchesSearch && matchesStatus;
   });
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        backgroundColor: "#f9fafb",
-      }}
-    >
+    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f9fafb" }}>
       <div>
         <SideBar />
       </div>
@@ -94,22 +77,12 @@ const AvocatList = () => {
               <h2 className="text-xl md:text-2xl font-bold text-gray-800">
                 Liste des Avocats
               </h2>
-              <button onClick={()=>{
-                navigate("/ficheAvocat")
-              }} className="px-4 py-2 bg-[#5E1675] text-white rounded-lg hover:bg-[#4A1259] transition-colors w-full sm:w-auto">
+              <button onClick={() => navigate("/ficheAvocat")} className="px-4 py-2 bg-[#5E1675] text-white rounded-lg hover:bg-[#4A1259] transition-colors w-full sm:w-auto">
                 + Ajouter un avocat
               </button>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: "row",
-                margin: "24px 77px 28px 20px",
-              }}
-              className="flex flex-col sm:flex-row gap-4 mb-6"
-            >
+            <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", margin: "24px 77px 28px 20px" }} className="flex flex-col sm:flex-row gap-4 mb-6">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 <input
@@ -135,78 +108,114 @@ const AvocatList = () => {
             </div>
 
             <div className="relative">
-              <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-280px)] scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
-                {" "}
-                <table className="w-full max-w-[97%] ml-4 md:ml-6  rounded-lg ">
-                  <thead className="sticky top-0 z-10 bg-[#5E1675] ">
-                    <tr>
-                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
-                        Nom
-                      </th>
-                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
-                        Etude
-                      </th>
-                      <th className="hidden md:table-cell px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
-                        Adresse
-                      </th>
-                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredLawyers.map((lawyer) => (
-                      <tr key={lawyer.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10">
-                              <div className="h-10 w-10 rounded-full bg-[#5E1675]/10 flex items-center justify-center">
-                                <span className="text-[#5E1675] font-medium">
-                                  {lawyer.name.split(" ")[1][0]}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {lawyer.name}
-                              </div>
-                              <div className="text-sm text-gray-500 hidden sm:block">
-                                {lawyer.email}
-                              </div>
+            <div className="relative overflow-x-auto overflow-y-auto max-h-[calc(100vh-50px)]  mx-4 my-5 p-5 scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
+              <table className="w-full">
+                <thead className="sticky top-0 z-10 bg-[#5E1675]">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Identifiant interne
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Nom & Prénom
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Barreau
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Adresse
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Statut
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Sexe
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Etude
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Nationalité
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Date d'assermentation
+                    </th>
+                    <th className="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredLawyers.map((lawyer) => (
+                    <tr key={lawyer.m_NumInterne} className="hover:bg-gray-50">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {lawyer.m_NumInterne}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10">
+                            <div className="h-10 w-10 rounded-full bg-[#5E1675]/10 flex items-center justify-center">
+                              <span className="text-[#5E1675] font-medium">
+                                {lawyer.m_sNom?.[0]}
+                              </span>
                             </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.speciality}
-                        </td>
-                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.city}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full transition-colors duration-200 ease-in-out ${
-                              lawyer.status === "Inscrit"
-                                ? "bg-green-200 text-green-800 hover:bg-green-300"
-                                : "bg-red-200 text-red-800 hover:bg-red-300"
-                            }`}
-                          >
-                            {lawyer.status}
-                          </span>
-                        </td>
-
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">
+                              {lawyer.m_sNom} {lawyer.m_sPrenom}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_barreau}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_emailbarreau}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_sAdressePrivee}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            lawyer.m_sStatut === "Inscrit"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {lawyer.m_sStatut}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_sSexe}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_nidetude}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_sNationalite}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {lawyer.m_dDateAssermentation}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex justify-center space-x-3">
                           <button className="text-[#5E1675] hover:text-[#4A1259]">
-                            <MoreVertical className="h-5 w-5" />
+                            <Edit className="h-5 w-5" />
                           </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                          <button className="text-[#5E1675] hover:text-[#4A1259]">
+                            <Trash className="h-5 w-5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             </div>
           </div>
         </div>

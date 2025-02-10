@@ -138,7 +138,7 @@ const SideBar = () => {
           >
             <RotateCcw className="inline-block w-5 h-5" />
             {isExpanded && (
-              <span className="ml-3 inline-block">Réinitialisation</span>
+              <span className="ml-3 inline-block">Etude</span>
             )}
           </button>
         </nav>

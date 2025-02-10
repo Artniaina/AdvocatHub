@@ -8,7 +8,7 @@ import PopUpActiPref from "../../PopUp/PopUpActivPref";
 import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
 import "../../../Styles/AdminDashboard/fiche.css";
 
-const FicheAvocat = () => {
+const FicheAvocat = (mode="add", initialValue=[]) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

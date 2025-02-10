@@ -17,7 +17,7 @@ const PopupCollaborateurs = ({
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
-  });
+  }); 
   const { user } = useAuth();
 
   useEffect(() => {
