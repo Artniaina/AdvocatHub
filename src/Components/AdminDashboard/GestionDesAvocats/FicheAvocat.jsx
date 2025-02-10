@@ -46,8 +46,27 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchActivities());
-  }, [dispatch]);
+     dispatch(fetchActivities()); 
+   }, [dispatch]);
+ 
+ 
+   const transformStringToArray = (str) => {
+     if (Array.isArray(str)) {
+       console.error("Input is an array, expected a string:", str);
+       return [];
+     }
+ 
+     if (typeof str !== "string") {
+       console.error("Input is not a string:", str);
+       return [];
+     }
+     const trimmedStr = str.slice(1, -1);
+     const codesArray = trimmedStr.split(",");
+     return codesArray.map((code) => code.trim());
+   };
+ 
+   const defaultActivity = (initialValue && initialValue.m_sactivitépref) || [];
+   const defaultActivityArray = transformStringToArray(defaultActivity);
 
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState(languageCodes || []);
@@ -62,12 +81,22 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
       setSelectedLanguages(languageCodes);
     }
   }, [initialValue]);
+
+  useEffect(() => {
+    if (initialValue) {
+      setSelectedActivities(defaultActivityArray);
+    }
+  }, [initialValue]);
   const activity = useSelector((state) => state.activities.activities) || [];
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
   useEffect(() => {
     dispatch(fetchLangues());
   }, [dispatch]);
- 
+
+  const handleSubmitActivity = (selected) => {
+    setSelectedActivities(selected);
+    setShowActivPrefPopup(false);
+  };
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
     return `${dateString.slice(0, 4)}-${dateString.slice(
@@ -170,7 +199,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
         ),
       });
 
-      setSelectedActivities(initialValue.m_sactivitépref?.split(",") || []);
     }
   }, [mode, initialValue]);
 
@@ -187,11 +215,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
 
   const handleActiviteClick = () => setShowActivPrefPopup(true);
   const closeActivitePopup = () => setShowActivPrefPopup(false);
-  const handleSubmitActivity = (selected) => {
-    setSelectedActivities(selected);
-    setShowActivPrefPopup(false);
-  };
-
+ 
   const handleLangueClick = () => setShowLanguePopup(true);
   const closeLanguePopup = () => setShowLanguePopup(false);
   const handleSubmitLangues = (selected) => {
@@ -621,46 +645,47 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
               </span>
             </p>
 
-            <div>
-              <p>
-                <strong>Activités préférentielles:</strong>
-              </p>
+            <p style={{ minHeight: "200px" }}>
+              Activités préférentielles:
               <button onClick={handleActiviteClick} className="btnadd">
                 <BsPlusCircleFill />
               </button>
-              <textarea
-                value={
-                  selectedActivities.length === 0
-                    ? "Aucune activité sélectionnée"
-                    : selectedActivities
-                        .map((code) => {
-                          const activite = activity.find(
-                            (act) => act.code === code
-                          );
-                          return activite ? activite.name : code;
-                        })
-                        .join("\n")
-                }
-                readOnly
-                rows={
-                  selectedActivities.length > 0 ? selectedActivities.length : 2
-                }
-                style={{
-                  width: "100%",
-                  minHeight: "50px",
-                  border: "1px solid black",
-                }}
-              />
-              {showActivPrefPopup && (
-                <PopUpActiPref
-                  onClose={closeActivitePopup}
-                  onSubmit={handleSubmitActivity}
-                  value={selectedActivities}
-                  defaultActivity={selectedActivities}
-                  activity={activity}
-                />
-              )}
-            </div>
+              
+              <span>
+                {selectedActivities.length === 0
+                  ? defaultActivityArray.map((code, index) => {
+                      const activites = activity.find(
+                        (act) => act.code === code
+                      );
+                      return (
+                        <React.Fragment key={`default-${index}`}>
+                          <strong>{activites ? activites.name : code}</strong>
+                          
+                        </React.Fragment>
+                      );
+                    })
+                  : selectedActivities.map((code, index) => {
+                      const activites = activity.find(
+                        (act) => act.code === code
+                      );
+                      return (
+                        <React.Fragment key={`selected-${index}`}>
+                          <strong>{activites ? activites.name : code}</strong>
+                          
+                        </React.Fragment>
+                      );
+                    })}
+                {showActivPrefPopup && (
+                  <PopUpActiPref
+                    onClose={closeActivitePopup}
+                    onSubmit={handleSubmitActivity}
+                    value={selectedActivities}
+                    activity={activity}
+                    defaultActivity={defaultActivityArray}
+                  />
+                )}
+              </span>
+            </p>
           </div>
         </div>
 
