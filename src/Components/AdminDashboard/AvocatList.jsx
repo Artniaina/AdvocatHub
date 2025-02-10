@@ -8,7 +8,8 @@ const AvocatList = () => {
   const [lawyers, setLawyers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [avocatTodelete, setAvocatTodelete] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,10 +29,19 @@ const AvocatList = () => {
     fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDeleteClick = (idFormulaire) => {
+    setAvocatTodelete(idFormulaire);
+    setShowPopup(true);
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+    setAvocatTodelete(null);
+  };
+  const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://192.168.10.113/Utilisateur/api/delete/${id}`,
+        `http://192.168.10.113/Utilisateur/api/delete/${avocatTodelete}`,
         {
           method: "DELETE",
         }
@@ -39,12 +49,28 @@ const AvocatList = () => {
       if (!response.ok) {
         throw new Error("Failed to delete lawyer");
       }
-
-      setLawyers((prevLawyers) =>
-        prevLawyers.filter((lawyer) => lawyer.m_NumInterne !== id)
-      );
+  
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+          const data = await response.json();
+          setLawyers(data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+  
+      await fetchData();
     } catch (error) {
       console.error("Error deleting lawyer:", error);
+    } finally {
+      setShowPopup(false);
+      setAvocatTodelete(null);
     }
   };
 
@@ -264,7 +290,7 @@ const AvocatList = () => {
 
                           <button
                             className="text-[#5E1675] hover:text-[#4A1259]"
-                            onClick={() => handleDelete(lawyer.m_nIDAvocat_PP)}
+                            onClick={() => handleDeleteClick(lawyer.m_nIDAvocat_PP)}
                           >
                             <Trash className="h-5 w-5" />
                           </button>
@@ -275,6 +301,25 @@ const AvocatList = () => {
                 </table>
               </div>
             </div>
+            {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Confirmer la suppression</h3>
+            <p>
+              Voulez-vous vraiment supprimer cette donnée ? Cette action est
+              irréversible.
+            </p>
+            <div className="popup-actions">
+              <button className="confirm-button" onClick={handleDelete}>
+                Supprimer
+              </button>
+              <button className="cancel-button" onClick={cancelDelete}>
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
           </div>
         </div>
       </div>
