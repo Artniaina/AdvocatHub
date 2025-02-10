@@ -99,10 +99,16 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   };
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
-    return `${dateString.slice(0, 4)}-${dateString.slice(
-      4,
-      6
-    )}-${dateString.slice(6, 8)}`;
+    
+    if (dateString.includes('-')) {
+      return dateString; 
+    }
+    
+    if (dateString.length === 8) {
+      return `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}`;
+    }
+    
+    return "";
   };
 
   const formatDateForSubmit = (dateString) => {
@@ -176,27 +182,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     if (mode === "edit" && initialValue) {
       setFormData({
         ...initialValue,
-        m_dDateNaissance: formatDateForInput(initialValue.m_dDateNaissance),
-        m_dDateAssermentation: formatDateForInput(
-          initialValue.m_dDateAssermentation
-        ),
-        m_dDateAvoue: formatDateForInput(initialValue.m_dDateAvoue),
-        m_dDateDébutSuspension: formatDateForInput(
-          initialValue.m_dDateDébutSuspension
-        ),
-        m_dDateFinSuspension: formatDateForInput(
-          initialValue.m_dDateFinSuspension
-        ),
-        m_dDateDémission: formatDateForInput(initialValue.m_dDateDémission),
-        m_dDateOmission: formatDateForInput(initialValue.m_dDateOmission),
-        m_dDateInscription: formatDateForInput(initialValue.m_dDateInscription),
-        m_dDateDécès: formatDateForInput(initialValue.m_dDateDécès),
-        m_dDatePassageListe2_Liste4: formatDateForInput(
-          initialValue.m_dDatePassageListe2_Liste4
-        ),
-        m_dDatePassageListe4_Liste1: formatDateForInput(
-          initialValue.m_dDatePassageListe4_Liste1
-        ),
       });
 
     }

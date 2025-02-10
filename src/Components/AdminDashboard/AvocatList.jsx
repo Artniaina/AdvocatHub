@@ -28,6 +28,26 @@ const AvocatList = () => {
     fetchData();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `http://192.168.10.113/Utilisateur/api/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete lawyer");
+      }
+
+      setLawyers((prevLawyers) =>
+        prevLawyers.filter((lawyer) => lawyer.m_NumInterne !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting lawyer:", error);
+    }
+  };
+
   const filteredLawyers = lawyers?.filter((lawyer) => {
     const searchFields = [
       lawyer?.m_NumInterne,
@@ -242,7 +262,10 @@ const AvocatList = () => {
                             <Edit className="h-5 w-5" />
                           </button>
 
-                          <button className="text-[#5E1675] hover:text-[#4A1259]">
+                          <button
+                            className="text-[#5E1675] hover:text-[#4A1259]"
+                            onClick={() => handleDelete(lawyer.m_nIDAvocat_PP)}
+                          >
                             <Trash className="h-5 w-5" />
                           </button>
                         </td>
