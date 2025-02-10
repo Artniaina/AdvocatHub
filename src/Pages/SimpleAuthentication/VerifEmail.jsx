@@ -21,7 +21,8 @@ const VerifEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email) {
-      setSho("Veuillez entrer votre email.");
+      setMessageErreur("Veuillez entrer votre email.");
+      setShowPopup(true);
       return;
     }
 
@@ -32,8 +33,7 @@ const VerifEmail = () => {
         body: JSON.stringify({ SAdresseEmail: formData.email }),
       });
       if (!response.ok) throw new Error("Email inexistante");
-      setShowPopup(true);
-      setMessageErreur("Compte modifié avec succès !");
+      navigate(`/modifmdp?email=${encodeURIComponent(formData.email)}`);
     } catch (error) {
       setShowPopup(true);
       setMessageErreur("Email non trouvé.");
@@ -71,7 +71,7 @@ const VerifEmail = () => {
       {showPopup && (
         <GestionErreurPopUp
           messageErreur={messageErreur}
-          closePopup={setShowPopup(false)}
+          closePopup={() => setShowPopup(false)}
         />
       )}
       {successMessage && <ModifMdp email={formData.email} />}

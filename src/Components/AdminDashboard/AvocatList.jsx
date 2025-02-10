@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Search, Filter, MoreVertical } from "lucide-react";
 import SideBar from "./SideBar";
+import { useNavigate } from "react-router-dom";
 
 const AvocatList = () => {
+  const navigate= useNavigate()
   const lawyers = [
     {
       id: 1,
@@ -81,24 +83,39 @@ const AvocatList = () => {
         <div className="rounded-lg shadow-md h-full overflow-hidden">
           <div>
             <div
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                margin: "25px",
+              }}
               className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6"
             >
               <h2 className="text-xl md:text-2xl font-bold text-gray-800">
                 Liste des Avocats
               </h2>
-              <button className="px-4 py-2 bg-[#5E1675] text-white rounded-lg hover:bg-[#4A1259] transition-colors w-full sm:w-auto">
+              <button onClick={()=>{
+                navigate("/ficheAvocat")
+              }} className="px-4 py-2 bg-[#5E1675] text-white rounded-lg hover:bg-[#4A1259] transition-colors w-full sm:w-auto">
                 + Ajouter un avocat
               </button>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                margin: "24px 77px 28px 20px",
+              }}
+              className="flex flex-col sm:flex-row gap-4 mb-6"
+            >
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Rechercher un avocat..."
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5E1675]"
+                  className="w-[80%] pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5E1675]"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />

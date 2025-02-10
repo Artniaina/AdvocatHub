@@ -28,12 +28,12 @@ const Login = () => {
     e.preventDefault();
     if (!email || !password) {
       setMessageErreur("Tous les champs doivent être remplis.");
-      setShowPopup(false)
+      setShowPopup(true)
       return;
     }
     if (!captchaValue) {
-      setMessageErreur("Veuillez cocher la case 'Je ne suis pas un robot'.");µ
-      setShowPopup(false)
+      setMessageErreur("Veuillez cocher la case 'Je ne suis pas un robot'.");
+      setShowPopup(true)
       return;
     }
     try { 
@@ -81,16 +81,16 @@ const Login = () => {
             });
           }
         } else {
-          setMessageErreur("Email ou mot de passe incorrect");
           setShowPopup(true)
+          setMessageErreur("Email ou mot de passe incorrect");
         }
       } else {
-        setMessageErreur("Email ou mot de passe incorrect");
         setShowPopup(true)
+        setMessageErreur("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      setMessageErreur("Email ou mot de passe incorrect");
       setShowPopup(true)
+      setMessageErreur("Email ou mot de passe incorrect");
     }
   };
 
@@ -112,6 +112,12 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {showPopup && (
+  <GestionErreurPopUp 
+    messageErreur={messageErreur} 
+    closePopup={() => setShowPopup(false)} 
+  />
+)}
     <div className="login-box">
       <div className="login-left">
         <h2 style={{textAlign:"center"}}>Connexion</h2>
@@ -165,9 +171,7 @@ const Login = () => {
       <div className="login-right">
         <img src={Img} alt="Illustration de connexion" />
       </div>
-      {showPopup && (
-        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
-)}
+     
     </div>
   </div>
   );

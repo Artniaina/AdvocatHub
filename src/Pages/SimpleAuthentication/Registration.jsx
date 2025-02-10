@@ -7,6 +7,7 @@ import { FaRegUser } from "react-icons/fa";
 import { MdMailOutline } from "react-icons/md";
 import "../../Styles/Authentification/Log.css";
 import Img from "../../assets/reg.png";
+import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -203,7 +204,10 @@ const Registration = () => {
             </div>
           </form>
           {showPopup && (
-        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
+  <GestionErreurPopUp 
+    messageErreur={messageErreur} 
+    closePopup={() => setShowPopup(false)} 
+  />
 )}
         </div>
       </div>
