@@ -14,7 +14,7 @@ import ProIcon from "../../../assets/icons8-management-en-développement-commerc
 import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
 import PopUpActiPref from "../../PopUp/PopUpActivPref";
-import PopUpAdressePrivee from "../../PopUp/PopUpAdressePrivee";
+import PopUpAdressePrivee from "../../PopUp/PopUpAdressePrivee"; 
 import PopUpAnnuler from "../../PopUp/PopUpAnnuler";
 import ConfirmationValidation from "../../PopUp/ConfirmationValidation";
 import "../../../Styles/PopUp/AdressePriveePopUp.css";

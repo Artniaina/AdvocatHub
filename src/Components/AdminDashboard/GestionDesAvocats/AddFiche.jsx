@@ -6,7 +6,7 @@ const AddFiche = () => {
   
     return (
       <div>
-        <FicheAvocat mode={"add"} initialValue={[]} endPoint={`${'http://192.168.10.113/Utilisateur/api/add/ficheAvocat'}`} />
+        <FicheAvocat mode={"add"} initialValue={[]} />
       </div>
     );
 }

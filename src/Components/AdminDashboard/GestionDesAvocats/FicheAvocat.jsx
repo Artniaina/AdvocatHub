@@ -8,35 +8,77 @@ import PopUpActiPref from "../../PopUp/PopUpActivPref";
 import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
 import "../../../Styles/AdminDashboard/fiche.css";
 
-const FicheAvocat = ({ mode, initialValue }) => {
+const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   const dispatch = useDispatch();
+ const languages = useSelector((state) => state.langues.langues);
+
+  const names = languages.map((language) => language.name);
+  const langues =
+    initialValue && initialValue.m_langue
+      ? initialValue.m_langue.split(",")
+      : [];
+  const languageSelected =
+    initialValue && initialValue.m_langue
+      ? initialValue.m_langue.split(",")
+      : [];
+
+  const convertLanguagesToCodes = (languageString) => {
+    if (typeof languageString !== "string" || languageString.trim() === "") {
+      return [];
+    }
+    const languageNames = languageString.split(",").map((name) => name.trim());
+    const uniqueLanguageCodes = [];
+    languageNames.forEach((name) => {
+      const language = languages.find((lang) => lang.name === name);
+      if (language && !uniqueLanguageCodes.includes(language.code)) {
+        uniqueLanguageCodes.push(language.code);
+      }
+    });
+    return uniqueLanguageCodes;
+  };
+
+  const LanguageString =
+    initialValue && initialValue.m_langue ? initialValue.m_langue : "";
+  const languageCodes = convertLanguagesToCodes(LanguageString);
 
   useEffect(() => {
     dispatch(fetchLangues());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(fetchActivities());
   }, [dispatch]);
 
   const [selectedActivities, setSelectedActivities] = useState([]);
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes || []);
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({
     loading: false,
     error: null,
   });
-
-  const languages = useSelector((state) => state.langues.langues);
+  useEffect(() => {
+    if (initialValue) {
+      setSelectedLanguages(languageCodes);
+    }
+  }, [initialValue]);
   const activity = useSelector((state) => state.activities.activities) || [];
   const countryCodes = useSelector((state) => state.countryCodes.countryCodes);
-
-  const formatDate = (dateString) => {
-    if (!dateString) return null;
-    return dateString.replace(/-/g, "");
-  };
-
+  useEffect(() => {
+    dispatch(fetchLangues());
+  }, [dispatch]);
+ 
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
-    return `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}`;
+    return `${dateString.slice(0, 4)}-${dateString.slice(
+      4,
+      6
+    )}-${dateString.slice(6, 8)}`;
+  };
+
+  const formatDateForSubmit = (dateString) => {
+    if (!dateString) return null;
+    return dateString.replace(/-/g, "");
   };
 
   const [formData, setFormData] = useState({
@@ -106,19 +148,29 @@ const FicheAvocat = ({ mode, initialValue }) => {
       setFormData({
         ...initialValue,
         m_dDateNaissance: formatDateForInput(initialValue.m_dDateNaissance),
-        m_dDateAssermentation: formatDateForInput(initialValue.m_dDateAssermentation),
+        m_dDateAssermentation: formatDateForInput(
+          initialValue.m_dDateAssermentation
+        ),
         m_dDateAvoue: formatDateForInput(initialValue.m_dDateAvoue),
-        m_dDateDébutSuspension: formatDateForInput(initialValue.m_dDateDébutSuspension),
-        m_dDateFinSuspension: formatDateForInput(initialValue.m_dDateFinSuspension),
+        m_dDateDébutSuspension: formatDateForInput(
+          initialValue.m_dDateDébutSuspension
+        ),
+        m_dDateFinSuspension: formatDateForInput(
+          initialValue.m_dDateFinSuspension
+        ),
         m_dDateDémission: formatDateForInput(initialValue.m_dDateDémission),
         m_dDateOmission: formatDateForInput(initialValue.m_dDateOmission),
         m_dDateInscription: formatDateForInput(initialValue.m_dDateInscription),
         m_dDateDécès: formatDateForInput(initialValue.m_dDateDécès),
-        m_dDatePassageListe2_Liste4: formatDateForInput(initialValue.m_dDatePassageListe2_Liste4),
-        m_dDatePassageListe4_Liste1: formatDateForInput(initialValue.m_dDatePassageListe4_Liste1),
+        m_dDatePassageListe2_Liste4: formatDateForInput(
+          initialValue.m_dDatePassageListe2_Liste4
+        ),
+        m_dDatePassageListe4_Liste1: formatDateForInput(
+          initialValue.m_dDatePassageListe4_Liste1
+        ),
       });
+
       setSelectedActivities(initialValue.m_sactivitépref?.split(",") || []);
-      setSelectedLanguages(initialValue.m_langue?.split(",") || []);
     }
   }, [mode, initialValue]);
 
@@ -127,7 +179,7 @@ const FicheAvocat = ({ mode, initialValue }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [field]: isDateField ? formatDate(value) : value,
+      [field]: isDateField ? formatDateForSubmit(value) : value,
       m_sactivitépref: selectedActivities.join(","),
       m_langue: selectedLanguages.join(","),
     }));
@@ -152,7 +204,10 @@ const FicheAvocat = ({ mode, initialValue }) => {
     setSubmitStatus({ loading: true, error: null });
 
     if (selectedLanguages.length === 0) {
-      setSubmitStatus({ loading: false, error: "Please select languages." });
+      setSubmitStatus({
+        loading: false,
+        error: "Veuillez sélectionner des langues.",
+      });
       return;
     }
 
@@ -179,14 +234,14 @@ const FicheAvocat = ({ mode, initialValue }) => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Erreur HTTP! statut: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Success:", data);
+      console.log("Succès:", data);
       setSubmitStatus({ loading: false, error: null });
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Erreur:", error);
       setSubmitStatus({ loading: false, error: error.message });
     }
   };
@@ -202,6 +257,7 @@ const FicheAvocat = ({ mode, initialValue }) => {
       />
     </div>
   );
+
   return (
     <div className="unique-container">
       <div className="unique-card">
@@ -457,7 +513,6 @@ const FicheAvocat = ({ mode, initialValue }) => {
                 <option>Luxembourg</option>
               </select>
             </div>
-
             {[
               { label: "E-mail barreau", field: "m_emailbarreau" },
               { label: "E-mail professionnel", field: "m_sEmailPro" },
@@ -523,46 +578,48 @@ const FicheAvocat = ({ mode, initialValue }) => {
                 )}
               </div>
             ))}
-            <div>
-              <p>
-                <strong>Langues parlées:</strong>
-              </p>
+              <p style={{ minHeight: "150px" }}>
+              Langues parlées:
               <button onClick={handleLangueClick} className="btnadd">
                 <BsPlusCircleFill />
               </button>
-              <textarea
-                value={
-                  selectedLanguages.length === 0
-                    ? "Aucune langue sélectionnée"
-                    : selectedLanguages
-                        .map((code) => {
-                          const language = languages.find(
-                            (lang) => lang.code === code
-                          );
-                          return language ? language.name : code;
-                        })
-                        .join("\n")
-                }
-                readOnly
-                rows={
-                  selectedLanguages.length > 0 ? selectedLanguages.length : 2
-                }
-                style={{
-                  width: "100%",
-                  minHeight: "50px",
-                  border: "1px solid black",
-                }}
-              />
-              {showLanguePopup && (
-                <PopUpLangueParlees
-                  onClose={closeLanguePopup}
-                  onSubmit={handleSubmitLangues}
-                  defaultLangue={[]}
-                  value={selectedLanguages}
-                  languages={languages}
-                />
-              )}
-            </div>
+              
+              <span>
+                {selectedLanguages.length === 0
+                  ? languageCodes.map((code, index) => {
+                      const language = languages.find(
+                        (lang) => lang.code === code
+                      );
+                      return (
+                        <React.Fragment key={`default-${index}`}>
+                          <strong>{language ? language.name : code}</strong>
+                          
+                        </React.Fragment>
+                      );
+                    })
+                  : selectedLanguages.map((code, index) => {
+                      const language = languages.find(
+                        (lang) => lang.code === code
+                      );
+                      return (
+                        <React.Fragment key={`selected-${index}`}>
+                          <strong>{language ? language.name : code}</strong>
+                          
+                        </React.Fragment>
+                      );
+                    })}
+
+                {showLanguePopup && (
+                  <PopUpLangueParlees
+                    onClose={closeLanguePopup}
+                    onSubmit={handleSubmitLangues}
+                    value={selectedLanguages}
+                    languages={languages}
+                    defaultLangue={languageCodes}
+                  />
+                )}
+              </span>
+            </p>
 
             <div>
               <p>
@@ -649,7 +706,11 @@ const FicheAvocat = ({ mode, initialValue }) => {
           disabled={submitStatus.loading}
           onClick={handleFormSubmit}
         >
-          {submitStatus.loading ? "Envoi en cours..." : mode === "edit" ? "Mettre à jour" : "Enregistrer"}
+          {submitStatus.loading
+            ? "Envoi en cours..."
+            : mode === "edit"
+            ? "Mettre à jour"
+            : "Enregistrer"}
         </button>
 
         {submitStatus.error && (
