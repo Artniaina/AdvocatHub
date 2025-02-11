@@ -130,11 +130,11 @@ const SideBar = () => {
             } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
             transition-colors text-start whitespace-nowrap
             ${
-              location.pathname.startsWith("/ficheAvocat")
+              location.pathname.startsWith("/etude")
                 ? "bg-purple-900/60"
                 : ""
             }`}
-            onClick={() => handleNavigation("/ficheAvocat")}
+            onClick={() => handleNavigation("/etude")}
           >
             <RotateCcw className="inline-block w-5 h-5" />
             {isExpanded && (

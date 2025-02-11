@@ -10,7 +10,7 @@ import "../../../Styles/AdminDashboard/fiche.css";
 
 const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   const dispatch = useDispatch();
- const languages = useSelector((state) => state.langues.langues);
+  const languages = useSelector((state) => state.langues.langues);
 
   const names = languages.map((language) => language.name);
   const langues =
@@ -46,30 +46,31 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   }, [dispatch]);
 
   useEffect(() => {
-     dispatch(fetchActivities()); 
-   }, [dispatch]);
- 
- 
-   const transformStringToArray = (str) => {
-     if (Array.isArray(str)) {
-       console.error("Input is an array, expected a string:", str);
-       return [];
-     }
- 
-     if (typeof str !== "string") {
-       console.error("Input is not a string:", str);
-       return [];
-     }
-     const trimmedStr = str.slice(1, -1);
-     const codesArray = trimmedStr.split(",");
-     return codesArray.map((code) => code.trim());
-   };
- 
-   const defaultActivity = (initialValue && initialValue.m_sactivitépref) || [];
-   const defaultActivityArray = transformStringToArray(defaultActivity);
+    dispatch(fetchActivities());
+  }, [dispatch]);
+
+  const transformStringToArray = (str) => {
+    if (Array.isArray(str)) {
+      console.error("Input is an array, expected a string:", str);
+      return [];
+    }
+
+    if (typeof str !== "string") {
+      console.error("Input is not a string:", str);
+      return [];
+    }
+    const trimmedStr = str.slice(1, -1);
+    const codesArray = trimmedStr.split(",");
+    return codesArray.map((code) => code.trim());
+  };
+
+  const defaultActivity = (initialValue && initialValue.m_sactivitépref) || [];
+  const defaultActivityArray = transformStringToArray(defaultActivity);
 
   const [selectedActivities, setSelectedActivities] = useState([]);
-  const [selectedLanguages, setSelectedLanguages] = useState(languageCodes || []);
+  const [selectedLanguages, setSelectedLanguages] = useState(
+    languageCodes || []
+  );
   const [showLanguePopup, setShowLanguePopup] = useState(false);
   const [showActivPrefPopup, setShowActivPrefPopup] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({
@@ -99,15 +100,18 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   };
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
-    
-    if (dateString.includes('-')) {
-      return dateString; 
+
+    if (dateString.includes("-")) {
+      return dateString;
     }
-    
+
     if (dateString.length === 8) {
-      return `${dateString.slice(0, 4)}-${dateString.slice(4, 6)}-${dateString.slice(6, 8)}`;
+      return `${dateString.slice(0, 4)}-${dateString.slice(
+        4,
+        6
+      )}-${dateString.slice(6, 8)}`;
     }
-    
+
     return "";
   };
 
@@ -183,7 +187,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
       setFormData({
         ...initialValue,
       });
-
     }
   }, [mode, initialValue]);
 
@@ -200,7 +203,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
 
   const handleActiviteClick = () => setShowActivPrefPopup(true);
   const closeActivitePopup = () => setShowActivPrefPopup(false);
- 
+
   const handleLangueClick = () => setShowLanguePopup(true);
   const closeLanguePopup = () => setShowLanguePopup(false);
   const handleSubmitLangues = (selected) => {
@@ -269,66 +272,67 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   const [etudes, setEtudes] = useState([]);
   const [selectedEtude, setSelectedEtude] = useState(null);
 
-  
   const defaultIdEtude = initialValue?.m_nidetude;
-  
- useEffect(() => {
-  if (defaultIdEtude) {
-    const defaultEtude = etudes.find((etude) => etude.m_nidetude === defaultIdEtude);
-    
-    if (defaultEtude) {
-      setSelectedEtude(defaultEtude);
-
-      setFormData((prevData) => ({
-        ...prevData,
-        m_nidetude: defaultEtude.m_nidetude,
-        m_sDénominationEtude: defaultEtude.m_sDénominationEtude,
-        m_sAdresse: defaultEtude.m_sAdresse,
-        m_sAdresseSuite: defaultEtude.m_sAdresseSuite,
-        m_sCodePostale: defaultEtude.m_sCodePostale,
-        m_sLocalite: defaultEtude.m_sLocalite,
-        m_sboitepostal: defaultEtude.m_sboitepostal,
-        m_sLocaliteboitepostal: defaultEtude.m_sLocaliteboitepostal,
-        m_stelephone: defaultEtude.m_stelephone,
-        m_sfax: defaultEtude.m_sfax,
-        m_ssite: defaultEtude.m_ssite,
-      }));
-    }
-  }
-}, [etudes, defaultIdEtude]);
-
 
   useEffect(() => {
-    fetch('http://192.168.10.113/Utilisateur/api/getAllEtude')
+    if (defaultIdEtude) {
+      const defaultEtude = etudes.find(
+        (etude) => etude.m_nidetude === defaultIdEtude
+      );
+
+      if (defaultEtude) {
+        setSelectedEtude(defaultEtude);
+
+        setFormData((prevData) => ({
+          ...prevData,
+          m_nidetude: defaultEtude.m_nidetude,
+          m_sDénominationEtude: defaultEtude.m_sDénominationEtude,
+          m_sAdresse: defaultEtude.m_sAdresse,
+          m_sAdresseSuite: defaultEtude.m_sAdresseSuite,
+          m_sCodePostale: defaultEtude.m_sCodePostale,
+          m_sLocalite: defaultEtude.m_sLocalite,
+          m_sboitepostal: defaultEtude.m_sboitepostal,
+          m_sLocaliteboitepostal: defaultEtude.m_sLocaliteboitepostal,
+          m_stelephone: defaultEtude.m_stelephone,
+          m_sfax: defaultEtude.m_sfax,
+          m_ssite: defaultEtude.m_ssite,
+        }));
+      }
+    }
+  }, [etudes, defaultIdEtude]);
+
+  useEffect(() => {
+    fetch("http://192.168.10.113/Utilisateur/api/getAllEtude")
       .then((response) => response.json())
       .then((data) => setEtudes(data))
-      .catch((error) => console.error('Error fetching etudes:', error));
+      .catch((error) => console.error("Error fetching etudes:", error));
   }, []);
   const handleEtudeSelect = (event) => {
     const selectedId = event.target.value;
-    const selectedEtude = etudes.find((etude) => etude.m_nidetude === parseInt(selectedId));
-  
-    setSelectedEtude(selectedEtude);
-  
-   if (selectedEtude) {
-  setFormData((prevFormData) => ({
-    ...prevFormData,
-    m_nidetude: selectedEtude.m_nidetude, 
-    m_sDénominationEtude: selectedEtude.m_sDénominationEtude,
-    m_sAdresse: selectedEtude.m_sAdresse,
-    m_sAdresseSuite: selectedEtude.m_sAdresseSuite,
-    m_sCodePostale: selectedEtude.m_sCodePostale,
-    m_sLocalite: selectedEtude.m_sLocalite,
-    m_sboitepostal: selectedEtude.m_sboitepostal,
-    m_sLocaliteboitepostal: selectedEtude.m_sLocaliteboitepostal,
-    m_stelephone: selectedEtude.m_stelephone,
-    m_sfax: selectedEtude.m_sfax,
-    m_ssite: selectedEtude.m_ssite,
-  }));
-}
+    const selectedEtude = etudes.find(
+      (etude) => etude.m_nidetude === parseInt(selectedId)
+    );
 
+    setSelectedEtude(selectedEtude);
+
+    if (selectedEtude) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        m_nidetude: selectedEtude.m_nidetude,
+        m_sDénominationEtude: selectedEtude.m_sDénominationEtude,
+        m_sAdresse: selectedEtude.m_sAdresse,
+        m_sAdresseSuite: selectedEtude.m_sAdresseSuite,
+        m_sCodePostale: selectedEtude.m_sCodePostale,
+        m_sLocalite: selectedEtude.m_sLocalite,
+        m_sboitepostal: selectedEtude.m_sboitepostal,
+        m_sLocaliteboitepostal: selectedEtude.m_sLocaliteboitepostal,
+        m_stelephone: selectedEtude.m_stelephone,
+        m_sfax: selectedEtude.m_sfax,
+        m_ssite: selectedEtude.m_ssite,
+      }));
+    }
   };
-  
+
   return (
     <div className="unique-container">
       <div className="unique-card">
@@ -538,17 +542,18 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                 className="unique-input"
               />
             </div>
-
             <div className="unique-flex">
               <label className="unique-label">Statut</label>
               <select
-                value={formData.m_sStatut}
+                value={formData.m_sStatut} 
                 onChange={(e) => handleChange("m_sStatut", e.target.value)}
                 className="unique-input"
               >
-                <option>Inscrit</option>
-                <option>Non inscrit</option>
-                <option>En cours d'inscription</option>
+                <option value="Inscrit">Inscrit</option>
+                <option value="Non inscrit">Non inscrit</option>
+                <option value="En cours d'inscription">
+                  En cours d'inscription
+                </option>
               </select>
             </div>
             <div className="unique-flex">
@@ -558,10 +563,11 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                 onChange={(e) => handleChange("m_Liste", e.target.value)}
                 className="unique-input"
               >
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
+                <option value="">Sélectionnez une liste</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
               </select>
             </div>
 
@@ -649,12 +655,11 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                 )}
               </div>
             ))}
-              <p style={{ minHeight: "150px" }}>
+            <p style={{ minHeight: "150px" }}>
               Langues parlées:
               <button onClick={handleLangueClick} className="btnadd">
                 <BsPlusCircleFill />
               </button>
-              
               <span>
                 {selectedLanguages.length === 0
                   ? languageCodes.map((code, index) => {
@@ -664,7 +669,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                       return (
                         <React.Fragment key={`default-${index}`}>
                           <strong>{language ? language.name : code}</strong>
-                          
                         </React.Fragment>
                       );
                     })
@@ -675,7 +679,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                       return (
                         <React.Fragment key={`selected-${index}`}>
                           <strong>{language ? language.name : code}</strong>
-                          
                         </React.Fragment>
                       );
                     })}
@@ -697,7 +700,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
               <button onClick={handleActiviteClick} className="btnadd">
                 <BsPlusCircleFill />
               </button>
-              
               <span>
                 {selectedActivities.length === 0
                   ? defaultActivityArray.map((code, index) => {
@@ -707,7 +709,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                       return (
                         <React.Fragment key={`default-${index}`}>
                           <strong>{activites ? activites.name : code}</strong>
-                          
                         </React.Fragment>
                       );
                     })
@@ -718,7 +719,6 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                       return (
                         <React.Fragment key={`selected-${index}`}>
                           <strong>{activites ? activites.name : code}</strong>
-                          
                         </React.Fragment>
                       );
                     })}
@@ -737,45 +737,48 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
         </div>
 
         <div className="unique-third-section">
-      <h1 className="unique-header">
-        <User className="unique-icon" />
-      </h1>
-      <div className="unique-border-box">
-        <h1>Etude</h1>
-        <div className="unique-etude-group">
-          <select onChange={handleEtudeSelect} className="unique-dropdown">
-            <option value="">Select Etude</option>
-            {etudes.map((etude) => (
-              <option key={etude.m_nidetude} value={etude.m_nidetude}>
-                {etude.m_sDénominationEtude}
-              </option>
-            ))}
-          </select>
-          {[
-            { label: "Dénomination", field: "m_sDénominationEtude" },
-            { label: "Adresse", field: "m_sAdresse" },
-            { label: "Complément adresse", field: "m_sAdresseSuite" },
-            { label: "Code Postal", field: "m_sCodePostale" },
-            { label: "Localité", field: "m_sLocalite" },
-            { label: "Boite postal", field: "m_sboitepostal" },
-            { label: "Localité boite postal", field: "m_sLocaliteboitepostal" },
-            { label: "Tel Fixe", field: "m_stelephone" },
-            { label: "Fax", field: "m_sfax" },
-            { label: "Site web", field: "m_ssite", type: "url" },
-          ].map(({ label, field, type = "text" }) => (
-            <div key={field}>
-              <label className="unique-etude-label">{label}</label>
-              <input
-                type={type}
-                value={formData[field] || ''}
-                onChange={(e) => handleChange(field, e.target.value)}
-                className="unique-etude-input"
-              />
+          <h1 className="unique-header">
+            <User className="unique-icon" />
+          </h1>
+          <div className="unique-border-box">
+            <h1>Etude</h1>
+            <div className="unique-etude-group">
+              <select onChange={handleEtudeSelect} className="unique-dropdown">
+                <option value="">Select Etude</option>
+                {etudes.map((etude) => (
+                  <option key={etude.m_nidetude} value={etude.m_nidetude}>
+                    {etude.m_sDénominationEtude}
+                  </option>
+                ))}
+              </select>
+              {[
+                { label: "Dénomination", field: "m_sDénominationEtude" },
+                { label: "Adresse", field: "m_sAdresse" },
+                { label: "Complément adresse", field: "m_sAdresseSuite" },
+                { label: "Code Postal", field: "m_sCodePostale" },
+                { label: "Localité", field: "m_sLocalite" },
+                { label: "Boite postal", field: "m_sboitepostal" },
+                {
+                  label: "Localité boite postal",
+                  field: "m_sLocaliteboitepostal",
+                },
+                { label: "Tel Fixe", field: "m_stelephone" },
+                { label: "Fax", field: "m_sfax" },
+                { label: "Site web", field: "m_ssite", type: "url" },
+              ].map(({ label, field, type = "text" }) => (
+                <div key={field}>
+                  <label className="unique-etude-label">{label}</label>
+                  <input
+                    type={type}
+                    value={formData[field] || ""}
+                    onChange={(e) => handleChange(field, e.target.value)}
+                    className="unique-etude-input"
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
       </div>
       <div className="unique-submit-section">
         <button

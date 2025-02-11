@@ -77,7 +77,7 @@ const Step3 = ({ handlePrevious, currentStep }) => {
 
         if (data.sRole === "Admin") {
           setIsAdminAuthenticated(true);
-          navigate("/userlist");
+          navigate("/dashboard");
         } else {
           navigate("/home");
         }

@@ -40,6 +40,8 @@ import FicheAvocat from "../Components/AdminDashboard/GestionDesAvocats/FicheAvo
 import FicheEtude from "../Components/AdminDashboard/GestionDesEtudes/FicheEtude";
 import ModifFiche from "../Components/AdminDashboard/GestionDesAvocats/ModifFiche";
 import AddFiche from "../Components/AdminDashboard/GestionDesAvocats/AddFiche";
+import EtudeList from "../Components/AdminDashboard/EtudeList";
+import AddEtude from "../Components/AdminDashboard/GestionDesEtudes/AddEtude";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -111,14 +113,17 @@ function MainRoutes() {
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/invitation" element={<Invitation />} />
 
-        <Route path="/addFicheAvocat" element={<AddFiche />} />
-        <Route path="/updateFicheAvocat" element={<ModifFiche />} />
-        <Route path="/ficheEtude" element={<FicheEtude />} />
+    
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route path="/avocats" element={<AvocatList />} />
         <Route path="/utilisateurs" element={<UserListManagement />} />
-        <Route element={<PrivateRoute />}></Route>
+        <Route path="/addFicheAvocat" element={<AddFiche />} />
+        <Route path="/addFicheEtude" element={<AddEtude />} />
+        <Route path="/updateFicheAvocat" element={<ModifFiche />} />
+        <Route path="/etude" element={<EtudeList />} />
+        <Route element={<PrivateRoute />}>
+        </Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
         <Route element={<PartialProtectedRoute />}>

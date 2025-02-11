@@ -84,7 +84,7 @@ const AvocatList = () => {
       lawyer?.m_sAdressePrivee,
       lawyer?.m_sStatut,
       lawyer?.m_sSexe,
-      lawyer?.m_nidetude,
+      lawyer?.m_sDénominationEtude,
       lawyer?.m_sNationalite,
       lawyer?.m_dDateAssermentation,
     ];
@@ -98,9 +98,10 @@ const AvocatList = () => {
     const matchesStatus =
       selectedStatus === "all" ||
       (selectedStatus === "inscrit" && lawyer.m_sStatut === "Inscrit") ||
-      (selectedStatus === "non-inscrit" && lawyer.m_sStatut === "Non inscrit");
+      (selectedStatus === "non-inscrit" && lawyer.m_sStatut === "Non inscrit")||
+      (selectedStatus === "en-cours" && lawyer.m_sStatut === "En cours d'inscription");
 
-    return matchesSearch && matchesStatus;
+    return matchesSearch && matchesStatus; 
   });
 
   return (
@@ -167,14 +168,15 @@ const AvocatList = () => {
                   <option value="all">Tous les statuts</option>
                   <option value="inscrit">Inscrits</option>
                   <option value="non-inscrit">Non inscrits</option>
+                  <option value="en-cours">En cours d'inscription</option>
                 </select>
               </div>
             </div>
 
             <div className="relative">
-              <div className="relative overflow-x-auto overflow-y-auto max-h-[calc(100vh-50px)]  mx-4 my-5 p-5 scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
+              <div className="relative overflow-x-auto overflow-y-auto max-h-[calc(100vh-250px)]  mx-4 my-5 p-5 scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
                 <table className="w-full">
-                  <thead className="sticky top-0 z-10 bg-[#5E1675]">
+                  <thead className="sticky top-[-18px] z-10 bg-[#5E1675]">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Identifiant interne
@@ -260,7 +262,7 @@ const AvocatList = () => {
                           {lawyer.m_sSexe}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_nidetude}
+                          {lawyer.m_sDénominationEtude}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {lawyer.m_sNationalite}

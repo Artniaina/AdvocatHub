@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const EtudeList = () => {
   const navigate = useNavigate();
-  const [etude, setEtude] = useState([]);
+  const [etudes, setEtude] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [showPopup, setShowPopup] = useState(false);
@@ -30,6 +30,8 @@ const EtudeList = () => {
 
     fetchData();
   }, []);
+
+  console.log(etudes);
 
   const handleDeleteClick = (idFormulaire) => {
     setAvocatTodelete(idFormulaire);
@@ -61,7 +63,7 @@ const EtudeList = () => {
             throw new Error("Failed to fetch data");
           }
           const data = await response.json();
-          setLawyers(data);
+          setEtude(data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -69,14 +71,14 @@ const EtudeList = () => {
   
       await fetchData();
     } catch (error) {
-      console.error("Error deleting lawyer:", error);
+      console.error("Error deleting etude:", error);
     } finally {
       setShowPopup(false);
       setAvocatTodelete(null);
     }
   };
 
-  const filteredLawyers = lawyers?.filter((lawyer) => {
+  const filteredEtude = etudes?.filter((etude) => {
     const searchFields = [
       etude?.m_NumInterne,
       etude?.m_sDénominationEtude,
@@ -100,8 +102,8 @@ const EtudeList = () => {
 
     const matchesStatus =
       selectedStatus === "all" ||
-      (selectedStatus === "inscrit" && lawyer.m_sStatut === "Inscrit") ||
-      (selectedStatus === "non-inscrit" && lawyer.m_sStatut === "Non inscrit");
+      (selectedStatus === "inscrit" && etude.m_sStatut === "Inscrit") ||
+      (selectedStatus === "non-inscrit" && etude.m_sStatut === "Non inscrit");
 
     return matchesSearch && matchesStatus;
   });
@@ -134,10 +136,10 @@ const EtudeList = () => {
                 Liste des Avocats
               </h2>
               <button
-                onClick={() => navigate("/addFicheAvocat")}
+                onClick={() => navigate("/addFicheEtude")}
                 className="px-4 py-2 bg-[#5E1675] text-white rounded-lg hover:bg-[#4A1259] transition-colors w-full sm:w-auto"
               >
-                + Ajouter un avocat
+                + Ajouter une Etude
               </button>
             </div>
 
@@ -175,39 +177,51 @@ const EtudeList = () => {
             </div>
 
             <div className="relative">
-              <div className="relative overflow-x-auto overflow-y-auto max-h-[calc(100vh-50px)]  mx-4 my-5 p-5 scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
+              <div className="relative overflow-x-auto overflow-y-auto max-h-[calc(100vh-250px)]  mx-4 my-5 p-5 scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
                 <table className="w-full">
-                  <thead className="sticky top-0 z-10 bg-[#5E1675]">
-                    <tr>
+                <thead className="sticky top-[-18px] z-10 bg-[#5E1675]">
+                <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Identifiant interne
+                        IDEtude
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Nom & Prénom
+                        Numéro interne
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Barreau
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Email
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Adresse
+                        Dénomination de l'étude
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Statut
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                        Type
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                        Forme sociale
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Sexe
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Etude
+                        Numéro de voie
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Nationalité
+                        Adresse
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Date d'assermentation
+                        Complement d'adresse
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Code postal
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                        Localité
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                        Barreau
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                        Boîte postal
                       </th>
                       <th className="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                         Actions
@@ -215,61 +229,58 @@ const EtudeList = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredLawyers.map((lawyer) => (
+                    {filteredEtude.map((etude) => (
                       <tr
-                        key={lawyer.m_NumInterne}
+                        key={etude.m_nidetude}
                         className="hover:bg-gray-50"
                       >
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {lawyer.m_NumInterne}
+                          {etude.m_nidetude}
                         </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10">
-                              <div className="h-10 w-10 rounded-full bg-[#5E1675]/10 flex items-center justify-center">
-                                <span className="text-[#5E1675] font-medium">
-                                  {lawyer.m_sNom?.[0]}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {lawyer.m_sNom} {lawyer.m_sPrenom}
-                              </div>
-                            </div>
-                          </div>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {etude.m_NumInterne}
                         </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_barreau}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_emailbarreau}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_sAdressePrivee}
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {etude.m_sDénominationEtude}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap">
                           <span
                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              lawyer.m_sStatut === "Inscrit"
+                              etude.m_sStatut === "Inscrite"
                                 ? "bg-green-100 text-green-800"
                                 : "bg-red-100 text-red-800"
                             }`}
                           >
-                            {lawyer.m_sStatut}
+                            {etude.m_sStatut}
                           </span>
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_sSexe}
+                          {etude.m_nNumVoie}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_nidetude}
+                          {etude.m_barreau}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_sNationalite}
+                          {etude.m_sboitepostal}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {lawyer.m_dDateAssermentation}
+                          {etude.m_stype}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sAdresse}
+                        </td>
+                       
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sAdresseSuite}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sFormeSociale}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sCodePostale}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sLocalite}
                         </td>
                         <td
                           style={{
@@ -284,7 +295,7 @@ const EtudeList = () => {
                             className="text-[#5E1675] hover:text-[#4A1259]"
                             onClick={() => {
                               navigate("/updateFicheAvocat", {
-                                state: { email: lawyer?.m_emailbarreau },
+                                state: { email: etude?.m_emailbarreau },
                               });
                             }}
                           >
@@ -293,7 +304,7 @@ const EtudeList = () => {
 
                           <button
                             className="text-[#5E1675] hover:text-[#4A1259]"
-                            onClick={() => handleDeleteClick(lawyer.m_nIDAvocat_PP)}
+                            onClick={() => handleDeleteClick(etude.m_nIDAvocat_PP)}
                           >
                             <Trash className="h-5 w-5" />
                           </button>
