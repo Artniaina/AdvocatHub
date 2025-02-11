@@ -314,7 +314,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     );
 
     setSelectedEtude(selectedEtude);
-
+ 
     if (selectedEtude) {
       setFormData((prevFormData) => ({
         ...prevFormData,

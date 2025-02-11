@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Search, Filter, Edit, Trash } from "lucide-react";
 import SideBar from "./SideBar";
@@ -12,25 +11,24 @@ const EtudeList = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [etudeTodelete, setEtudeTodelete] = useState(null);
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://192.168.10.113/Utilisateur/api/getAllEtude"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await response.json();
-        setEtude(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "http://192.168.10.113/Utilisateur/api/getAllEtude"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
       }
-    };
+      const data = await response.json();
+      setEtude(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
-
 
   const handleDeleteClick = (id) => {
     setEtudeTodelete(id);
@@ -52,8 +50,7 @@ const EtudeList = () => {
       if (!response.ok) {
         throw new Error("Failed to delete lawyer");
       }
-  
-  
+
       await fetchData();
     } catch (error) {
       console.error("Error deleting etude:", error);
@@ -76,7 +73,6 @@ const EtudeList = () => {
       etude?.m_sCodePostale,
       etude?.m_sLocalite,
       etude?.m_barreau,
-      etude?.m_sboitepostal,
     ];
 
     const matchesSearch = searchFields.some(
@@ -87,8 +83,11 @@ const EtudeList = () => {
 
     const matchesStatus =
       selectedStatus === "all" ||
-      (selectedStatus === "inscrit" && etude.m_sStatut === "Inscrit") ||
-      (selectedStatus === "non-inscrit" && etude.m_sStatut === "Non inscrit");
+      (selectedStatus === "inscrit" && etude.m_sStatut === "Inscrite") ||
+      (selectedStatus === "non-inscrit" &&
+        etude.m_sStatut === "Non inscrite") ||
+      (selectedStatus === "en-cours" &&
+        etude.m_sStatut === "En cours d'inscription");
 
     return matchesSearch && matchesStatus;
   });
@@ -155,8 +154,9 @@ const EtudeList = () => {
                   onChange={(e) => setSelectedStatus(e.target.value)}
                 >
                   <option value="all">Tous les statuts</option>
-                  <option value="inscrit">Inscrits</option>
-                  <option value="non-inscrit">Non inscrits</option>
+                  <option value="inscrit">Inscrites</option>
+                  <option value="non-inscrit">Non inscrites</option>
+                  <option value="en-cours">En cours d'inscription</option>
                 </select>
               </div>
             </div>
@@ -164,8 +164,8 @@ const EtudeList = () => {
             <div className="relative">
               <div className="relative overflow-x-auto overflow-y-auto max-h-[calc(100vh-250px)]  mx-4 my-5 p-5 scrollbar-thin scrollbar-thumb-[#5E1675] scrollbar-track-gray-100">
                 <table className="w-full">
-                <thead className="sticky top-[-18px] z-10 bg-[#5E1675]">
-                <tr>
+                  <thead className="sticky top-[-18px] z-10 bg-[#5E1675]">
+                    <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         IDEtude
                       </th>
@@ -187,7 +187,7 @@ const EtudeList = () => {
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Genre
                       </th>
-              
+
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Adresse
                       </th>
@@ -195,7 +195,7 @@ const EtudeList = () => {
                         Complement d'adresse
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Code postal
+                        Code postal
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Localité
@@ -203,9 +203,7 @@ const EtudeList = () => {
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Barreau
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Boîte postal
-                      </th>
+
                       <th className="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                         Actions
                       </th>
@@ -213,10 +211,7 @@ const EtudeList = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredEtude.map((etude) => (
-                      <tr
-                        key={etude.m_nidetude}
-                        className="hover:bg-gray-50"
-                      >
+                      <tr key={etude.m_nidetude} className="hover:bg-gray-50">
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                           {etude.m_nidetude}
                         </td>
@@ -249,7 +244,7 @@ const EtudeList = () => {
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_sAdresse}
                         </td>
-                       
+
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_sAdresseSuite}
                         </td>
@@ -261,9 +256,6 @@ const EtudeList = () => {
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_barreau}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {etude.m_sboitepostal}
                         </td>
 
                         <td
@@ -300,24 +292,24 @@ const EtudeList = () => {
               </div>
             </div>
             {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <h3>Confirmer la suppression</h3>
-            <p>
-              Voulez-vous vraiment supprimer cette donnée ? Cette action est
-              irréversible.
-            </p>
-            <div className="popup-actions">
-              <button className="confirm-button" onClick={handleDelete}>
-                Supprimer
-              </button>
-              <button className="cancel-button" onClick={cancelDelete}>
-                Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              <div className="popup-overlay">
+                <div className="popup">
+                  <h3>Confirmer la suppression</h3>
+                  <p>
+                    Voulez-vous vraiment supprimer cette donnée ? Cette action
+                    est irréversible.
+                  </p>
+                  <div className="popup-actions">
+                    <button className="confirm-button" onClick={handleDelete}>
+                      Supprimer
+                    </button>
+                    <button className="cancel-button" onClick={cancelDelete}>
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -16,7 +16,6 @@ const ModifEtude = () => {
       setInitialEtude(etudeInfo);
     }
   }, [etudeInfo]);
-console.log(initialEtude);
 
   useEffect(() => {
     if (id) {

@@ -97,12 +97,12 @@ const UserListManagement = () => {
             Liste des utilisateurs inscrits
           </h1>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div style={{display: "flex", flexDirection:'row'}} className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="relative flex-1">
               <input
                 type="text"
                 placeholder="Rechercher par nom..."
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg 
+                className="w-[80%] pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg 
                          shadow-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 
                          outline-none transition-all duration-300 ease-in-out"
                 value={searchTerm}
@@ -113,9 +113,9 @@ const UserListManagement = () => {
               </div>
             </div>
 
-            <div className="relative w-full sm:w-[200px]">
+            <div className="relative w-full sm:w-[200px] ">
               <select
-                className="w-full appearance-none pl-10 pr-10 py-2.5 border border-gray-300 
+                className="w-[60%] appearance-none pl-10 pr-10 py-2.5 border border-gray-300 
                          rounded-lg shadow-sm bg-white cursor-pointer
                          focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 
                          outline-none transition-all duration-300 ease-in-out"
