@@ -1,8 +1,11 @@
 import React from 'react'
+import FicheEtude from "./FicheEtude"
 
 const AddEtude = () => {
   return (
-    <div>AddEtude</div>
+    <div>
+      <FicheEtude mode={"add"} initialValue={{}} />
+    </div>
   )
 }
 

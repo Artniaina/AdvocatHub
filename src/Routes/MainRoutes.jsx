@@ -42,6 +42,7 @@ import ModifFiche from "../Components/AdminDashboard/GestionDesAvocats/ModifFich
 import AddFiche from "../Components/AdminDashboard/GestionDesAvocats/AddFiche";
 import EtudeList from "../Components/AdminDashboard/EtudeList";
 import AddEtude from "../Components/AdminDashboard/GestionDesEtudes/AddEtude";
+import ModifEtude from "../Components/AdminDashboard/GestionDesEtudes/ModifEtude";
 
 function PageTitleUpdater() {
   const location = useLocation();
@@ -121,6 +122,7 @@ function MainRoutes() {
         <Route path="/addFicheAvocat" element={<AddFiche />} />
         <Route path="/addFicheEtude" element={<AddEtude />} />
         <Route path="/updateFicheAvocat" element={<ModifFiche />} />
+        <Route path="/updateFicheEtude" element={<ModifEtude />} />
         <Route path="/etude" element={<EtudeList />} />
         <Route element={<PrivateRoute />}>
         </Route>

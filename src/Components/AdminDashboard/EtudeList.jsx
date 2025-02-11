@@ -31,7 +31,6 @@ const EtudeList = () => {
     fetchData();
   }, []);
 
-  console.log(etudes);
 
   const handleDeleteClick = (id) => {
     setEtudeTodelete(id);
@@ -266,9 +265,7 @@ const EtudeList = () => {
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_sboitepostal}
                         </td>
-                      
-                        
-                        
+
                         <td
                           style={{
                             display: "flex",
@@ -281,8 +278,8 @@ const EtudeList = () => {
                           <button
                             className="text-[#5E1675] hover:text-[#4A1259]"
                             onClick={() => {
-                              navigate("/updateFicheAvocat", {
-                                state: { email: etude?.m_emailbarreau },
+                              navigate("/updateFicheEtude", {
+                                state: { id: etude?.m_nidetude },
                               });
                             }}
                           >

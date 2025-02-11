@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Building, Info, AlertTriangle } from "lucide-react";
 import "../../../Styles/AdminDashboard/fiche.css";
 import GestionErreurPopUp from "../../PopUp/GestionErreurPopUp";
 
-const FicheEtude = () => {
+const FicheEtude = ({ mode , initialValue }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
   const [showPopup, setShowPopup] = useState(false);
@@ -92,6 +92,22 @@ const FicheEtude = () => {
     }
   };
 
+  useEffect(() => {
+    if (mode === 'edit' && initialValue && Object.keys(initialValue).length > 0) {
+      setFormData(prevState => ({
+        ...prevState,
+        ...initialValue
+      }));
+    }
+  }, [mode, initialValue]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
   const handleSubmit = async () => {
 
 
