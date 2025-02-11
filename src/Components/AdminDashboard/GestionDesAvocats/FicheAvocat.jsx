@@ -121,10 +121,10 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     m_dDateInscription: "",
     m_sNom: "",
     m_sPrenom: "",
-    m_Liste: "",
+    m_Liste: "1",
     m_sDénominationEtude: "",
     m_dDateAssermentation: "",
-    m_sStatut: "",
+    m_sStatut: "Inscrit",
     m_sAdresse: "",
     m_sAdresseSuite: "",
     m_sCodePostale: "",
@@ -137,7 +137,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     m_langue: "",
     m_dispenseaj: false,
     m_emailbarreau: "",
-    m_barreau: "",
+    m_barreau: "Luxembourg",
     m_numrcs: "",
     m_stype: "",
     m_sFormeSociale: "",
@@ -155,7 +155,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     m_sformesocialsansaccent: "",
     m_stelephonetri: "",
     m_sNationalite: "",
-    m_sSexe: "",
+    m_sSexe: "F",
     m_dDateNaissance: "",
     m_sLieuNaissance: "",
     m_sAdressePrivee: "",
@@ -266,7 +266,69 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
       />
     </div>
   );
+  const [etudes, setEtudes] = useState([]);
+  const [selectedEtude, setSelectedEtude] = useState(null);
 
+  
+  const defaultIdEtude = initialValue?.m_nidetude;
+  
+ useEffect(() => {
+  if (defaultIdEtude) {
+    const defaultEtude = etudes.find((etude) => etude.m_nidetude === defaultIdEtude);
+    
+    if (defaultEtude) {
+      setSelectedEtude(defaultEtude);
+
+      setFormData((prevData) => ({
+        ...prevData,
+        m_nidetude: defaultEtude.m_nidetude,
+        m_sDénominationEtude: defaultEtude.m_sDénominationEtude,
+        m_sAdresse: defaultEtude.m_sAdresse,
+        m_sAdresseSuite: defaultEtude.m_sAdresseSuite,
+        m_sCodePostale: defaultEtude.m_sCodePostale,
+        m_sLocalite: defaultEtude.m_sLocalite,
+        m_sboitepostal: defaultEtude.m_sboitepostal,
+        m_sLocaliteboitepostal: defaultEtude.m_sLocaliteboitepostal,
+        m_stelephone: defaultEtude.m_stelephone,
+        m_sfax: defaultEtude.m_sfax,
+        m_ssite: defaultEtude.m_ssite,
+      }));
+    }
+  }
+}, [etudes, defaultIdEtude]);
+
+
+  useEffect(() => {
+    fetch('http://192.168.10.113/Utilisateur/api/getAllEtude')
+      .then((response) => response.json())
+      .then((data) => setEtudes(data))
+      .catch((error) => console.error('Error fetching etudes:', error));
+  }, []);
+  const handleEtudeSelect = (event) => {
+    const selectedId = event.target.value;
+    const selectedEtude = etudes.find((etude) => etude.m_nidetude === parseInt(selectedId));
+  
+    setSelectedEtude(selectedEtude);
+  
+   if (selectedEtude) {
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    m_nidetude: selectedEtude.m_nidetude, 
+    m_sDénominationEtude: selectedEtude.m_sDénominationEtude,
+    m_sAdresse: selectedEtude.m_sAdresse,
+    m_sAdresseSuite: selectedEtude.m_sAdresseSuite,
+    m_sCodePostale: selectedEtude.m_sCodePostale,
+    m_sLocalite: selectedEtude.m_sLocalite,
+    m_sboitepostal: selectedEtude.m_sboitepostal,
+    m_sLocaliteboitepostal: selectedEtude.m_sLocaliteboitepostal,
+    m_stelephone: selectedEtude.m_stelephone,
+    m_sfax: selectedEtude.m_sfax,
+    m_ssite: selectedEtude.m_ssite,
+  }));
+}
+
+  };
+  
   return (
     <div className="unique-container">
       <div className="unique-card">
@@ -675,40 +737,45 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
         </div>
 
         <div className="unique-third-section">
-          <h1 className="unique-header">
-            <User className="unique-icon" />
-          </h1>
-          <div className="unique-border-box">
-            <h1>Etude</h1>
-            <div className="unique-etude-group">
-              {[
-                { label: "Dénomination", field: "m_sDénominationEtude" },
-                { label: "Adresse", field: "m_sAdresse" },
-                { label: "Complément adresse", field: "m_sAdresseSuite" },
-                { label: "Code Postal", field: "m_sCodePostale" },
-                { label: "Localité", field: "m_sLocalite" },
-                { label: "Boite postal", field: "m_sboitepostal" },
-                {
-                  label: "Localité boite postal",
-                  field: "m_sLocaliteboitepostal",
-                },
-                { label: "Tel Fixe", field: "m_stelephone" },
-                { label: "Fax", field: "m_sfax" },
-                { label: "Site web", field: "m_ssite", type: "url" },
-              ].map(({ label, field, type = "text" }) => (
-                <div key={field}>
-                  <label className="unique-etude-label">{label}</label>
-                  <input
-                    type={type}
-                    value={formData[field]}
-                    onChange={(e) => handleChange(field, e.target.value)}
-                    className="unique-etude-input"
-                  />
-                </div>
-              ))}
+      <h1 className="unique-header">
+        <User className="unique-icon" />
+      </h1>
+      <div className="unique-border-box">
+        <h1>Etude</h1>
+        <div className="unique-etude-group">
+          <select onChange={handleEtudeSelect} className="unique-dropdown">
+            <option value="">Select Etude</option>
+            {etudes.map((etude) => (
+              <option key={etude.m_nidetude} value={etude.m_nidetude}>
+                {etude.m_sDénominationEtude}
+              </option>
+            ))}
+          </select>
+          {[
+            { label: "Dénomination", field: "m_sDénominationEtude" },
+            { label: "Adresse", field: "m_sAdresse" },
+            { label: "Complément adresse", field: "m_sAdresseSuite" },
+            { label: "Code Postal", field: "m_sCodePostale" },
+            { label: "Localité", field: "m_sLocalite" },
+            { label: "Boite postal", field: "m_sboitepostal" },
+            { label: "Localité boite postal", field: "m_sLocaliteboitepostal" },
+            { label: "Tel Fixe", field: "m_stelephone" },
+            { label: "Fax", field: "m_sfax" },
+            { label: "Site web", field: "m_ssite", type: "url" },
+          ].map(({ label, field, type = "text" }) => (
+            <div key={field}>
+              <label className="unique-etude-label">{label}</label>
+              <input
+                type={type}
+                value={formData[field] || ''}
+                onChange={(e) => handleChange(field, e.target.value)}
+                className="unique-etude-input"
+              />
             </div>
-          </div>
+          ))}
         </div>
+      </div>
+    </div>
       </div>
       <div className="unique-submit-section">
         <button
