@@ -10,9 +10,8 @@ const EtudeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [showPopup, setShowPopup] = useState(false);
-  const [avocatTodelete, setAvocatTodelete] = useState(null);
+  const [etudeTodelete, setEtudeTodelete] = useState(null);
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -28,24 +27,25 @@ const EtudeList = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
   console.log(etudes);
 
-  const handleDeleteClick = (idFormulaire) => {
-    setAvocatTodelete(idFormulaire);
+  const handleDeleteClick = (id) => {
+    setEtudeTodelete(id);
     setShowPopup(true);
   };
 
   const cancelDelete = () => {
     setShowPopup(false);
-    setAvocatTodelete(null);
+    setEtudeTodelete(null);
   };
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://192.168.10.113/Utilisateur/api/delete/${avocatTodelete}`,
+        `http://192.168.10.113/Utilisateur/api/deleteEtude/${etudeTodelete}`,
         {
           method: "DELETE",
         }
@@ -54,27 +54,13 @@ const EtudeList = () => {
         throw new Error("Failed to delete lawyer");
       }
   
-      const fetchData = async () => {
-        try {
-          const response = await fetch(
-            "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
-          );
-          if (!response.ok) {
-            throw new Error("Failed to fetch data");
-          }
-          const data = await response.json();
-          setEtude(data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
   
       await fetchData();
     } catch (error) {
       console.error("Error deleting etude:", error);
     } finally {
       setShowPopup(false);
-      setAvocatTodelete(null);
+      setEtudeTodelete(null);
     }
   };
 
@@ -200,11 +186,9 @@ const EtudeList = () => {
                         Forme sociale
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Sexe
+                        Genre
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Numéro de voie
-                      </th>
+              
                       <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Adresse
                       </th>
@@ -255,16 +239,13 @@ const EtudeList = () => {
                           </span>
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {etude.m_nNumVoie}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {etude.m_barreau}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {etude.m_sboitepostal}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_stype}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sFormeSociale}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_nGenreEtude}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_sAdresse}
@@ -274,14 +255,20 @@ const EtudeList = () => {
                           {etude.m_sAdresseSuite}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {etude.m_sFormeSociale}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_sCodePostale}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                           {etude.m_sLocalite}
                         </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_barreau}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {etude.m_sboitepostal}
+                        </td>
+                      
+                        
+                        
                         <td
                           style={{
                             display: "flex",
@@ -304,7 +291,7 @@ const EtudeList = () => {
 
                           <button
                             className="text-[#5E1675] hover:text-[#4A1259]"
-                            onClick={() => handleDeleteClick(etude.m_nIDAvocat_PP)}
+                            onClick={() => handleDeleteClick(etude.m_nidetude)}
                           >
                             <Trash className="h-5 w-5" />
                           </button>
