@@ -109,28 +109,42 @@ const FicheEtude = ({ mode , initialValue }) => {
     }));
   };
   const handleSubmit = async () => {
-
-
     try {
-      const response = await fetch(
-        "http://192.168.10.113/Utilisateur/api/add/ficheEtude",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const baseUrl = "http://192.168.10.113/Utilisateur/api";
+      let url;
+      let method;
+
+      if (mode === 'edit' && initialValue?.m_nidetude) {
+        url = `${baseUrl}/update/ficheEtude/${initialValue.m_nidetude}`;
+        method = 'PUT';
+      } else {
+        url = `${baseUrl}/add/ficheEtude`;
+        method = 'POST';
+      }
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
+        const errorData = await response.json();
+        setMessageErreur(errorData.message || "Une erreur s'est produite lors de l'opération.");
+        setShowPopup(true);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
       console.log("Success:", data);
+      setMessageErreur("Opération réussie!");
+      setShowPopup(true);
     } catch (error) {
       console.error("Error:", error);
+      setMessageErreur("Une erreur s'est produite lors de l'opération.");
+      setShowPopup(true);
     }
   };
 
