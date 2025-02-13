@@ -24,11 +24,10 @@ import { useDispatch, useSelector } from "react-redux";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [formulaire, setFormulaire] = useState(null);
-  const [status, setStatus] = useState("idle");
-  const [count, setCount] = useState(0);
   const formulaireId = location.state?.id;
   const [loading, setLoading] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
@@ -239,6 +238,10 @@ const UploadFile = () => {
   };
 
 
+  const handleOkClick = () => {
+    viewPdf();  
+    navigate('/home/formTaxation');  
+  };
   
   const handleSubmission = async () => {
     try {
@@ -314,7 +317,6 @@ const UploadFile = () => {
 
   return (
     <>
-      {loading && <div className="loading-spinner1"></div>}
       {loadingEmail && <div className="loading-spinner1"></div>}
       <div>
         <UploadFileGuide />
@@ -421,7 +423,7 @@ const UploadFile = () => {
           </div>
           {isEmailSent && (
               <SuccessPopup
-                onGenerateAndSendPDF={viewPdf}
+                onGenerateAndSendPDF={handleOkClick}
                 content={"Formulaire taxation ordinaire"}
               />
             )}

@@ -133,7 +133,40 @@ export const GeneraliteProvider = ({ children }) => {
     String(currentDate.getMonth() + 1).padStart(2, "0") +
     String(currentDate.getDate()).padStart(2, "0");
   
-  
+  const initialJsonToSend = {
+    sStatutFormulaire: "non transmis",
+    sEmailUtilisateur: user?.email,
+    sDomaineJuridique: "",
+    sNomAffaire:"",
+    sTermesHonoraires: "non",
+    sAbsenceTermes: "",
+    sDateContestation: "",
+    sDateDebutMandat: "",
+    sDateFinMandat: "",
+    sEtatAvancement: "non",
+    sMesureConservatoire: "non",
+    sMediation: "non",
+    sMediationChoix: "non",
+    sConciliation: "non",
+    sProcedureRelative: "non",
+    sObservations: "",
+    sPositionAvocat: "",
+    sContenu1: "",
+    sContenu2: "",
+    sContenu3:"",
+    sContenu4: "",
+    sContenu5: "",
+    sContenu6: "",
+    sMontant:  [],
+    sNoteHonoraire: [],
+    sHonoraireData:  [],
+    sProvision:  [],
+    sPrestataireData:  [],
+    sCollaboratorsData: [],
+    sAvocatsData: avocatsData,
+    sClientsData: [],
+    sSubmited_at: formattedDate,
+  };
   
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
@@ -224,6 +257,7 @@ export const GeneraliteProvider = ({ children }) => {
         transmisLe,
         setTransmisLe,
         jsonToSend,
+        initialJsonToSend,
       }}
     >
       {children}

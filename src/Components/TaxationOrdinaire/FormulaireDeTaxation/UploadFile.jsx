@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import RequiredMessage from "../../PopUp/RequiredMessage";
 import NoteHonoraireWarning from "../../PopUp/NoteHonoraireWarning";
@@ -18,6 +18,7 @@ import SuccessPopup from "../../PopUp/PopUpSuccess";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [formulaire, setFormulaire] = useState(null);
@@ -243,6 +244,10 @@ const UploadFile = () => {
     }
   };
 
+  const handleOkClick = () => {
+    viewPdf();  
+    navigate('/home/formTaxation');  
+  };
 
   const handleSubmission = async () => {
     try {
@@ -292,7 +297,6 @@ const UploadFile = () => {
 
   return (
     <>
-      {loading && <div className="loading-spinner1"></div>}
       {loadingEmail && <div className="loading-spinner1"></div>}
       <div>
         <UploadFileGuide />
@@ -360,10 +364,7 @@ const UploadFile = () => {
             <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
             Parcourir
           </button>
-          <button onClick={generatePdf}>
-            <IoAddCircle style={{ color: "green", fontSize: "40px" }} />
-            Jereo{" "}
-          </button>
+    
 
           <input
             id="file-upload"
@@ -393,7 +394,7 @@ const UploadFile = () => {
             )}
             {isEmailSent && (
               <SuccessPopup
-                onGenerateAndSendPDF={viewPdf}
+                onGenerateAndSendPDF={handleOkClick}
                 content={"Formulaire taxation ordinaire"}
               />
             )}

@@ -35,7 +35,7 @@
     height: 25vh;
   }
   
-  .success-popup-button {
+  .success-popup-button1 {
     background-color: #6e1992;
     color: white;
     border: none;
@@ -44,7 +44,7 @@
     cursor: pointer;
   }
   
-  .success-popup-button:hover {
+  .success-popup-button1:hover {
     background-color: #8e44ad;
   }
   .violet-top{
