@@ -8,7 +8,7 @@ import {
   Image,
   Font
 } from "@react-pdf/renderer";
-import LogoLaw from "../../assets/logolaw.jpg"; 
+import LogoLaw from "../../assets/logolaw.jpg";
 
 Font.register({
   family: 'Open Sans',
@@ -59,9 +59,15 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginRight: 20,
   },
+  signatureText: {
+    fontFamily: 'Open Sans',
+    fontSize: 12,
+    marginTop: 10,
+    textAlign: "right",
+  },
   borderContainer: {
     flex: 1,
-    border: "1pt solid grey",
+    border: "1px solid grey",
     margin: 10,
     padding: 20,
   },
@@ -77,11 +83,12 @@ const CertificatInscription = ({
   dateAssermentation,
   gedFonction,
   date,
+  signature
 }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.borderContainer}>
-        <Image style={styles.logo} src={LogoLaw} /> 
+        <Image style={styles.logo} src={LogoLaw} />
         <View style={styles.section}>
           <Text style={styles.title}> CERTIFICAT </Text>
           <Text style={styles.intro}>
@@ -92,27 +99,28 @@ const CertificatInscription = ({
             <Text>- </Text>
             <Text style={styles.dev}>
               réside professionnellement au{" "}
-              <Text >{adresse}</Text> ;
+              <Text>{adresse}</Text> ;
             </Text>
           </View>
           <View style={styles.container}>
             <Text>- </Text>
             <Text style={styles.dev}>
-              a prêté serment d’avocat le{" "}
-              <Text >{dateAssermentation}</Text> ;
+              a prêté serment d'avocat le{" "}
+              <Text>{dateAssermentation}</Text> ;
             </Text>
           </View>
           <View style={styles.container}>
             <Text>- </Text>
             <Text style={styles.dev}>
-              est actuellement inscrit à l’Ordre des avocats du Barreau
-              d’Antananarivo en tant qu'
-              <Text >{gedFonction}</Text>.
+              est actuellement inscrit à l'Ordre des avocats du Barreau
+              de Luxembourg en tant qu'
+              <Text>{gedFonction}</Text>.
             </Text>
           </View>
-          <Text style={styles.signature}>
-            Antananarivo, le{date}
-          </Text>
+          <View style={styles.signature}>
+            <Text>Fait le {date}</Text>
+            <Text style={styles.signatureText}>{signature}</Text>
+          </View>
         </View>
       </View>
     </Page>

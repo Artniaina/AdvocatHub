@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Styles/PopUp/AllPopUp.css";
 import "../../Styles/spinner.css";
-import { IoIosCloseCircle } from "react-icons/io";
+import { IoCloseCircleOutline } from "react-icons/io5";
 import { useAuth } from "../../Hooks/AuthContext";
 import { pdf } from "@react-pdf/renderer";
 import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import CertificatInscription from "../PDF/CertificatInscription";
 import SuccessPopup from "../PopUp/PopUpSuccess";
+import SignatureCanvas from "react-signature-canvas";
 
 const PopUpCertificatdInscri = ({ onClose }) => {
   const { user } = useAuth();
@@ -16,7 +17,10 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   const [currentBlobUrl, setCurrentBlobUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [contentLoaded, setContentLoaded] = useState(false);
-
+  const [signature, setSignature] = useState("");
+  const [showAlert, setShowAlert] = useState(false); // Ajout du state pour le modal
+  const sigPadRef = useRef(null);
+ 
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchAvocatInfo(`'${user.email}'`));
@@ -153,6 +157,14 @@ const PopUpCertificatdInscri = ({ onClose }) => {
     }
   };
 
+
+  const clearSignature = () => {
+    if (sigPadRef.current) {
+      sigPadRef.current.clear();
+      setSignature("");
+    }
+  };
+
   return (
     <div className="overlay">
       {loading ? (
@@ -166,32 +178,38 @@ const PopUpCertificatdInscri = ({ onClose }) => {
         <>
           <div className="popupNav">
             <button className="close-button" onClick={onClose}>
-              <IoIosCloseCircle />
+              <IoCloseCircleOutline />
             </button>
             <div className="popup-contentNav">
-              <p className="certiftxt">TYPE DE CERTIFICAT D'INSCRIPTION</p>
-              <div className="radio">
-                <label>
-                  <input
-                    type="radio"
-                    name="certificateType"
-                    value="standard"
-                    defaultChecked
-                  />
-                  Standard
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="certificateType"
-                    value="assurance"
-                  />
-                  Assurance
-                </label>
-                <label>
-                  <input type="radio" name="certificateType" value="ce" />
-                  CE
-                </label>
+              <p className="certiftxt">CERTIFICAT D'INSCRIPTION</p>
+              <p className="info-text">
+                Pour finaliser votre certificat d'inscription, <br />
+                veuillez apposer votre signature dans l'espace ci-dessous.
+              </p>
+              <div className="signature-container">
+                <SignatureCanvas
+                  ref={sigPadRef}
+                  canvasProps={{
+                    className: "signature-input",
+                    style: { 
+                      width: '100%',
+                      height: '150px',
+                      background: '#fff',
+                      border: '1px solid #ccc', 
+                      position: 'relative',
+                      right:'11px'
+                    }
+                  }}
+                />
+                <div style={{display:"flex", justifyContent:"space-around"}}>
+                  <button 
+                    onClick={clearSignature}
+                    className="btnSignature"
+                    style={{ marginTop: '10px', marginRight: '10px' }}
+                  >
+                    Effacer
+                  </button>
+                </div>
               </div>
               <div className="divNavi">
                 <button className="btnNavi" onClick={handleGenerateAndSendPDF}>
@@ -200,6 +218,17 @@ const PopUpCertificatdInscri = ({ onClose }) => {
               </div>
             </div>
           </div>
+
+          {showAlert && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <p>Veuillez ajouter votre signature avant de continuer.</p>
+                <button className="btnNavi" onClick={() => setShowAlert(false)}>
+                  OK
+                </button>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
