@@ -226,8 +226,8 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     try {
       const url =
         mode === "edit"
-          ? `http://192.168.10.113/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
-          : "http://192.168.10.113/Utilisateur/api/add/ficheAvocat";
+          ? `http://192.168.10.105/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
+          : "http://192.168.10.105/Utilisateur/api/add/ficheAvocat";
 
       const method = mode === "edit" ? "PUT" : "POST";
 
@@ -302,7 +302,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   }, [etudes, defaultIdEtude]);
 
   useEffect(() => {
-    fetch("http://192.168.10.113/Utilisateur/api/getAllEtude")
+    fetch("http://192.168.10.105/Utilisateur/api/getAllEtude")
       .then((response) => response.json())
       .then((data) => setEtudes(data))
       .catch((error) => console.error("Error fetching etudes:", error));

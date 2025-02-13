@@ -53,7 +53,7 @@ const ValidationOTP = () => {
         scodeOTP: codeOTP,
       };
 
-      const response = await fetch("http://192.168.10.113/Utilisateur/Authent", {
+      const response = await fetch("http://192.168.10.105/Utilisateur/Authent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

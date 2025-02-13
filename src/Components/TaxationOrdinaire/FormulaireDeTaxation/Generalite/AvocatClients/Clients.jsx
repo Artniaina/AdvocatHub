@@ -44,7 +44,7 @@ const Clients = () => {
   };
 
   return (
-    <div>
+    <div style={{width:"46%"}}>
       <div className="titleCard">
         <img
           src={Image}

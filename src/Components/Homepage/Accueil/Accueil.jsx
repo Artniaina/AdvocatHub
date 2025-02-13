@@ -9,7 +9,7 @@ import PersoIcon from "../../../assets/icons8-contrat-de-travail-100(1).png";
 
 const Accueil = ({ avocatInfo, etudeInfo }) => {
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
     dispatch(fetchActivities());
   }, [dispatch]);
@@ -73,7 +73,6 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
   }, [avocatInfo]);
   return (
     <div className="mainContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-      {/* First Card */}
       <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
         <img src={PersoIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
         <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
@@ -130,7 +129,6 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
         </div>
       </div>
 
-      {/* Second Card */}
       <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
         <img src={ProIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
         <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
@@ -199,7 +197,6 @@ const Accueil = ({ avocatInfo, etudeInfo }) => {
         </div>
       </div>
 
-      {/* Third Card */}
       <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
         <img src={EtudeIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
         <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">

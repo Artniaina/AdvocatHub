@@ -372,7 +372,7 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.113/Utilisateur/ModifFicheAvocat/${IdAvocat}`,
+        `http://192.168.10.105/Utilisateur/ModifFicheAvocat/${IdAvocat}`,
         {
           method: "PUT",
           headers: {
@@ -470,15 +470,15 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
 
   return (
     <form onSubmit={handleSubmitAllChangeform}>
-      <div className="mainContainer">
-        <div className="container" style={{ marginLeft: "30px" }}>
-          <img src={PersoIcon} alt="logo" className="logo" />
-          <h1>
-            Informations personnelles
+    <div className="mainContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+    <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
+    <img src={PersoIcon} alt="logo"  className="logo w-16 h-16 mx-auto" />
+    <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
+    Informations personnelles
             <hr className="hr" />
           </h1>
-          <div className="containerInfo">
-            <p>
+          <div className="containerInfo flex flex-col items-start">
+          <p>
               Nom:
              
               <strong>{avocatInfo && avocatInfo.m_sNom}</strong>
@@ -488,8 +488,8 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
              
               <strong>{avocatInfo && avocatInfo.m_sPrenom}</strong>
             </p>
-            <div className="p">
-              <div className="b1" style={{ marginLeft: -5 }}>
+            <div className="flex flex-wrap">
+            <div className="b1" style={{ marginLeft: -5 }}>
                 <p>
                   Genre:
                   
@@ -604,14 +604,14 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
           </div>
         </div>
 
-        <div className="container " style={{ width: "520px" }}>
-          <img src={ProIcon} alt="logo" className="logo" />
-          <h1>
+        <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
+        <img src={ProIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
+        <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
             Informations professionnnelles
             <hr className="hr" />
           </h1>
-          <div className="containerInfo middle">
-            <p>
+          <div className="containerInfo flex flex-col items-start">
+          <p>
               Identifiant Interne:
                         <strong>{avocatInfo && avocatInfo.m_NumInterne}</strong>
             </p>
@@ -757,13 +757,13 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
           </div>
         </div>
 
-        <div className="container" style={{ marginRight: "30px" }}>
-          <img src={EtudeIcon} alt="logo" className="logo" />
-          <h1>
+        <div className="container border border-[#7272774f] flex flex-col p-4 rounded-lg bg-white mx-3">
+        <img src={EtudeIcon} alt="logo" className="logo w-16 h-16 mx-auto" />
+        <h1 className="text-center text-xl text-[#3c1880d7] uppercase m-0">
             Etude <hr className="hr" />
           </h1>
-          <div className="containerInfo">
-            {etudeInfo && (
+          <div className="containerInfo flex flex-col items-start">
+          {etudeInfo && (
               <>
                 <p>
                   Dénomination:

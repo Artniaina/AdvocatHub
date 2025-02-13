@@ -106,49 +106,9 @@ const styles = {
   },
 };
 
-const FormulaireDeTaxationPDF = () => {
-  const [formulaire, setFormulaire] = useState(null);
+const FormulaireDeTaxationPDF = ({formulaire}) => {
   const [status, setStatus] = useState("idle");
 
-  useEffect(() => {
-    const fetchFormulaires = async () => {
-      setStatus("loading");
-      try {
-        const response = await fetch(
-          "http://192.168.10.113/Utilisateur/Formulaire/FormTransmis"
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok. Status: ${response.status}`
-          );
-        }
-        const text = await response.text();
-        if (!text) {
-          console.log("Response is empty");
-          setFormulaire(null);
-          setStatus("succeeded");
-          return;
-        }
-
-        try {
-          const data = JSON.parse(text);
-          setFormulaire(data.length ? data[0] : null);
-          setStatus("succeeded");
-        } catch (jsonError) {
-          console.error("Error parsing JSON:", jsonError.message);
-          throw new Error("Failed to parse response as JSON.");
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-        setStatus("failed");
-      }
-    };
-
-    if (status === "idle") {
-      fetchFormulaires();
-    }
-  }, [status]);
 
   const avocat = formulaire?.sAvocatsData?.[0] || {};
   const collaborateurs = formulaire?.sCollaboratorsData || [];

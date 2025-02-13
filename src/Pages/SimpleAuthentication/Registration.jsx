@@ -8,6 +8,7 @@ import { MdMailOutline } from "react-icons/md";
 import "../../Styles/Authentification/Log.css";
 import Img from "../../assets/reg.png";
 import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
+import { TfiRulerAlt } from "react-icons/tfi";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ const Registration = () => {
       };
 
       const response = await fetch(
-        "http://192.168.10.113/Utilisateur/Register",
+        "http://192.168.10.105/Utilisateur/Register",
         {
           method: "POST",
           headers: {
@@ -89,7 +90,8 @@ const Registration = () => {
       });
       setError("");
     } catch (error) {
-      setError("Erreur lors de la création du compte.");
+      setMessageErreur("Erreur lors de la création du compte.");
+      setShowPopup(true)
       console.error("Erreur lors de la création du compte :", error);
     }
   };
@@ -115,18 +117,7 @@ const Registration = () => {
         </div>
         <div className="login-left">
           <h2 style={{ textAlign: "center" }}>Sign up</h2>
-          {error && (
-            <p
-              style={{
-                color: "red",
-                fontWeight: "bold",
-                textAlign: "center",
-                fontSize: 15,
-              }}
-            >
-              {error}
-            </p>
-          )}
+    
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <FaRegUser className="icon" />

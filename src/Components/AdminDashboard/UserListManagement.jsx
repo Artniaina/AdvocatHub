@@ -11,7 +11,7 @@ const UserListManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
-  const apiUrl = "http://192.168.10.113/Utilisateur/Utilisateur";
+  const apiUrl = "http://192.168.10.105/Utilisateur/Utilisateur";
 
   useEffect(() => {
     fetchData();
@@ -207,29 +207,19 @@ const UserListManagement = () => {
       </main>
 
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Confirmer la suppression
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Voulez-vous vraiment supprimer cet utilisateur ? Cette action est
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Confirmer la suppression</h3>
+            <p>
+              Voulez-vous vraiment supprimer cette donnée ? Cette action est
               irréversible.
             </p>
-            <div className="flex gap-4 justify-end">
-              <button
-                onClick={cancelDelete}
-                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg
-                         hover:bg-gray-200 transition-colors duration-200"
-              >
-                Annuler
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 text-white bg-red-500 rounded-lg
-                         hover:bg-red-600 transition-colors duration-200"
-              >
+            <div className="popup-actions">
+              <button className="confirm-button" style={{backgroundColor:"#c0392b"}} onClick={handleDelete}>
                 Supprimer
+              </button>
+              <button className="cancel-button" onClick={cancelDelete}>
+                Annuler
               </button>
             </div>
           </div>

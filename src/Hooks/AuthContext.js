@@ -20,6 +20,7 @@ const AuthProvider = ({ children }) => {
 
       if (cookieSession && userCookie) {
         setIsAuthenticated(true);
+        setIsAdminAuthenticated(true);
         setUser(userCookie);
       } else {
         setIsAuthenticated(false);

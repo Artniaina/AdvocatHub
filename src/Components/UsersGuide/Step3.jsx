@@ -54,7 +54,7 @@ const Step3 = ({ handlePrevious, currentStep }) => {
         scodeOTP: codeOTP,
       };
 
-      const response = await fetch("http://192.168.10.113/Utilisateur/Authent", {
+      const response = await fetch("http://192.168.10.105/Utilisateur/Authent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -151,7 +151,7 @@ const Step3 = ({ handlePrevious, currentStep }) => {
         <GrLinkPrevious /> Précedent{" "}
       </Button>
       {showPopup && (
-        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
+        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={()=>{setShowPopup(false)}} />
 )}
     </div>
   );

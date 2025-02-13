@@ -4,7 +4,7 @@ export const fetchLangues = createAsyncThunk(
   "langues/fetchLangues",
   async () => {
     const response = await fetch(
-      "http://192.168.10.113/Utilisateur/LanguesParlées"
+      "http://192.168.10.105/Utilisateur/LanguesParlées"
     );
     const data = await response.json();
     return data.map((langue) => ({

@@ -18,7 +18,7 @@ const Invitation = () => {
   }, []);
 
   const handleResponse = async (responseStatus) => {
-    const apiUrl = `http://192.168.10.113/Utilisateur/invités/updateStatut/${email}/${id}`;
+    const apiUrl = `http://192.168.10.105/Utilisateur/invités/updateStatut/${email}/${id}`;
     const requestBody = {
       sStatutParticipant: responseStatus,
     };

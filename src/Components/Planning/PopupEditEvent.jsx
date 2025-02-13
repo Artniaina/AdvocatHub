@@ -249,7 +249,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -432,7 +432,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
       };
 
       const response = await fetch(
-        `http://192.168.10.113/Utilisateur/api/meetings/update/${eventId}`,
+        `http://192.168.10.105/Utilisateur/api/meetings/update/${eventId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -503,7 +503,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
 
       for (const participant of selectedParticipants) {
         const emailResponse = await fetch(
-          "http://192.168.10.113/Utilisateur/api/email/updateInvitation",
+          "http://192.168.10.105/Utilisateur/api/email/updateInvitation",
           {
             method: "POST",
             headers: {

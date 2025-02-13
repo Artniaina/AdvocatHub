@@ -232,7 +232,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -345,7 +345,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
     try {
       const response = await fetch(
-        "http://192.168.10.113/Utilisateur/api/meetings/create",
+        "http://192.168.10.105/Utilisateur/api/meetings/create",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -375,7 +375,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       await onEventCreated(createdEvent);
 
       const latestIdResponse = await fetch(
-        "http://192.168.10.113/Utilisateur/api/latestID",
+        "http://192.168.10.105/Utilisateur/api/latestID",
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -411,7 +411,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         })),
       ].map(async (participantData) => {
         const addParticipantResponse = await fetch(
-          "http://192.168.10.113/Utilisateur/invités/add",
+          "http://192.168.10.105/Utilisateur/invités/add",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -472,7 +472,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
       for (const participant of allParticipants) {
         const emailResponse = await fetch(
-          "http://192.168.10.113/Utilisateur/invitation",
+          "http://192.168.10.105/Utilisateur/invitation",
           {
             method: "POST",
             headers: {

@@ -39,9 +39,6 @@ const Clients = ({ clientsDataToModify }) => {
     setShowPopup(false);
   };
 
-  // console.log(clientData);
-  // console.log(selectedClient);
-  // console.log(Object.keys(selectedClient).length > 0);
 
   const selectedClient =
     clientData.find((client) => client.id === selectedOption) || {};
@@ -64,7 +61,7 @@ const Clients = ({ clientsDataToModify }) => {
   };
 
   return (
-    <div>
+    <div style={{width:"46%"}}>
       <div className="titleCard">
         <img
           src={Image}
