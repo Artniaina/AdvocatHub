@@ -18,7 +18,7 @@ const UpdateTaxationFormPage = () => {
   const { formulaireData, setFormulaireData } = useUpdateDataContext();
   const { formulaire, status, error } = useSelector((state) => state.formulaire);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (formulaireId) {
       dispatch(fetchFormulaireById(formulaireId));
     }

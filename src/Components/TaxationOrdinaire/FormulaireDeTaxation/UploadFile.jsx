@@ -192,7 +192,7 @@ const UploadFile = () => {
     // if (!validateFormData()) {
     //   return false;
     // }
-
+ 
     setLoading(true);
     try {
       const response = await fetch(
@@ -246,24 +246,27 @@ const UploadFile = () => {
 
   const handleSubmission = async () => {
     try {
-      const isSubmitted = await submitFormData();
-      if (!isSubmitted) return;
+        const isSubmitted = await submitFormData();
+        if (!isSubmitted) return;
+
+ 
+        const updatedFormulaire = await fetchFormulaires();
+        if (!updatedFormulaire) {
+            console.error("No updated formulaire received");
+            return;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        const pdfBase64 = await generatePdf(updatedFormulaire);
+        
   
-      const updatedFormulaire = await fetchFormulaires();
-      if (!updatedFormulaire) {
-        console.error("No updated formulaire received");
-        return;
-      }
-  
-      await new Promise(resolve => setTimeout(resolve, 500));
-      const pdfBase64 = await generatePdf(updatedFormulaire);
-  
-      await sendEmail(pdfBase64);
-      
+        await sendEmail(pdfBase64);
     } catch (error) {
-      console.error("Error in submission process:", error);
+        console.error("Error in submission process:", error);
     }
-  };
+};
+
 
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -322,10 +325,6 @@ const UploadFile = () => {
                     <div>
                       <strong>Taille du fichier:</strong> {file.size} KB
                     </div>
-                    Révision du projet pour: rédaction de la phase d'analyse et
-                    conception Refactorisation du code pour améliorer la
-                    lisibilité, optimiser les performances, et assurer une
-                    meilleure maintenabilité du projet (toujours en cours)
                   </div>
                   <button
                     onClick={() => handleRemoveFile(index)}
