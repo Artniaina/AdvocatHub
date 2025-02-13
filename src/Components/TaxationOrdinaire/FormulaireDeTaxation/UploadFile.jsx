@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import "../../../Styles/TaxationForm/CardInfo.css";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import RequiredMessage from "../../PopUp/RequiredMessage";
 import NoteHonoraireWarning from "../../PopUp/NoteHonoraireWarning";
 import Image from "../../../assets/icons8-fichier-67.png";
@@ -21,25 +20,20 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const UploadFile = () => {
   const location = useLocation();
   const [isEmailSent, setIsEmailSent] = useState(false);
-
+  const [formulaire, setFormulaire] = useState(null);
+  const [status, setStatus] = useState("idle");
   const [loading, setLoading] = useState(false);
   const [loadingEmail, setLoadingEmail] = useState(false);
-  const { jsonToSend } = useGeneraliteContext();
-  const { resetAllData } = useGeneraliteContext();
-  const { noteHonoraireToCompare, setNoteHonoraireToCompare } =
-    useGeneraliteContext();
-  const { honoraireToCompare, setHonoraireToCompare } = useGeneraliteContext();
-
+  
+  const { jsonToSend, resetAllData } = useGeneraliteContext();
+  const { noteHonoraireToCompare, honoraireToCompare } = useGeneraliteContext();
   const {
     formData,
-    editorContents,
     montantData,
     noteHonoraire,
     honoraireData,
     prestataires,
-    selectedAvocats,
     avocatsData,
-    showOptions,
     provisionData,
     clientData,
   } = useGeneraliteContext();
@@ -54,6 +48,22 @@ const UploadFile = () => {
     size: (file.size / 1024).toFixed(2),
   }));
   const filesName = filesMap.map((file) => file.name);
+
+  const generateDateSys = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    const milliseconds = String(now.getMilliseconds()).padStart(3, "0").slice(0, 2);
+    return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
+  };
+
+  const dateSys = generateDateSys();
+  const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
+  const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
 
   const validateFormData = () => {
     const requiredFields = [
@@ -82,66 +92,55 @@ const UploadFile = () => {
       setShowPopupDifference(true);
       return false;
     }
-    console.log(honoraireToCompare);
-    console.log(noteHonoraireToCompare);
 
     return true;
   };
 
-  const currentDate = new Date().toISOString();
-
-  const submitFormData = async () => {
-    if (!validateFormData()) {
-      return;
-    }
-
-    setLoading(true);
+  const fetchFormulaires = async () => {
+    setStatus("loading");
     try {
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/DossierTaxation",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...jsonToSend,
-            sStatutFormulaire: "transmis",
-            sFichiersJoints: filesName.join(","),
-            sTransmis_le: new Date()
-              .toLocaleDateString("fr-FR")
-              .replace(/\//g, ""),
-            sReferencePDF: `${dateSys}_${fullName}_Formulaire taxation ordinaire`,
-          }),
-        }
+        "http://192.168.10.105/Utilisateur/Formulaire/FormTransmis"
       );
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Form submitted successfully:", result);
-      } else {
-        console.error("Failed to submit form:", response.statusText);
+  
+      if (!response.ok) {
+        throw new Error(`Network response was not ok. Status: ${response.status}`);
       }
+      const text = await response.text();
+      if (!text) {
+        console.log("Response is empty");
+        setFormulaire(null);
+        setStatus("succeeded");
+        return null;
+      }
+  
+      const data = JSON.parse(text);
+      const latestFormulaire = data.length ? data[0] : null;
+      setFormulaire(latestFormulaire);
+      setStatus("succeeded");
+      return latestFormulaire;
     } catch (error) {
-      console.error("Error while submitting form:", error);
-    } finally {
-      setLoading(false);
+      console.error("Fetch error:", error);
+      setStatus("failed");
+      throw error;
     }
   };
-
-  const generatePdf = () => {
-    const htmlContent = document.getElementById(
-      "taxation-form-content"
-    ).innerHTML;
-
+  
+  const generatePdf = async (formData) => {
     return new Promise((resolve, reject) => {
       try {
+        // Forcer un rendu synchrone avec les nouvelles données
+        const pdfContent = document.getElementById("taxation-form-content");
+        if (!pdfContent) {
+          throw new Error("PDF content element not found");
+        }
+  
+        const htmlContent = pdfContent.innerHTML;
         const pdfDoc = htmlToPdfmake(htmlContent);
         const docDefinition = { content: pdfDoc };
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-
+  
         pdfDocGenerator.getBase64((data) => {
-          console.log("PDF Base64:", data);
           resolve(data);
         });
       } catch (error) {
@@ -150,105 +149,18 @@ const UploadFile = () => {
       }
     });
   };
-
-  setTimeout(() => {
-    if (localStorage.getItem("generatePdfAfterReload") == "true") {
-      viewPdf();
-      localStorage.removeItem("generatePdfAfterReload");
-    }
-  }, 1000);
-
-  const handleRemoveFile = (index) => {
-    setFileInfos((prevFileInfos) =>
-      prevFileInfos.filter((_, i) => i !== index)
-    );
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    setShowPopupDifference(false);
-  };
-
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-    const newFileInfos = files.map((file) => ({
-      name: file.name,
-      size: (file.size / 1024).toFixed(2),
-    }));
-    setFileInfos((prevFileInfos) => [...prevFileInfos, ...newFileInfos]);
-  };
-
-  const triggerFileUpload = () => {
-    document.getElementById("file-upload").click();
-  };
-
-  const generateDateSys = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    const milliseconds = String(now.getMilliseconds())
-      .padStart(3, "0")
-      .slice(0, 2);
-
-    return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
-  };
-  const [dateSys, setDateSys] = useState(
-    localStorage.getItem("dateSys") || generateDateSys()
-  );
-  const [fullName, setFullName] = useState(
-    localStorage.getItem("fullName") ||
-      `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`
-  );
-  const [referencePdf, setReferencePdf] = useState(
-    localStorage.getItem("referencePdf") ||
-      `${dateSys}_${fullName}_Formulaire taxation ordinaire`
-  );
-  const [name, setName] = useState(
-    localStorage.getItem("name") || avocatsData[0]?.nom
-  );
-
-  const sendEmail = async () => {
+  
+  const sendEmail = async (pdfBase64) => {
     setLoadingEmail(true);
-
     try {
-      const fullName = localStorage.getItem("fullName");
-      const referencePdf = localStorage.getItem("referencePdf");
-      const name = localStorage.getItem("name");
-      const dateSys = localStorage.getItem("dateSys");
-
-      if (!fullName || !referencePdf || !name || !dateSys) {
-        console.error("Some required data is missing.");
-        return;
-      }
-
-      const pdfBase64 = await generatePdf();
-
       const emailData = {
-        //Should change into : sAvocatEmail but wait until it's not in a phase of test anymore mbola matahotra XD
-        //Same for the one in Certificat d inscription as well
         sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
         sFullName: fullName,
-        sNomAvocat: name,
+        sNomAvocat: avocatsData[0]?.nom,
         sDateSys: dateSys,
         sReferencepdf: referencePdf,
         spdfBase64: pdfBase64,
       };
-
-      if (
-        !emailData.sEmailRecepteur ||
-        !emailData.sFullName ||
-        !emailData.sNomAvocat ||
-        !emailData.sDateSys ||
-        !emailData.sReferencepdf ||
-        !emailData.spdfBase64
-      ) {
-        console.error("Certaines données sont manquantes :", emailData);
-        return;
-      }
 
       const response = await fetch(
         "http://192.168.10.105/Utilisateur/Email/InfoEmail",
@@ -265,21 +177,55 @@ const UploadFile = () => {
         const result = await response.json();
         console.log("Email envoyé avec succès :", result);
         setIsEmailSent(true);
-
-        localStorage.removeItem("fullName");
-        localStorage.removeItem("referencePdf");
-        localStorage.removeItem("name");
-        localStorage.removeItem("dateSys");
       } else {
-        console.error("Échec de l'envoi de l'email :", response.statusText);
+        throw new Error("Échec de l'envoi de l'email");
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi de l'email :", error);
+      throw error;
     } finally {
       setLoadingEmail(false);
     }
   };
 
+  const submitFormData = async () => {
+    // if (!validateFormData()) {
+    //   return false;
+    // }
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "http://192.168.10.105/Utilisateur/DossierTaxation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...jsonToSend,
+            sStatutFormulaire: "transmis",
+            sFichiersJoints: filesName.join(","),
+            sTransmis_le: new Date().toLocaleDateString("fr-FR").replace(/\//g, ""),
+            sReferencePDF: referencePdf,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const result = await response.json();
+      console.log("Form submitted successfully:", result);
+      return true;
+    } catch (error) {
+      console.error("Error while submitting form:", error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
   const viewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -297,54 +243,49 @@ const UploadFile = () => {
     }
   };
 
-  const allInOne = async () => {
-    if (avocatsData && avocatsData[0]) {
-      const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
-      const referencePdf = `${dateSys}_${fullName}_Formulaire taxation ordinaire`;
-      const name = avocatsData[0]?.nom;
 
-      setFullName(fullName);
-      setReferencePdf(referencePdf);
-      setName(name);
-      localStorage.setItem("fullName", fullName);
-      localStorage.setItem("referencePdf", referencePdf);
-      localStorage.setItem("name", name);
-      localStorage.setItem("dateSys", dateSys);
-    }
-
+  const handleSubmission = async () => {
     try {
-      await submitFormData();
-
-      localStorage.setItem("shouldGeneratePdfAndSendEmail", "true");
-
-      window.location.reload();
+      const isSubmitted = await submitFormData();
+      if (!isSubmitted) return;
+  
+      const updatedFormulaire = await fetchFormulaires();
+      if (!updatedFormulaire) {
+        console.error("No updated formulaire received");
+        return;
+      }
+  
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const pdfBase64 = await generatePdf(updatedFormulaire);
+  
+      await sendEmail(pdfBase64);
+      
     } catch (error) {
-      console.error("Une erreur est survenue:", error);
-      setLoading(false);
+      console.error("Error in submission process:", error);
     }
   };
 
-  useEffect(() => {
-    const handlePostReload = async () => {
-      const shouldProcess = localStorage.getItem(
-        "shouldGeneratePdfAndSendEmail"
-      );
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setShowPopupDifference(false);
+  };
 
-      if (shouldProcess === "true") {
-        try {
-          const pdfBase64 = await generatePdf();
-          await sendEmail();
-
-          localStorage.removeItem("shouldGeneratePdfAndSendEmail");
-        } catch (error) {
-          console.error("Error in post-reload processing:", error);
-        }
-      }
-    };
-    setTimeout(() => {
-      handlePostReload();
-    }, 1000);
-  }, []);
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    const newFileInfos = files.map((file) => ({
+      name: file.name,
+      size: (file.size / 1024).toFixed(2),
+    }));
+    setFileInfos((prevFileInfos) => [...prevFileInfos, ...newFileInfos]);
+  };
+  const handleRemoveFile = (index) => {
+    setFileInfos((prevFileInfos) =>
+      prevFileInfos.filter((_, i) => i !== index)
+    );
+  };
+  const triggerFileUpload = () => {
+    document.getElementById("file-upload").click();
+  };
 
   return (
     <>
@@ -434,7 +375,7 @@ const UploadFile = () => {
           />
           <div>
             <button
-              onClick={allInOne}
+              onClick={handleSubmission}
               style={{
                 marginTop: "10px",
                 padding: "10px 20px",
@@ -479,7 +420,7 @@ const UploadFile = () => {
         </div>
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
-        <FormulaireDeTaxationPDF />
+        <FormulaireDeTaxationPDF formulaire={formulaire} />
       </div>
     </>
   );

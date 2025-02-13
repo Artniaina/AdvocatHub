@@ -107,8 +107,6 @@ const styles = {
 };
 
 const FormulaireDeTaxationPDF = ({formulaire}) => {
-  const [status, setStatus] = useState("idle");
-
 
   const avocat = formulaire?.sAvocatsData?.[0] || {};
   const collaborateurs = formulaire?.sCollaboratorsData || [];
