@@ -199,7 +199,7 @@ const UploadFile = () => {
             ...jsonToUpdate,
             sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
-            sTransmis_le: new Date().toLocaleDateString('fr-FR').replace(/\//g, ''),
+            sTransmis_le : new Date().toLocaleDateString('fr-FR').split('/').reverse().join(''),
             sReferencePDF: `${dateSys}_${fullName}_Formulaire taxation ordinaire`
           }),
         }

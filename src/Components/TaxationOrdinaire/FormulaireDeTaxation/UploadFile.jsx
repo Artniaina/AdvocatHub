@@ -206,7 +206,7 @@ const UploadFile = () => {
             ...jsonToSend,
             sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
-            sTransmis_le: new Date().toLocaleDateString("fr-FR").replace(/\//g, ""),
+            sTransmis_le : new Date().toLocaleDateString('fr-FR').split('/').reverse().join(''),
             sReferencePDF: referencePdf,
           }),
         }

@@ -126,9 +126,15 @@ export const GeneraliteProvider = ({ children }) => {
       c5: "",
       c6: "",
     });
-
-  const currentDate = new Date().toISOString();
-
+    
+    const currentDate = new Date();
+    const formattedDate =
+    currentDate.getFullYear() +
+    String(currentDate.getMonth() + 1).padStart(2, "0") +
+    String(currentDate.getDate()).padStart(2, "0");
+  
+  
+  
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user ? user.email : "",
@@ -161,7 +167,7 @@ export const GeneraliteProvider = ({ children }) => {
     sCollaboratorsData: selectedAvocats,
     sAvocatsData: avocatsData,
     sClientsData: clientData,
-    sSubmited_at: currentDate,
+    sSubmited_at: formattedDate,
   };
 
   const resetAllData = () => {

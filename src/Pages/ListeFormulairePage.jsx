@@ -18,8 +18,6 @@ const ListeFormulairePage = () => {
     (state) => state.formulaireDraft.formulaireDraft
   );
 
-  console.log(originalFormulaires);
-
   const status = useSelector((state) => state.formulaireDraft.status);
   const error = useSelector((state) => state.formulaireDraft.error);
 
@@ -102,6 +100,14 @@ const ListeFormulairePage = () => {
     navigate("/home/UpdateformTaxation", { state: { id: formulaireId } });
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString || dateString.length !== 8) return "";
+    const year = dateString.substring(0, 4);
+    const month = dateString.substring(4, 6);
+    const day = dateString.substring(6, 8);
+    return `${day}-${month}-${year}`;
+  };
+  
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -140,9 +146,9 @@ const ListeFormulairePage = () => {
           {formulaires.map((formulaire) => (
             <tr key={formulaire.sIDFormulaire}>
               <td>{formulaire.sNomAffaire}</td>
-              <td>{formulaire.sDateContestation}</td>
+              <td>{formatDate(formulaire.sSubmited_at)}</td>
               <td>{formulaire.sStatutFormulaire}</td>
-              <td>{formulaire.sTransmis_le}</td>
+              <td>{formatDate(formulaire.sTransmis_le)}</td>
               <td>{formulaire.sReferencePDF}</td>
               <td className="actions">
                 <Edit

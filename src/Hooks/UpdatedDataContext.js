@@ -103,9 +103,11 @@ export const UpdateDataProvider = ({ children }) => {
 
   const currentDate = new Date();
   const formattedDate =
-    String(currentDate.getDate()).padStart(2, "0") +
-    String(currentDate.getMonth() + 1).padStart(2, "0") +
-    currentDate.getFullYear();
+  currentDate.getFullYear() +
+  String(currentDate.getMonth() + 1).padStart(2, "0") +
+  String(currentDate.getDate()).padStart(2, "0");
+
+
 
   const jsonToUpdate = {
     sStatutFormulaire: "non transmis",

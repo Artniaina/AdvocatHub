@@ -41,7 +41,7 @@ const CalendarPlan = () => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.113/Utilisateur/api/meetings/${id}/${user?.email}`
+        `http://192.168.10.105/Utilisateur/api/meetings/${id}/${user?.email}`
       );
 
       if (response.ok) {
