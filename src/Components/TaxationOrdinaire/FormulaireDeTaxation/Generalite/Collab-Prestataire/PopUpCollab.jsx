@@ -36,7 +36,6 @@ const PopupCollaborateurs = ({
         const filteredData = data.filter(data => data.m_emailbarreau !== user?.email);
         setAvocat(filteredData);
 
-        setAvocat(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -118,7 +118,7 @@ const CertificatInscription = ({
           </View>
           <View style={styles.container}>
             <Text>- </Text>
-            <Text style={styles.dev}>
+            <Text style={styles.dev}>F
               est actuellement inscrit à l'Ordre des avocats du Barreau
               de Luxembourg en tant qu'
               <Text>{gedFonction}</Text>.

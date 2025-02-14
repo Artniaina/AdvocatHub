@@ -11,10 +11,10 @@ import { useNavigate } from "react-router-dom";
 import GestionErreurPopUp from "../../PopUp/GestionErreurPopUp";
 
 const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [showPopup , setShowPopup]= useState(false)
-  const [message , setMessage]= useState("")
+  const [showPopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
   const languages = useSelector((state) => state.langues.langues);
   const names = languages.map((language) => language.name);
   const langues =
@@ -134,6 +134,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     m_dDateAssermentation: "",
     m_sStatut: "Inscrit",
     m_sAdresse: "",
+    m_sGedFonction: "Avocat",
     m_sAdresseSuite: "",
     m_sCodePostale: "",
     m_sLocalite: "",
@@ -250,20 +251,26 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
       });
 
       if (!response.ok) {
-        const message = mode === "dit" ? "Erreur lors de la mise à jour des données" : "Erreur lors de l'ajout des données";
-        setMessage(message)
-        setShowPopup(true)
+        const message =
+          mode === "dit"
+            ? "Erreur lors de la mise à jour des données"
+            : "Erreur lors de l'ajout des données";
+        setMessage(message);
+        setShowPopup(true);
 
-       throw new Error(`Erreur HTTP! statut: ${response.status}`);
+        throw new Error(`Erreur HTTP! statut: ${response.status}`);
       }
 
       const data = await response.json();
 
       console.log("Succès:", data);
       setSubmitStatus({ loading: false, error: null });
-      const message = mode === "edit" ? "Données mise à jour avec succes" : "Données ajouter avec succès";
-      setMessage(message)
-      setShowPopup(true)
+      const message =
+        mode === "edit"
+          ? "Données mise à jour avec succes"
+          : "Données ajouter avec succès";
+      setMessage(message);
+      setShowPopup(true);
     } catch (error) {
       console.error("Erreur:", error);
       setSubmitStatus({ loading: false, error: error.message });
@@ -326,7 +333,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     );
 
     setSelectedEtude(selectedEtude);
- 
+
     if (selectedEtude) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -345,17 +352,14 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     }
   };
   const handleClose = () => {
-    setShowPopup(false); 
-    navigate("/avocats"); 
+    setShowPopup(false);
+    navigate("/avocats");
   };
   return (
     <div className="unique-container">
-        {showPopup && (
-  <GestionErreurPopUp 
-    messageErreur={message} 
-    closePopup={handleClose} 
-  />
-)}
+      {showPopup && (
+        <GestionErreurPopUp messageErreur={message} closePopup={handleClose} />
+      )}
       <div className="unique-card">
         <div className="unique-left-section">
           <h1 className="unique-header">
@@ -566,7 +570,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
             <div className="unique-flex">
               <label className="unique-label">Statut</label>
               <select
-                value={formData.m_sStatut} 
+                value={formData.m_sStatut}
                 onChange={(e) => handleChange("m_sStatut", e.target.value)}
                 className="unique-input"
               >
@@ -608,7 +612,27 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
                 onChange={(e) => handleChange("m_barreau", e.target.value)}
                 className="unique-input"
               >
-                <option>Luxembourg</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Belgique"> Belgique</option>
+                <option value="France">   France</option>
+                <option value="Allemagne">Allemagne</option>
+                <option value="Pays-Bas"> Pays-Bas</option>
+                <option value="Suisse">   Suisse</option>
+                <option value="Autre">    Autre</option>
+              </select>
+            </div>
+            <div className="unique-flex">
+              <label className="unique-label">GED Fonction </label>
+              <select
+                value={formData.m_sGedFonction}
+                onChange={(e) => handleChange("m_sGedFonction", e.target.value)}
+                className="unique-input"
+              >
+                <option>Avocat</option>
+                <option>Avocat à la Cour</option>
+                <option>
+                  Avocat exerçant sous son titre professionnel d'origine
+                </option>
               </select>
             </div>
             {[
