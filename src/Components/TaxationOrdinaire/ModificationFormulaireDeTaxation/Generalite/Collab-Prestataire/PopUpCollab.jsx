@@ -19,34 +19,27 @@ const PopupCollaborateurs = ({
     direction: "ascending",
   });
   const { user } = useAuth();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.113/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.102/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-
         const data = await response.json();
-        console.log("Fetched data:", data);
-
-        const transformedData = data
-          .map((item) => ({
-            name: item.m_Description,
-            email: item.m_emailbarreau,
-          }))
-          .filter((collaborator) => collaborator.email !== user?.email);
-
-        setAvocat(transformedData);
+        const filteredData = data.filter(data => data.m_emailbarreau !== user?.email);
+        setAvocat(filteredData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, [user]);
+  
 
   useEffect(() => {
     setSelectedCollaborators(selectedCollaborator);

@@ -24,7 +24,7 @@ const PopupCollaborateurs = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.102/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -33,12 +33,8 @@ const PopupCollaborateurs = ({
         const data = await response.json();
         console.log("Fetched data:", data);
 
-        const transformedData = data
-          .map((item) => ({
-            name: item.m_Description,
-            email: item.m_emailbarreau,
-          }))
-          .filter((collaborator) => collaborator.email !== user?.email);
+        const filteredData = data.filter(data => data.m_emailbarreau !== user?.email);
+        setAvocat(filteredData);
 
         setAvocat(transformedData);
       } catch (error) {
