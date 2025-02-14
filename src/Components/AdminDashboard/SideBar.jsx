@@ -92,7 +92,7 @@ const SideBar = () => {
             {isExpanded && <span className="ml-3 inline-block">Aperçu</span>}
           </button>
 
-          <button
+          {/* <button
             className={`${
               isExpanded ? "w-[70%] px-4 pl-10 p-3" : "p-3 w-[40%]"
             } text-white bg-transparent rounded-lg hover:bg-purple-900/60 
@@ -108,7 +108,7 @@ const SideBar = () => {
             {isExpanded && (
               <span className="ml-3 inline-block">Utilisateurs</span>
             )}
-          </button>
+          </button> */}
 
           <button
             className={`${

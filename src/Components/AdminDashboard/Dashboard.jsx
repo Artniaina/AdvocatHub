@@ -1,13 +1,13 @@
 import React from "react";
 import SideBar from "./SideBar";
-import UserList from "./UserList";
+import UserListManagement from './UserListManagement'
 
 const Dashboard = () => {
   return (
     <>
       <div style={{ display: "flex" }}>
-        <SideBar />
-        <UserList />
+        {/* <SideBar /> */}
+        <UserListManagement />
       </div>
     </>
   );

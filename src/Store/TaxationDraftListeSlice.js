@@ -9,7 +9,7 @@ const initialState = {
 export const fetchFormulaireByEmail = createAsyncThunk(
   "formulaireDraft/fetchFormulaireByEmail",
   async (emailUtilisateur) => {
-    const response = await fetch(`http://192.168.10.105/Utilisateur/GetListFormulaire/${emailUtilisateur}`, {
+    const response = await fetch(`http://192.168.10.102/Utilisateur/GetListFormulaire/${emailUtilisateur}`, {
       method: 'GET',
     });
     if (!response.ok) {

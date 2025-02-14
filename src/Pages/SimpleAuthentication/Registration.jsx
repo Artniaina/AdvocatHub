@@ -68,7 +68,7 @@ const Registration = () => {
       };
 
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/Register",
+        "http://192.168.10.102/Utilisateur/Register",
         {
           method: "POST",
           headers: {

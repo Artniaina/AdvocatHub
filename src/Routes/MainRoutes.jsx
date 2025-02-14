@@ -132,13 +132,13 @@ function MainRoutes() {
           <Route exact path="/scanqrcode" element={<UsersGuide />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
+          <Route path="/home" element={<HomePage />} />
 
         {/* MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA */}
         <Route element={<ProtectedRoute />}>
           <Route path="/home/formTaxation" element={<TaxationFormPage />} />
           <Route path="/home/modifFiche" element={<FicheAvocatPage />} />
           <Route path="/document/uploadDocument" element={<UploadDocs />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/document" element={<Document />} />
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />

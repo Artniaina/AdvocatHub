@@ -14,7 +14,7 @@ const EtudeList = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/api/getAllEtude"
+        "http://192.168.10.102/Utilisateur/api/getAllEtude"
       );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -42,7 +42,7 @@ const EtudeList = () => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/api/deleteEtude/${etudeTodelete}`,
+        `http://192.168.10.102/Utilisateur/api/deleteEtude/${etudeTodelete}`,
         {
           method: "DELETE",
         }

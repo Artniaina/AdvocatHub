@@ -14,7 +14,7 @@ const AvocatList = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
+          "http://192.168.10.102/Utilisateur/AllAvocat/ListeAvocat"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -34,6 +34,7 @@ const AvocatList = () => {
     setShowPopup(true);
   };
 
+  
   const cancelDelete = () => {
     setShowPopup(false);
     setAvocatTodelete(null);
@@ -41,7 +42,7 @@ const AvocatList = () => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/api/delete/${avocatTodelete}`,
+        `http://192.168.10.102/Utilisateur/api/delete/${avocatTodelete}`,
         {
           method: "DELETE",
         }
@@ -53,7 +54,7 @@ const AvocatList = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
+            "http://192.168.10.102/Utilisateur/AllAvocat/ListeAvocat"
           );
           if (!response.ok) {
             throw new Error("Failed to fetch data");

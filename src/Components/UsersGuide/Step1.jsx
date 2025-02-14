@@ -57,7 +57,7 @@ const Step1 = ({ handleNext }) => {
     <>
       <div className="center-container">
         <div>
-          <Card className="main-card">
+          <Card className="main-card" >
             <CardHeader>
               <h1 className="main-title">
                 Sécurisez votre compte avec l'authentification à deux facteurs

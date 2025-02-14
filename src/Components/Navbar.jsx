@@ -81,7 +81,7 @@ const Navbar = () => {
             PLANNING{" "}
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link
             to="/chat"
             className={`nav-link ${
@@ -91,7 +91,7 @@ const Navbar = () => {
             <IoNewspaperOutline className="icon-nav" />
             Messagerie{" "}
           </Link>
-        </li>
+        </li> */}
         <li className="nav-item">
           <Link
             to="/faq"

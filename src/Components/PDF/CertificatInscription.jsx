@@ -9,7 +9,7 @@ import {
   Font
 } from "@react-pdf/renderer";
 import LogoLaw from "../../assets/logolaw.jpg";
-
+import Signature from "../../assets/signature.PNG"
 Font.register({
   family: 'Open Sans',
   fonts: [
@@ -28,7 +28,14 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     marginBottom: 20,
-    alignSelf: "start",
+    alignSelf: "right",
+
+  },
+  logo2: {
+    width: 70,
+    height: 70,
+    marginBottom: 20,
+    alignSelf: "right",
   },
   section: {
     margin: 10,
@@ -83,7 +90,7 @@ const CertificatInscription = ({
   dateAssermentation,
   gedFonction,
   date,
-  signature
+  
 }) => (
   <Document>
     <Page size="A4" style={styles.page}>
@@ -119,7 +126,9 @@ const CertificatInscription = ({
           </View>
           <View style={styles.signature}>
             <Text>Fait le {date}</Text>
-            <Text style={styles.signatureText}>{signature}</Text>
+           
+            <Text style={styles.signatureText}>   <Image style={styles.logo2} src={Signature} /></Text>
+            <Text style={styles.signatureText}>  Bâtonnier</Text>
           </View>
         </View>
       </View>

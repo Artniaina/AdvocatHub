@@ -372,7 +372,7 @@ const ModifFicheAvocat = ({ etudeInfo }) => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/ModifFicheAvocat/${IdAvocat}`,
+        `http://192.168.10.102/Utilisateur/ModifFicheAvocat/${IdAvocat}`,
         {
           method: "PUT",
           headers: {

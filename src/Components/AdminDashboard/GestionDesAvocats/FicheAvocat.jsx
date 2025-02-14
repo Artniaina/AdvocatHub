@@ -7,11 +7,15 @@ import { fetchActivities } from "../../../Store/ActivtesPreferentiellesSlice";
 import PopUpActiPref from "../../PopUp/PopUpActivPref";
 import PopUpLangueParlees from "../../PopUp/PopUpLangueParlees";
 import "../../../Styles/AdminDashboard/fiche.css";
+import { useNavigate } from "react-router-dom";
+import GestionErreurPopUp from "../../PopUp/GestionErreurPopUp";
 
 const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
+  const navigate= useNavigate()
   const dispatch = useDispatch();
+  const [showPopup , setShowPopup]= useState(false)
+  const [message , setMessage]= useState("")
   const languages = useSelector((state) => state.langues.langues);
-
   const names = languages.map((language) => language.name);
   const langues =
     initialValue && initialValue.m_langue
@@ -226,8 +230,8 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     try {
       const url =
         mode === "edit"
-          ? `http://192.168.10.105/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
-          : "http://192.168.10.105/Utilisateur/api/add/ficheAvocat";
+          ? `http://192.168.10.102/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
+          : "http://192.168.10.102/Utilisateur/api/add/ficheAvocat";
 
       const method = mode === "edit" ? "PUT" : "POST";
 
@@ -246,12 +250,20 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur HTTP! statut: ${response.status}`);
+        const message = mode === "dit" ? "Erreur lors de la mise à jour des données" : "Erreur lors de l'ajout des données";
+        setMessage(message)
+        setShowPopup(true)
+
+       throw new Error(`Erreur HTTP! statut: ${response.status}`);
       }
 
       const data = await response.json();
+
       console.log("Succès:", data);
       setSubmitStatus({ loading: false, error: null });
+      const message = mode === "edit" ? "Données mise à jour avec succes" : "Données ajouter avec succès";
+      setMessage(message)
+      setShowPopup(true)
     } catch (error) {
       console.error("Erreur:", error);
       setSubmitStatus({ loading: false, error: error.message });
@@ -302,7 +314,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   }, [etudes, defaultIdEtude]);
 
   useEffect(() => {
-    fetch("http://192.168.10.105/Utilisateur/api/getAllEtude")
+    fetch("http://192.168.10.102/Utilisateur/api/getAllEtude")
       .then((response) => response.json())
       .then((data) => setEtudes(data))
       .catch((error) => console.error("Error fetching etudes:", error));
@@ -332,9 +344,18 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
       }));
     }
   };
-
+  const handleClose = () => {
+    setShowPopup(false); 
+    navigate("/avocats"); 
+  };
   return (
     <div className="unique-container">
+        {showPopup && (
+  <GestionErreurPopUp 
+    messageErreur={message} 
+    closePopup={handleClose} 
+  />
+)}
       <div className="unique-card">
         <div className="unique-left-section">
           <h1 className="unique-header">

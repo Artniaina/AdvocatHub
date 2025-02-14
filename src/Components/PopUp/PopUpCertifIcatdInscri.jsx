@@ -8,7 +8,6 @@ import { pdf } from "@react-pdf/renderer";
 import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import CertificatInscription from "../PDF/CertificatInscription";
 import SuccessPopup from "../PopUp/PopUpSuccess";
-import SignatureCanvas from "react-signature-canvas";
 
 const PopUpCertificatdInscri = ({ onClose }) => {
   const { user } = useAuth();
@@ -18,7 +17,6 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const [contentLoaded, setContentLoaded] = useState(false);
   const [signature, setSignature] = useState("");
-  const [showAlert, setShowAlert] = useState(false); // Ajout du state pour le modal
   const sigPadRef = useRef(null);
  
   useEffect(() => {
@@ -29,11 +27,11 @@ const PopUpCertificatdInscri = ({ onClose }) => {
     }
   }, [dispatch, user]);
 
-  const fullName = `${avocatInfo.m_sPrenom || ""} ${avocatInfo.m_sNom || ""}`;
+  const fullName = `${avocatInfo?.m_sPrenom || ""} ${avocatInfo?.m_sNom || ""}`;
   const formatDateFromString = (dateString) => {
-    const year = parseInt(dateString.substring(0, 4), 10);
-    const month = parseInt(dateString.substring(4, 6), 10) - 1;
-    const day = parseInt(dateString.substring(6, 8), 10);
+    const year = parseInt(dateString?.substring(0, 4), 10);
+    const month = parseInt(dateString?.substring(4, 6), 10) - 1;
+    const day = parseInt(dateString?.substring(6, 8), 10);
     const date = new Date(year, month, day);
     return new Intl.DateTimeFormat("fr-FR", {
       day: "numeric",
@@ -43,12 +41,12 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   };
 
   const prenomNom = fullName;
-  const nom = avocatInfo.m_sNom;
+  const nom = avocatInfo?.m_sNom;
   const adresse = `${avocatInfo.m_nNumVoie || ""}, ${
     avocatInfo.m_sAdresse || ""
-  }, ${avocatInfo.m_sCodePostale || ""} ${avocatInfo.m_sLocalite || ""}`;
+  }, ${avocatInfo?.m_sCodePostale || ""} ${avocatInfo?.m_sLocalite || ""}`;
   const dateAssermentation = formatDateFromString(
-    avocatInfo.m_dDateAssermentation
+    avocatInfo?.m_dDateAssermentation
   );
   const gedFonction = avocatInfo.m_sGedFonction || "";
 
@@ -113,7 +111,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
 
         try {
           const response = await fetch(
-            "http://192.168.10.105/Utilisateur/Send_email",
+            "http://192.168.10.102/Utilisateur/Send_email",
             {
               method: "POST",
               headers: {
@@ -158,12 +156,6 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   };
 
 
-  const clearSignature = () => {
-    if (sigPadRef.current) {
-      sigPadRef.current.clear();
-      setSignature("");
-    }
-  };
 
   return (
     <div className="overlay">
@@ -175,61 +167,24 @@ const PopUpCertificatdInscri = ({ onClose }) => {
           content={"Certificat"}
         />
       ) : (
-        <>
-          <div className="popupNav">
-            <button className="close-button" onClick={onClose}>
-              <IoCloseCircleOutline />
-            </button>
-            <div className="popup-contentNav">
-              <p className="certiftxt">CERTIFICAT D'INSCRIPTION</p>
-              <p className="info-text">
-                Pour finaliser votre certificat d'inscription, <br />
-                veuillez apposer votre signature dans l'espace ci-dessous.
-              </p>
-              <div className="signature-container">
-                <SignatureCanvas
-                  ref={sigPadRef}
-                  canvasProps={{
-                    className: "signature-input",
-                    style: { 
-                      width: '100%',
-                      height: '150px',
-                      background: '#fff',
-                      border: '1px solid #ccc', 
-                      position: 'relative',
-                      right:'11px'
-                    }
-                  }}
-                />
-                <div style={{display:"flex", justifyContent:"space-around"}}>
-                  <button 
-                    onClick={clearSignature}
-                    className="btnSignature"
-                    style={{ marginTop: '10px', marginRight: '10px' }}
-                  >
-                    Effacer
-                  </button>
-                </div>
-              </div>
-              <div className="divNavi">
-                <button className="btnNavi" onClick={handleGenerateAndSendPDF}>
-                  Valider
-                </button>
-              </div>
+        <div className="popupNav">
+          <button className="close-button" onClick={onClose}>
+            <IoCloseCircleOutline />
+          </button>
+          <div className="popup-contentNav">
+            <h1 className="certiftxt">Demande de Certificat d'Inscription</h1>
+            <p className="info-text">
+              Vous êtes sur le point de générer votre certificat d'inscription au barreau.
+              <br />
+              Ce document officiel attestera de votre statut d'avocat inscrit.
+            </p>
+            <div className="divNavi">
+              <button className="btnNavi" onClick={handleGenerateAndSendPDF}>
+                Générer mon certificat
+              </button>
             </div>
           </div>
-
-          {showAlert && (
-            <div className="modal-overlay">
-              <div className="modal-content">
-                <p>Veuillez ajouter votre signature avant de continuer.</p>
-                <button className="btnNavi" onClick={() => setShowAlert(false)}>
-                  OK
-                </button>
-              </div>
-            </div>
-          )}
-        </>
+        </div>
       )}
     </div>
   );

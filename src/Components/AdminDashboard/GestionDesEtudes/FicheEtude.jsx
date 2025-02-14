@@ -110,7 +110,7 @@ const FicheEtude = ({ mode , initialValue }) => {
   };
   const handleSubmit = async () => {
     try {
-      const baseUrl = "http://192.168.10.105/Utilisateur/api";
+      const baseUrl = "http://192.168.10.102/Utilisateur/api";
       let url;
       let method;
 

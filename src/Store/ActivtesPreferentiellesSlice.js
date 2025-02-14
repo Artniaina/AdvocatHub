@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchActivities = createAsyncThunk(
   'activities/fetchActivities',
   async () => {
-    const response = await fetch("http://192.168.10.105/Utilisateur/ActivitésPréférentielles");
+    const response = await fetch("http://192.168.10.102/Utilisateur/ActivitésPréférentielles");
     const data = await response.json();
     return data.map((activites) => ({
       code: activites.Code,
