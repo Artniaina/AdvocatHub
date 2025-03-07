@@ -512,7 +512,6 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
             body: JSON.stringify({
               ...emailData,
               sEmailRecepteur: participant.email,
-              sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
               sFullName: participant.name,
             }),
           }

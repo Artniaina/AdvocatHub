@@ -147,7 +147,7 @@ const UploadFile = () => {
     setLoadingEmail(true);
     try {
       const emailData = {
-        sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+        sEmailRecepteur: user?.email,
         sFullName: fullName,
         sNomAvocat: avocatsData[0]?.nom,
         sDateSys: dateSys,

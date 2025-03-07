@@ -14,10 +14,12 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfmake from "html-to-pdfmake";
 import "../../../Styles/spinner.css";
 import SuccessPopup from "../../PopUp/PopUpSuccess";
+import { useAuth } from "../../../Hooks/AuthContext";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const UploadFile = () => {
+  const user = useAuth()
   const navigate = useNavigate();
   const location = useLocation();
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -155,7 +157,7 @@ const UploadFile = () => {
     setLoadingEmail(true);
     try {
       const emailData = {
-        sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+        sEmailRecepteur: user?.email,
         sFullName: fullName,
         sNomAvocat: avocatsData[0]?.nom,
         sDateSys: dateSys,

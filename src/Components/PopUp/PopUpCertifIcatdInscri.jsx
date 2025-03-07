@@ -16,7 +16,6 @@ const PopUpCertificatdInscri = ({ onClose }) => {
   const [currentBlobUrl, setCurrentBlobUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [contentLoaded, setContentLoaded] = useState(false);
-  const [signature, setSignature] = useState("");
   const sigPadRef = useRef(null);
  
   useEffect(() => {
@@ -118,7 +117,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                sEmailRecepteur: "kanto.andriahariniaina@gmail.com",
+                sEmailRecepteur: user?.email,
                 sDateSys: date,
                 sNomAvocat: nom,
                 sFullName: fullName,
