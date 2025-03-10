@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import SideBar from "./SideBar";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const UserListManagement = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
@@ -11,7 +13,6 @@ const UserListManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
-  const apiUrl = "http://192.168.10.102/Utilisateur/Utilisateur";
 
   useEffect(() => {
     fetchData();
@@ -19,7 +20,7 @@ const UserListManagement = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch( `${apiUrl}/Utilisateur/Utilisateur`);
       if (!response.ok)
         throw new Error("Erreur lors du chargement des données");
       const data = await response.json();

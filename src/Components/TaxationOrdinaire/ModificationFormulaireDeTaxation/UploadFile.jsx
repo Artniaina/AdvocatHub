@@ -9,7 +9,7 @@ import { IoAddCircle } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { useUpdateDataContext } from "../../../Hooks/UpdatedDataContext";
 import UploadFileGuide from "../UploadFileGuide";
-import SuccessPopup from "../../PopUp/PopUpSuccess"
+import SuccessPopup from "../../PopUp/PopUpSuccess";
 import FormulaireDeTaxationPDF from "../../PDF/FormulaireDeTaxationPDF";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -22,6 +22,7 @@ import { fetchFormulaireById } from "../../../Store/TaxationFormSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const UploadFile = () => {
   const navigate = useNavigate();
@@ -98,28 +99,27 @@ const UploadFile = () => {
   const currentDate = new Date().toISOString();
 
   const fetchFormulaires = async () => {
-    const url = `http://192.168.10.105/Utilisateur/FormulaireDeTaxation/${formulaireId}`;
+    const url = `${apiUrl}/Utilisateur/FormulaireDeTaxation/${formulaireId}`;
 
     try {
-        const response = await fetch(url, {
-            method: 'GET', 
-  
-        });
+      const response = await fetch(url, {
+        method: "GET",
+      });
 
-        if (!response.ok) {
-            throw new Error(`Erreur HTTP: ${response.status}`);
-        }
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
 
-        const data = await response.json(); 
-        console.log('Données reçues:', data);
-        setFormulaire(data[0]);
-        return data;
+      const data = await response.json();
+      console.log("Données reçues:", data);
+      setFormulaire(data[0]);
+      return data;
     } catch (error) {
-        console.error('Erreur lors de la récupération du formulaire:', error);
-        throw error;
+      console.error("Erreur lors de la récupération du formulaire:", error);
+      throw error;
     }
-};
-    
+  };
+
   const generatePdf = async (formData) => {
     return new Promise((resolve, reject) => {
       try {
@@ -127,12 +127,12 @@ const UploadFile = () => {
         if (!pdfContent) {
           throw new Error("PDF content element not found");
         }
-  
+
         const htmlContent = pdfContent.innerHTML;
         const pdfDoc = htmlToPdfmake(htmlContent);
         const docDefinition = { content: pdfDoc };
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-  
+
         pdfDocGenerator.getBase64((data) => {
           resolve(data);
         });
@@ -142,7 +142,7 @@ const UploadFile = () => {
       }
     });
   };
-  
+
   const sendEmail = async (pdfBase64) => {
     setLoadingEmail(true);
     try {
@@ -155,16 +155,13 @@ const UploadFile = () => {
         spdfBase64: pdfBase64,
       };
 
-      const response = await fetch(
-        "http://192.168.10.105/Utilisateur/Email/InfoEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(emailData),
-        }
-      );
+      const response = await fetch(`${apiUrl}/Utilisateur/Email/InfoEmail`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
 
       if (response.ok) {
         const result = await response.json();
@@ -182,13 +179,12 @@ const UploadFile = () => {
   };
 
   const submitFormData = async () => {
-
     const idFormulaire = formulaireData?.sIDFormulaire;
-  
+
     setLoading(true);
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/ModifForm/${idFormulaire}`,
+        `${apiUrl}/Utilisateur/ModifForm/${idFormulaire}`,
         {
           method: "PUT",
           headers: {
@@ -198,28 +194,32 @@ const UploadFile = () => {
             ...jsonToUpdate,
             sStatutFormulaire: "transmis",
             sFichiersJoints: filesName.join(","),
-            sTransmis_le : new Date().toLocaleDateString('fr-FR').split('/').reverse().join(''),
-            sReferencePDF: `${dateSys}_${fullName}_Formulaire taxation ordinaire`
+            sTransmis_le: new Date()
+              .toLocaleDateString("fr-FR")
+              .split("/")
+              .reverse()
+              .join(""),
+            sReferencePDF: `${dateSys}_${fullName}_Formulaire taxation ordinaire`,
           }),
         }
       );
-  
+
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
-        return result; 
+        return result;
       } else {
         console.error("Failed to submit form:", response.statusText);
         return null;
       }
     } catch (error) {
       console.error("Error while submitting form:", error);
-      return null; 
+      return null;
     } finally {
       setLoading(false);
     }
   };
-  
+
   const viewPdf = () => {
     const htmlContent = document.getElementById(
       "taxation-form-content"
@@ -237,35 +237,31 @@ const UploadFile = () => {
     }
   };
 
-
   const handleOkClick = () => {
-    viewPdf();  
-    navigate('/home/formTaxation');  
+    viewPdf();
+    navigate("/home/formTaxation");
   };
-  
+
   const handleSubmission = async () => {
     try {
-        const isSubmitted = await submitFormData();
-        if (!isSubmitted) return;
+      const isSubmitted = await submitFormData();
+      if (!isSubmitted) return;
 
- 
-        const updatedFormulaire = await fetchFormulaires();
-        if (!updatedFormulaire) {
-            console.error("No updated formulaire received");
-            return;
-        }
+      const updatedFormulaire = await fetchFormulaires();
+      if (!updatedFormulaire) {
+        console.error("No updated formulaire received");
+        return;
+      }
 
-        await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-        const pdfBase64 = await generatePdf(updatedFormulaire);
-        
-  
-        await sendEmail(pdfBase64);
+      const pdfBase64 = await generatePdf(updatedFormulaire);
+
+      await sendEmail(pdfBase64);
     } catch (error) {
-        console.error("Error in submission process:", error);
+      console.error("Error in submission process:", error);
     }
-};
-  
+  };
 
   const handleRemoveFile = (index) => {
     setFileInfos((prevFileInfos) =>
@@ -291,7 +287,6 @@ const UploadFile = () => {
     document.getElementById("file-upload").click();
   };
 
- 
   const generateDateSys = () => {
     const now = new Date();
 
@@ -307,9 +302,6 @@ const UploadFile = () => {
 
     return `${year}${month}${day}-${hours}-${minutes}-${seconds}-${milliseconds}`;
   };
-
-
-
 
   const dateSys = generateDateSys();
   const fullName = `${avocatsData[0]?.nom} ${avocatsData[0]?.prenom}`;
@@ -422,15 +414,15 @@ const UploadFile = () => {
             })}
           </div>
           {isEmailSent && (
-              <SuccessPopup
-                onGenerateAndSendPDF={handleOkClick}
-                content={"Formulaire taxation ordinaire"}
-              />
-            )}
+            <SuccessPopup
+              onGenerateAndSendPDF={handleOkClick}
+              content={"Formulaire taxation ordinaire"}
+            />
+          )}
         </div>
       </div>
       <div id="taxation-form-content" style={{ display: "none" }}>
-      <FormulaireDeTaxationPDF formulaire={formulaire} />
+        <FormulaireDeTaxationPDF formulaire={formulaire} />
       </div>
     </>
   );

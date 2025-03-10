@@ -7,6 +7,8 @@ import Button from "@mui/joy/Button";
 import { GrLinkPrevious } from "react-icons/gr";
 import GestionErreurPopUp from "../PopUp/GestionErreurPopUp";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Step3 = ({ handlePrevious, currentStep }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,13 +56,16 @@ const Step3 = ({ handlePrevious, currentStep }) => {
         scodeOTP: codeOTP,
       };
 
-      const response = await fetch("http://192.168.10.102/Utilisateur/Authent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        `${apiUrl}/Utilisateur/Authent`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Échec de la requête API.");

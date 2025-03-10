@@ -9,6 +9,8 @@ import { fetchAvocatInfo } from "../../Store/AvocatSlice";
 import CertificatInscription from "../PDF/CertificatInscription";
 import SuccessPopup from "../PopUp/PopUpSuccess";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const PopUpCertificatdInscri = ({ onClose }) => {
   const { user } = useAuth();
   const dispatch = useDispatch();
@@ -110,7 +112,7 @@ const PopUpCertificatdInscri = ({ onClose }) => {
 
         try {
           const response = await fetch(
-            "http://192.168.10.102/Utilisateur/Send_email",
+            `${apiUrl}/Utilisateur/Send_email`,
             {
               method: "POST",
               headers: {

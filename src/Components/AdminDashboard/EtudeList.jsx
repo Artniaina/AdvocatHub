@@ -3,6 +3,8 @@ import { Search, Filter, Edit, Trash } from "lucide-react";
 import SideBar from "./SideBar";
 import { useNavigate } from "react-router-dom";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const EtudeList = () => {
   const navigate = useNavigate();
   const [etudes, setEtude] = useState([]);
@@ -13,9 +15,7 @@ const EtudeList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "http://192.168.10.102/Utilisateur/api/getAllEtude"
-      );
+      const response = await fetch(`${apiUrl}/Utilisateur/api/getAllEtude`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -42,7 +42,7 @@ const EtudeList = () => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://192.168.10.102/Utilisateur/api/deleteEtude/${etudeTodelete}`,
+          `${apiUrl}/Utilisateur/api/deleteEtude/${etudeTodelete}`,
         {
           method: "DELETE",
         }

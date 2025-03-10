@@ -17,6 +17,7 @@ import { BsCalendarMonth } from "react-icons/bs";
 import { BsCalendar2Week } from "react-icons/bs";
 import { MdOutlineToday } from "react-icons/md";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 const CalendarPlan = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const CalendarPlan = () => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/api/meetings/${id}/${user?.email}`
+        `${apiUrl}/Utilisateur/api/meetings/${id}/${user?.email}`
       );
 
       if (response.ok) {
@@ -68,7 +69,7 @@ const CalendarPlan = () => {
     const email = user?.email;
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/api/userMeetings/${email}`
+        `${apiUrl}/Utilisateur/api/userMeetings/${email}`
       );
       if (response.ok) {
         const data = await response.json();

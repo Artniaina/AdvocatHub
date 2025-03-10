@@ -6,6 +6,8 @@ import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { useAuth } from "../../../../../Hooks/AuthContext";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const PopupCollaborateurs = ({
   onClose,
   selectedCollaborators,
@@ -17,14 +19,14 @@ const PopupCollaborateurs = ({
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
-  }); 
+  });
   const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.102/Utilisateur/AllAvocat/ListeAvocat"
+          `${apiUrl}/Utilisateur/AllAvocat/ListeAvocat`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -33,9 +35,10 @@ const PopupCollaborateurs = ({
         const data = await response.json();
         console.log("Fetched data:", data);
 
-        const filteredData = data.filter(data => data.m_emailbarreau !== user?.email);
+        const filteredData = data.filter(
+          (data) => data.m_emailbarreau !== user?.email
+        );  
         setAvocat(filteredData);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -5,6 +5,8 @@ import { FaFilter } from "react-icons/fa";
 import { PiCaretUpDownFill } from "react-icons/pi";
 import { useAuth } from "../../../../../Hooks/AuthContext";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const PopupCollaborateurs = ({
   onClose,
   selectedCollaborator,
@@ -24,7 +26,7 @@ const PopupCollaborateurs = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.102/Utilisateur/AllAvocat/ListeAvocat"
+          `${apiUrl}/Utilisateur/AllAvocat/ListeAvocat`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");

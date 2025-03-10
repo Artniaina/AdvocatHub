@@ -10,6 +10,8 @@ import "../../../Styles/AdminDashboard/fiche.css";
 import { useNavigate } from "react-router-dom";
 import GestionErreurPopUp from "../../PopUp/GestionErreurPopUp";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -231,8 +233,8 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
     try {
       const url =
         mode === "edit"
-          ? `http://192.168.10.102/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
-          : "http://192.168.10.102/Utilisateur/api/add/ficheAvocat";
+          ? `${apiUrl}/Utilisateur/api/update/ficheAvocat/${initialValue.m_nIDAvocat_PP}`
+          : `${apiUrl}/Utilisateur/api/add/ficheAvocat`;
 
       const method = mode === "edit" ? "PUT" : "POST";
 
@@ -321,7 +323,7 @@ const FicheAvocat = ({ mode = "add", initialValue = {} }) => {
   }, [etudes, defaultIdEtude]);
 
   useEffect(() => {
-    fetch("http://192.168.10.102/Utilisateur/api/getAllEtude")
+    fetch(`${apiUrl}/Utilisateur/api/getAllEtude`)
       .then((response) => response.json())
       .then((data) => setEtudes(data))
       .catch((error) => console.error("Error fetching etudes:", error));

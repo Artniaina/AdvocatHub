@@ -3,6 +3,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { Home, Package, Users, FolderClosed } from "lucide-react";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+    
 const UserList = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
@@ -72,7 +74,7 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  const apiUrl = "http://192.168.10.105/Utilisateur/Utilisateur";
+  const apiUrl = `${apiUrl}/Utilisateur/Utilisateur`;
 
   useEffect(() => {
     fetchData();

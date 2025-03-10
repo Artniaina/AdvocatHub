@@ -3,6 +3,8 @@ import { Building, Info, AlertTriangle } from "lucide-react";
 import "../../../Styles/AdminDashboard/fiche.css";
 import GestionErreurPopUp from "../../PopUp/GestionErreurPopUp";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const FicheEtude = ({ mode , initialValue }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
@@ -110,7 +112,7 @@ const FicheEtude = ({ mode , initialValue }) => {
   };
   const handleSubmit = async () => {
     try {
-      const baseUrl = "http://192.168.10.102/Utilisateur/api";
+      const baseUrl = `${apiUrl}/Utilisateur/api`;
       let url;
       let method;
 

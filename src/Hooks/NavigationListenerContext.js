@@ -3,6 +3,8 @@ import { json, useLocation } from "react-router-dom";
 import { useGeneraliteContext } from "./GeneraliteContext";
 import { useUpdateDataContext } from "./UpdatedDataContext";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const NavigationContext = createContext();
 
 export const useNavigation = () => {
@@ -13,9 +15,10 @@ export const NavigationProvider = ({ children }) => {
   const location = useLocation();
   const [prevLocation, setPrevLocation] = useState(location.pathname);
 
-  const { jsonToSend, resetAllData, initialJsonToSend } = useGeneraliteContext();
+  const { jsonToSend, resetAllData, initialJsonToSend } =
+    useGeneraliteContext();
   const { jsonToUpdate, formulaireData } = useUpdateDataContext();
- 
+
   useEffect(() => {
     if (
       location.pathname !== "/home/formTaxation" &&
@@ -50,7 +53,7 @@ export const NavigationProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `http://192.168.10.102/Utilisateur/ModifForm/${idFormulaire}`,
+        `${apiUrl}/Utilisateur/ModifForm/${idFormulaire}`,
         {
           method: "PUT",
           headers: {
@@ -76,24 +79,21 @@ export const NavigationProvider = ({ children }) => {
       console.error("No data found.");
       return;
     }
-  
+
     if (JSON.stringify(params) == JSON.stringify(initialJsonToSend)) {
       console.log("No changes detected. Skipping submission.");
-      return
+      return;
     }
-  
+
     try {
-      const response = await fetch(
-        "http://192.168.10.102/Utilisateur/DossierTaxation",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(params),
-        }
-      );
-  
+      const response = await fetch(`${apiUrl}/Utilisateur/DossierTaxation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
+
       if (response.ok) {
         const result = await response.json();
         console.log("Form submitted successfully:", result);
@@ -105,7 +105,7 @@ export const NavigationProvider = ({ children }) => {
       console.error("Error while submitting form:", error);
     }
   };
-  
+
   return (
     <NavigationContext.Provider
       value={{

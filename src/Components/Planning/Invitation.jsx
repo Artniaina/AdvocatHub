@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Invitation = () => {
   const [status, setStatus] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
@@ -18,19 +20,21 @@ const Invitation = () => {
   }, []);
 
   const handleResponse = async (responseStatus) => {
-    const apiUrl = `http://192.168.10.105/Utilisateur/invités/updateStatut/${email}/${id}`;
     const requestBody = {
       sStatutParticipant: responseStatus,
     };
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await fetch(
+        `${apiUrl}/Utilisateur/invités/updateStatut/${email}/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       if (response.ok) {
         setStatus(responseStatus);

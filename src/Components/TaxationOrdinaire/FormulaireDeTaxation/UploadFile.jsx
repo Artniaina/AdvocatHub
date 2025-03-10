@@ -17,6 +17,7 @@ import SuccessPopup from "../../PopUp/PopUpSuccess";
 import { useAuth } from "../../../Hooks/AuthContext";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const UploadFile = () => {
   const user = useAuth()
@@ -103,7 +104,7 @@ const UploadFile = () => {
     setStatus("loading");
     try {
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/Formulaire/FormTransmis"
+        `${apiUrl}/Utilisateur/Formulaire/FormTransmis`
       );
   
       if (!response.ok) {
@@ -166,7 +167,7 @@ const UploadFile = () => {
       };
 
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/Email/InfoEmail",
+        `${apiUrl}/Utilisateur/Email/InfoEmail`,
         {
           method: "POST",
           headers: {
@@ -199,7 +200,7 @@ const UploadFile = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/DossierTaxation",
+        `${apiUrl}/Utilisateur/DossierTaxation`,
         {
           method: "POST",
           headers: {

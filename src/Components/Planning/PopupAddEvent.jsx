@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
 import { useAuth } from "../../Hooks/AuthContext";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const addEventStyles = {
   overlay: {
@@ -225,14 +227,14 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
   const { user } = useAuth();
   const [collaborators, setCollaborators] = useState([]);
   const [excludedInfo, setExcludedInfo] = useState(null);
-  const roomId = uuidv4(); 
-  const localDomain = "http://localhost:3000";  
+  const roomId = uuidv4();
+  const localDomain = "http://localhost:3000";
   const meetingLink = `${localDomain}/meeting/${roomId}`;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
+          `${apiUrl}/Utilisateur/AllAvocat/ListeAvocat`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -345,7 +347,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
 
     try {
       const response = await fetch(
-        "http://192.168.10.105/Utilisateur/api/meetings/create",
+        `${apiUrl}/Utilisateur/api/meetings/create`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -375,7 +377,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       await onEventCreated(createdEvent);
 
       const latestIdResponse = await fetch(
-        "http://192.168.10.105/Utilisateur/api/latestID",
+        `${apiUrl}/Utilisateur/api/latestID`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -411,7 +413,7 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
         })),
       ].map(async (participantData) => {
         const addParticipantResponse = await fetch(
-          "http://192.168.10.105/Utilisateur/invités/add",
+          `${apiUrl}/Utilisateur/invités/add`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -471,20 +473,17 @@ const AddEventPopup = ({ onClose, onEventCreated }) => {
       };
 
       for (const participant of allParticipants) {
-        const emailResponse = await fetch(
-          "http://192.168.10.105/Utilisateur/invitation",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...emailData,
-              sEmailRecepteur: participant.email,
-              sFullName: participant.name,
-            }),
-          }
-        );
+        const emailResponse = await fetch(`${apiUrl}/Utilisateur/invitation`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...emailData,
+            sEmailRecepteur: participant.email,
+            sFullName: participant.name,
+          }),
+        });
 
         if (!emailResponse.ok) {
           throw new Error(

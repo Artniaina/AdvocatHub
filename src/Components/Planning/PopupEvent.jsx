@@ -13,6 +13,8 @@ import PopupEditEvent from "./PopupEditEvent";
 import { useAuth } from "../../Hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const popupStyles = {
   overlay: {
     position: "fixed",
@@ -168,7 +170,7 @@ export const EventDetailsPopup = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
+          `${apiUrl}/Utilisateur/AllAvocat/ListeAvocat`
         );
 
         if (!response.ok) {
@@ -194,7 +196,7 @@ export const EventDetailsPopup = ({
   const meetingDetails = dataMeeting[0];
 
   const isOrganizer = meetingDetails?.role === "organisateur";
-console.log(isOrganizer);
+  console.log(isOrganizer);
 
   const handleDelete = async () => {
     if (!eventId) {
@@ -212,7 +214,7 @@ console.log(isOrganizer);
 
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/api/meetings/delete/${eventId}`,
+        `${apiUrl}/Utilisateur/api/meetings/delete/${eventId}`,
         {
           method: "DELETE",
         }
@@ -233,7 +235,7 @@ console.log(isOrganizer);
           };
 
           const emailResponse = await fetch(
-            "http://192.168.10.105/Utilisateur/api/email/deleteInvitation",
+            `${apiUrl}/Utilisateur/api/email/deleteInvitation`,
             {
               method: "POST",
               headers: {
@@ -421,7 +423,10 @@ console.log(isOrganizer);
                 }}
                 onClick={() =>
                   navigate("/meeting", {
-                    state: { lienVisio: meetingDetails.lienVisio , isOrganisateur: isOrganizer},
+                    state: {
+                      lienVisio: meetingDetails.lienVisio,
+                      isOrganisateur: isOrganizer,
+                    },
                   })
                 }
               >

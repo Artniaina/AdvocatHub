@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { X, Clock, Calendar, Upload, Bell, MapPin } from "lucide-react";
 import { useAuth } from "../../Hooks/AuthContext";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const addEventStyles = {
   overlay: {
     position: "fixed",
@@ -249,7 +251,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.10.105/Utilisateur/AllAvocat/ListeAvocat"
+          `${apiUrl}/Utilisateur/AllAvocat/ListeAvocat`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -432,7 +434,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
       };
 
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/api/meetings/update/${eventId}`,
+        `${apiUrl}/Utilisateur/api/meetings/update/${eventId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -503,7 +505,7 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
 
       for (const participant of selectedParticipants) {
         const emailResponse = await fetch(
-          "http://192.168.10.105/Utilisateur/api/email/updateInvitation",
+          `${apiUrl}/Utilisateur/api/email/updateInvitation`,
           {
             method: "POST",
             headers: {
@@ -593,7 +595,6 @@ const PopupEditEvent = ({ meetingData, eventId, refreshEvents, onClose }) => {
               />
             </div>
           </div>
-
 
           <div style={addEventStyles.formGroup}>
             <label style={addEventStyles.label}>Ordre du Jour</label>
