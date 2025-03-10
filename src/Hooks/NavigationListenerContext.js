@@ -47,7 +47,7 @@ export const NavigationProvider = ({ children }) => {
     const idFormulaire = formulaireData?.sIDFormulaire;
 
     if (!params || Object.keys(params).length === 0) {
-      console.error("Nso data found to submit.");
+      console.error("No data found to submit.");
       return;
     }
 

@@ -36,8 +36,6 @@ import UserListManagement from "../Components/AdminDashboard/UserListManagement"
 import AvocatList from "../Components/AdminDashboard/AvocatList";
 import PreMeetingRoom from "../Components/VisioConference/PreMeetingRoom";
 import Meeting from "../Components/VisioConference/Meeting";
-import FicheAvocat from "../Components/AdminDashboard/GestionDesAvocats/FicheAvocat";
-import FicheEtude from "../Components/AdminDashboard/GestionDesEtudes/FicheEtude";
 import ModifFiche from "../Components/AdminDashboard/GestionDesAvocats/ModifFiche";
 import AddFiche from "../Components/AdminDashboard/GestionDesAvocats/AddFiche";
 import EtudeList from "../Components/AdminDashboard/EtudeList";

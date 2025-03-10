@@ -4,12 +4,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { FaChevronLeft, FaChevronRight, FaCalendarDay } from "react-icons/fa";
 import "../../Styles/Reunion/DashboardCalendar.css";
-const Aside = ({ date }) => {
-  const [reunions, setReunions] = useState([
-    { date: "2025-02-05", titre: "Réunion de Projet" },
-    { date: "2025-02-10", titre: "Réunion avec le client" },
-    { date: "2025-02-15", titre: "Réunion de suivi" },
-  ]);
+const Aside = () => {
+
   const [currentMonth, setCurrentMonth] = useState("");
 
   const calendarRef = useRef(null);
