@@ -10,6 +10,8 @@ import Img from "../../assets/reg.png";
 import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
 import { TfiRulerAlt } from "react-icons/tfi";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Registration = () => {
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const Registration = () => {
     email: "",
     password: "",
   });
-   const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [messageErreur, setMessageErreur] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -42,12 +44,12 @@ const Registration = () => {
 
     if (!username || !email || !password || !confirmPassword) {
       setMessageErreur("Tous les champs doivent être remplis.");
-      setShowPopup(true)
+      setShowPopup(true);
       return;
     }
     if (password !== confirmPassword) {
       setMessageErreur("Les mots de passe ne correspondent pas.");
-      setShowPopup(true)
+      setShowPopup(true);
       return;
     }
 
@@ -56,7 +58,7 @@ const Registration = () => {
       setMessageErreur(
         "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et peut contenir d'autres caractères spéciaux."
       );
-      setShowPopup(true)
+      setShowPopup(true);
       return;
     }
 
@@ -67,16 +69,13 @@ const Registration = () => {
         sMotdePasse: password,
       };
 
-      const response = await fetch(
-        "http://192.168.10.102/Utilisateur/Register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formattedData),
-        }
-      );
+      const response = await fetch(`${apiUrl}/Utilisateur/Register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formattedData),
+      });
 
       if (!response.ok) {
         throw new Error("Erreur lors de la création du compte.");
@@ -91,7 +90,7 @@ const Registration = () => {
       setError("");
     } catch (error) {
       setMessageErreur("Erreur lors de la création du compte.");
-      setShowPopup(true)
+      setShowPopup(true);
       console.error("Erreur lors de la création du compte :", error);
     }
   };
@@ -117,7 +116,7 @@ const Registration = () => {
         </div>
         <div className="login-left">
           <h2 style={{ textAlign: "center" }}>Sign up</h2>
-    
+
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <FaRegUser className="icon" />
@@ -143,7 +142,7 @@ const Registration = () => {
               />
             </div>
             <div className="input-group">
-            <RiLockPasswordLine className="icon" />
+              <RiLockPasswordLine className="icon" />
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
@@ -161,7 +160,7 @@ const Registration = () => {
               </span>
             </div>
             <div className="input-group">
-            <RiLockPasswordLine className="icon" />
+              <RiLockPasswordLine className="icon" />
               <input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
@@ -195,11 +194,11 @@ const Registration = () => {
             </div>
           </form>
           {showPopup && (
-  <GestionErreurPopUp 
-    messageErreur={messageErreur} 
-    closePopup={() => setShowPopup(false)} 
-  />
-)}
+            <GestionErreurPopUp
+              messageErreur={messageErreur}
+              closePopup={() => setShowPopup(false)}
+            />
+          )}
         </div>
       </div>
     </div>

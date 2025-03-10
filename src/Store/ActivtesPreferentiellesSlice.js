@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export const fetchActivities = createAsyncThunk(
   'activities/fetchActivities',
   async () => {
-    const response = await fetch("http://192.168.10.102/Utilisateur/ActivitésPréférentielles");
+    const response = await fetch(`${apiUrl}/Utilisateur/ActivitésPréférentielles`);
     const data = await response.json();
     return data.map((activites) => ({
       code: activites.Code,

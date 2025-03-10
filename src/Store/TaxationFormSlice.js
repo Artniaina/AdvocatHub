@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const initialState = {
   formulaire: null,
   status: "idle",
@@ -10,7 +12,7 @@ export const fetchFormulaireById = createAsyncThunk(
   "formulaire/fetchFormulaireById",
   async (idFormulaire) => {
     const response = await fetch(
-      `http://192.168.10.102/Utilisateur/FormulaireDeTaxation/${idFormulaire}`
+      `${apiUrl}/Utilisateur/FormulaireDeTaxation/${idFormulaire}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch formulaire");

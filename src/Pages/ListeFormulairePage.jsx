@@ -9,6 +9,8 @@ import { useAuth } from "../Hooks/AuthContext";
 import { fetchFormulaireByEmail } from "../Store/TaxationDraftListeSlice";
 import { Edit, Trash2 } from "react-feather";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const ListeFormulairePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const ListeFormulairePage = () => {
   const confirmDelete = async () => {
     try {
       const response = await fetch(
-        `http://192.168.10.105/Utilisateur/DeleteForm/${formulaireToDelete}`,
+        `${apiUrl}/Utilisateur/DeleteForm/${formulaireToDelete}`,
         {
           method: "DELETE",
         }

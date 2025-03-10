@@ -19,6 +19,7 @@ const ModifMdp = ({ email }) => {
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState(""); 
 
+  const apiUrl = process.env.REACT_APP_API_URL;
   const Modal = ({ message, onClose, type }) => {
     return (
       <div style={styles.modalOverlay}>
@@ -77,7 +78,7 @@ const ModifMdp = ({ email }) => {
       return;
     }
     try {
-      const response = await fetch("http://192.168.10.102/Utilisateur/Modif", {
+      const response = await fetch(`${apiUrl}/Utilisateur/Modif`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

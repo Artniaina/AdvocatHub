@@ -15,6 +15,8 @@ const ValidationOTP = () => {
   const { email = "", password = "" } = location.state || {};
   const [otp, setOtp] = useState(Array(6).fill(""));
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleInputChange = (value, index) => {
     if (/^\d$/.test(value) || value === "") {
       const newOtp = [...otp];
@@ -37,12 +39,12 @@ const ValidationOTP = () => {
     const codeOTP = otp.join("");
     try {
       if (codeOTP.length !== 6) {
-        setShowPopup(true)
+        setShowPopup(true);
         setMessageErreur("Veuillez remplir les 6 cases avec des chiffres.");
         return;
       }
       if (!email || !password) {
-        setShowPopup(true)
+        setShowPopup(true);
         setMessageErreur("Données utilisateur manquantes.");
         return;
       }
@@ -52,8 +54,7 @@ const ValidationOTP = () => {
         sMotdePasse: password,
         scodeOTP: codeOTP,
       };
-
-      const response = await fetch("http://192.168.10.102/Utilisateur/Authent", {
+      const response = await fetch(`${apiUrl}/Utilisateur/Authent`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,15 +82,14 @@ const ValidationOTP = () => {
           navigate("/home");
         }
       } else {
-        setShowPopup(true)
+        setShowPopup(true);
         setMessageErreur("Code OTP non valide.");
       }
     } catch (error) {
       console.error("Erreur lors de la validation OTP :", error);
-      setShowPopup(true)
+      setShowPopup(true);
 
       setMessageErreur("Code OTP non valide.");
-
     }
   };
   const handleGoBack = () => navigate(-1);
@@ -132,8 +132,11 @@ const ValidationOTP = () => {
           </button>
         </div>
         {showPopup && (
-        <GestionErreurPopUp messageErreur= {messageErreur} closePopup={setShowPopup(false)} />
-)}
+          <GestionErreurPopUp
+            messageErreur={messageErreur}
+            closePopup={setShowPopup(false)}
+          />
+        )}
       </div>
     </div>
   );

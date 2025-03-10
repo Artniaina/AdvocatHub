@@ -10,6 +10,9 @@ import { useAuth } from "../../Hooks/AuthContext";
 import "../../Styles/Authentification/Log.css";
 import Img from "../../assets/reg.png";
 import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
+
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Login = () => {
   const navigate = useNavigate();
   const { setIsSimpleAuthenticated, login } = useAuth();
@@ -28,21 +31,21 @@ const Login = () => {
     e.preventDefault();
     if (!email || !password) {
       setMessageErreur("Tous les champs doivent être remplis.");
-      setShowPopup(true)
+      setShowPopup(true);
       return;
     }
     if (!captchaValue) {
       setMessageErreur("Veuillez cocher la case 'Je ne suis pas un robot'.");
-      setShowPopup(true)
+      setShowPopup(true);
       return;
     }
-    try { 
+    try {
       const userData = {
         sAdresseEmail: email,
         sMotdePasse: password,
         sCodeOTP: false,
       };
-      const response = await fetch("http://192.168.10.102/Utilisateur/Authent", {
+      const response = await fetch(`${apiUrl}/Utilisateur/Authent`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,8 +71,7 @@ const Login = () => {
 
           login(totpKey, user);
 
-          const storedIsAlreadyAuthenticated = data.sVerify
-
+          const storedIsAlreadyAuthenticated = data.sVerify;
 
           if (storedIsAlreadyAuthenticated) {
             navigate("/validationotp", {
@@ -81,15 +83,15 @@ const Login = () => {
             });
           }
         } else {
-          setShowPopup(true)
+          setShowPopup(true);
           setMessageErreur("Email ou mot de passe incorrect");
         }
       } else {
-        setShowPopup(true)
+        setShowPopup(true);
         setMessageErreur("Email ou mot de passe incorrect");
       }
     } catch (error) {
-      setShowPopup(true)
+      setShowPopup(true);
       setMessageErreur("Email ou mot de passe incorrect");
     }
   };
@@ -101,7 +103,6 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
   const handlePasswordKeyDown = (e) => {
     if (e.getModifierState("CapsLock")) {
       setCapsLockOn(true);
@@ -113,67 +114,68 @@ const Login = () => {
   return (
     <div className="login-container">
       {showPopup && (
-  <GestionErreurPopUp 
-    messageErreur={messageErreur} 
-    closePopup={() => setShowPopup(false)} 
-  />
-)}
-    <div className="login-box">
-      <div className="login-left">
-        <h2 style={{textAlign:"center"}}>Connexion</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <MdOutlineEmail className="icon" />
-            <input
-              type="email"
-              placeholder="Adresse email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <RiLockPasswordLine className="icon" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Mot de passe"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <span onClick={togglePasswordVisibility} className="toggle-password">
-              {showPassword ? <BsEyeSlash /> : <BsEye />}
-            </span>
-          </div>
-          
-          <Link className="forgot-password" to="/verifemail">
-            Mot de passe oublié ?
-          </Link>
-          <div className="flex">
+        <GestionErreurPopUp
+          messageErreur={messageErreur}
+          closePopup={() => setShowPopup(false)}
+        />
+      )}
+      <div className="login-box">
+        <div className="login-left">
+          <h2 style={{ textAlign: "center" }}>Connexion</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <MdOutlineEmail className="icon" />
+              <input
+                type="email"
+                placeholder="Adresse email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <RiLockPasswordLine className="icon" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Mot de passe"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="toggle-password"
+              >
+                {showPassword ? <BsEyeSlash /> : <BsEye />}
+              </span>
+            </div>
 
-          <ReCAPTCHA
-            sitekey="6LdoI58pAAAAAA16dmiIJYPPd1LxM_D0esNeIudx"
-            onChange={handleCaptchaChange}
-            style={{ margin: "20px 0" }}
-          />
-          <button type="submit" className="login-btn">
-            Se connecter
-          </button>
-          <p>
-            Pas encore de compte ?{" "}
-            <Link className="register-link" to="/registration">
-              Créer un compte
+            <Link className="forgot-password" to="/verifemail">
+              Mot de passe oublié ?
             </Link>
-          </p>
-          </div>
-        </form>
+            <div className="flex">
+              <ReCAPTCHA
+                sitekey="6LdoI58pAAAAAA16dmiIJYPPd1LxM_D0esNeIudx"
+                onChange={handleCaptchaChange}
+                style={{ margin: "20px 0" }}
+              />
+              <button type="submit" className="login-btn">
+                Se connecter
+              </button>
+              <p>
+                Pas encore de compte ?{" "}
+                <Link className="register-link" to="/registration">
+                  Créer un compte
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+        <div className="login-right">
+          <img src={Img} alt="Illustration de connexion" />
+        </div>
       </div>
-      <div className="login-right">
-        <img src={Img} alt="Illustration de connexion" />
-      </div>
-     
     </div>
-  </div>
   );
 };
 

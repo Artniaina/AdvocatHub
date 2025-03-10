@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export const fetchLangues = createAsyncThunk(
   "langues/fetchLangues",
   async () => {
-    const response = await fetch(
-      "http://192.168.10.102/Utilisateur/LanguesParlées"
-    );
+    const response = await fetch(`${apiUrl}/Utilisateur/LanguesParlées`);
     const data = await response.json();
     return data.map((langue) => ({
       code: langue.Code,

@@ -4,6 +4,8 @@ import ModifMdp from "./ModifMdp";
 import { HiArrowSmallLeft } from "react-icons/hi2";
 import GestionErreurPopUp from "../../Components/PopUp/GestionErreurPopUp";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const VerifEmail = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "" });
@@ -27,7 +29,7 @@ const VerifEmail = () => {
     }
 
     try {
-      const response = await fetch("http://192.168.10.102/Utilisateur/Modif", {
+      const response = await fetch(`${apiUrl}/Utilisateur/Modif`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ SAdresseEmail: formData.email }),
