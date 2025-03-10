@@ -104,8 +104,6 @@ function MainRoutes() {
     <>
       <PageTitleUpdater />
       <Routes>
-        <Route path="/meeting" element={<PreMeetingRoom />} />
-        <Route path="/meeting/:meetingId" element={<Meeting />} />
         {/* SIMPLE ROUTE EVERYONE CAN ACCESS WITHOUT BEING AUTHENTICATED */}
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<Login />} />
@@ -114,7 +112,6 @@ function MainRoutes() {
         <Route path="/modifmdp" element={<ModifMdp />} />
         <Route path="/invitation" element={<Invitation />} />
 
-    
         {/* PRIVATE ROUTE: ACCESSIBLE ONLY FOR ADMIN */}
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route path="/avocats" element={<AvocatList />} />
@@ -124,15 +121,14 @@ function MainRoutes() {
         <Route path="/updateFicheAvocat" element={<ModifFiche />} />
         <Route path="/updateFicheEtude" element={<ModifEtude />} />
         <Route path="/etude" element={<EtudeList />} />
-        <Route element={<PrivateRoute />}>
-        </Route>
+        <Route element={<PrivateRoute />}></Route>
 
         {/* PARTIAL PROTECTED ROUTE: ACCESSIBLE WITHOUT 2FA AUTHENTICATION :3*/}
         <Route element={<PartialProtectedRoute />}>
           <Route exact path="/scanqrcode" element={<UsersGuide />} />
           <Route path="/validationotp" element={<ValidationOTP />} />
         </Route>
-          <Route path="/home" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
 
         {/* MAIN PROTECTED ROUTE: NEED AUTHENTICATION WITH 2FA */}
         <Route element={<ProtectedRoute />}>
@@ -143,7 +139,8 @@ function MainRoutes() {
           <Route path="/planning" element={<PlanningPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/chat" element={<MessageriePage />} />
-
+          <Route path="/meeting" element={<PreMeetingRoom />} />
+          <Route path="/meeting/:meetingId" element={<Meeting />} />
           <Route
             path="/home/updateFormTaxation"
             element={<UpdateTaxationFormPage />}

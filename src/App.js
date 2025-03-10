@@ -3,12 +3,9 @@ import MainRoutes from "./Routes/MainRoutes";
 import "./App.css";
 
 function App() {
-    return (
-      
+  return (
     <div className="App-header">
-      
       <MainRoutes />
-      
     </div>
   );
 }

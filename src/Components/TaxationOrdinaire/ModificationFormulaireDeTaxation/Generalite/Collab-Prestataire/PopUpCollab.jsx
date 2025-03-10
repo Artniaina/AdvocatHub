@@ -32,16 +32,17 @@ const PopupCollaborateurs = ({
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        const filteredData = data.filter(data => data.m_emailbarreau !== user?.email);
+        const filteredData = data.filter(
+          (data) => data.m_emailbarreau !== user?.email
+        );
         setAvocat(filteredData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [user]);
-  
 
   useEffect(() => {
     setSelectedCollaborators(selectedCollaborator);
