@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import { RiErrorWarningFill } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import "../../Styles/Authentification/Form.css";

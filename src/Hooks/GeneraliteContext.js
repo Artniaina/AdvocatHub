@@ -126,18 +126,18 @@ export const GeneraliteProvider = ({ children }) => {
       c5: "",
       c6: "",
     });
-    
-    const currentDate = new Date();
-    const formattedDate =
+
+  const currentDate = new Date();
+  const formattedDate =
     currentDate.getFullYear() +
     String(currentDate.getMonth() + 1).padStart(2, "0") +
     String(currentDate.getDate()).padStart(2, "0");
-  
+
   const initialJsonToSend = {
     sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user?.email,
     sDomaineJuridique: "",
-    sNomAffaire:"",
+    sNomAffaire: "",
     sTermesHonoraires: "non",
     sAbsenceTermes: "",
     sDateContestation: "",
@@ -153,21 +153,21 @@ export const GeneraliteProvider = ({ children }) => {
     sPositionAvocat: "",
     sContenu1: "",
     sContenu2: "",
-    sContenu3:"",
+    sContenu3: "",
     sContenu4: "",
     sContenu5: "",
     sContenu6: "",
-    sMontant:  [],
+    sMontant: [],
     sNoteHonoraire: [],
-    sHonoraireData:  [],
-    sProvision:  [],
-    sPrestataireData:  [],
+    sHonoraireData: [],
+    sProvision: [],
+    sPrestataireData: [],
     sCollaboratorsData: [],
     sAvocatsData: avocatsData,
     sClientsData: [],
     sSubmited_at: formattedDate,
   };
-  
+
   const jsonToSend = {
     sStatutFormulaire: "non transmis",
     sEmailUtilisateur: user ? user.email : "",
